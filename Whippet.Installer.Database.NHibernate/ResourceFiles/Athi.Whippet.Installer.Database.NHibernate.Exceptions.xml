@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizedStrings>
+    <!-- English language exceptions: Start -->
+
+    <string name="CoreDataObjectSeedError" value="An error occurred trying to install the core data object type {0}. The exception encountered was {1}." culture="en" />
+
+    <!-- English language exceptions: Start -->
+
+</localizedStrings>

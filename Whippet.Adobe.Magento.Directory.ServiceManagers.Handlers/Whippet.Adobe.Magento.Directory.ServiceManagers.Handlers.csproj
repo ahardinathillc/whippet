@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+    <RootNamespace>Athi.Whippet.Adobe.Magento.Directory.ServiceManagers.Handlers</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Queries\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Queries\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.Directory\Whippet.Adobe.Magento.Directory.csproj" />
+    <ProjectReference Include="..\Whippet.Data.CQRS\Whippet.Data.CQRS.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.Directory.ServiceManagers.Queries\Whippet.Adobe.Magento.Directory.ServiceManagers.Queries.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.Data\Whippet.Adobe.Magento.Data.csproj" />
+  </ItemGroup>
+</Project>

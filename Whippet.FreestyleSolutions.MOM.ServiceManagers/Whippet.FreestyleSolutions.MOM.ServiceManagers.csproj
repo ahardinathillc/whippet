@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+    <RootNamespace>Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.ServiceManagers</RootNamespace>
+    <AssemblyName>Athi.Whippet.FreestyleSolutions.MOM.ServiceManagers</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    <ProjectReference Include="..\Whippet.ServiceManagers\Whippet.ServiceManagers.csproj" />
+    <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+    <ProjectReference Include="..\Whippet.FreestyleSolutions.MOM\Whippet.FreestyleSolutions.MOM.csproj" />
+    <ProjectReference Include="..\Whippet.FreestyleSolutions.MOM.ServiceManagers.Queries\Whippet.FreestyleSolutions.MOM.ServiceManagers.Queries.csproj" />
+    <ProjectReference Include="..\Whippet.FreestyleSolutions.MOM.ServiceManagers.Commands\Whippet.FreestyleSolutions.MOM.ServiceManagers.Commands.csproj" />
+    <ProjectReference Include="..\Whippet.FreestyleSolutions.MOM.ServiceManagers.Handlers\Whippet.FreestyleSolutions.MOM.ServiceManagers.Handlers.csproj" />
+    <ProjectReference Include="..\Whippet.Localization.Addressing\Whippet.Localization.Addressing.csproj" />
+    <ProjectReference Include="..\Whippet.Localization.Addressing.ServiceManagers\Whippet.Localization.Addressing.ServiceManagers.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Exports\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Exports\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Nito.AsyncEx" Version="5.1.2" />
+  </ItemGroup>
+</Project>

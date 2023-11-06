@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+    <RootNamespace>Athi.Whippet.Adobe.Magento.Sales.Repositories</RootNamespace>
+    <AssemblyName>Athi.Whippet.Adobe.Magento.Sales.Repositories</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.Sales\Whippet.Adobe.Magento.Sales.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="RestSharp" Version="110.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+</Project>

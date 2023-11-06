@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizedStrings>
+	<string name="Success" value="OK" culture="en" />
+	<string name="Failure" value="FAIL" culture="en" />
+	<string name="Information" value="INFO" culture="en" />
+	<string name="Warning" value="WARN" culture="en" />
+</localizedStrings>

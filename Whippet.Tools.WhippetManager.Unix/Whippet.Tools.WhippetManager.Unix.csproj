@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Athi.Whippet.Tools.WhippetManager.Unix</RootNamespace>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\net7.0\UnixWhippetManager.xml</DocumentationFile>
+    <AssemblyName>UnixWhippetManager</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    <ProjectReference Include="..\Whippet.Tools.Installer\Whippet.Tools.Installer.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="ConnectionIndex.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

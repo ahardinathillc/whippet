@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+    <RootNamespace>Athi.Whippet.Web.Mvc.Security.ServiceManagers.Handlers</RootNamespace>
+    <AssemblyName>Athi.Whippet.Web.Mvc.Security.ServiceManagers.Handlers</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Queries\" />
+    <None Remove="Commands\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Queries\" />
+    <Folder Include="Commands\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    <ProjectReference Include="..\Whippet.Web.Mvc.Security.ServiceManagers.Commands\Whippet.Web.Mvc.Security.ServiceManagers.Commands.csproj" />
+    <ProjectReference Include="..\Whippet.Web.Mvc.Security.ServiceManagers.Queries\Whippet.Web.Mvc.Security.ServiceManagers.Queries.csproj" />
+    <ProjectReference Include="..\Whippet.Web.Mvc.Security\Whippet.Web.Mvc.Security.csproj" />
+    <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+    <ProjectReference Include="..\Whippet.Data.CQRS\Whippet.Data.CQRS.csproj" />
+  </ItemGroup>
+</Project>

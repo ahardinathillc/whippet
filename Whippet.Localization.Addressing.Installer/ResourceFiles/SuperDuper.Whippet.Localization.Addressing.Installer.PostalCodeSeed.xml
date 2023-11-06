@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizedStrings>
+	<string name="ReadPostalCodesForCity" value="Reading postal codes for {0}..." culture="en" />
+	<string name="PostalCodeExists" value="Postal code {0} already exists. Skipping..." culture="en" />
+	<string name="ReadPostalCode" value="Reading {0}..." culture="en" />
+	<string name="SavePostalCode" value="Saving {0}..." culture="en" />
+</localizedStrings>

@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+    <RootNamespace>Athi.Whippet.Adobe.Magento.EAV.ServiceManagers</RootNamespace>
+    <AssemblyName>Athi.Whippet.Adobe.Magento.EAV.ServiceManagers</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    <ProjectReference Include="..\Whippet.ServiceManagers\Whippet.ServiceManagers.csproj" />
+    <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento\Whippet.Adobe.Magento.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.EAV\Whippet.Adobe.Magento.EAV.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.EAV.ServiceManagers.Queries\Whippet.Adobe.Magento.EAV.ServiceManagers.Queries.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.EAV.ServiceManagers.Handlers\Whippet.Adobe.Magento.EAV.ServiceManagers.Handlers.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.Data\Whippet.Adobe.Magento.Data.csproj" />
+  </ItemGroup>
+</Project>

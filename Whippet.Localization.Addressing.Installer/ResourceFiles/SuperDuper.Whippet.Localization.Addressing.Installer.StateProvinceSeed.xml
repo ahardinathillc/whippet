@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizedStrings>
+	<string name="ReadStatesForCountry" value="Reading state/provinces for {0}..." culture="en" />
+	<string name="StateExists" value="State/province {0} already exists. Skipping..." culture="en" />
+</localizedStrings>

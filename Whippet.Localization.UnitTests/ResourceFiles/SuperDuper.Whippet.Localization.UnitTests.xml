@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizedStrings>
+	<!-- English language exceptions: Start -->
+
+	<string name="____UnitTest____" value="Unit test for default English culture." culture="en" />
+	<string name="____UnitTest____" value="Test unitaire pour la culture française." culture="fr" />
+	
+	<!-- English language exceptions: Start -->
+
+</localizedStrings>

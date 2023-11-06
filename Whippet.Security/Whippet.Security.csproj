@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <AssemblyName>Athi.Whippet.Security</AssemblyName>
+    <RootNamespace>Athi.Whippet.Security</RootNamespace>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+    <UserSecretsId>dc5b65fb-2416-4362-802d-5efab6bb0338</UserSecretsId>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\net7.0\Athi.Whippet.Security.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Isopoh.Cryptography.SecureArray" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="7.0.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="IdentityModel\" />
+    <None Remove="IdentityModel\Tokens\" />
+    <None Remove="IdentityModel\Tokens\Jwt\" />
+    <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <None Remove="Microsoft.AspNetCore.Authentication" />
+    <None Remove="EntityMappings\Extensions\" />
+    <None Remove="Repositories\Tenants\" />
+    <None Remove="Claims\" />
+    <None Remove="Principal\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="IdentityModel\" />
+    <Folder Include="IdentityModel\Tokens\" />
+    <Folder Include="IdentityModel\Tokens\Jwt\" />
+    <Folder Include="EntityMappings\Extensions\" />
+    <Folder Include="Repositories\Tenants\" />
+    <Folder Include="Claims\" />
+    <Folder Include="Principal\" />
+  </ItemGroup>
+</Project>

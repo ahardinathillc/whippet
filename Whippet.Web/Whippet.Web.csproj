@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Athi.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>Athi.Whippet.Web</RootNamespace>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\net7.0\Athi.Whippet.Web.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NHibernate" Version="5.4.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Microsoft.AspNetCore.Identity" />
+    <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <None Remove="Mvc\Security\" />
+    <None Remove="Mvc\Security\Extensions\" />
+    <None Remove="Mvc\Security\NHibernate\" />
+    <None Remove="Mvc\Security\NHibernate\FluentNHibernate\" />
+    <None Remove="Mvc\Security\NHibernate\FluentNHibernate\UserTypes\" />
+    <None Remove="Mvc\Security\NHibernate\Hql\" />
+    <None Remove="Mvc\Security\NHibernate\Hql\Mvc\Security\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Mvc\Security\" />
+    <Folder Include="Mvc\Security\Extensions\" />
+    <Folder Include="Mvc\Security\NHibernate\" />
+    <Folder Include="Mvc\Security\NHibernate\FluentNHibernate\" />
+    <Folder Include="Mvc\Security\NHibernate\FluentNHibernate\UserTypes\" />
+    <Folder Include="Mvc\Security\NHibernate\Hql\" />
+    <Folder Include="Mvc\Security\NHibernate\Hql\Mvc\Security\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    <ProjectReference Include="..\Whippet.Security\Whippet.Security.csproj" />
+    <ProjectReference Include="..\Whippet.Security.Cryptography\Whippet.Security.Cryptography.csproj" />
+    <ProjectReference Include="..\Whippet.Data.NHibernate\Whippet.Data.NHibernate.csproj" />
+  </ItemGroup>
+</Project>

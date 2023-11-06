@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+    <RootNamespace>Athi.Whippet.Jobs.Web</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+    <ProjectReference Include="..\Whippet.Web\Whippet.Web.csproj" />
+    <ProjectReference Include="..\Whippet.Localization\Whippet.Localization.csproj" />
+    <ProjectReference Include="..\Whippet.Jobs\Whippet.Jobs.csproj" />
+    <ProjectReference Include="..\Whippet.Jobs.ServiceManagers\Whippet.Jobs.ServiceManagers.csproj" />
+    <ProjectReference Include="..\Whippet.Jobs.Repositories\Whippet.Jobs.Repositories.csproj" />
+    <ProjectReference Include="..\Whippet.Security\Whippet.Security.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="NHibernate" Version="5.4.6" />
+    <PackageReference Include="FluentNHibernate" Version="3.3.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Mvc\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Mvc\" />
+  </ItemGroup>
+</Project>

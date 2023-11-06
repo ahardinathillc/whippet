@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+    <RootNamespace>Athi.Whippet.Web.Mvc.Security.ServiceManagers.Commands</RootNamespace>
+    <AssemblyName>Athi.Whippet.Web.Mvc.Security.ServiceManagers.Commands</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+    <ProjectReference Include="..\Whippet.Data.CQRS\Whippet.Data.CQRS.csproj" />
+    <ProjectReference Include="..\Whippet.Security\Whippet.Security.csproj" />
+    <ProjectReference Include="..\Whippet.Web.Mvc.Security\Whippet.Web.Mvc.Security.csproj" />
+  </ItemGroup>
+</Project>

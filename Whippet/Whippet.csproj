@@ -1,0 +1,148 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <AssemblyName>Athi.Whippet</AssemblyName>
+    <RootNamespace>Athi.Whippet</RootNamespace>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\net7.0\Athi.Whippet.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="SiteManagement\**" />
+    <EmbeddedResource Remove="SiteManagement\**" />
+    <None Remove="SiteManagement\**" />
+    <None Remove="SQLitePCLRaw.core" />
+    <None Remove="Microsoft.Data.Sqlite.Core" />
+    <None Remove="SQLite" />
+    <None Remove="System.Data.SQLite.Core" />
+    <None Remove="Extensions\IO\" />
+    <None Remove="Microsoft.Extensions.DependencyInjection.Abstractions" />
+    <None Remove="Localization\" />
+    <None Remove="NodaMoney" />
+    <None Remove="UnitsNet.Serialization.JsonNet" />
+    <None Remove="UnitsNet" />
+    <None Remove="UnitsNet.NumberExtensions" />
+    <None Remove="Extensions\UnitsNet\" />
+    <None Remove="Data\NHibernate\UserTypes\UnitsNet\" />
+    <None Remove="Data\NHibernate\UserTypes\Drawing\" />
+    <None Remove="Extensions\Drawing\" />
+    <None Remove="Extensions\Drawing\Imaging\" />
+    <None Remove="Data\NHibernate\UserTypes\Drawing\Imaging\" />
+    <None Remove="Drawing\" />
+    <None Remove="Drawing\Imaging\" />
+    <None Remove="Data\NHibernate\UserTypes\NodaMoney\" />
+    <None Remove="Integrations\" />
+    <None Remove="SqlKata" />
+    <None Remove="SqlKata.Execution" />
+    <None Remove="Data\Extensions\" />
+    <None Remove="Data\Extensions\SqlKata\" />
+    <None Remove="Net\" />
+    <None Remove="Net\Rest\" />
+    <None Remove="Net\Rest\Extensions\" />
+    <None Remove="Web\" />
+    <None Remove="Collections\Trees\" />
+    <None Remove="Collections\Trees\Extensions\" />
+    <None Remove="Security\Extensions\" />
+    <None Remove="Data\NHibernate\UserTypes\Security\" />
+    <None Remove="Data\NHibernate\Extensions\" />
+    <None Remove="Applications\" />
+    <None Remove="Applications\Setup\" />
+    <None Remove="Json\Newtonsoft\Converters\" />
+    <None Remove="Logging\" />
+    <None Remove="Collections\Concurrent\" />
+    <None Remove="Collections\Concurrent\Extensions\" />
+    <None Remove="Jobs\" />
+    <None Remove="Reflection\Extensions\" />
+    <None Remove="Repositories\" />
+    <None Remove="Threading\" />
+    <None Remove="Threading\Tasks\" />
+    <None Remove="Threading\Tasks\Extensions\" />
+    <None Remove="Collections\Comparers\" />
+    <None Remove="Json\Newtonsoft\Extensions\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Data\NHibernateConfigurationOptions.cs~RF18d008ba.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentNHibernate" Version="3.3.0" />
+    <PackageReference Include="Inferno" Version="1.6.4" />
+    <PackageReference Include="Lamar" Version="12.0.2" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+    <PackageReference Include="NHibernate" Version="5.4.6" />
+    <PackageReference Include="NodaTime" Version="3.1.9" />
+    <PackageReference Include="NodaTime.Serialization.JsonNet" Version="3.1.0" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    <PackageReference Include="Terminal.Gui" Version="1.14.0" />
+    <PackageReference Include="SQLitePCLRaw.core" Version="2.1.6" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.13" />
+    <PackageReference Include="SQLite" Version="3.13.0" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.118" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <PackageReference Include="NodaMoney" Version="1.0.5" />
+    <PackageReference Include="UnitsNet.Serialization.JsonNet" Version="5.28.0" />
+    <PackageReference Include="UnitsNet" Version="5.35.0" />
+    <PackageReference Include="UnitsNet.NumberExtensions" Version="5.35.0" />
+    <PackageReference Include="SqlKata" Version="2.4.0" />
+    <PackageReference Include="SqlKata.Execution" Version="2.4.0" />
+    <PackageReference Include="RestSharp" Version="110.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet.Localization\Whippet.Localization.csproj" />
+    <ProjectReference Include="..\Whippet.ResourceManagement\Whippet.ResourceManagement.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Extensions\IO\" />
+    <Folder Include="Localization\" />
+    <Folder Include="Extensions\UnitsNet\" />
+    <Folder Include="Data\NHibernate\UserTypes\UnitsNet\" />
+    <Folder Include="Data\NHibernate\UserTypes\Drawing\" />
+    <Folder Include="Extensions\Drawing\" />
+    <Folder Include="Extensions\Drawing\Imaging\" />
+    <Folder Include="Data\NHibernate\UserTypes\Drawing\Imaging\" />
+    <Folder Include="Drawing\" />
+    <Folder Include="Drawing\Imaging\" />
+    <Folder Include="Data\NHibernate\UserTypes\NodaMoney\" />
+    <Folder Include="Integrations\" />
+    <Folder Include="Data\Extensions\" />
+    <Folder Include="Data\Extensions\SqlKata\" />
+    <Folder Include="Net\Rest\" />
+    <Folder Include="Net\Rest\Extensions\" />
+    <Folder Include="Collections\Trees\" />
+    <Folder Include="Collections\Trees\Extensions\" />
+    <Folder Include="Security\Extensions\" />
+    <Folder Include="Data\NHibernate\UserTypes\Security\" />
+    <Folder Include="Data\NHibernate\Extensions\" />
+    <Folder Include="Applications\" />
+    <Folder Include="Applications\Setup\" />
+    <Folder Include="Json\Newtonsoft\Converters\" />
+    <Folder Include="Logging\" />
+    <Folder Include="Collections\Concurrent\" />
+    <Folder Include="Collections\Concurrent\Extensions\" />
+    <Folder Include="Jobs\" />
+    <Folder Include="Reflection\Extensions\" />
+    <Folder Include="Repositories\" />
+    <Folder Include="Threading\" />
+    <Folder Include="Threading\Tasks\" />
+    <Folder Include="Collections\Comparers\" />
+    <Folder Include="Json\Newtonsoft\Extensions\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ResourceFiles\Athi.Whippet.Exceptions.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

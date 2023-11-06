@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlServer>
+    <server name="localhost" connectionString="Server=localhost;TrustServerCertificate=true;Database=master;MultipleActiveResultSets=True;Integrated Security=False;User Id=sa;Password=@Athi27333" linuxContainer="true" />
+</sqlServer>

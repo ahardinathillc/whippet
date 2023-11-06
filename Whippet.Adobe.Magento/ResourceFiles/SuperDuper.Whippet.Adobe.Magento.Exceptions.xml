@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizedStrings>
+    <!-- English language exceptions: Start -->
+
+    <string name="MagentoBulkOperationFailedException" value="The bulk operation {0} has reported errors. Use the Magento Bulk Operation Status API to review the errors." culture="en" />
+
+    <!-- English language exceptions: Start -->
+
+</localizedStrings>

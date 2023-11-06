@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Athi.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>Athi.Whippet.Data.NHibernate</RootNamespace>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\net7.0\Athi.Whippet.Data.NHibernate.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="FluentNHibernate" Version="3.3.0" />
+    <PackageReference Include="NHibernate" Version="5.4.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet.Installer.Database.NHibernate\Whippet.Installer.Database.NHibernate.csproj" />
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+  </ItemGroup>
+
+</Project>

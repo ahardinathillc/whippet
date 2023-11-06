@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+    <RootNamespace>Athi.Whippet.Adobe.Magento.ServiceManagers.Handlers</RootNamespace>
+    <AssemblyName>Athi.Whippet.Adobe.Magento.ServiceManagers.Handlers</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+    <ProjectReference Include="..\Whippet.Data.CQRS\Whippet.Data.CQRS.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento\Whippet.Adobe.Magento.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.ServiceManagers.Queries\Whippet.Adobe.Magento.ServiceManagers.Queries.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.ServiceManagers.Commands\Whippet.Adobe.Magento.ServiceManagers.Commands.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.Data\Whippet.Adobe.Magento.Data.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Commands\" />
+    <None Remove="Queries\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Commands\" />
+    <Folder Include="Queries\" />
+  </ItemGroup>
+</Project>

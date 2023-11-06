@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+    <RootNamespace>Athi.Whippet.Adobe.Magento</RootNamespace>
+    <AssemblyName>Athi.Whippet.Adobe.Magento</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="EntityMappings\" />
+    <None Remove="Extensions\" />
+    <None Remove="Repositories\" />
+    <None Remove="Data\" />
+    <None Remove="Json\" />
+    <None Remove="ServiceManagers\" />
+    <None Remove="ServiceManagers\Extensions\" />
+    <None Remove="ResourceFiles\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="EntityMappings\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Repositories\" />
+    <Folder Include="Data\" />
+    <Folder Include="Json\" />
+    <Folder Include="ServiceManagers\" />
+    <Folder Include="ServiceManagers\Extensions\" />
+    <Folder Include="ResourceFiles\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NHibernate" Version="5.4.6" />
+    <PackageReference Include="FluentNHibernate" Version="3.3.0" />
+    <PackageReference Include="RestSharp" Version="110.2.0" />
+    <PackageReference Include="RestSharp.Newtonsoft.Json" Version="1.5.1" />
+    <PackageReference Include="RestSharp.Serializers.NewtonsoftJson" Version="110.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+    <ProjectReference Include="..\Whippet.Data.NHibernate\Whippet.Data.NHibernate.csproj" />
+    <ProjectReference Include="..\Whippet.Security\Whippet.Security.csproj" />
+    <ProjectReference Include="..\Whippet.Oswald\Whippet.Oswald.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+    <RootNamespace>Athi.Whippet.Salesforce</RootNamespace>
+    <AssemblyName>Athi.Whippet.Salesforce</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="DeveloperForce.Force" />
+    <None Remove="DeveloperForce.Chatter" />
+    <None Remove="Dynamitey" />
+    <None Remove="NodaTime" />
+    <None Remove="EntityMappings\" />
+    <None Remove="Extensions\" />
+    <None Remove="NHibernate\" />
+    <None Remove="Repositories\" />
+    <None Remove="ResourceFiles\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DeveloperForce.Force" Version="2.1.0" />
+    <PackageReference Include="DeveloperForce.Chatter" Version="2.1.0" />
+    <PackageReference Include="Dynamitey" Version="2.0.10.189" />
+    <PackageReference Include="NodaTime" Version="3.1.9" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+    <ProjectReference Include="..\Whippet.Security\Whippet.Security.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="EntityMappings\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="NHibernate\" />
+    <Folder Include="Repositories\" />
+    <Folder Include="ResourceFiles\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="ResourceFiles\Athi.Salesforce.Exceptions.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

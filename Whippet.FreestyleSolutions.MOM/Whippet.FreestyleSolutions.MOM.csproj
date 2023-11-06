@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+    <RootNamespace>Athi.Whippet.FreestyleSolutions.MultichannelOrderManager</RootNamespace>
+    <AssemblyName>Athi.Whippet.FreestyleSolutions.MOM</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+    <ProjectReference Include="..\Whippet.Security\Whippet.Security.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="EntityMappings\" />
+    <None Remove="Extensions\" />
+    <None Remove="Repositories\" />
+    <None Remove="UserTypes\" />
+    <None Remove="Dynamitey" />
+    <None Remove="Exports\" />
+    <None Remove="Exports\Repositories\" />
+    <None Remove="EntityMappings\Components\" />
+    <None Remove="Models\" />
+    <None Remove="Exports\Models\" />
+    <None Remove="Json\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="EntityMappings\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Repositories\" />
+    <Folder Include="UserTypes\" />
+    <Folder Include="Exports\" />
+    <Folder Include="Exports\Repositories\" />
+    <Folder Include="EntityMappings\Components\" />
+    <Folder Include="Models\" />
+    <Folder Include="Exports\Models\" />
+    <Folder Include="Json\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Dynamitey" Version="2.0.10.189" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+</Project>

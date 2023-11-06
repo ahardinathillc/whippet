@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizedStrings>
+    <!-- English language exceptions: Start -->
+
+    <string name="AggregateNotFoundException" value="Aggregate with the ID {0} does not exist or could not be loaded." culture="en" />
+    <string name="InvalidEventType" value="The event supplied is not a valid {0} type." culture="en" />
+    
+    <!-- English language exceptions: End -->
+
+</localizedStrings>

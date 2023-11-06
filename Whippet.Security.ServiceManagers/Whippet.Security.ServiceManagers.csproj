@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Athi.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>Athi.Whippet.Security.ServiceManagers</RootNamespace>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\net7.0\Athi.Whippet.Security.ServiceManagers.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="FluentNHibernate" Version="3.3.0" />
+    <PackageReference Include="NHibernate" Version="5.4.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+    <ProjectReference Include="..\Whippet.Security.Cryptography\Whippet.Security.Cryptography.csproj" />
+    <ProjectReference Include="..\Whippet.Security.ServiceManagers.Commands\Whippet.Security.ServiceManagers.Commands.csproj" />
+    <ProjectReference Include="..\Whippet.Security.ServiceManagers.Handlers\Whippet.Security.ServiceManagers.Handlers.csproj" />
+    <ProjectReference Include="..\Whippet.Security.ServiceManagers.Queries\Whippet.Security.ServiceManagers.Queries.csproj" />
+    <ProjectReference Include="..\Whippet.Security\Whippet.Security.csproj" />
+    <ProjectReference Include="..\Whippet.ServiceManagers\Whippet.ServiceManagers.csproj" />
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="AccessControl\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AccessControl\" />
+  </ItemGroup>
+</Project>

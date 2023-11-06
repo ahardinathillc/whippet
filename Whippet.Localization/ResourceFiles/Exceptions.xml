@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizedStrings>
+	<!-- English language exceptions: Start -->
+
+	<string name="EmptyGuidException" value="A GUID value that is not empty (all zeroes) must be supplied for this operation." culture="en" />
+	<string name="EventNotSupportedException" value="The supplied event is not supported by this object." culture="en" />
+	<string name="NumericValueRequiredException" value="The required argument requires a numeric value." culture="en" />
+	<string name="ArgumentExceedsMaximumLengthException" value="The given argument exceeds the maximum allowed length." culture="en" />
+	<string name="ArgumentExceedsMaximumLengthWithValueException" value="The given argument exceeds the maximum allowed length. The maximum allowed length is {0}." culture="en" />
+	<string name="InvalidTypeException" value="Invalid type encountered. Was expecting type {0} but encountered {1}." culture="en" />
+	<string name="ArgumentLessThanZeroException" value="Value cannot be less than zero." culture="en" />
+
+	<!-- English language exceptions: Start -->
+			
+</localizedStrings>

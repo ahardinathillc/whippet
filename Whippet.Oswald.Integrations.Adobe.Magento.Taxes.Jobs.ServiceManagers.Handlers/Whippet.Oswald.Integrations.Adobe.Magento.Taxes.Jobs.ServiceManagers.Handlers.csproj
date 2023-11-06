@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+    <RootNamespace>Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.Jobs.ServiceManagers.Handlers</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    <ProjectReference Include="..\Whippet.Jobs\Whippet.Jobs.csproj" />
+    <ProjectReference Include="..\Whippet.Jobs.ServiceManagers.Handlers\Whippet.Jobs.ServiceManagers.Handlers.csproj" />
+    <ProjectReference Include="..\Whippet.Oswald.Integrations.Adobe.Magento.Taxes.Jobs\Whippet.Oswald.Integrations.Adobe.Magento.Taxes.Jobs.csproj" />
+    <ProjectReference Include="..\Whippet.Oswald.Integrations.Adobe.Magento.Taxes.Jobs.ServiceManagers.Queries\Whippet.Oswald.Integrations.Adobe.Magento.Taxes.Jobs.ServiceManagers.Queries.csproj" />
+    <ProjectReference Include="..\Whippet.Oswald.Integrations.Adobe.Magento.Taxes.Jobs.ServiceManagers.Commands\Whippet.Oswald.Integrations.Adobe.Magento.Taxes.Jobs.ServiceManagers.Commands.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Queries\" />
+    <None Remove="Commands\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Queries\" />
+    <Folder Include="Commands\" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+    <RootNamespace>Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.Repositories</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentNHibernate" Version="3.3.0" />
+    <PackageReference Include="NHibernate" Version="5.4.6" />
+    <PackageReference Include="CouchDB.NET" Version="3.4.0" />
+    <PackageReference Include="CouchDB.Client" Version="1.0.13" />
+    <PackageReference Include="Nito.AsyncEx" Version="5.1.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+    <ProjectReference Include="..\Whippet.Oswald.Integrations.Adobe.Magento.Taxes\Whippet.Oswald.Integrations.Adobe.Magento.Taxes.csproj" />
+    <ProjectReference Include="..\Whippet.FreestyleSolutions.MOM\Whippet.FreestyleSolutions.MOM.csproj" />
+    <ProjectReference Include="..\Whippet.Oswald.Integrations.Adobe.Magento\Whippet.Oswald.Integrations.Adobe.Magento.csproj" />
+    <ProjectReference Include="..\Whippet.Security\Whippet.Security.csproj" />
+    <ProjectReference Include="..\Whippet.Data.Database.NoSQL.Apache.CouchDB\Whippet.Data.Database.NoSQL.Apache.CouchDB.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Cache\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Cache\" />
+  </ItemGroup>
+</Project>

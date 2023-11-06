@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+    <RootNamespace>Athi.Whippet.Adobe.Magento.Sales.ServiceManagers.Handlers</RootNamespace>
+    <AssemblyName>Athi.Whippet.Adobe.Magento.Sales.ServiceManagers.Handlers</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Queries\" />
+    <None Remove="Commands\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Queries\" />
+    <Folder Include="Commands\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+    <ProjectReference Include="..\Whippet.Data.CQRS\Whippet.Data.CQRS.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.Sales\Whippet.Adobe.Magento.Sales.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.Sales.ServiceManagers.Queries\Whippet.Adobe.Magento.Sales.ServiceManagers.Queries.csproj" />
+  </ItemGroup>
+</Project>

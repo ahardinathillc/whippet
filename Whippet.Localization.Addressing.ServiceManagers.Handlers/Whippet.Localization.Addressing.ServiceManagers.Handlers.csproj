@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Athi.Whippet.Localization.Addressing.ServiceManagers.Handlers</RootNamespace>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+    <AssemblyName>Athi.Whippet.Localization.Addressing.ServiceManagers.Handlers</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    <ProjectReference Include="..\Whippet.Localization.Addressing.Repositories\Whippet.Localization.Addressing.Repositories.csproj" />
+    <ProjectReference Include="..\Whippet.Localization.Addressing.ServiceManagers.Queries\Whippet.Localization.Addressing.ServiceManagers.Queries.csproj" />
+    <ProjectReference Include="..\Whippet.Localization.Addressing\Whippet.Localization.Addressing.csproj" />
+    <ProjectReference Include="..\Whippet.Localization.Addressing.ServiceManagers.Commands\Whippet.Localization.Addressing.ServiceManagers.Commands.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Queries\" />
+    <None Remove="Commands\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Queries\" />
+    <Folder Include="Commands\" />
+  </ItemGroup>
+</Project>

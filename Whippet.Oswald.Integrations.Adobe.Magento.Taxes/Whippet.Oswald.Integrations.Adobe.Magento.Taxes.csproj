@@ -1,0 +1,70 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+    <RootNamespace>Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+    <ProjectReference Include="..\Whippet.ServiceManagers\Whippet.ServiceManagers.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.ServiceManagers\Whippet.Adobe.Magento.ServiceManagers.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.Taxes\Whippet.Adobe.Magento.Taxes.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.Taxes.ServiceManagers\Whippet.Adobe.Magento.Taxes.ServiceManagers.csproj" />
+    <ProjectReference Include="..\Whippet.FreestyleSolutions.MOM\Whippet.FreestyleSolutions.MOM.csproj" />
+    <ProjectReference Include="..\Whippet.FreestyleSolutions.MOM.ServiceManagers\Whippet.FreestyleSolutions.MOM.ServiceManagers.csproj" />
+    <ProjectReference Include="..\Whippet.Jobs\Whippet.Jobs.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento\Whippet.Adobe.Magento.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.Sales\Whippet.Adobe.Magento.Sales.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.Sales.ServiceManagers\Whippet.Adobe.Magento.Sales.ServiceManagers.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.SalesRule\Whippet.Adobe.Magento.SalesRule.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.SalesRule.ServiceManagers\Whippet.Adobe.Magento.SalesRule.ServiceManagers.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.Directory\Whippet.Adobe.Magento.Directory.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.Directory.ServiceManagers\Whippet.Adobe.Magento.Directory.ServiceManagers.csproj" />
+    <ProjectReference Include="..\Whippet.Oswald.Integrations.Adobe.Magento\Whippet.Oswald.Integrations.Adobe.Magento.csproj" />
+    <ProjectReference Include="..\Whippet.Oswald\Whippet.Oswald.csproj" />
+    <ProjectReference Include="..\Whippet.Security\Whippet.Security.csproj" />
+    <ProjectReference Include="..\Whippet.Data.Database.NoSQL.Apache.CouchDB\Whippet.Data.Database.NoSQL.Apache.CouchDB.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="ServiceManagers\" />
+    <None Remove="Models\" />
+    <None Remove="Models\Extensions\" />
+    <None Remove="Cache\" />
+    <None Remove="EntityMappings\" />
+    <None Remove="EntityMappings\Cache\" />
+    <None Remove="Cache\Extensions\" />
+    <None Remove="Cache\Repositories\" />
+    <None Remove="Cache\Models\" />
+    <None Remove="Cache\Json\" />
+    <None Remove="Cache\Json\Newtonsoft\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ServiceManagers\" />
+    <Folder Include="Models\" />
+    <Folder Include="Models\Extensions\" />
+    <Folder Include="Cache\" />
+    <Folder Include="EntityMappings\" />
+    <Folder Include="EntityMappings\Cache\" />
+    <Folder Include="Cache\Extensions\" />
+    <Folder Include="Cache\Repositories\" />
+    <Folder Include="Cache\Models\" />
+    <Folder Include="Cache\Json\" />
+    <Folder Include="Cache\Json\Newtonsoft\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+    <PackageReference Include="Nito.AsyncEx" Version="5.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
+    <PackageReference Include="NodaTime" Version="3.1.9" />
+    <PackageReference Include="NHibernate" Version="5.4.6" />
+    <PackageReference Include="FluentNHibernate" Version="3.3.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="CouchDB.NET" Version="3.4.0" />
+    <PackageReference Include="CouchDB.Client" Version="1.0.13" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizedStrings>
+    <!-- English language exceptions: Start -->
+
+    <string name="DuplicateSalesforceLeadException" value="The lead {0} duplicates an existing entry." culture="en" />
+    
+    <!-- English language exceptions: End -->
+
+</localizedStrings>

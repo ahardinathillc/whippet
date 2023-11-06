@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizedStrings>
+    <!-- English language exceptions: Start -->
+
+    <string name="EmptyGuidException" value="A GUID value that is not empty (all zeroes) must be supplied for this operation." culture="en" />
+    <string name="EventNotSupportedException" value="The supplied event is not supported by this object." culture="en" />
+    <string name="NumericValueRequiredException" value="The required argument requires a numeric value." culture="en" />
+    <string name="ArgumentExceedsMaximumLengthException" value="The given argument exceeds the maximum allowed length." culture="en" />
+    <string name="ArgumentExceedsMaximumLengthWithValueException" value="The given argument exceeds the maximum allowed length. The maximum allowed length is {0}." culture="en" />
+    <string name="InvalidTypeException" value="Invalid type encountered. Was expecting type {0} but encountered {1}." culture="en" />
+    <string name="ArgumentLessThanZeroException" value="Value cannot be less than zero." culture="en" />
+    <string name="DefaultServiceLocatorNotConfiguredException" value="No default service locator is specified. Please register one at startup." culture="en" />
+    <string name="CommandHandlerNotFoundException" value="No command handlers were found for command type {0}." culture="en" />
+    <string name="TreeIndexCannotExceedChildrenCountException" value="Requested node index cannot be higher than last child index." culture="en" />
+    <string name="TreeNodeCircularReferenceException" value="Circular reference detected. Ensure child node is not the same instance as the root node." culture="en" />
+    <string name="TreeNodeParentAlreadyAssignedException" value="Current node already has parent assigned." culture="en" />
+    <string name="TreeNodeDisconnectException" value="Cannot disconnect root node from a parent." culture="en" />
+    <string name="TreeNodeDuplicateKeysDetectedException" value="One or more values contains {0} duplicate keys. The first duplicate key detected is [{1}]." culture="en" />
+    <string name="TreeNodeDuplicateKeysDetectedException_NoKey" value="One or more values contains duplicate keys." culture="en" />
+    <string name="TreeNodeSameIdAndParentIdException" value="At least one value has the same ID and parent ID: [{0}]." culture="en" />
+    <string name="TreeNodeSameIdAndParentIdException_NoId" value="At least one value has the same ID and parent ID." culture="en" />
+    <string name="TreeNodeParentIdNotFoundException" value="A value has the parent ID [{0}] but no other nodes has this ID." culture="en" />
+    <string name="TreeNodeParentIdNotFoundException_NoId" value="Could not locate node with the specified parent ID." culture="en" />
+    <string name="NullObjectException" value="A null instance or property was encountered when a value was expected." culture="en" />
+    <string name="CollectionRestrictionViolationException" value="Unable to add item(s) to the collection because it violates a collection restriction, such as a parent object mismatch or range requirement." culture="en" />
+    <string name="NoWhippetSettingGroupsExistForApplicationException" value="No setting groups exist for the specified application." culture="en" />
+    <string name="MultipleParameterValuesException" value="Multiple values supplied for one parameter." culture="en" />
+    <string name="ConcreteClassTypeRequiredException" value="A concrete class type is required for this operation with a public constructor." culture="en" />
+    <string name="MissingParameterException" value="Could not locate one ore more parameters. Missing parameters were {0}." culture="en" />
+    <string name="DuplicateEntityException" value="Could not add the entity to the data store as an instance already exists and would cause data duplication." culture="en" />
+
+    <!-- English language exceptions: Start -->
+
+</localizedStrings>

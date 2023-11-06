@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizedStrings>
+	<string name="____UnitTest____" value="The unit test result should not return an empty string." culture="en" />
+	<string name="____UnitTest____" value="Le résultat du test unitaire ne doit pas renvoyer une chaîne vide." culture="fr" />
+</localizedStrings>

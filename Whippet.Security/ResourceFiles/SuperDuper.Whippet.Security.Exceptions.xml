@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizedStrings>
+	<!-- English language exceptions: Start -->
+
+	<string name="RootTenantCannotBeInactiveException" value="Root tenant cannot be set inactive." culture="en" />
+	<string name="RootTenantCannotBeDeletedException" value="Root tenant cannot be deleted." culture="en" />
+	<string name="UserAlreadyExistsException" value="The username {0} is already registered." culture="en" />
+	<string name="UserNotFoundException" value="User {0} could not be found." culture="en" />
+	<string name="RootTenantAlreadySetException" value="Cannot set root tenant: a root tenant has already been set." culture="en" />
+
+	<!-- English language exceptions: End -->
+
+</localizedStrings>

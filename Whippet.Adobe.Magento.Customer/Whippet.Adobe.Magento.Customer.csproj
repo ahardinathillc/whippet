@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+    <RootNamespace>Athi.Whippet.Adobe.Magento.Customer</RootNamespace>
+    <AssemblyName>Athi.Whippet.Adobe.Magento.Customer</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.Data\Whippet.Adobe.Magento.Data.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento\Whippet.Adobe.Magento.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.Taxes\Whippet.Adobe.Magento.Taxes.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.EAV\Whippet.Adobe.Magento.EAV.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NodaTime.Serialization.JsonNet" Version="3.1.0" />
+    <PackageReference Include="NodaTime" Version="3.1.9" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Extensions\" />
+    <None Remove="EntityMappings\" />
+    <None Remove="Repositories\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+    <Folder Include="EntityMappings\" />
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+</Project>

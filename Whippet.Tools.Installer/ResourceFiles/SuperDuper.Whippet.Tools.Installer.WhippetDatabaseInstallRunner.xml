@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizedStrings>
+    <!-- English language: Start -->
+
+    <string name="InstallAction_Database_Name" value="Whippet Database Install Action" culture="en" />
+    <string name="InstallAction_Database_Description" value="Installs the Whippet database and associated SQL Server user accounts." culture="en" />
+    <string name="InstallAction_Schema" value="Whippet database schema installation" culture="en" />
+    <string name="InstallAction_Schema_Description" value="Installs the Whippet schemas and updates existing ones." culture="en" />
+
+    <!-- English language: End -->
+
+</localizedStrings>

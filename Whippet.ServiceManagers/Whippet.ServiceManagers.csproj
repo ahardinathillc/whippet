@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Athi.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>Athi.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\net7.0\Athi.Whippet.ServiceManagers.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="FluentNHibernate" Version="3.3.0" />
+    <PackageReference Include="NHibernate" Version="5.4.6" />
+    <PackageReference Include="CouchDB.NET" Version="3.4.0" />
+    <PackageReference Include="CouchDB.Client" Version="1.0.13" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="NoSQL\" />
+    <None Remove="NoSQL\Apache\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="NoSQL\" />
+    <Folder Include="NoSQL\Apache\" />
+  </ItemGroup>
+</Project>

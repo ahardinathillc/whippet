@@ -1,0 +1,247 @@
+﻿using System;
+
+namespace Athi.Whippet.Salesforce
+{
+    /// <summary>
+    /// Provides constants for Salesforce objects and fields. This class cannot be inherited.
+    /// </summary>
+    internal static class SalesforceObjectConstants
+    {
+        /// <summary>
+        /// Represents all mapped objets in Salesforce. This class cannot be inherited.
+        /// </summary>
+        internal static class Objects
+        {
+            public const string Account = nameof(Account);
+            public const string Campaign = nameof(Campaign);
+            public const string Opportunity = nameof(Opportunity);
+            public const string Contact = nameof(Contact);
+            public const string Lead = nameof(Lead);
+            public const string Pricebook = nameof(Pricebook) + "2";
+            public const string Product = nameof(Product) + "2";
+            public const string PricebookEntry = nameof(PricebookEntry);
+        }
+
+        /// <summary>
+        /// Represents all mapped fields in Salesforce. This class cannot be inherited.
+        /// </summary>
+        internal static class Fields
+        {
+            public const string Title = nameof(Title);
+            public const string ReportsToId = nameof(ReportsToId);
+            public const string OtherPhone = nameof(OtherPhone);
+            public const string OtherCity = nameof(OtherCity);
+            public const string OtherState = nameof(OtherState);
+            public const string OtherCountry = nameof(OtherCountry);
+            public const string OtherPostalCode = nameof(OtherPostalCode);
+            public const string OtherStateCode = nameof(OtherStateCode);
+            public const string OtherCountryCode = nameof(OtherCountryCode);
+            public const string OtherStreet = nameof(OtherStreet);
+            public const string MobilePhone = nameof(MobilePhone);
+            public const string MailingCity = nameof(MailingCity);
+            public const string MailingState = nameof(MailingState);
+            public const string MailingCountry = nameof(MailingCountry);
+            public const string MailingPostalCode = nameof(MailingPostalCode);
+            public const string MailingStateCode = nameof(MailingStateCode);
+            public const string MailingCountryCode = nameof(MailingCountryCode);
+            public const string MailingStreet = nameof(MailingStreet);
+            public const string IsEmailBounced = nameof(IsEmailBounced);
+            public const string HomePhone = nameof(HomePhone);
+            public const string HasOptedOutOfFax = nameof(HasOptedOutOfFax);
+            public const string HasOptedOutOfEmail = nameof(HasOptedOutOfEmail);
+            public const string EmailBouncedReason = nameof(EmailBouncedReason);
+            public const string EmailBouncedDate = nameof(EmailBouncedDate);
+            public const string Email = nameof(Email);
+            public const string DoNotCall = nameof(DoNotCall);
+            public const string Department = nameof(Department);
+            public const string CanAllowPortalSelfReg = nameof(CanAllowPortalSelfReg);
+            public const string TotalOpportunityQuantity = nameof(TotalOpportunityQuantity);
+            public const string SyncedQuoteID = nameof(SyncedQuoteID);
+            public const string StageName = nameof(StageName);
+            public const string Probability = nameof(Probability);
+            public const string PricebookId = nameof(PricebookId);
+            public const string Pricebook2Id = nameof(Pricebook2Id);
+            public const string NextStep = nameof(NextStep);
+            public const string LeadSource = nameof(LeadSource);
+            public const string IsWon = nameof(IsWon);
+            public const string IsSplit = nameof(IsSplit);
+            public const string IsClosed = nameof(IsClosed);
+            public const string HasOpportunityLineItem = nameof(HasOpportunityLineItem);
+            public const string ForecastCategoryName = nameof(ForecastCategoryName);
+            public const string ForecastCategory = nameof(ForecastCategory);
+            public const string FiscalYear = nameof(FiscalYear);
+            public const string FiscalQuarter = nameof(FiscalQuarter);
+            public const string Fiscal = nameof(Fiscal);
+            public const string ContractId = nameof(ContractId);
+            public const string CloseDate = nameof(CloseDate);
+            public const string CampaignId = nameof(CampaignId);
+            public const string AccountNumber = nameof(AccountNumber);
+            public const string AccountSource = nameof(AccountSource);
+            public const string AnnualRevenue = nameof(AnnualRevenue);
+            public const string BillingCity = nameof(BillingCity);
+            public const string BillingCountry = nameof(BillingCountry);
+            public const string BillingCountryCode = nameof(BillingCountryCode);
+            public const string BillingPostalCode = nameof(BillingPostalCode);
+            public const string BillingState = nameof(BillingState);
+            public const string BillingStateCode = nameof(BillingStateCode);
+            public const string BillingStreet = nameof(BillingStreet);
+            public const string CleanStatus = nameof(CleanStatus);
+            public const string ConnectionReceivedId = nameof(ConnectionReceivedId);
+            public const string ConnectionSentId = nameof(ConnectionSentId);
+            public const string Description = nameof(Description);
+            public const string DunsNumber = nameof(DunsNumber);
+            public const string Fax = nameof(Fax);
+            public const string Industry = nameof(Industry);
+            public const string IsCustomerPortal = nameof(IsCustomerPortal);
+            public const string IsDeleted = nameof(IsDeleted);
+            public const string IsPartner = nameof(IsPartner);
+            public const string IsPersonAccount = nameof(IsPersonAccount);
+            public const string Jigsaw = nameof(Jigsaw);
+            public const string LastActivityDate = nameof(LastActivityDate);
+            public const string LastReferencedDate = nameof(LastReferencedDate);
+            public const string LastViewedDate = nameof(LastViewedDate);
+            public const string MasterRecordId = nameof(MasterRecordId);
+            public const string NaicsCode = nameof(NaicsCode);
+            public const string NaicsDesc = nameof(NaicsDesc);
+            public const string Name = nameof(Name);
+            public const string NumberOfEmployees = nameof(NumberOfEmployees);
+            public const string OwnerId = nameof(OwnerId);
+            public const string Ownership = nameof(Ownership);
+            public const string ParentId = nameof(ParentId);
+            public const string Phone = nameof(Phone);
+            public const string PhotoUrl = nameof(PhotoUrl);
+            public const string Rating = nameof(Rating);
+            public const string RecordTypeId = nameof(RecordTypeId);
+            public const string Salutation = nameof(Salutation);
+            public const string ShippingCity = nameof(ShippingCity);
+            public const string ShippingCountry = nameof(ShippingCountry);
+            public const string ShippingCountryCode = nameof(ShippingCountryCode);
+            public const string ShippingPostalCode = nameof(ShippingPostalCode);
+            public const string ShippingState = nameof(ShippingState);
+            public const string ShippingStateCode = nameof(ShippingStateCode);
+            public const string ShippingStreet = nameof(ShippingStreet);
+            public const string Sic = nameof(Sic);
+            public const string SicDesc = nameof(SicDesc);
+            public const string Site = nameof(Site);
+            public const string TickerSymbol = nameof(TickerSymbol);
+            public const string Tradestyle = nameof(Tradestyle);
+            public const string Type = nameof(Type);
+            public const string Website = nameof(Website);
+            public const string YearStarted = nameof(YearStarted);
+            public const string FirstName = nameof(FirstName);
+            public const string LastName = nameof(LastName);
+            public const string PersonAssistantName = nameof(PersonAssistantName);
+            public const string PersonAssistantPhone = nameof(PersonAssistantPhone);
+            public const string PersonBirthDate = nameof(PersonBirthDate);
+            public const string PersonContactId = nameof(PersonContactId);
+            public const string PersonDepartment = nameof(PersonDepartment);
+            public const string PersonEmail = nameof(PersonEmail);
+            public const string PersonEmailBouncedDate = nameof(PersonEmailBouncedDate);
+            public const string PersonHasOptedOutOfEmail = nameof(PersonHasOptedOutOfEmail);
+            public const string PersonHomePhone = nameof(PersonHomePhone);
+            public const string PersonLastCURequestDate = nameof(PersonLastCURequestDate);
+            public const string PersonLastCUUpdateDate = nameof(PersonLastCUUpdateDate);
+            public const string PersonLeadSource = nameof(PersonLeadSource);
+            public const string PersonMailingCity = nameof(PersonMailingCity);
+            public const string PersonMailingStreet = nameof(PersonMailingStreet);
+            public const string PersonMailingCountry = nameof(PersonMailingCountry);
+            public const string PersonMailingState = nameof(PersonMailingState);
+            public const string PersonMailingPostalCode = nameof(PersonMailingPostalCode);
+            public const string PersonMobilePhone = nameof(PersonMobilePhone);
+            public const string PersonOtherCity = nameof(PersonOtherCity);
+            public const string PersonOtherCountry = nameof(PersonOtherCountry);
+            public const string PersonOtherPostalCode = nameof(PersonOtherPostalCode);
+            public const string PersonOtherState = nameof(PersonOtherState);
+            public const string PersonOtherCountryCode = nameof(PersonOtherCountryCode);
+            public const string PersonOtherStateCode = nameof(PersonOtherStateCode);
+            public const string PersonOtherPhone = nameof(PersonOtherPhone);
+            public const string PersonOtherStreet = nameof(PersonOtherStreet);
+            public const string PersonTitle = nameof(PersonTitle);
+            public const string ActualCost = nameof(ActualCost);
+            public const string AmountAllOpportunities = nameof(AmountAllOpportunities);
+            public const string AmountWonOpportunities = nameof(AmountWonOpportunities);
+            public const string BudgetedCost = nameof(BudgetedCost);
+            public const string CampaignMemberRecordTypeId = nameof(CampaignMemberRecordTypeId);
+            public const string CurrencyIsoCode = nameof(CurrencyIsoCode);
+            public const string EndDate = nameof(EndDate);
+            public const string ExpectedResponse = nameof(ExpectedResponse);
+            public const string ExpectedRevenue = nameof(ExpectedRevenue);
+            public const string HierarchyActualCost = nameof(HierarchyActualCost);
+            public const string HierarchyBudgetedCost = nameof(HierarchyBudgetedCost);
+            public const string HierarchyExpectedRevenue = nameof(HierarchyExpectedRevenue);
+            public const string HierarchyNumberSent = nameof(HierarchyNumberSent);
+            public const string IsActive = nameof(IsActive);
+            public const string NumberOfContacts = nameof(NumberOfContacts);
+            public const string NumberOfConvertedLeads = nameof(NumberOfConvertedLeads);
+            public const string NumberOfLeads = nameof(NumberOfLeads);
+            public const string NumberOfOpportunities = nameof(NumberOfOpportunities);
+            public const string NumberOfResponses = nameof(NumberOfResponses);
+            public const string NumberOfWonOpportunities = nameof(NumberOfWonOpportunities);
+            public const string NumberSent = nameof(NumberSent);
+            public const string ParentCampaign = nameof(ParentCampaign);
+            public const string StartDate = nameof(StartDate);
+            public const string Status = nameof(Status);
+            public const string TotalAmountAllOpportunities = nameof(TotalAmountAllOpportunities);
+            public const string TotalAmountAllWonOpportunities = nameof(TotalAmountAllWonOpportunities);
+            public const string TotalNumberofContacts = nameof(TotalNumberofContacts);
+            public const string TotalNumberofConvertedLeads = nameof(TotalNumberofConvertedLeads);
+            public const string TotalNumberofLeads = nameof(TotalNumberofLeads);
+            public const string TotalNumberofOpportunities = nameof(TotalNumberofOpportunities);
+            public const string TotalNumberofResponses = nameof(TotalNumberofResponses);
+            public const string TotalNumberofWonOpportunities = nameof(TotalNumberofWonOpportunities);
+            public const string AccountId = nameof(AccountId);
+            public const string Amount = nameof(Amount);
+            public const string AssistantName = nameof(AssistantName);
+            public const string AssistantPhone = nameof(AssistantPhone);
+            public const string Birthdate = nameof(Birthdate);
+            public const string ActionCadenceAssigneeId = nameof(ActionCadenceAssigneeId);
+            public const string ActionCadenceId = nameof(ActionCadenceId);
+            public const string ActivityMetricId = nameof(ActivityMetricId);
+            public const string City = nameof(City);
+            public const string Company = nameof(Company);
+            public const string CompanyDunsNumber = nameof(CompanyDunsNumber);
+            public const string ConvertedAccountId = nameof(ConvertedAccountId);
+            public const string ConvertedContactId = nameof(ConvertedContactId);
+            public const string ConvertedDate = nameof(ConvertedDate);
+            public const string ConvertedOpportunityId = nameof(ConvertedOpportunityId);
+            public const string Country = nameof(Country);
+            public const string FirstCallDateTime = nameof(FirstCallDateTime);
+            public const string FirstEmailDateTime = nameof(FirstEmailDateTime);
+            public const string IndividualId = nameof(IndividualId);
+            public const string IsConverted = nameof(IsConverted);
+            public const string IsUnreadByOwner = nameof(IsUnreadByOwner);
+            public const string Latitude = nameof(Latitude);
+            public const string Longitude = nameof(Longitude);
+            public const string MiddleName = nameof(MiddleName);
+            public const string PartnerAccountId = nameof(PartnerAccountId);
+            public const string PostalCode = nameof(PostalCode);
+            public const string ScoreIntelligenceId = nameof(ScoreIntelligenceId);
+            public const string State = nameof(State);
+            public const string Street = nameof(Street);
+            public const string Suffix = nameof(Suffix);
+            public const string IsArchived = nameof(IsArchived);
+            public const string IsStandard = nameof(IsStandard);
+            public const string ValidFrom = nameof(ValidFrom);
+            public const string ValidTo = nameof(ValidTo);
+            public const string BillingPolicyId = nameof(BillingPolicyId);
+            public const string CanUseQuantitySchedule = nameof(CanUseQuantitySchedule);
+            public const string CanUseRevenueSchedule = nameof(CanUseRevenueSchedule);
+            public const string DisplayUrl = nameof(DisplayUrl);
+            public const string ExternalDataSourceId = nameof(ExternalDataSourceId);
+            public const string ExternalId = nameof(ExternalId);
+            public const string NumberOfQuantityInstallments = nameof(NumberOfQuantityInstallments);
+            public const string NumberOfRevenueInstallments = nameof(NumberOfRevenueInstallments);
+            public const string RecalculateTotalPrice = nameof(RecalculateTotalPrice);
+            public const string StockKeepingUnit = nameof(StockKeepingUnit);
+            public const string TaxPolicyId = nameof(TaxPolicyId);
+            public const string ActivePriceAdjustmentQuantity = nameof(ActivePriceAdjustmentQuantity);
+            public const string Product2Id = nameof(Product2Id);
+            public const string ProductCode = nameof(ProductCode);
+            public const string ProductSellingModelId = nameof(ProductSellingModelId);
+            public const string UnitPrice = nameof(UnitPrice);
+            public const string UseStandardPrice = nameof(UseStandardPrice);
+            public const string Id = nameof(Id);
+            public const string PricebookEntryId = Id;
+        }
+    }
+}

@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+    <RootNamespace>Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.Jobs</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NHibernate" Version="5.4.6" />
+    <PackageReference Include="FluentNHibernate" Version="3.3.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
+    <PackageReference Include="Nito.AsyncEx" Version="5.1.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+    <ProjectReference Include="..\Whippet.Jobs\Whippet.Jobs.csproj" />
+    <ProjectReference Include="..\Whippet.Oswald.Integrations.Adobe.Magento.Taxes\Whippet.Oswald.Integrations.Adobe.Magento.Taxes.csproj" />
+    <ProjectReference Include="..\Whippet.FreestyleSolutions.MOM\Whippet.FreestyleSolutions.MOM.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento\Whippet.Adobe.Magento.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.Taxes\Whippet.Adobe.Magento.Taxes.csproj" />
+    <ProjectReference Include="..\Whippet.Data.CQRS\Whippet.Data.CQRS.csproj" />
+    <ProjectReference Include="..\Whippet.FreestyleSolutions.MOM.ServiceManagers\Whippet.FreestyleSolutions.MOM.ServiceManagers.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.Taxes.ServiceManagers\Whippet.Adobe.Magento.Taxes.ServiceManagers.csproj" />
+    <ProjectReference Include="..\Whippet.Oswald.Integrations.Adobe.Magento.Taxes.ServiceManagers\Whippet.Oswald.Integrations.Adobe.Magento.Taxes.ServiceManagers.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="EntityMappings\" />
+    <None Remove="Repositories\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="EntityMappings\" />
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+</Project>

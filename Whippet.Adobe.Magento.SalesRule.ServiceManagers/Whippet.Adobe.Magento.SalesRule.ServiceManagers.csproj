@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+    <RootNamespace>Athi.Whippet.Adobe.Magento.SalesRule.ServiceManagers</RootNamespace>
+    <AssemblyName>Athi.Whippet.Adobe.Magento.SalesRule.ServiceManagers</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    <ProjectReference Include="..\Whippet.ServiceManagers\Whippet.ServiceManagers.csproj" />
+    <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.Data\Whippet.Adobe.Magento.Data.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.SalesRule\Whippet.Adobe.Magento.SalesRule.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.SalesRule.ServiceManagers.Handlers\Whippet.Adobe.Magento.SalesRule.ServiceManagers.Handlers.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.SalesRule.ServiceManagers.Queries\Whippet.Adobe.Magento.SalesRule.ServiceManagers.Queries.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NodaTime" Version="3.1.9" />
+  </ItemGroup>
+</Project>

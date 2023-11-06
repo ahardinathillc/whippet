@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizedStrings>
+    <!-- English language exceptions: Start -->
+
+    <string name="CompositeKeyException" value="Item contains a composite key. Specify only one primary key in the data table in order to use this function." culture="en" />
+    <string name="PrimaryKeyNotFoundException" value="No primary key defined for this entity." culture="en" />
+    
+    <!-- English language exceptions: End -->
+
+</localizedStrings>

@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+    <AssemblyName>Athi.Whippet.Salesforce.ServiceManagers.Handlers</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Commands\" />
+    <None Remove="Queries\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Commands\" />
+    <Folder Include="Queries\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+    <ProjectReference Include="..\Whippet.Salesforce\Whippet.Salesforce.csproj" />
+    <ProjectReference Include="..\Whippet.Salesforce.ServiceManagers.Queries\Whippet.Salesforce.ServiceManagers.Queries.csproj" />
+    <ProjectReference Include="..\Whippet.Salesforce.ServiceManagers.Commands\Whippet.Salesforce.ServiceManagers.Commands.csproj" />
+  </ItemGroup>
+</Project>

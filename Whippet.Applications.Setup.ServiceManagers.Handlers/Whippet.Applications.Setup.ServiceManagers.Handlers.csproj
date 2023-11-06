@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+    <RootNamespace>Athi.Whippet.Applications.Setup.ServiceManagers.Handlers</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    <ProjectReference Include="..\Whippet.Data.CQRS\Whippet.Data.CQRS.csproj" />
+    <ProjectReference Include="..\Whippet.Applications.Setup\Whippet.Applications.Setup.csproj" />
+    <ProjectReference Include="..\Whippet.Applications.Setup.ServiceManagers.Queries\Whippet.Applications.Setup.ServiceManagers.Queries.csproj" />
+    <ProjectReference Include="..\Whippet.Applications.Setup.ServiceManagers.Commands\Whippet.Applications.Setup.ServiceManagers.Commands.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Commands\" />
+    <None Remove="Queries\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Commands\" />
+    <Folder Include="Queries\" />
+  </ItemGroup>
+</Project>

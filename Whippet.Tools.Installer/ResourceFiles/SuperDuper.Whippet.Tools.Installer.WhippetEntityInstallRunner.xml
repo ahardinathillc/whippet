@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizedStrings>
+    <!-- English language: Start -->
+
+    <string name="InstallAction_Entity_Name" value="Whippet Entity Install Action" culture="en" />
+    <string name="InstallAction_Entity_Description" value="Installs and seeds initial Whippet entities needed to complete setup." culture="en" />
+
+    <!-- English language: End -->
+
+</localizedStrings>

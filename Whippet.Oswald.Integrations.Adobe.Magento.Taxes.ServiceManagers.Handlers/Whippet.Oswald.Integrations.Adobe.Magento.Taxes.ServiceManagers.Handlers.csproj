@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+    <RootNamespace>Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.ServiceManagers.Handlers</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Commands\" />
+    <None Remove="Queries\" />
+    <None Remove="Queries\Cache\" />
+    <None Remove="Commands\Cache\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Commands\" />
+    <Folder Include="Queries\" />
+    <Folder Include="Commands\Cache\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+    <ProjectReference Include="..\Whippet.Oswald.Integrations.Adobe.Magento.Taxes\Whippet.Oswald.Integrations.Adobe.Magento.Taxes.csproj" />
+    <ProjectReference Include="..\Whippet.Oswald.Integrations.Adobe.Magento\Whippet.Oswald.Integrations.Adobe.Magento.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.Taxes\Whippet.Adobe.Magento.Taxes.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento\Whippet.Adobe.Magento.csproj" />
+    <ProjectReference Include="..\Whippet.FreestyleSolutions.MOM\Whippet.FreestyleSolutions.MOM.csproj" />
+    <ProjectReference Include="..\Whippet.Oswald.Integrations.Adobe.Magento.Taxes.Repositories\Whippet.Oswald.Integrations.Adobe.Magento.Taxes.Repositories.csproj" />
+    <ProjectReference Include="..\Whippet.Data.CQRS\Whippet.Data.CQRS.csproj" />
+    <ProjectReference Include="..\Whippet.Oswald.Integrations.Adobe.Magento.Taxes.ServiceManagers.Commands\Whippet.Oswald.Integrations.Adobe.Magento.Taxes.ServiceManagers.Commands.csproj" />
+    <ProjectReference Include="..\Whippet.Oswald.Integrations.Adobe.Magento.Taxes.ServiceManagers.Queries\Whippet.Oswald.Integrations.Adobe.Magento.Taxes.ServiceManagers.Queries.csproj" />
+  </ItemGroup>
+</Project>
