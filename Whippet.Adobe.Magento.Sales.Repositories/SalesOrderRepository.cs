@@ -18,6 +18,8 @@ namespace Athi.Whippet.Adobe.Magento.Sales.Repositories
     /// </summary>
     public class SalesOrderRepository : MagentoEntityRestRepository<SalesOrder>, ISalesOrderRepository
     {
+        private const string BASE_URL = "orders/";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SalesOrderRepository"/> class with the specified <see cref="IWhippetRestClient"/>.
         /// </summary>
@@ -25,7 +27,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales.Repositories
         /// <param name="bearerToken">Authorization bearer token for making requests.</param>
         /// <exception cref="ArgumentNullException" />
         public SalesOrderRepository(IWhippetRestClient restClient, string bearerToken)
-            : base(restClient, bearerToken)
+            : base(restClient, bearerToken, BASE_URL)
         { }
 
         /// <summary>
@@ -43,7 +45,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales.Repositories
 
             try
             {
-                request = CreateRequest(CreateEndpointUrl("orders/" + salesOrderId), Method.Get);
+                request = CreateRequest(CreateEndpointUrl(Convert.ToString(salesOrderId)), Method.Get);
                 response = await Client.ExecuteAsync(request);
 
                 response.ThrowIfError();
@@ -105,7 +107,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales.Repositories
                 builder.Append(CreateSearchCriteria(new KeyValuePair<string, string>("condition_type", MagentoRestSearchConditionType.LessThanEqual), 1, 0, true));
                 builder.Append(CreateSearchCriteria(new KeyValuePair<string, string>("value", toDate.ToString("uuu-MM-dd HH:mm:ss", null)), 1, 0, false));
 
-                request = CreateRequest(CreateEndpointUrl("orders?" + builder.ToString()), Method.Get);
+                request = CreateRequest(CreateEndpointUrl(builder.ToString(), true), Method.Get);
                 response = await Client.ExecuteAsync(request);
 
                 response.ThrowIfError();
@@ -142,7 +144,9 @@ namespace Athi.Whippet.Adobe.Magento.Sales.Repositories
 
             try
             {
-                request = CreateRequest(CreateEndpointUrl("orders/?searchCriteria=all"), Method.Get);
+                MagentoSearchCriteria searchCriteria = new MagentoSearchCriteria();
+
+                request = CreateRequest(CreateEndpointUrl(MagentoSearchCriteria.All.ToString()), Method.Get);
                 response = await Client.ExecuteAsync(request);
 
                 response.ThrowIfError();
@@ -182,7 +186,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales.Repositories
 
             try
             {
-                request = CreateRequest(CreateEndpointUrl("orders/create"), Method.Put);
+                request = CreateRequest(CreateEndpointUrl("create"), Method.Put);
                 response = await Client.ExecuteAsync(request);
 
                 response.ThrowIfError();
@@ -222,7 +226,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales.Repositories
 
             try
             {
-                request = CreateRequest(CreateEndpointUrl("orders"), Method.Post);
+                request = CreateRequest(CreateEndpointUrl(), Method.Post);
                 response = await Client.ExecuteAsync(request);
 
                 response.ThrowIfError();

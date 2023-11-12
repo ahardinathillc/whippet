@@ -7,9 +7,9 @@ using Athi.Whippet.Data.CQRS;
 namespace Athi.Whippet.Adobe.Magento.Taxes.ServiceManagers.Commands
 {
     /// <summary>
-    /// Provides support for all commands that act upon <see cref="ITaxRate"/> objects.
+    /// Provides support for all commands that act upon <see cref="ITaxRate"/> objects. This class must be inherited.
     /// </summary>
-    public class TaxRateCommandBase : WhippetCommand, IWhippetCommand, ITaxRateCommand
+    public abstract class TaxRateCommandBase : WhippetCommand, IWhippetCommand, ITaxRateCommand
     {
         /// <summary>
         /// Gets the <see cref="Taxes.TaxRate"/> instance to create or act upon in the data store. This property is read-only.

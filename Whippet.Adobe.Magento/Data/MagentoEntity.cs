@@ -1,7 +1,6 @@
 ﻿using System;
-using Athi.Whippet.Extensions.Primitives;
+using Newtonsoft.Json.Linq;
 using Athi.Whippet.Json;
-using Athi.Whippet.Json.Newtonsoft;
 using Athi.Whippet.Data;
 using Athi.Whippet.Adobe.Magento.Extensions;
 
@@ -122,4 +121,3 @@ namespace Athi.Whippet.Adobe.Magento.Data
         }
     }
 }
-

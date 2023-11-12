@@ -28,7 +28,6 @@
     <Folder Include="Repositories\" />
     <Folder Include="Data\" />
     <Folder Include="Json\" />
-    <Folder Include="ServiceManagers\" />
     <Folder Include="ServiceManagers\Extensions\" />
     <Folder Include="ResourceFiles\" />
   </ItemGroup>

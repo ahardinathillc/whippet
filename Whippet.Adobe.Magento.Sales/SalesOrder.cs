@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Text;
 using NodaTime;
 using NodaMoney;
@@ -1828,4 +1828,3 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         }
     }
 }
-

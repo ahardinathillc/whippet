@@ -86,6 +86,14 @@ namespace Athi.Whippet.Adobe.Magento.Taxes
         { get; set; }
 
         /// <summary>
+        /// Returns the current instance as a JSON object in a <see cref="String"/> that is defined by the API documentation in Magento. This is typically used for POST and PUT requests as the default serializer suffices in GET requests.
+        /// </summary>
+        /// <param name="openSource">If <see langword="true"/>, will generate the JSON necessary for Magento Open Source.</param>
+        /// <returns><see cref="String"/> containing the JSON object representation of the current instance.</returns>
+        /// <remarks>See <a href="https://magento.stackexchange.com/questions/3480/how-to-programatically-create-tax-rates">How to Programatically Create Tax Rates</a> as the Adobe documentation is incorrect.</remarks>
+        string ToMagentoJsonString(bool openSource);
+        
+        /// <summary>
         /// Builds the <see cref="Code"/> value based on the specified parameters.
         /// </summary>
         /// <param name="countryIso2">ISO-2 abbreviation of the country.</param>
@@ -95,4 +103,3 @@ namespace Athi.Whippet.Adobe.Magento.Taxes
         void BuildCode(string countryIso2, string stateProvinceAbbreviation, string postalCode);
     }
 }
-

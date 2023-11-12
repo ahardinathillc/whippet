@@ -146,7 +146,7 @@ namespace Athi.Whippet.Web.Mvc
         {
             get
             {
-                return Instant.FromDateTimeUtc(DateTime.UtcNow);
+                return GetCurrentUtcTime();
             }
         }
 

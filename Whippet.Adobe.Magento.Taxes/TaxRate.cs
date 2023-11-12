@@ -2,9 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Text;
 using Newtonsoft.Json;
-using Athi.Whippet.Extensions.Primitives;
 using Athi.Whippet.Json;
-using Athi.Whippet.Json.Newtonsoft;
 using Athi.Whippet.Adobe.Magento.Data;
 using Athi.Whippet.Adobe.Magento.Directory;
 using Athi.Whippet.Adobe.Magento.Directory.Extensions;
@@ -436,6 +434,27 @@ namespace Athi.Whippet.Adobe.Magento.Taxes
         /// <remarks>See <a href="https://magento.stackexchange.com/questions/3480/how-to-programatically-create-tax-rates">How to Programatically Create Tax Rates</a> as the Adobe documentation is incorrect.</remarks>
         public override string ToMagentoJsonString()
         {
+            return ToMagentoJsonString(true);
+        }
+
+        /// <summary>
+        /// Returns the current instance as a JSON object in a <see cref="String"/> that is defined by the API documentation in Magento. This is typically used for POST and PUT requests as the default serializer suffices in GET requests.
+        /// </summary>
+        /// <param name="openSource">If <see langword="true"/>, will generate the JSON necessary for Magento Open Source.</param>
+        /// <returns><see cref="String"/> containing the JSON object representation of the current instance.</returns>
+        /// <remarks>See <a href="https://magento.stackexchange.com/questions/3480/how-to-programatically-create-tax-rates">How to Programatically Create Tax Rates</a> as the Adobe documentation is incorrect.</remarks>
+        public string ToMagentoJsonString(bool openSource)
+        {
+            return InternalToMagentoJsonString(openSource);
+        }
+
+        /// <summary>
+        /// Returns the current instance as a JSON object in a <see cref="String"/> that is defined by the API documentation in Magento. This is typically used for POST and PUT requests as the default serializer suffices in GET requests.
+        /// </summary>
+        /// <returns><see cref="String"/> containing the JSON object representation of the current instance.</returns>
+        /// <remarks>If creating for Open Source, see <a href="https://magento.stackexchange.com/questions/3480/how-to-programatically-create-tax-rates">How to Programatically Create Tax Rates</a> as the Adobe documentation is incorrect.</remarks>
+        private string InternalToMagentoJsonString(bool openSource)
+        {
             StringBuilder stringBuilder = new StringBuilder();
             StringWriter stringWriter = new StringWriter(stringBuilder);
 
@@ -460,8 +479,11 @@ namespace Athi.Whippet.Adobe.Magento.Taxes
                 writer.WritePropertyName(JP_RATE);
                 writer.WriteValue(Rate);
 
-                //writer.WritePropertyName(JP_REGION_NAME);
-                //writer.WriteValue(Region.Name);
+                if (!openSource)
+                {
+                    writer.WritePropertyName(JP_REGION_NAME);
+                    writer.WriteValue(Region.Name);
+                }
 
                 writer.WritePropertyName(JP_TAX_COUNTRY_ID);
                 writer.WriteValue(CountryID);
@@ -493,30 +515,33 @@ namespace Athi.Whippet.Adobe.Magento.Taxes
                     writer.WriteEndArray();
                 }
 
-                //writer.WritePropertyName(JP_ZIP_FROM);
+                if (!openSource)
+                {
+                    writer.WritePropertyName(JP_ZIP_FROM);
 
-                //if (ZipFrom > 0)
-                //{
-                //    writer.WriteValue(ZipFrom);
-                //}
-                //else
-                //{
-                //    writer.WriteNull();
-                //}
+                    if (ZipFrom > 0)
+                    {
+                        writer.WriteValue(ZipFrom);
+                    }
+                    else
+                    {
+                        writer.WriteNull();
+                    }
 
-                //writer.WritePropertyName(JP_ZIP_TO);
+                    writer.WritePropertyName(JP_ZIP_TO);
 
-                //if (ZipTo > 0)
-                //{
-                //    writer.WriteValue(ZipTo);
-                //}
-                //else
-                //{
-                //    writer.WriteNull();
-                //}
+                    if (ZipTo > 0)
+                    {
+                        writer.WriteValue(ZipTo);
+                    }
+                    else
+                    {
+                        writer.WriteNull();
+                    }
 
-                //writer.WritePropertyName(JP_TITLE);
-                //writer.WriteValue(Code);
+                    writer.WritePropertyName(JP_TITLE);
+                    writer.WriteValue(Code);
+                }
 
                 writer.WritePropertyName(JP_ZIP_IS_RANGE);
                 writer.WriteValue(ZipIsRange);
@@ -528,7 +553,7 @@ namespace Athi.Whippet.Adobe.Magento.Taxes
 
             return stringBuilder.ToString();
         }
-
+        
         /// <summary>
         /// Builds the <see cref="Code"/> value based on the specified parameters.
         /// </summary>
@@ -537,6 +562,20 @@ namespace Athi.Whippet.Adobe.Magento.Taxes
         /// <param name="postalCode">Postal code for the rate (if any).</param>
         /// <exception cref="ArgumentNullException" />
         public virtual void BuildCode(string countryIso2, string stateProvinceAbbreviation, string postalCode)
+        {
+            BuildCode(countryIso2, stateProvinceAbbreviation, postalCode, out string code);
+            Code = code;
+        }
+
+        /// <summary>
+        /// Builds the <see cref="Code"/> value based on the specified parameters.
+        /// </summary>
+        /// <param name="countryIso2">ISO-2 abbreviation of the country.</param>
+        /// <param name="stateProvinceAbbreviation">Two-letter state or province abbreviation.</param>
+        /// <param name="postalCode">Postal code for the rate (if any).</param>
+        /// <param name="code"><see cref="TaxRate.Code"/> value.</param>
+        /// <exception cref="ArgumentNullException" />
+        public static void BuildCode(string countryIso2, string stateProvinceAbbreviation, string postalCode, out string code)
         {
             if (String.IsNullOrWhiteSpace(countryIso2))
             {
@@ -568,7 +607,7 @@ namespace Athi.Whippet.Adobe.Magento.Taxes
                     }
                 }
 
-                Code = builder.ToString();
+                code = builder.ToString();
             }
         }
 

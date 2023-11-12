@@ -16,6 +16,19 @@ namespace Athi.Whippet.Adobe.Magento
 
         private Dictionary<int, List<Tuple<int, MagentoSearchCriteriaEntry>>> _searchCriteria;
 
+        private static readonly MagentoSearchCriteria _All = new MagentoSearchCriteria(true);
+        
+        /// <summary>
+        /// Gets the <see cref="MagentoSearchCriteria"/> that retrieves all records for a specific Magento entity. This property is read-only.
+        /// </summary>
+        public static MagentoSearchCriteria All
+        {
+            get
+            {
+                return _All;
+            }
+        }
+        
         /// <summary>
         /// Gets the search criteria to build the querystring. This property is read-only.
         /// </summary>
@@ -33,6 +46,12 @@ namespace Athi.Whippet.Adobe.Magento
         }
 
         /// <summary>
+        /// Indicates whether the current <see cref="MagentoSearchCriteria"/> is the criteria that retrieves all records for an entity.
+        /// </summary>
+        private bool IsAllSearchCriteria
+        { get; set; }
+        
+        /// <summary>
         /// Gets all available filter groups. This property is read-only.
         /// </summary>
         public IEnumerable<int> FilterGroups
@@ -46,9 +65,19 @@ namespace Athi.Whippet.Adobe.Magento
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="MagentoSearchCriteria"/> class.
+        /// </summary>
+        /// <param name="isAll">If <see langword="true"/>, will mark the <see cref="MagentoSearchCriteria"/> as the criteria that retrieves all records for an entity.</param>
+        private MagentoSearchCriteria(bool isAll)
+        {
+            IsAllSearchCriteria = isAll;
+        }
+        
+        /// <summary>
         /// Initializes a new instance of the <see cref="MagentoSearchCriteria"/> class with no arguments.
         /// </summary>
         public MagentoSearchCriteria()
+            : this(false)
         { }
 
         /// <summary>
@@ -151,7 +180,7 @@ namespace Athi.Whippet.Adobe.Magento
         /// <returns>String representation of the current object.</returns>
         public override string ToString()
         {
-            return ToString(false);
+            return ToString(IsAllSearchCriteria);
         }
 
         /// <summary>
@@ -168,25 +197,32 @@ namespace Athi.Whippet.Adobe.Magento
                 builder.Append('?');
             }
 
-            if (SearchCriteria.Count > 0)
+            if (!IsAllSearchCriteria)
             {
-                foreach (int i in SearchCriteria.Keys.OrderBy(key => key))
+                if (SearchCriteria.Count > 0)
                 {
-                    foreach (Tuple<int, MagentoSearchCriteriaEntry> entry in SearchCriteria[i].OrderBy(entryKey => entryKey.Item1))
+                    foreach (int i in SearchCriteria.Keys.OrderBy(key => key))
                     {
-                        builder.Append(entry.Item2.ToString());
-                        builder.Append('&');
+                        foreach (Tuple<int, MagentoSearchCriteriaEntry> entry in SearchCriteria[i].OrderBy(entryKey => entryKey.Item1))
+                        {
+                            builder.Append(entry.Item2.ToString());
+                            builder.Append('&');
+                        }
+                    }
+
+                    if (builder.ToString().EndsWith('&'))
+                    {
+                        builder = new StringBuilder(builder.ToString().Substring(0, builder.ToString().Length - 1));
                     }
                 }
-
-                if (builder.ToString().EndsWith('&'))
+                else
                 {
-                    builder = new StringBuilder(builder.ToString().Substring(0, builder.ToString().Length - 1));
+                    builder.Append(base.ToString());
                 }
             }
             else
             {
-                builder.Append(base.ToString());
+                builder.Append("searchCriteria=all");
             }
 
             return builder.ToString();

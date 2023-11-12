@@ -49,6 +49,12 @@ namespace Athi.Whippet.Adobe.Magento.Data
                 _pageSize = value;
             }
         }
+        
+        /// <summary>
+        /// Gets the base URL for the request (e.g., &quot;orders/&quot;). This property is read-only.
+        /// </summary>
+        protected string BaseUrl
+        { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MagentoEntityRestRepository{TEntity}"/> class with the specified <see cref="IWhippetRestClient"/>.
@@ -66,14 +72,27 @@ namespace Athi.Whippet.Adobe.Magento.Data
         /// <param name="bearerToken">Authorization bearer token for making requests.</param>
         /// <exception cref="ArgumentNullException" />
         protected MagentoEntityRestRepository(IWhippetRestClient restClient, string bearerToken)
+            : this(restClient, bearerToken, null)
+        { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MagentoEntityRestRepository{TEntity}"/> class with the specified <see cref="IWhippetRestClient"/>.
+        /// </summary>
+        /// <param name="restClient"><see cref="IWhippetRestClient"/> object used to marshall the REST requests.</param>
+        /// <param name="bearerToken">Authorization bearer token for making requests.</param>
+        /// <param name="baseUrl">Base URL of the request (e.g., &quote;orders/&quot;).</param>
+        /// <exception cref="ArgumentNullException" />
+        protected MagentoEntityRestRepository(IWhippetRestClient restClient, string bearerToken, string baseUrl)
             : base(restClient, bearerToken)
         {
             if (String.IsNullOrWhiteSpace(bearerToken))
             {
                 throw new ArgumentNullException(nameof(bearerToken));
             }
-        }
 
+            BaseUrl = baseUrl;
+        }
+        
         /// <summary>
         /// Clamps the specified unsigned integer value if it exceeds <see cref="UInt16.MaxValue"/>.
         /// </summary>
@@ -134,15 +153,59 @@ namespace Athi.Whippet.Adobe.Magento.Data
         }
 
         /// <summary>
+        /// Creates a Magento endpoint URL (i.e., &quot;/rest/V1/&quot;) using the value stored in <see cref="BaseUrl"/>.
+        /// </summary>
+        /// <returns>Magento endpoint URL.</returns>
+        /// <exception cref="ArgumentNullException" />
+        protected string CreateEndpointUrl()
+        {
+            return CreateEndpointUrl(BaseUrl);
+        }
+        
+        /// <summary>
         /// Creates a Magento endpoint URL (i.e., &quot;/rest/V1/&quot;).
         /// </summary>
         /// <param name="endpoint">Endpoint to append to the URL.</param>
+        /// <param name="isQuery">If <see langword="true"/>, the endpoint URL will be formatted as a querystring.</param>
         /// <returns>Magento endpoint URL.</returns>
         /// <exception cref="ArgumentNullException" />
-        protected virtual string CreateEndpointUrl(string endpoint)
+        protected virtual string CreateEndpointUrl(string endpoint, bool isQuery = false)
         {
-            ArgumentNullException.ThrowIfNullOrEmpty(endpoint);
-            return "/rest/V1/" + endpoint;
+            if (String.IsNullOrWhiteSpace(endpoint) && String.IsNullOrWhiteSpace(BaseUrl))
+            {
+                throw new ArgumentNullException(nameof(endpoint));
+            }
+            else
+            {
+                StringBuilder builder = new StringBuilder("/rest/V1/");
+
+                if (!String.IsNullOrWhiteSpace(BaseUrl) && !String.IsNullOrWhiteSpace(endpoint))
+                {
+                    if (BaseUrl.EndsWith('/') || BaseUrl.EndsWith('?'))
+                    {
+                        if (endpoint.Length > 1 && (endpoint.StartsWith('/') || endpoint.StartsWith('?')))
+                        {
+                            endpoint = endpoint.Substring(1);
+                        }
+                        else
+                        {
+                            endpoint = String.Empty;
+                        }
+                    }
+                }
+
+                if (!String.IsNullOrWhiteSpace(BaseUrl))
+                {
+                    builder.Append(BaseUrl);
+                    
+                    if (isQuery && !builder.ToString().EndsWith('?'))
+                    {
+                        builder.Append('?');
+                    }
+                }
+
+                return builder.ToString().Trim();
+            }
         }
 
         /// <summary>

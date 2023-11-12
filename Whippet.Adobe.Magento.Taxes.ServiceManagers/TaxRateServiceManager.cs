@@ -166,8 +166,24 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.ServiceManagers
             }
             else
             {
-                WhippetResultContainer<MagentoBulkOperationResponseViewModel> result = await TaxRateRepository.BulkAddAsync(taxRates.Select(tr => tr.ToTaxRate())); 
-                return result;
+                WhippetResultContainer<MagentoBulkOperationResponseViewModel> bulkResult = null;
+                WhippetResult result = null;
+                
+                ITaxRateBulkCommandHandler<CreateTaxRateBulkCommand> handler = null;
+                    
+                handler = new CreateTaxRateBulkCommandHandler(TaxRateRepository);
+                result = await handler.HandleAsync(new CreateTaxRateBulkCommand(taxRates.Select(r => r.ToTaxRate())));
+
+                if (result.ResultObject is MagentoBulkOperationResponseViewModel)
+                {
+                    bulkResult = new WhippetResultContainer<MagentoBulkOperationResponseViewModel>(result, (MagentoBulkOperationResponseViewModel)(result.ResultObject));
+                }
+                else
+                {
+                    bulkResult = new WhippetResultContainer<MagentoBulkOperationResponseViewModel>(result, null);
+                }
+                
+                return bulkResult;
             }
         }
 
