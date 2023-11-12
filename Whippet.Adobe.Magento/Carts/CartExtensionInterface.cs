@@ -8,6 +8,9 @@ namespace Athi.Whippet.Adobe.Magento.Carts
     /// </summary>
     public class CartExtensionInterface : IExtensionInterface
     {
+        public CartShippingAssignmentInterface[] ShippingAssignments
+        { get; set; }
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="CartExtensionInterface"/> class with no arguments.
         /// </summary>

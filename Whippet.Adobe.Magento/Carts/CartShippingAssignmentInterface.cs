@@ -1,31 +1,22 @@
 ﻿using System;
 using Newtonsoft.Json;
 
+// working on https://adobe-commerce.redoc.ly/2.4.6-admin/tag/cartscartId
 namespace Athi.Whippet.Adobe.Magento.Carts
 {
     /// <summary>
     /// Interface that provides information about a Magento customer's shipping information for an order.
     /// </summary>
-    public class CartShippingAssignmentInterface : IExtensionInterface
+    public class CartShippingAssignmentInterface : IExtensionInterface, IExtensionAttributes<CartShippingExtensionInterface>
     {
         /// <summary>
-        /// Gets or sets the shipping address of the order.
+        /// Gets or sets the shipping address associated with the order.
         /// </summary>
-        [JsonProperty("address")]
-        public CartAddressInterface Address
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the shipping method.
-        /// </summary>
-        [JsonProperty("method")]
-        public string Method
+        [JsonProperty("shipping")]
+        public CartShippingInterface Shipping
         { get; set; }
         
-        /// <summary>
-        /// 
-        /// </summary>
-        public CartShippingExtensionInterface ExtensionAttributes
-        { get; set; }
+        
+        
     }
 }

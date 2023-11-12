@@ -9,7 +9,7 @@ namespace Athi.Whippet.Adobe.Magento
     public interface IExtensionAttributes<T> where T : IExtensionInterface
     {
         /// <summary>
-        /// 
+        /// Gets or sets the extension attributes that are applied to the Magento object.
         /// </summary>
         T ExtensionAttributes
         { get; set; }
