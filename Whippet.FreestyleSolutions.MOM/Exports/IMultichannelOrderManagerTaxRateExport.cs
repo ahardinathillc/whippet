@@ -51,4 +51,3 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.Exports
         { get; set; }
     }
 }
-

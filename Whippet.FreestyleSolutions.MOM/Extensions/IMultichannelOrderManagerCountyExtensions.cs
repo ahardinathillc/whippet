@@ -107,4 +107,3 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.Extensions
 
     }
 }
-

@@ -15,4 +15,3 @@ namespace Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.Cache.ServiceMana
         { get; }
     }
 }
-

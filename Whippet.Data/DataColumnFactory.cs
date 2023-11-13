@@ -61,4 +61,3 @@ namespace Athi.Whippet.Data
         }
     }
 }
-

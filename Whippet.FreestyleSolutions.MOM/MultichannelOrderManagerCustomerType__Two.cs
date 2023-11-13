@@ -304,4 +304,3 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager
         }
     }
 }
-

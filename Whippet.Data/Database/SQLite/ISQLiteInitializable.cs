@@ -15,4 +15,3 @@ namespace Athi.Whippet.Data.Database.SQLite
         void Initialize();
     }
 }
-

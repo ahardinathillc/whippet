@@ -47,4 +47,3 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.Repositories
         Task<WhippetResultContainer<IEnumerable<MultichannelOrderManagerServer>>> GetServersForTenantAsync(IWhippetTenant tenant);
     }
 }
-

@@ -26,4 +26,3 @@ namespace Athi.Whippet.Data.Database.NoSQL.LiteDB
         { }
     }
 }
-
