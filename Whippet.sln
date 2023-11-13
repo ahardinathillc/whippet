@@ -231,6 +231,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{530D04
 		.gitignore = .gitignore
 		build.cake = build.cake
 		EnableLongFilenames.bat = EnableLongFilenames.bat
+		CleanSolution.ps1 = CleanSolution.ps1
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.EAV.ServiceManagers.Handlers", "Whippet.Adobe.Magento.EAV.ServiceManagers.Handlers\Whippet.Adobe.Magento.EAV.ServiceManagers.Handlers.csproj", "{9D2208AD-7A84-48C2-B661-8FE5E9C240CB}"
@@ -256,6 +257,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.Sales", "Whippet.Adobe.Magento.Sales\Whippet.Adobe.Magento.Sales.csproj", "{C9C28A04-2719-4A77-8F7A-398C4209DA59}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.Carts", "Whippet.Adobe.Magento.Carts\Whippet.Adobe.Magento.Carts.csproj", "{375830B8-6F83-4B53-A598-2213BF04E4C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Tools.ProjectImporter", "Whippet.Tools.ProjectImporter\Whippet.Tools.ProjectImporter.csproj", "{5350BCAA-6485-478D-9F86-64189BA9971B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -763,5 +766,9 @@ Global
 		{375830B8-6F83-4B53-A598-2213BF04E4C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{375830B8-6F83-4B53-A598-2213BF04E4C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{375830B8-6F83-4B53-A598-2213BF04E4C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5350BCAA-6485-478D-9F86-64189BA9971B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5350BCAA-6485-478D-9F86-64189BA9971B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5350BCAA-6485-478D-9F86-64189BA9971B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5350BCAA-6485-478D-9F86-64189BA9971B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
