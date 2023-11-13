@@ -33,4 +33,3 @@ namespace Athi.Whippet.Data.NHibernate.FluentNHibernate
         protected abstract void MapEntities(MappingConfiguration mappingConfig);
     }
 }
-

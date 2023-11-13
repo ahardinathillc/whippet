@@ -33,4 +33,3 @@ namespace Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.Jobs.ServiceManag
         }
     }
 }
-

@@ -1,0 +1,73 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <AssemblyName>Athi.Whippet.Data</AssemblyName>
+    <RootNamespace>Athi.Whippet.Data</RootNamespace>
+    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\net7.0\Athi.Whippet.Data.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="ResourceFiles\**" />
+    <EmbeddedResource Remove="ResourceFiles\**" />
+    <None Remove="ResourceFiles\**" />
+    <None Remove="NHibernate\Extensions\" />
+    <None Remove="SqlSugarCore" />
+    <None Remove="SqlKata" />
+    <None Remove="SqlKata.Execution" />
+    <None Remove="Database\MySQL\" />
+    <None Remove="Database\Oracle\MySQL\" />
+    <None Remove="Database\Oracle\MySQL\Extensions\" />
+    <None Remove="Database\SQLite\" />
+    <None Remove="SqlKata\" />
+    <None Remove="Database\NoSQL\Apache\" />
+    <None Remove="Database\NoSQL\Apache\CouchDB\" />
+    <None Remove="Database\NoSQL\Apache\CouchDB\Extensions\" />
+    <None Remove="Database\NoSQL\Apache\CouchDB\Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentNHibernate" Version="3.3.0" />
+    <PackageReference Include="LiteDB" Version="5.0.17" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
+    <PackageReference Include="NodaTime" Version="3.1.9" />
+    <PackageReference Include="SqlKata" Version="2.4.0" />
+    <PackageReference Include="SqlKata.Execution" Version="2.4.0" />
+    <PackageReference Include="MySql.Data" Version="8.2.0" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
+    <PackageReference Include="sqlite-net-sqlcipher" Version="1.8.116" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.13" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.6" />
+    <PackageReference Include="CouchDB.Client" Version="1.0.13" />
+    <PackageReference Include="CouchDB.NET" Version="3.4.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whippet.ResourceManagement\Whippet.ResourceManagement.csproj" />
+    <ProjectReference Include="..\Whippet\Whippet.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="NHibernate\Extensions\" />
+    <Folder Include="ResourceFiles\" />
+    <Folder Include="Database\Oracle\" />
+    <Folder Include="Database\Oracle\MySQL\" />
+    <Folder Include="Database\Oracle\MySQL\Extensions\" />
+    <Folder Include="Database\SQLite\" />
+    <Folder Include="SqlKata\" />
+    <Folder Include="Database\NoSQL\Apache\" />
+    <Folder Include="Database\NoSQL\Apache\CouchDB\" />
+    <Folder Include="Database\NoSQL\Apache\CouchDB\Extensions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ResourceFiles\Athi.Whippet.Data.Exceptions.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ResourceFiles\ExceptionResourceIndex.cs" />
+  </ItemGroup>
+</Project>

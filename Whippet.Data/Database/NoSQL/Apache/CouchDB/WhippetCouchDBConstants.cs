@@ -10,4 +10,3 @@ namespace Athi.Whippet.Data.Database.NoSQL.Apache.CouchDB
         public const string DEFAULT_CONNECTION_STRING_NAME = "whippet_couch";
     }
 }
-

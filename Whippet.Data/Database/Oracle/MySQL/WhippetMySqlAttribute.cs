@@ -42,4 +42,3 @@ namespace Athi.Whippet.Data.Database.Oracle.MySQL
         }
     }
 }
-

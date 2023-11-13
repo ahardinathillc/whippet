@@ -539,4 +539,3 @@ namespace Athi.Whippet.Data
         }
     }
 }
-

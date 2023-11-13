@@ -39,4 +39,3 @@ namespace Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.Models
         { get; }
     }
 }
-

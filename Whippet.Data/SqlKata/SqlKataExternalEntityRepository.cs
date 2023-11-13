@@ -67,4 +67,3 @@ namespace Athi.Whippet.Data.SqlKata
         protected abstract IDbConnection CreateConnection(string connectionString);
     }
 }
-

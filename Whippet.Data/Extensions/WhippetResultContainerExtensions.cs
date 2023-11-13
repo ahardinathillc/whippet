@@ -36,4 +36,3 @@ namespace Athi.Whippet.Data.Extensions
         }
     }
 }
-

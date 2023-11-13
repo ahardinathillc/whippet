@@ -12,4 +12,3 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager
         MinimumMarkupAmount = 3
     }
 }
-

@@ -18,4 +18,3 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager
         { get; set; }
     }
 }
-

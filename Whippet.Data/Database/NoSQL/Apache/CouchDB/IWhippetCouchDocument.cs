@@ -64,4 +64,3 @@ namespace Athi.Whippet.Data.Database.NoSQL.Apache.CouchDB
         { get; }
     }
 }
-

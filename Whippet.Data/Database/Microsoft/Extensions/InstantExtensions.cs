@@ -19,4 +19,3 @@ namespace Athi.Whippet.Data.Database.Microsoft.Extensions
         }
     }
 }
-

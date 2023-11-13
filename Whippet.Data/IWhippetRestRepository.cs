@@ -18,4 +18,3 @@ namespace Athi.Whippet.Data
         { get; }
     }
 }
-

@@ -194,4 +194,3 @@ namespace Athi.Whippet.Data.Database
         }
     }
 }
-

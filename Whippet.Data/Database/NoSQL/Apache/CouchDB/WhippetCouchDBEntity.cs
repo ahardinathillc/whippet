@@ -91,4 +91,3 @@ namespace Athi.Whippet.Data.Database.NoSQL.Apache.CouchDB
         public abstract string ToJson<T>() where T : IJsonSerializableObject;
     }
 }
-

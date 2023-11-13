@@ -46,4 +46,3 @@ namespace Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.Cache.Repositorie
         Task<WhippetResultContainer<IEnumerable<MagentoTaxSynchronizationMultichannelOrderManagerTaxRateCache>>> GetCachesForMultichannelOrderManagerServerAsync(IMultichannelOrderManagerServer server, CancellationToken? cancellationToken = null);
     }
 }
-
