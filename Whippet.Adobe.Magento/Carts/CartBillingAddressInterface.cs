@@ -1,28 +1,27 @@
 ﻿using System;
 using Newtonsoft.Json;
-using Athi.Whippet.Adobe.Magento.SalesRule;
 
 namespace Athi.Whippet.Adobe.Magento.Carts
 {
     /// <summary>
-    /// Provides information about a Magento customer's address that is associated with a cart.  
+    /// Interface that provides information about a Magento cart's billing address.
     /// </summary>
-    public class CartAddressInterface : IExtensionInterface, ICustomAttributes
+    public class CartBillingAddressInterface : IExtensionInterface, IExtensionAttributes<CartAddressExtensionInterface>, ICustomAttributes
     {
         /// <summary>
-        /// Gets or sets the ID of the 
+        /// Gets or sets the ID of the cart billing address.
         /// </summary>
         [JsonProperty("id")]
         public int ID
         { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the region name.
         /// </summary>
         [JsonProperty("region")]
         public string Region
         { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the region ID.
         /// </summary>
@@ -45,28 +44,28 @@ namespace Athi.Whippet.Adobe.Magento.Carts
         { get; set; }
 
         /// <summary>
-        /// Gets or sets one or more <see cref="String"/> values that comprise the street address.
+        /// Gets or sets the street components of the address.
         /// </summary>
         [JsonProperty("street")]
         public string[] Street
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the company address line.
+        /// Gets or sets the company line of the address.
         /// </summary>
         [JsonProperty("company")]
         public string Company
         { get; set; }
-        
+
         /// <summary>
-        /// Gets or sets the telephone number associated with the address.
+        /// Gets or sets the telephone number.
         /// </summary>
         [JsonProperty("telephone")]
         public string Telephone
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the fax number associated with the address.
+        /// Gets or sets the facsimile number.
         /// </summary>
         [JsonProperty("fax")]
         public string Fax
@@ -80,100 +79,107 @@ namespace Athi.Whippet.Adobe.Magento.Carts
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the city of the address.
+        /// Gets or sets the address city.
         /// </summary>
         [JsonProperty("city")]
         public string City
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the recipient's first name.
+        /// Gets or sets the first name of the recipient.
         /// </summary>
         [JsonProperty("firstname")]
         public string FirstName
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the recipient's middle name.
-        /// </summary>
-        [JsonProperty("middlename")]
-        public string MiddleName
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the recipient's last name.
+        /// Gets or sets the last name of the recipient.
         /// </summary>
         [JsonProperty("lastname")]
         public string LastName
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the recipient's prefix.
+        /// Gets or sets the middle name of the recipient.
+        /// </summary>
+        [JsonProperty("middlename")]
+        public string MiddleName
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the prefix of the recipient.
         /// </summary>
         [JsonProperty("prefix")]
         public string Prefix
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the recipient's suffix.
+        /// Gets or sets the suffix of the recipient.
         /// </summary>
         [JsonProperty("suffix")]
         public string Suffix
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the associated customer ID.
+        /// Gets or sets the Value Added Tax (VAT) number.
+        /// </summary>
+        [JsonProperty("vat_id")]
+        public string VAT
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the customer ID.
         /// </summary>
         [JsonProperty("customer_id")]
         public int CustomerID
         { get; set; }
 
         /// <summary>
-        /// Billing/shipping e-mail address associated with the address.
+        /// Gets or sets the billing/shipping e-mail address.
         /// </summary>
         [JsonProperty("email")]
         public string Email
         { get; set; }
 
         /// <summary>
-        /// Flag that indicates whether the shipping address is the same as the billing address. Any value that is not zero (0) is considered <see langword="true"/>. 
+        /// Flag that indicates whether the address is the same as the billing address where any number greater than zero (0) is <see langword="true"/>.
         /// </summary>
         [JsonProperty("same_as_billing")]
         public int SameAsBilling
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the customer's address ID.
+        /// Gets or sets the customer address ID.
         /// </summary>
         [JsonProperty("customer_address_id")]
         public int CustomerAddressID
         { get; set; }
 
         /// <summary>
-        /// Flag that indicates whether the shipping address should be saved in the customer's address book. Any value that is not zero (0) is considered <see langword="true"/>. 
+        /// Flag that indicates whether the address to be saved in the address book where any number greater than zero (0) is <see langword="true"/>.
         /// </summary>
         [JsonProperty("save_in_address_book")]
         public int SaveInAddressBook
         { get; set; }
 
         /// <summary>
-        /// Gets or sets extension data that is applied to the Magento object.
+        /// Gets or sets the extension attributes of the current instance.
         /// </summary>
         [JsonProperty("extension_attributes")]
-        public CartAddressExtensionDataInterface ExtensionAttributes
+        public CartAddressExtensionInterface ExtensionAttributes
         { get; set; }
-        
+
         /// <summary>
-        /// Gets or sets the custom attributes that are applied to the Magento object.
+        /// Gets or sets the custom attributes of the current instance.
         /// </summary>
         [JsonProperty("custom_attributes")]
         public CustomAttributeInterface[] CustomAttributes
         { get; set; }
         
         /// <summary>
-        /// Initializes a new instance of the <see cref="CartAddressInterface"/> class with no arguments.
+        /// Initializes a new instance of the <see cref="CartBillingAddressInterface"/> class with no arguments.
         /// </summary>
-        public CartAddressInterface()
+        public CartBillingAddressInterface()
         { }
     }
 }

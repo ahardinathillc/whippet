@@ -6,7 +6,7 @@ namespace Athi.Whippet.Adobe.Magento
     /// <summary>
     /// Provides custom attribute values to a Magento object.
     /// </summary>
-    public class CustomAttribute
+    public class CustomAttributeInterface
     {
         /// <summary>
         /// Gets or sets the attribute code.
@@ -23,17 +23,17 @@ namespace Athi.Whippet.Adobe.Magento
         { get; set; }
         
         /// <summary>
-        /// Initializes a new instance of the <see cref="CustomAttribute"/> class with no arguments.
+        /// Initializes a new instance of the <see cref="CustomAttributeInterface"/> class with no arguments.
         /// </summary>
-        public CustomAttribute()
+        public CustomAttributeInterface()
         { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CustomAttribute"/> class with the specified attribute code and value.
+        /// Initializes a new instance of the <see cref="CustomAttributeInterface"/> class with the specified attribute code and value.
         /// </summary>
         /// <param name="attributeCode">Attribute code.</param>
         /// <param name="value">Attribute value.</param>
-        public CustomAttribute(string attributeCode, string value)
+        public CustomAttributeInterface(string attributeCode, string value)
             : this()
         {
             AttributeCode = attributeCode;
