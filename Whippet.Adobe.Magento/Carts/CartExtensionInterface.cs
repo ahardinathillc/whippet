@@ -8,7 +8,18 @@ namespace Athi.Whippet.Adobe.Magento.Carts
     /// </summary>
     public class CartExtensionInterface : IExtensionInterface
     {
+        /// <summary>
+        /// Gets or sets the shipping data for the order.
+        /// </summary>
+        [JsonProperty("shipping_assignments")]
         public CartShippingAssignmentInterface[] ShippingAssignments
+        { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the negotiable quote associated with the cart.
+        /// </summary>
+        [JsonProperty("negotiable_quote")]
+        public CartNegotiableCartInterface NegotiableQuote
         { get; set; }
         
         /// <summary>

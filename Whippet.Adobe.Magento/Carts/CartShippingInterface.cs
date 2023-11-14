@@ -25,6 +25,7 @@ namespace Athi.Whippet.Adobe.Magento.Carts
         /// <summary>
         /// Gets or sets the extension attributes that are applied to the Magento object.
         /// </summary>
+        [JsonProperty("extension_attributes")]
         public CartShippingExtensionInterface ExtensionAttributes
         { get; set; }
         

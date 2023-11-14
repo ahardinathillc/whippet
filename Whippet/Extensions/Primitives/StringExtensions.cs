@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers;
 using System.Globalization;
 using System.Collections.Generic;
 using System.Linq;
@@ -284,6 +285,26 @@ namespace Athi.Whippet.Extensions.Primitives
             }
             
             return plainText;
+        }
+
+        /// <summary>
+        /// Determines if the specified <see cref="String"/> is base64-encoded.
+        /// </summary>
+        /// <param name="text"><see cref="String"/> value to check.</param>
+        /// <returns><see langword="true"/> if the input is base64-encoded; otherwise, <see langword="false"/>.</returns>
+        public static bool IsBase64(this string text)
+        {
+            bool isBase64 = false;
+            byte[] buffer = null;
+            
+            if (!String.IsNullOrWhiteSpace(text))
+            {
+                buffer = ArrayPool<byte>.Shared.Rent(((text.Length * 3) + 3) / 4);
+                isBase64 = Convert.TryFromBase64String(text, buffer, out int bytesWritten);
+                ArrayPool<byte>.Shared.Return(buffer, true);
+            }
+
+            return isBase64;
         }
     }
 }
