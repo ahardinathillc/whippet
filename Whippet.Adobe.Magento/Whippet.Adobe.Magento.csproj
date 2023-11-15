@@ -23,7 +23,6 @@
     <None Remove="ResourceFiles\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Carts\GuestCarts\" />
     <Folder Include="EntityMappings\" />
     <Folder Include="Extensions\" />
     <Folder Include="Repositories\" />

@@ -1,12 +1,12 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Athi.Whippet.Adobe.Magento.Carts
+namespace Athi.Whippet.Adobe.Magento.GiftMessage
 {
     /// <summary>
     /// Interface that provides information about a Magento gift message on an order.
     /// </summary>
-    public class CartGiftMessageInterface : IExtensionInterface, IExtensionAttributes<CartGiftMessageExtensionInterface>
+    public class GiftMessageInterface : IExtensionInterface, IExtensionAttributes<GiftMessageExtensionInterface>
     {
         /// <summary>
         /// Gets or sets the gift message ID.
@@ -47,17 +47,17 @@ namespace Athi.Whippet.Adobe.Magento.Carts
         /// Gets or sets the extension attributes of the current instance.
         /// </summary>
         [JsonProperty("extension_attributes")]
-        public CartGiftMessageExtensionInterface ExtensionAttributes
+        public GiftMessageExtensionInterface ExtensionAttributes
         { get; set; }
         
         /// <summary>
-        /// Initializes a new instance of the <see cref="CartGiftMessageInterface"/> class with no arguments.
+        /// Initializes a new instance of the <see cref="GiftMessageInterface"/> class with no arguments.
         /// </summary>
-        public CartGiftMessageInterface()
+        public GiftMessageInterface()
         { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CartGiftMessageInterface"/> class with the specified parameters.
+        /// Initializes a new instance of the <see cref="GiftMessageInterface"/> class with the specified parameters.
         /// </summary>
         /// <param name="giftMessageId">Gift message ID.</param>
         /// <param name="customerId">Customer ID.</param>
@@ -65,7 +65,7 @@ namespace Athi.Whippet.Adobe.Magento.Carts
         /// <param name="recipient">Recipient name.</param>
         /// <param name="message">Gift card message.</param>
         /// <param name="extensionAttributes">Extension attributes.</param>
-        public CartGiftMessageInterface(int? giftMessageId, int? customerId, string sender, string recipient, string message, CartGiftMessageExtensionInterface extensionAttributes)
+        public GiftMessageInterface(int? giftMessageId, int? customerId, string sender, string recipient, string message, GiftMessageExtensionInterface extensionAttributes)
             : this()
         {
             GiftMessageID = giftMessageId;
