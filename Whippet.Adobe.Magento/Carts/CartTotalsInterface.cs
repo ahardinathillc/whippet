@@ -6,7 +6,7 @@ namespace Athi.Whippet.Adobe.Magento.Carts
     /// <summary>
     /// Interface that provides information about a cart's line item totals in Magento.
     /// </summary>
-    public class CartTotalsInterface : IExtensionInterface
+    public class CartTotalsInterface : IExtensionInterface, IExtensionAttributes<CartTotalsExtensionInterface>
     {
         /// <summary>
         /// Gets or sets the grand total in cart currency.
@@ -183,6 +183,31 @@ namespace Athi.Whippet.Adobe.Magento.Carts
         public int QuantitySold
         { get; set; }
 
+        /// <summary>
+        /// Gets or sets the totals by item for each item in the cart.
+        /// </summary>
+        [JsonProperty("items")]
+        public CartItemTotalsInterface[] Items
+        { get; set; }
         
+        /// <summary>
+        /// Gets or sets the dynamically calculated totals.
+        /// </summary>
+        [JsonProperty("total_segments")]
+        public CartTotalSegmentInterface[] TotalSegments
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the extension attributes for the current instance.
+        /// </summary>
+        [JsonProperty("extension_attributes")]
+        public CartTotalsExtensionInterface ExtensionAttributes
+        { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CartTotalsInterface"/> class with no arguments.
+        /// </summary>
+        public CartTotalsInterface()
+        { }
     }
 }

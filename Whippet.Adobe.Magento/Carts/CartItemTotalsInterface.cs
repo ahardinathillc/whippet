@@ -6,7 +6,7 @@ namespace Athi.Whippet.Adobe.Magento.Carts
     /// <summary>
     /// Interface that provides totals for individual items in a Magento cart.
     /// </summary>
-    public class CartItemTotalsInterface : IExtensionInterface
+    public class CartItemTotalsInterface : IExtensionInterface, IExtensionAttributes<CartItemTotalsExtensionInterface>
     {
         /// <summary>
         /// Gets or sets the item ID.
@@ -130,6 +130,7 @@ namespace Athi.Whippet.Adobe.Magento.Carts
         /// <summary>
         /// Gets or sets options applied to the item.
         /// </summary>
+        [JsonProperty("options")]
         public string Options
         { get; set; }
 
@@ -147,6 +148,24 @@ namespace Athi.Whippet.Adobe.Magento.Carts
         public string EcologicalTaxApplied
         { get; set; }
         
-        //public 
+        /// <summary>
+        /// Gets or sets the extension interface for the current instance.
+        /// </summary>
+        [JsonProperty("extension_attributes")]
+        public CartItemTotalsExtensionInterface ExtensionAttributes
+        { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the product name.
+        /// </summary>
+        [JsonProperty("name")]
+        public string Name
+        { get; set; }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CartItemTotalsInterface"/> class with no arguments.
+        /// </summary>
+        public CartItemTotalsInterface()
+        { }
     }
 }
