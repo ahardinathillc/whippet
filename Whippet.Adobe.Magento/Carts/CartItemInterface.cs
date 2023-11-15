@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
+using Athi.Whippet.Adobe.Magento.Catalog.Product;
 
 namespace Athi.Whippet.Adobe.Magento.Carts
 {
@@ -61,7 +62,7 @@ namespace Athi.Whippet.Adobe.Magento.Carts
         /// Gets or sets the product option to apply to the item.
         /// </summary>
         [JsonProperty("product_option")]
-        public CartProductOptionInterface ProductOption
+        public ProductOptionInterface ProductOption
         { get; set; }
         
         /// <summary>
@@ -89,7 +90,7 @@ namespace Athi.Whippet.Adobe.Magento.Carts
         /// <param name="quoteId">Quote ID (if any).</param>
         /// <param name="productOption">Product option(s).</param>
         /// <param name="extensionAttributes">Extension attributes.</param>
-        public CartItemInterface(int? itemId, string sku, decimal productQuantity, string name, decimal price, string productType, string quoteId, CartProductOptionInterface productOption, CartItemExtensionInterface extensionAttributes)
+        public CartItemInterface(int? itemId, string sku, decimal productQuantity, string name, decimal price, string productType, string quoteId, ProductOptionInterface productOption, CartItemExtensionInterface extensionAttributes)
             : this()
         {
             ItemID = itemId;

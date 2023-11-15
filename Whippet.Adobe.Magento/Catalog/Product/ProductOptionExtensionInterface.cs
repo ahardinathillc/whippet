@@ -6,12 +6,12 @@ using Athi.Whippet.Adobe.Magento.Catalog.Product.Bundle;
 using Athi.Whippet.Adobe.Magento.Catalog.Product.Configurable;
 using Athi.Whippet.Adobe.Magento.GiftCard;
 
-namespace Athi.Whippet.Adobe.Magento.Carts
+namespace Athi.Whippet.Adobe.Magento.Catalog.Product
 {
     /// <summary>
     /// Interface that provides information about a Magento customer's product options for their order.
     /// </summary>
-    public class CartProductOptionExtensionInterface : IExtensionInterface
+    public class ProductOptionExtensionInterface : IExtensionInterface
     {
         /// <summary>
         /// Gets or sets the custom options for the product.
@@ -56,9 +56,9 @@ namespace Athi.Whippet.Adobe.Magento.Carts
         { get; set; }
         
         /// <summary>
-        /// Initializes a new instance of the <see cref="CartProductOptionExtensionInterface"/> class with no arguments.
+        /// Initializes a new instance of the <see cref="ProductOptionExtensionInterface"/> class with no arguments.
         /// </summary>
-        public CartProductOptionExtensionInterface()
+        public ProductOptionExtensionInterface()
         { }
     }
 }
