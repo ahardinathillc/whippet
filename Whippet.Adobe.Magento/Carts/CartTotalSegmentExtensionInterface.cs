@@ -1,6 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
-using Athi.Whippet.Adobe.Magento.TaxRates;
+using Athi.Whippet.Adobe.Magento.Taxes.Orders;
 
 namespace Athi.Whippet.Adobe.Magento.Carts
 {
@@ -13,7 +13,7 @@ namespace Athi.Whippet.Adobe.Magento.Carts
         /// Gets or sets the tax details for the current total.
         /// </summary>
         [JsonProperty("tax_grandtotal_details")]
-        public GrandTotalDetailsInterface[] TaxDetails
+        public OrderTaxGrandTotalDetailsInterface[] TaxDetails
         { get; set; }
         
         /// <summary>

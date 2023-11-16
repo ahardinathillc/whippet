@@ -6,7 +6,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
     /// <summary>
     /// Interface that provides information about a Magento sales order.
     /// </summary>
-    public class SalesOrderInterface : IExtensionInterface
+    public class SalesOrderInterface : IExtensionInterface, IExtensionAttributes<SalesOrderExtensionInterface>
     {
         /// <summary>
         /// Gets or sets the negative adjustment value.
@@ -918,6 +918,33 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         [JsonProperty("billing_address")]
         public SalesOrderAddressInterface BillingAddress
         { get; set; }
+
+        /// <summary>
+        /// Gets or sets the payment information for the order.
+        /// </summary>
+        /// <remarks>An order is a document that a web store issues to a customer. Magento generates a sales order that lists the product items, billing and shipping addresses, and shipping and payment methods. A corresponding external document, known as a purchase order, is emailed to the customer.</remarks>
+        [JsonProperty("payment")]
+        public SalesOrderPaymentInterface Payment
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the status histories of the current order.
+        /// </summary>
+        [JsonProperty("status_histories")]
+        public SalesOrderStatusHistoryInterface[] StatusHistories
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the extension attributes for the current instance.
+        /// </summary>
+        [JsonProperty("extension_attributes")]
+        public SalesOrderExtensionInterface ExtensionAttributes
+        { get; set; }
         
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SalesOrderInterface"/> class with no arguments.
+        /// </summary>
+        public SalesOrderInterface()
+        { }
     }
 }

@@ -1,12 +1,12 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Athi.Whippet.Adobe.Magento.TaxRates
+namespace Athi.Whippet.Adobe.Magento.Taxes.Orders
 {
     /// <summary>
     /// Interface that provides information about tax rates and the subsequent taxed amount for Magento orders.
     /// </summary>
-    public class GrandTotalDetailsInterface : IExtensionInterface
+    public class OrderTaxGrandTotalDetailsInterface : IExtensionInterface
     {
         /// <summary>
         /// Gets or sets the tax amount.
@@ -19,7 +19,7 @@ namespace Athi.Whippet.Adobe.Magento.TaxRates
         /// Gets or sets the tax rates information.
         /// </summary>
         [JsonProperty("rates")]
-        public GrandTotalRatesInterface TaxRates
+        public OrderTaxGrandTotalRatesInterface OrderTax
         { get; set; }
 
         /// <summary>
@@ -30,22 +30,22 @@ namespace Athi.Whippet.Adobe.Magento.TaxRates
         { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GrandTotalDetailsInterface"/> class with no arguments.
+        /// Initializes a new instance of the <see cref="OrderTaxGrandTotalDetailsInterface"/> class with no arguments.
         /// </summary>
-        public GrandTotalDetailsInterface()
+        public OrderTaxGrandTotalDetailsInterface()
         { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GrandTotalDetailsInterface"/> class with the specified parameters.
+        /// Initializes a new instance of the <see cref="OrderTaxGrandTotalDetailsInterface"/> class with the specified parameters.
         /// </summary>
         /// <param name="amount">Tax amount value.</param>
-        /// <param name="taxRates">Tax rates information.</param>
+        /// <param name="orderTax">Tax rates information.</param>
         /// <param name="groupId">Group identifier.</param>
-        public GrandTotalDetailsInterface(decimal amount, GrandTotalRatesInterface taxRates, int groupId)
+        public OrderTaxGrandTotalDetailsInterface(decimal amount, OrderTaxGrandTotalRatesInterface orderTax, int groupId)
             : this()
         {
             Amount = amount;
-            TaxRates = taxRates;
+            OrderTax = orderTax;
             GroupID = groupId;
         }
     }
