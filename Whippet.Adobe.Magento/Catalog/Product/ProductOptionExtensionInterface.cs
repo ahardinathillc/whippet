@@ -52,7 +52,7 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Product
         /// Gets or sets the grouped products options.
         /// </summary>
         [JsonProperty("grouped_options")]
-        public GroupedOptionsInterface[] GroupedOptions
+        public ProductGroupedOptionsInterface[] GroupedOptions
         { get; set; }
         
         /// <summary>

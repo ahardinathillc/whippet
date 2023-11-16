@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Athi.Whippet.Adobe.Magento
+namespace Athi.Whippet.Adobe.Magento.Downloads
 {
     /// <summary>
     /// Interface that provides information about a Magento item's downloadable content.
