@@ -26,7 +26,6 @@
     <Folder Include="EntityMappings\" />
     <Folder Include="Extensions\" />
     <Folder Include="Repositories\" />
-    <Folder Include="Data\" />
     <Folder Include="Json\" />
     <Folder Include="ServiceManagers\Extensions\" />
     <Folder Include="ResourceFiles\" />

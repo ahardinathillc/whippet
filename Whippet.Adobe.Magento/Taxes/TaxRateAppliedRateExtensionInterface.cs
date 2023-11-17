@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Athi.Whippet.Adobe.Magento.Taxes.Rates
+namespace Athi.Whippet.Adobe.Magento.Taxes
 {
     /// <summary>
     /// Interface that provides extra data to a Magento applied tax rate.

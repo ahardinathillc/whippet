@@ -6,31 +6,18 @@ namespace Athi.Whippet.Adobe.Magento.Taxes
     /// <summary>
     /// Tax classification for customers in Magento.
     /// </summary>
-    public interface ITaxClass : IMagentoEntity, IEqualityComparer<ITaxClass>
+    public interface ITaxClass : IMagentoEntity, IEqualityComparer<ITaxClass>, IMagentoRestEntity, IMagentoRestEntity<TaxClassInterface>
     {
         /// <summary>
-        /// Gets or sets the unique ID of the tax class.
+        /// Gets or sets the tax class name. 
         /// </summary>
-        new short ID
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the unique ID of the tax class.
-        /// </summary>
-        short ClassID
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the tax class.
-        /// </summary>
-        string ClassName
+        string Name
         { get; set; }
 
         /// <summary>
         /// Gets or sets the tax class type.
         /// </summary>
-        string ClassType
+        string Type
         { get; set; }
     }
 }
-
