@@ -6,7 +6,7 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.StockItem
     /// <summary>
     /// Interface that provides information about a Magento stock item.
     /// </summary>
-    public class StockItemInterface : IExtensionInterface
+    public class StockItemInterface : IExtensionInterface, IExtensionAttributes<StockItemExtensionInterface>
     {
         /// <summary>
         /// Gets or sets the item ID.
@@ -58,11 +58,142 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.StockItem
         { get; set; }
 
         /// <summary>
-        /// Specifies whether the configuration's minimum quantity value should be used for determinin
+        /// Specifies whether the configuration's minimum quantity value should be used for determining whether the item is in stock.
         /// </summary>
+        [JsonProperty("use_config_min_qty")]
         public bool UseConfigurationMinimumQuantity
         { get; set; }
 
-        //TODO: view https://adobe-commerce.redoc.ly/2.4.6-admin/tag/productssku/#operation/GetV1ProductsSku
+        /// <summary>
+        /// Gets or sets the minimum quantity available for item status in stock.
+        /// </summary>
+        [JsonProperty("min_qty")]
+        public decimal MinimumQuantity
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the minimum quantity allowed in a Magento shopping cart or <see langword="null"/> when there is no limitation.
+        /// </summary>
+        [JsonProperty("min_sale_qty")]
+        public int? UseConfigurationMinimumSaleQuantity
+        { get; set; }
+
+        /// <summary>
+        /// Specifies whether the configuration's maximum quantity value should be used for determining the limit of the stock item can be placed in a customer's Magento shopping cart.
+        /// </summary>
+        [JsonProperty("max_config_max_sale_qty")]
+        public bool UseConfigurationMaximumSaleQuantity
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maximum quantity allowed in a Magento shopping cart.
+        /// </summary>
+        [JsonProperty("max_sale_qty")]
+        public decimal MaximumQuantity
+        { get; set; }
+
+        /// <summary>
+        /// Specifies whether the configuration's backorder status level should be used for determining when a stock item is on backorder.
+        /// </summary>
+        [JsonProperty("use_config_backorders")]
+        public bool UseConfigurationBackorder
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the total quantity of the current stock item that is on backorder.
+        /// </summary>
+        [JsonProperty("backorders")]
+        public int Backorders
+        { get; set; }
+
+        /// <summary>
+        /// Specifies whether the configuration's minimum quantity level notification should be used to notify when a stock item's on-hand quantity is below a particular threshold.
+        /// </summary>
+        [JsonProperty("use_config_notify_stock_qty")]
+        public bool UseConfigurationNotifyStockBelowQuantity
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the stock item on-hand quantity level that is the minimum threshold for availability before notifying Magento users.
+        /// </summary>
+        [JsonProperty("notify_stock_qty")]
+        public decimal NotifyStockBelowQuantity
+        { get; set; }
+
+        /// <summary>
+        /// Specifies whether the configuration's quantity increments value should be used.
+        /// </summary>
+        [JsonProperty("use_config_qty_increments")]
+        public bool UseConfigurationQuantityIncrements
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value to increment the <see cref="Quantity"/> by when new stock is added.
+        /// </summary>
+        [JsonProperty("qty_increments")]
+        public decimal QuantityIncrement
+        { get; set; }
+
+        /// <summary>
+        /// Specifies whether the configuration should control whether quantity increments are enabled.
+        /// </summary>
+        [JsonProperty("use_config_enable_qty_inc")]
+        public bool UseConfigurationEnableQuantityIncrement
+        { get; set; }
+
+        /// <summary>
+        /// Specifies whether quantity increments are enabled.
+        /// </summary>
+        [JsonProperty("enable_qty_increments")]
+        public bool EnableQuantityIncrement
+        { get; set; }
+
+        /// <summary>
+        /// Specifies whether the configuration should manage stock.
+        /// </summary>
+        [JsonProperty("use_config_manage_stock")]
+        public bool UseConfigurationManageStock
+        { get; set; }
+
+        /// <summary>
+        /// Specifies whether stock can be managed.
+        /// </summary>
+        [JsonProperty("manage_stock")]
+        public bool ManageStock
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date and time the stock was at a low level.
+        /// </summary>
+        [JsonProperty("low_stock_date")]
+        public string LowStockDate
+        { get; set; }
+
+        /// <summary>
+        /// Specifies whether the quantity is in fractional units or whole units.
+        /// </summary>
+        [JsonProperty("is_decimal_divided")]
+        public bool IsDecimalDivided
+        { get; set; }
+
+        /// <summary>
+        /// Flag that specifies whether the stock status is automatically updated based on quantity values. A value greater than zero (0) is <see langword="true"/>;; otherwise, <see langword="false"/>.
+        /// </summary>
+        [JsonProperty("stock_status_changed_auto")]
+        public int AutoStockStatusChanged
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the extension attributes of the current instance.
+        /// </summary>
+        [JsonProperty("extension_attributes")]
+        public StockItemExtensionInterface ExtensionAttributes
+        { get; set; }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StockItemInterface"/> class with no arguments.
+        /// </summary>
+        public StockItemInterface()
+        { }
     }
 }

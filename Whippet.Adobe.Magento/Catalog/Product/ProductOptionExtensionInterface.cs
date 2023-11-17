@@ -1,10 +1,9 @@
 ﻿using System;
 using Newtonsoft.Json;
-using Athi.Whippet.Adobe.Magento.Catalog;
-using Athi.Whippet.Adobe.Magento.Catalog.Product;
 using Athi.Whippet.Adobe.Magento.Catalog.Product.Bundle;
 using Athi.Whippet.Adobe.Magento.Catalog.Product.Configurable;
 using Athi.Whippet.Adobe.Magento.GiftCard;
+using Athi.Whippet.Adobe.Magento.Downloads;
 
 namespace Athi.Whippet.Adobe.Magento.Catalog.Product
 {

@@ -8,7 +8,7 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Product
     /// <summary>
     /// Interface for a Magento product.
     /// </summary>
-    public class ProductInterface : IExtensionInterface
+    public class ProductInterface : IExtensionInterface, IExtensionAttributes<ProductExtensionInterface>, ICustomAttributes
     {
         /// <summary>
         /// Gets or sets the product ID.
@@ -88,25 +88,51 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Product
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the gift cards associated with the product.
+        /// Gets or sets the extension attributes of the current instance.
         /// </summary>
-        [JsonProperty("giftcard_amounts")]
-        public GiftCardAmountInterface[] GiftCardAmounts
+        [JsonProperty("extension_attributes")]
+        public ProductExtensionInterface ExtensionAttributes
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the product links.
+        /// </summary>
+        [JsonProperty("product_links")]
+        public ProductLinkInterface[] ProductLinks
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the product's custom options.
+        /// </summary>
+        [JsonProperty("options")]
+        public ProductCustomOptionInterface[] Options
         { get; set; }
         
         /// <summary>
-        /// Gets or sets the configurable options for the product.
+        /// Gets or sets the media gallery entries.
         /// </summary>
-        [JsonProperty("configurable_product_options")]
-        public ConfigurableProductOptionInterface[] ConfigurableProductOptions
+        [JsonProperty("media_gallery_entries")]
+        public ProductMediaGalleryEntryInterface[] MediaGalleryEntries
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the link IDs of the configurable product.
+        /// Gets or sets the product's tier prices.
         /// </summary>
-        [JsonProperty("configurable_product_links")]
-        public int[] ConfigurableProductLinks
+        [JsonProperty("tier_prices")]
+        public ProductTierPriceInterface[] TierPrices
         { get; set; }
 
+        /// <summary>
+        /// Gets or sets the custom attributes of the current instance.
+        /// </summary>
+        [JsonProperty("custom_attributes")]
+        public CustomAttributeInterface[] CustomAttributes
+        { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProductInterface"/> class with no arguments.
+        /// </summary>
+        public ProductInterface()
+        { }
     }
 }
