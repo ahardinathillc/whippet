@@ -23,10 +23,10 @@ namespace Athi.Whippet.Adobe.Magento.Customer
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the customer addresses.
+        /// Gets or sets the customer address region information.
         /// </summary>
-        [JsonProperty("addresses")]
-        public CustomerRegionInterface[] Addresses
+        [JsonProperty("region")]
+        public CustomerRegionInterface Region
         { get; set; }
 
         /// <summary>
