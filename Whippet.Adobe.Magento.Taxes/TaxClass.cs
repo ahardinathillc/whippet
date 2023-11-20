@@ -94,19 +94,7 @@ namespace Athi.Whippet.Adobe.Magento.Taxes
         /// <returns>Hash code for the current object.</returns>
         public override int GetHashCode()
         {
-            int hashCode = ID.GetHashCode();
-
-            if (!String.IsNullOrWhiteSpace(Name))
-            {
-                hashCode = hashCode & Name.GetHashCode();
-            }
-
-            if (!String.IsNullOrWhiteSpace(Type))
-            {
-                hashCode = hashCode & Type.GetHashCode();
-            }
-
-            return hashCode;
+            return HashCode.Combine(ID, Name, Type);
         }
 
         /// <summary>

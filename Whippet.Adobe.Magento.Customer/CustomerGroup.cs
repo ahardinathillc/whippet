@@ -18,6 +18,6 @@ namespace Athi.Whippet.Adobe.Magento.Customer
         public virtual string Code
         { get; set; }
         
-        public 
+        public virtual TaxClass 
     }
 }

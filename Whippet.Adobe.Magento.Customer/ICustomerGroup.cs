@@ -11,12 +11,6 @@ namespace Athi.Whippet.Adobe.Magento.Customer
     public interface ICustomerGroup : IMagentoEntity, IEqualityComparer<ICustomerGroup>
     {
         /// <summary>
-        /// Gets or sets the unique group ID.
-        /// </summary>
-        uint GroupID
-        { get; set; }
-
-        /// <summary>
         /// Gets or sets the customer group code.
         /// </summary>
         string GroupCode
@@ -29,4 +23,3 @@ namespace Athi.Whippet.Adobe.Magento.Customer
         { get; set; }
     }
 }
-
