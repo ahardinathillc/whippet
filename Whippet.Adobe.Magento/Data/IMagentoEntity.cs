@@ -7,7 +7,7 @@ namespace Athi.Whippet.Adobe.Magento.Data
     /// <summary>
     /// Represents a Magento domain object in Whippet.
     /// </summary>
-    public interface IMagentoEntity : IWhippetEntity
+    public interface IMagentoEntity : IWhippetEntity, IWhippetCloneable, ICloneable
     {
         /// <summary>
         /// Unique identifier of the entity.
@@ -34,4 +34,3 @@ namespace Athi.Whippet.Adobe.Magento.Data
         string ToMagentoJsonString();
     }
 }
-

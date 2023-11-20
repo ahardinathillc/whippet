@@ -7,7 +7,7 @@ namespace Athi.Whippet.Adobe.Magento.Categories
     /// <summary>
     /// Provides support for organizing products in a Magento store.
     /// </summary>
-    public interface ICategory : IMagentoEntity, IEqualityComparer<ICategory>, IWhippetActiveEntity, IMagentoRestEntity, IMagentoAuditableEntity
+    public interface ICategory : IMagentoEntity, IEqualityComparer<ICategory>, IWhippetActiveEntity, IMagentoRestEntity, IMagentoAuditableEntity, IMagentoCustomAttributesEntity
     {
         /// <summary>
         /// Gets or sets the parent <see cref="ICategory"/>.
@@ -34,10 +34,10 @@ namespace Athi.Whippet.Adobe.Magento.Categories
         { get; set; }
 
         /// <summary>
-        /// Gets a collection of all child <see cref="ICategory"/> objects that are descendants of the current instance. This property is read-only.
+        /// Gets or sets the child <see cref="ICategory"/> objects in respect to the current instance. 
         /// </summary>
-        CategoryCollection Children
-        { get; }
+        IEnumerable<ICategory> Children
+        { get; set; }
 
         /// <summary>
         /// Gets or sets the full path of the category.
@@ -55,7 +55,6 @@ namespace Athi.Whippet.Adobe.Magento.Categories
         /// Specifies whether the category should be included in the menu.
         /// </summary>
         public bool IncludeInMenu
-        { get; set; }
-
+        { get; set; } 
     }
 }
