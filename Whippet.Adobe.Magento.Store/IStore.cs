@@ -7,7 +7,7 @@ namespace Athi.Whippet.Adobe.Magento.Store
     /// <summary>
     /// Represents a Magento store.
     /// </summary>
-    public interface IStore: IMagentoEntity, IEqualityComparer<IStore>, IMagentoRestEntity, IWhippetActiveEntity
+    public interface IStore : IMagentoEntity, IEqualityComparer<IStore>, IMagentoRestEntity, IWhippetActiveEntity
     {
         /// <summary>
         /// Gets or sets the store code.
@@ -32,5 +32,6 @@ namespace Athi.Whippet.Adobe.Magento.Store
         /// </summary>
         IStoreGroup Group
         { get; set; }
+        
     }
 }
