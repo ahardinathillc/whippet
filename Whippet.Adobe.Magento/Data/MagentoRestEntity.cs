@@ -9,7 +9,7 @@ namespace Athi.Whippet.Adobe.Magento.Data
     /// Base class for all <see cref="MagentoEntity"/> objects that have a corresponding REST API model. This class must be inherited.
     /// </summary>
     /// <typeparam name="TInterface"><see cref="IExtensionInterface"/> of the corresponding REST model.</typeparam>
-    public abstract class MagentoRestEntity<TInterface> : MagentoEntity, IWhippetEntity, IMagentoEntity, IJsonObject, IMagentoRestEntity, IMagentoRestEntity<TInterface>
+    public abstract class MagentoRestEntity<TInterface> : MagentoEntity, IWhippetEntity, IMagentoEntity, IJsonObject, IMagentoRestEntity, IMagentoRestEntity<TInterface>, IEqualityComparer<IMagentoRestEntity>
         where TInterface : IExtensionInterface, new()
     {
         /// <summary>
@@ -64,6 +64,45 @@ namespace Athi.Whippet.Adobe.Magento.Data
         }
 
         /// <summary>
+        /// Compares the current instance to the specified object for equality.
+        /// </summary>
+        /// <param name="obj">Object to compare against.</param>
+        /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
+        public override bool Equals(object obj)
+        {
+            return (obj == null) || !(obj is IMagentoRestEntity) ? false : Equals((IMagentoRestEntity)(obj));
+        }
+
+        /// <summary>
+        /// Compares the current instance to the specified object for equality.
+        /// </summary>
+        /// <param name="obj">Object to compare against.</param>
+        /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
+        public virtual bool Equals(IMagentoRestEntity obj)
+        {
+            return (obj == null) ? false : Equals(this, obj);
+        }
+        
+        /// <summary>
+        /// Compares the two objects for equality.
+        /// </summary>
+        /// <param name="x">First object to compare.</param>
+        /// <param name="y">Second object to compare.</param>
+        /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
+        public virtual bool Equals(IMagentoRestEntity x, IMagentoRestEntity y)
+        {
+            bool equals = (x == null) && (y == null);
+
+            if (!equals && (x != null) && (y != null))
+            {
+                equals = (((x.Server == null) && (y.Server == null)) || ((x.Server != null) && x.Server.Equals(y.Server)))
+                         && (((x.RestEndpoint == null) && (y.RestEndpoint == null)) || ((x.RestEndpoint != null) && x.RestEndpoint.Equals(y.RestEndpoint)));
+            }
+
+            return equals;
+        }
+
+        /// <summary>
         /// Constructs the current instance with the specified <see cref="IExtensionInterface"/> object. This method must be overridden.
         /// </summary>
         /// <param name="model"><see cref="IExtensionInterface"/> object to construct the current instance from.</param>
@@ -83,6 +122,26 @@ namespace Athi.Whippet.Adobe.Magento.Data
         public override string ToJson<T>()
         {
             return JsonConvert.SerializeObject(ToInterface(), Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+        }
+
+        /// <summary>
+        /// Gets the hash code for the current instance.
+        /// </summary>
+        /// <returns>Hash code.</returns>
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Server, RestEndpoint, ID);
+        }
+
+        /// <summary>
+        /// Gets the hash code for the specified object.
+        /// </summary>
+        /// <param name="obj">Object to get hash code for.</param>
+        /// <returns>Hash code.</returns>
+        public virtual int GetHashCode(IMagentoRestEntity obj)
+        {
+            ArgumentNullException.ThrowIfNull(obj);
+            return obj.GetHashCode();
         }
     }
 }

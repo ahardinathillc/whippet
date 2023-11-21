@@ -157,7 +157,7 @@ namespace Athi.Whippet.Adobe.Magento.Categories
         /// <param name="server"><see cref="MagentoServer"/> the entity resides on.</param>
         /// <param name="restEndpoint"><see cref="MagentoRestEndpoint"/> the entity resides on.</param>
         public Category(CategoryInterface model, MagentoServer server = null, MagentoRestEndpoint restEndpoint = null)
-            : base(default(uint), server, restEndpoint)
+            : base(model, server, restEndpoint)
         { }
 
         /// <summary>
@@ -338,6 +338,15 @@ namespace Athi.Whippet.Adobe.Magento.Categories
         {
             ArgumentNullException.ThrowIfNull(category);
             return category.GetHashCode();
+        }
+        
+        /// <summary>
+        /// Gets the string representation of the current object.
+        /// </summary>
+        /// <returns>String representation of the current object.</returns>
+        public override string ToString()
+        {
+            return String.IsNullOrWhiteSpace(Name) ? base.ToString() : Name;
         }
     }
 }
