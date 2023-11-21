@@ -82,13 +82,11 @@ namespace Athi.Whippet.Adobe.Magento.Store
         /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
         public virtual bool Equals(IStoreWebsite x, IStoreWebsite y)
         {
-            bool equals = (x == null) && (y == null);
+            bool equals = base.Equals(x, y);
 
-            if (!equals && (x != null) && (y != null))
+            if (equals && (x != null) && (y != null))
             {
-                equals = (((x.Server == null) && (y.Server == null)) || ((x.Server != null) && x.Server.Equals(y.Server)))
-                         && (((x.RestEndpoint == null) && (y.RestEndpoint == null)) || ((x.RestEndpoint != null) && x.RestEndpoint.Equals(y.RestEndpoint)))
-                         && String.Equals(x.Code, y.Code, StringComparison.InvariantCultureIgnoreCase)
+                equals = String.Equals(x.Code, y.Code, StringComparison.InvariantCultureIgnoreCase)
                          && String.Equals(x.Name, y.Name, StringComparison.InvariantCultureIgnoreCase)
                          && x.DefaultGroupID == y.DefaultGroupID;
             }

@@ -136,5 +136,25 @@ namespace Athi.Whippet.Adobe.Magento.Data
         {
             return (TObject)(Clone());
         }
+
+        /// <summary>
+        /// Converts the specified <see cref="Boolean"/> value to its equivalent Magento <see cref="Int32"/> value.
+        /// </summary>
+        /// <param name="value"><see cref="Boolean"/> value to convert.</param>
+        /// <returns><see cref="Int32"/> flag value.</returns>
+        protected virtual int ConvertBooleanToFlag(bool value)
+        {
+            return value ? 1 : 0;
+        }
+
+        /// <summary>
+        /// Converts the specified Magento <see cref="Int32"/> value to its equivalent <see cref="Boolean"/> value.
+        /// </summary>
+        /// <param name="value"><see cref="Int32"/> value to convert.</param>
+        /// <returns><see cref="Boolean"/> value.</returns>
+        protected virtual bool ConvertFlagToBoolean(int value)
+        {
+            return (value >= 1) ? true : false;
+        }
     }
 }

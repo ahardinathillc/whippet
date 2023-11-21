@@ -22,8 +22,4 @@
       <PackageReference Include="NHibernate" Version="5.4.6" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Extensions\" />
-    </ItemGroup>
-
 </Project>
