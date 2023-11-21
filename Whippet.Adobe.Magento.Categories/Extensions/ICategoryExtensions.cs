@@ -1,5 +1,6 @@
 ﻿using System;
 using Athi.Whippet.Adobe.Magento.Extensions;
+using Athi.Whippet.Collections.Extensions;
 
 namespace Athi.Whippet.Adobe.Magento.Categories.Extensions
 {
@@ -24,12 +25,37 @@ namespace Athi.Whippet.Adobe.Magento.Categories.Extensions
             else if (category != null)
             {
                 cat = new Category();
-                cat.Parent = (category.Parent == null) ? null : category.Parent.ToCategory();
+                
+                if ((category.Children != null) && (category.Children.Count > 0))
+                {
+                    cat.Children = category.Children;
+                }
+
+                if ((category.CustomAttributes != null) && (category.CustomAttributes.Count > 0))
+                {
+                    cat.CustomAttributes = category.CustomAttributes;
+                }
+
+                cat.Active = category.Active;
+                
+                cat.ID = category.ID;
                 cat.IncludeInMenu = category.IncludeInMenu;
+
+                cat.Level = category.Level;
+
+                cat.Name = category.Name;
+
+                cat.Parent = (category.Parent == null) ? null : category.Parent.ToCategory();
+                cat.Path = category.Path;
+                cat.Position = category.Position;
+
+                cat.RestEndpoint = (category.RestEndpoint == null) ? null : category.RestEndpoint.ToMagentoRestEndpoint();
+
                 cat.SortByValues = category.SortByValues;
                 cat.Server = (category.Server == null) ? null : category.Server.ToMagentoServer();
-                cat.ID = category.ID;
-                cat.RestEndpoint = (category.RestEndpoint == null) ? null : category.RestEndpoint.ToMagentoRestEndpoint();
+
+                cat.CreatedTimestamp = category.CreatedTimestamp;
+                cat.UpdatedTimestamp = category.UpdatedTimestamp;
             }
 
             return cat;

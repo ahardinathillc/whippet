@@ -130,7 +130,7 @@ namespace Athi.Whippet.Extensions.Primitives
             if (!String.IsNullOrWhiteSpace(input))
             {
                 input = input.Trim();
-                pieces = input.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                pieces = input.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
                 foreach (string piece in pieces)
                 {

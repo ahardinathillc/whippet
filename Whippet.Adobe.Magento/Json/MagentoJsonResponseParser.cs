@@ -42,7 +42,7 @@ namespace Athi.Whippet.Adobe.Magento.Json
 
                 // All key/value pairs are broken up into {[key]:[value]} pairs separated by a delimiter
 
-                entries = rawJson.Split("},{", StringSplitOptions.RemoveEmptyEntries);
+                entries = rawJson.Split("},{", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
                 if (entries != null)
                 {

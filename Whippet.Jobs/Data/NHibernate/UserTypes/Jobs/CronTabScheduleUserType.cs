@@ -52,7 +52,7 @@ namespace Athi.Whippet.Data.NHibernate.UserTypes.Jobs
 
             if (rawObj != null)
             {
-                pieces = Convert.ToString(rawObj).Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                pieces = Convert.ToString(rawObj).Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
                 if (pieces != null)
                 {

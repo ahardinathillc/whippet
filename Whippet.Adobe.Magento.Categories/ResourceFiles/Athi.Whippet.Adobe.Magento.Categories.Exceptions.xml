@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<localizedStrings>
+    <!-- English language exceptions: Start -->
+
+    <string name="DuplicateCategoryException" value="Collection cannot contain duplicate categories. All categories must be unique." culture="en" />
+
+    <!-- English language exceptions: Start -->
+
+</localizedStrings>

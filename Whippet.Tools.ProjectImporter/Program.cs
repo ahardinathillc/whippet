@@ -67,7 +67,7 @@ namespace Athi.Whippet.Tools
 
             if (args.Length >= 4)   // fourth argument is a comma-delimited string of patterns to match
             {
-                patterns = args[3].Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                patterns = args[3].Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
             }
             else
             {

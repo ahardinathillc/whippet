@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Security;
+using Athi.Whippet.Adobe.Magento.Extensions;
 
 namespace Athi.Whippet.Adobe.Magento
 {
@@ -12,7 +13,7 @@ namespace Athi.Whippet.Adobe.Magento
     /// </summary>
     [Serializable]
     [DebuggerDisplay("Count = {Count}")]
-    public sealed class MagentoCustomAttributeCollection : IDictionary<string, string>, IDictionary, IReadOnlyDictionary<string, string>, ISerializable, IDeserializationCallback, IEnumerable<MagentoCustomAttribute>, ICollection<KeyValuePair<string, string>>
+    public sealed class MagentoCustomAttributeCollection : IDictionary<string, string>, IDictionary, IReadOnlyDictionary<string, string>, ISerializable, IDeserializationCallback, IEnumerable<MagentoCustomAttribute>, ICollection<KeyValuePair<string, string>>, IEquatable<MagentoCustomAttributeCollection>
     {
         private Dictionary<string, string> _dict;
 
@@ -73,7 +74,7 @@ namespace Athi.Whippet.Adobe.Magento
                 ((IDictionary)(InternalDictionary))[key] = value;
             }
         }
-        
+
         /// <summary>
         /// Indicates whether the <see cref="IDictionary"/> object has a fixed size. This property is read-only.
         /// </summary>
@@ -439,7 +440,7 @@ namespace Athi.Whippet.Adobe.Magento
         /// Gets the enumerator used to iterate over each item in the collection.
         /// </summary>
         /// <returns><see cref="IEnumerator{T}"/> object used to iterate over each item in the collection.</returns>
-        IEnumerator<MagentoCustomAttribute> IEnumerable<MagentoCustomAttribute>.GetEnumerator()
+        public IEnumerator<MagentoCustomAttribute> GetEnumerator()
         {
             foreach (KeyValuePair<string, string> entry in InternalDictionary)
             {
@@ -483,6 +484,65 @@ namespace Athi.Whippet.Adobe.Magento
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             ((ISerializable)(InternalDictionary)).GetObjectData(info, context);
+        }
+
+        /// <summary>
+        /// Compares the current instance to the specified object for equality.
+        /// </summary>
+        /// <param name="obj">Object to compare against.</param>
+        /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
+        public override bool Equals(object obj)
+        {
+            return (obj == null) || !(obj is IDictionary<string, string>) ? false : InternalEquals((IDictionary<string, string>)(obj));
+        }
+
+        /// <summary>
+        /// Compares the current instance to the specified object for equality.
+        /// </summary>
+        /// <param name="obj">Object to compare against.</param>
+        /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
+        public bool Equals(MagentoCustomAttributeCollection obj)
+        {
+            return (obj == null) ? false : InternalEquals(obj);
+        }
+
+        /// <summary>
+        /// Compares the current instance to the specified object for equality.
+        /// </summary>
+        /// <param name="obj">Object to compare against.</param>
+        /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
+        private bool InternalEquals(IDictionary<string, string> obj)
+        {
+            bool equals = false;
+
+            if (obj != null && (obj.Count == Count))
+            {
+                equals = Keys.SequenceEqual(obj.Keys, StringComparer.InvariantCultureIgnoreCase)
+                            && Values.SequenceEqual(obj.Values, StringComparer.InvariantCultureIgnoreCase);
+            }
+
+            return equals;
+        }
+
+        /// <summary>
+        /// Gets the hash code for the current instance.
+        /// </summary>
+        /// <returns>Hash code for the current instance.</returns>
+        public override int GetHashCode()
+        {
+            HashCode hash = new HashCode();
+
+            foreach (KeyValuePair<string, string> entry in ((IDictionary<string, string>)(this)))
+            {
+                hash.Add(entry.Key.GetHashCode());
+
+                if (!String.IsNullOrWhiteSpace(entry.Value))
+                {
+                    hash.Add(entry.Value.GetHashCode());
+                }
+            }
+
+            return hash.ToHashCode();
         }
     }
 }

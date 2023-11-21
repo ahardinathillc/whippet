@@ -108,6 +108,26 @@ namespace Athi.Whippet.Collections.Extensions
         }
 
         /// <summary>
+        /// Checks to see if the <see cref="IEnumerable{T}"/> collection contains duplicate elements.
+        /// </summary>
+        /// <param name="enumerable"><see cref="IEnumerable{T}"/> collection to check.</param>
+        /// <typeparam name="TSource">Type of object contained in the <see cref="IEnumerable{T}"/> collection.</typeparam>
+        /// <returns><see langword="true"/> if the collection contains duplicate elements; otherwise, <see langword="false"/>.</returns>
+        public static bool ContainsDuplicates<TSource>(this IEnumerable<TSource> enumerable)
+        {
+            bool duplicates = false;
+            HashSet<TSource> knownKeys = null;
+            
+            if (enumerable != null && enumerable.Any())
+            {
+                knownKeys = new HashSet<TSource>();
+                duplicates = enumerable.Any(item => !knownKeys.Add(item));
+            }
+
+            return duplicates;
+        }
+
+        /// <summary>
         /// Determines if the specified <see cref="IEnumerable{T}"/> collection has more than one item in it without traversing the whole collection.
         /// </summary>
         /// <typeparam name="T">Type of item stored in the collection.</typeparam>

@@ -88,7 +88,7 @@ namespace Athi.Whippet.Tools.WhippetManager.Unix
                             {
                                 // attempt to parse the datase name
 
-                                pieces = args[2].Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                                pieces = args[2].Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
                                 if (pieces.Length != 2)
                                 {
@@ -263,4 +263,3 @@ namespace Athi.Whippet.Tools.WhippetManager.Unix
         }
     }
 }
-

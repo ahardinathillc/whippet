@@ -290,7 +290,7 @@ namespace Athi.Whippet.Data.Database.NoSQL.Apache.CouchDB
 
                 //Server=localhost:5984;username=admin;password=webbdash
 
-                string[] pieces = connectionString.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] pieces = connectionString.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
                 StringBuilder builder = null;
 

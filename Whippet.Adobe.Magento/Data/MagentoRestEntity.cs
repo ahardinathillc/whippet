@@ -64,13 +64,13 @@ namespace Athi.Whippet.Adobe.Magento.Data
         }
 
         /// <summary>
-        /// Constructs the current instance with the specified <see cref="IExtensionInterface"/> object.
+        /// Constructs the current instance with the specified <see cref="IExtensionInterface"/> object. This method must be overridden.
         /// </summary>
         /// <param name="model"><see cref="IExtensionInterface"/> object to construct the current instance from.</param>
         protected abstract void ImportFromModel(TInterface model);
 
         /// <summary>
-        /// Converts the current instance to an <see cref="IExtensionInterface"/> of type <typeparamref name="TInterface"/>.
+        /// Converts the current instance to an <see cref="IExtensionInterface"/> of type <typeparamref name="TInterface"/>. This method must be overridden.
         /// </summary>
         /// <returns><see cref="IExtensionInterface"/> object of type <typeparamref name="TInterface"/>.</returns>
         public abstract TInterface ToInterface();

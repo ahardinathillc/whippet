@@ -124,7 +124,7 @@ namespace Athi.Whippet.Localization.Addressing.Installer
                 {
                     if (!String.IsNullOrWhiteSpace(rawCountryList))
                     {
-                        countryEntries = rawCountryList.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                        countryEntries = rawCountryList.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
                         if (countryEntries != null && countryEntries.Any())
                         {
@@ -133,7 +133,7 @@ namespace Athi.Whippet.Localization.Addressing.Installer
 
                             foreach (string entry in countryEntries)
                             {
-                                countryPieces = entry.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                countryPieces = entry.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
                                 country = new Country(new Guid(countryPieces[index_guid]), countryPieces[index_name], countryPieces[index_twoLetterISOAbbreviation]);
 
@@ -212,7 +212,7 @@ namespace Athi.Whippet.Localization.Addressing.Installer
                         if (!String.IsNullOrWhiteSpace(rawCountryList))
                         {
                             countryMap = new CountryMap();
-                            countryEntries = rawCountryList.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                            countryEntries = rawCountryList.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
                             if (countryEntries != null && countryEntries.Any())
                             {
@@ -222,7 +222,7 @@ namespace Athi.Whippet.Localization.Addressing.Installer
                                 {
                                     parameters = new Dictionary<string, object>();
 
-                                    countryPieces = entry.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                    countryPieces = entry.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
                                     country = new Country(new Guid(countryPieces[index_guid]), countryPieces[index_name], countryPieces[index_twoLetterISOAbbreviation]);
 
                                     query = String.Format("UPDATE {0} SET {1}={2} WHERE {3}={4}",
@@ -286,4 +286,3 @@ namespace Athi.Whippet.Localization.Addressing.Installer
         }
     }
 }
-

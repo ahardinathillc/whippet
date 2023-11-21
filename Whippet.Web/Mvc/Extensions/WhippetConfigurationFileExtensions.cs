@@ -38,7 +38,7 @@ namespace Athi.Whippet.Web.Mvc.Extensions
                 {
                     baseDirectory = rvDirectories["BaseDirectory"];
                     defaultPattern = rvDirectories["DefaultPattern"];
-                    directories = rvDirectories["Directories"]?.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                    directories = rvDirectories["Directories"]?.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
                     if (!baseDirectory.EndsWith('/'))
                     {
@@ -77,4 +77,3 @@ namespace Athi.Whippet.Web.Mvc.Extensions
         }
     }
 }
-

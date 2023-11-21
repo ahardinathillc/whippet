@@ -6,7 +6,7 @@ namespace Athi.Whippet.Adobe.Magento.Categories
     /// <summary>
     /// Interface that provides information about a Magento store's category.
     /// </summary>
-    public class CategoryInterface : IExtensionInterface, IExtensionAttributes<CategoryExtensionInterface>
+    public class CategoryInterface : IExtensionInterface, IExtensionAttributes<CategoryExtensionInterface>, ICustomAttributes
     {
         /// <summary>
         /// Gets or sets the category ID.
@@ -97,6 +97,13 @@ namespace Athi.Whippet.Adobe.Magento.Categories
         /// </summary>
         [JsonProperty("extension_attributes")]
         public CategoryExtensionInterface ExtensionAttributes
+        { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the custom attributes for the current instance.
+        /// </summary>
+        [JsonProperty("custom_attributes")]
+        public CustomAttributeInterface[] CustomAttributes
         { get; set; }
         
         /// <summary>

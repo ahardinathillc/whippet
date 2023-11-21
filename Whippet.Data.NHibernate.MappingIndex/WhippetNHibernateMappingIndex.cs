@@ -107,11 +107,11 @@ namespace Athi.Whippet.Data.NHibernate.MappingIndex
                 {
                     if (RuntimeEnvironment.OSVersion.Platform == PlatformID.Win32NT)
                     {
-                        lines = rawText.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                        lines = rawText.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
                     }
                     else
                     {
-                        lines = rawText.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                        lines = rawText.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
                     }
 
                     if (lines != null && lines.Length > 0)

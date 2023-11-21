@@ -13,7 +13,7 @@ Task("Version")
         var readedVersion = XmlPeek(propsFile, "//Version");
         //var currentVersion = new Version(readedVersion);
 
-        string[] versionPieces = readedVersion.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+        string[] versionPieces = readedVersion.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
         string newVersion = null;
 
         versionPieces[2] = Convert.ToString(Convert.ToInt32(versionPieces[2]) + 1);
@@ -81,4 +81,3 @@ Task("Build")
 //////////////////////////////////////////////////////////////////////
 
 RunTarget(target);
-

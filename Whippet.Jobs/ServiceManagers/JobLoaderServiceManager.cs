@@ -335,7 +335,7 @@ namespace Athi.Whippet.Jobs.ServiceManagers
                 {
                     if (!String.IsNullOrWhiteSpace(entry.Value<string>()))
                     {
-                        pieces = entry.Value<string>().Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                        pieces = entry.Value<string>().Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
                         if (pieces != null && pieces.Length == 2)
                         {
@@ -395,7 +395,7 @@ namespace Athi.Whippet.Jobs.ServiceManagers
                 {
                     if (!String.IsNullOrWhiteSpace(entry.Value<string>()))
                     {
-                        pieces = entry.Value<string>().Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                        pieces = entry.Value<string>().Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
                         if (pieces != null && pieces.Length == 2)
                         {
@@ -466,7 +466,7 @@ namespace Athi.Whippet.Jobs.ServiceManagers
                         {
                             if (!String.IsNullOrWhiteSpace(token.Value<string>()))
                             {
-                                pieces = token.Value<string>().Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                                pieces = token.Value<string>().Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
                                 if (pieces != null && pieces.Length == 2)
                                 {
@@ -522,7 +522,7 @@ namespace Athi.Whippet.Jobs.ServiceManagers
                             {
                                 if (!singleEntries)
                                 {
-                                    pieces = token.Value<string>().Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                                    pieces = token.Value<string>().Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
                                     if (pieces != null && pieces.Length == 2)   // divided into assembly and type
                                     {

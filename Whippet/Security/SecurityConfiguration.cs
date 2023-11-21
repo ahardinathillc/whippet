@@ -22,7 +22,7 @@ namespace Athi.Whippet.Security
         { 
             get
             {
-                string[] pieces = Section[nameof(MasterKey)].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] pieces = Section[nameof(MasterKey)].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
                 byte[] mk = new byte[pieces.Length];
 
                 for(int i = 0; i < pieces.Length; i++)

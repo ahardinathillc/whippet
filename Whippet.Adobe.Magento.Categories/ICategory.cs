@@ -34,10 +34,10 @@ namespace Athi.Whippet.Adobe.Magento.Categories
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the child <see cref="ICategory"/> objects in respect to the current instance. 
+        /// Gets a collection of all child <see cref="ICategory"/> objects of the current instance. This property is read-only. 
         /// </summary>
-        IEnumerable<ICategory> Children
-        { get; set; }
+        CategoryCollection Children
+        { get; }
 
         /// <summary>
         /// Gets or sets the full path of the category.

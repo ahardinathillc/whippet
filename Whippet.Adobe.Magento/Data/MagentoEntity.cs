@@ -9,7 +9,7 @@ namespace Athi.Whippet.Adobe.Magento.Data
     /// <summary>
     /// Base class for all Magento domain objects in Whippet. This class must be inherited.
     /// </summary>
-    public abstract class MagentoEntity : WhippetEntity, IWhippetEntity, IMagentoEntity, IJsonObject
+    public abstract class MagentoEntity : WhippetEntity, IWhippetEntity, IMagentoEntity, IJsonObject, ICloneable, IWhippetCloneable
     {
         private MagentoServer _server;
         private MagentoRestEndpoint _restEndpoint;
@@ -118,6 +118,23 @@ namespace Athi.Whippet.Adobe.Magento.Data
         public virtual string ToMagentoJsonString()
         {
             return String.Empty;
+        }
+
+        /// <summary>
+        /// Creates a duplicate instance of the current object. This method must be overridden.
+        /// </summary>
+        /// <returns>Duplicate instance of the current object.</returns>
+        public abstract object Clone();
+
+        /// <summary>
+        /// Creates a duplicate instance of the current object.
+        /// </summary>
+        /// <param name="createdBy">User ID of the user who created the object.</param>
+        /// <typeparam name="TObject">Type of object that the current instance can be cast to to return.</typeparam>
+        /// <returns>Object of type <typeparamref name="TObject"></typeparamref>.</returns>
+        public virtual TObject Clone<TObject>(Guid? createdBy = null)
+        {
+            return (TObject)(Clone());
         }
     }
 }

@@ -58,13 +58,13 @@ namespace Athi.Whippet.Localization.Addressing.Extensions
 
             if(!String.IsNullOrWhiteSpace(rawCountryList))
             {
-                countryEntries = rawCountryList.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                countryEntries = rawCountryList.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
                 if (countryEntries != null && countryEntries.Any())
                 {
                     foreach (string entry in countryEntries)
                     {
-                        countryPieces = entry.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                        countryPieces = entry.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
                         if (countryId.Equals(new Guid(countryPieces[index_guid])))
                         {
