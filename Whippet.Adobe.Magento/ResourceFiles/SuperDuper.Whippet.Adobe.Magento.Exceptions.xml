@@ -3,7 +3,8 @@
     <!-- English language exceptions: Start -->
 
     <string name="MagentoBulkOperationFailedException" value="The bulk operation {0} has reported errors. Use the Magento Bulk Operation Status API to review the errors." culture="en" />
-
+    <string name="MagentoOperationApplicationException" value="The requested operation cannot be completed via the internal interface. Please use the Magento application to complete your request." culture="en" />
+    
     <!-- English language exceptions: Start -->
 
 </localizedStrings>

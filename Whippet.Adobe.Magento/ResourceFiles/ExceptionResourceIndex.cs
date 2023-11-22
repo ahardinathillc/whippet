@@ -12,5 +12,6 @@ namespace Athi.Whippet.Adobe.Magento.ResourceFiles
     public static class ExceptionResourceIndex
     {
         public const string MagentoBulkOperationFailedException = nameof(MagentoBulkOperationFailedException);
+        public const string MagentoOperationApplicationException = nameof(MagentoOperationApplicationException);
     }
 }

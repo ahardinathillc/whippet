@@ -201,5 +201,40 @@ namespace Athi.Whippet.Data
         public override async Task RefreshEntityContextAsync(TEntity entity, CancellationToken? cancellationToken = null)
         { }
 #pragma warning restore CS1998
+
+        /// <summary>
+        /// Creates a query string array based on the specified values.
+        /// </summary>
+        /// <param name="args">Values to create a query string JSON array from.</param>
+        /// <returns>Query string parameter.</returns>
+        protected string CreateParameterArray(params object[] args)
+        {
+            StringBuilder builder = new StringBuilder();
+
+            if (args != null && args.Length > 0)
+            {
+                builder.Append('[');
+                
+                for (int i = 0; i < args.Length; i++)
+                {
+                    if (args[i] != null)
+                    {
+                        if (!String.IsNullOrWhiteSpace(args[i].ToString()))
+                        {
+                            builder.Append(args[i].ToString());
+
+                            if (i < args.Length - 1)
+                            {
+                                builder.Append(',');
+                            }
+                        }
+                    }
+                }
+
+                builder.Append(']');
+            }
+            
+            return builder.ToString();
+        }
     }
 }

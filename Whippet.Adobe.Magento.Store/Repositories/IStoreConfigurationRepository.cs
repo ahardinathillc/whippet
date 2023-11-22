@@ -25,6 +25,6 @@ namespace Athi.Whippet.Adobe.Magento.Store.Repositories
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns><see cref="WhippetResultContainer{TEntity}"/> containing the result of the operation.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        Task<WhippetResultContainer<StoreConfiguration>> Get(string code, CancellationToken? cancellationToken = null);
+        Task<WhippetResultContainer<StoreConfiguration>> GetAsync(string code, CancellationToken? cancellationToken = null);
     }
 }
