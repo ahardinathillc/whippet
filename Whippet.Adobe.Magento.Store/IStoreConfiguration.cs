@@ -8,7 +8,7 @@ namespace Athi.Whippet.Adobe.Magento.Store
     /// <summary>
     /// Represents an <see cref="IStore"/> configuration which specifies locality, currency used, and store URLs.
     /// </summary>
-    public interface IStoreConfiguration : IMagentoEntity, IEqualityComparer<IStore>, IMagentoRestEntity
+    public interface IStoreConfiguration : IMagentoEntity, IEqualityComparer<IStoreConfiguration>, IMagentoRestEntity
     {
         /// <summary>
         /// Gets or sets the store code.
@@ -43,7 +43,7 @@ namespace Athi.Whippet.Adobe.Magento.Store
         /// <summary>
         /// Gets or sets the time zone that applies to the store.
         /// </summary>
-        DateTimeZone TimeZone
+        DateTimeZone Timezone
         { get; set; }
 
         /// <summary>
