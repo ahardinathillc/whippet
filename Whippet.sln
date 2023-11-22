@@ -264,6 +264,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.Store
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.Categories", "Whippet.Adobe.Magento.Categories\Whippet.Adobe.Magento.Categories.csproj", "{2FFC1E61-1823-4065-B9BA-61629BC22ABA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.Taxes.Repositories", "Whippet.Adobe.Magento.Taxes.Repositories\Whippet.Adobe.Magento.Taxes.Repositories.csproj", "{E8F501FA-A2E5-44AE-8492-5BB63DC315C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -782,5 +784,9 @@ Global
 		{2FFC1E61-1823-4065-B9BA-61629BC22ABA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FFC1E61-1823-4065-B9BA-61629BC22ABA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FFC1E61-1823-4065-B9BA-61629BC22ABA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8F501FA-A2E5-44AE-8492-5BB63DC315C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8F501FA-A2E5-44AE-8492-5BB63DC315C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8F501FA-A2E5-44AE-8492-5BB63DC315C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8F501FA-A2E5-44AE-8492-5BB63DC315C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <ReleaseVersion>0.1.*.*</ReleaseVersion>
     <RootNamespace>Athi.Whippet.Adobe.Magento.Taxes.Repositories</RootNamespace>
+    <AssemblyName>Athi.Whippet.Adobe.Magento.Taxes.Repositories</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
