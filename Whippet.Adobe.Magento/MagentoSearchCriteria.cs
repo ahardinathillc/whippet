@@ -180,7 +180,7 @@ namespace Athi.Whippet.Adobe.Magento
         /// <returns>String representation of the current object.</returns>
         public override string ToString()
         {
-            return ToString(IsAllSearchCriteria);
+            return ToString(true);
         }
 
         /// <summary>

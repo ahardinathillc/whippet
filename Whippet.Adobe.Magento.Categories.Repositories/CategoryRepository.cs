@@ -138,6 +138,8 @@ namespace Athi.Whippet.Adobe.Magento.Categories.Repositories
                                     category.Parent = parentResult.Item;
                                 }
                             }
+                            
+                            categories.Add(category);
                         }
                     }
                     
@@ -154,107 +156,6 @@ namespace Athi.Whippet.Adobe.Magento.Categories.Repositories
             }
 
             return result;
-        }
-
-        /// <summary>
-        /// Retrieves the <see cref="Category"/> object with the specified <see cref="Category"/> code.
-        /// </summary>
-        /// <param name="code">Code of the <see cref="Category"/> to retrieve the configuration for.</param>
-        /// <returns><see cref="WhippetResultContainer{TEntity}"/> containing the result of the operation.</returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        public virtual WhippetResultContainer<Category> GetByCode(string code)
-        {
-            ArgumentNullException.ThrowIfNullOrEmpty(code);
-            return Task.Run(() => GetByCodeAsync(code)).Result;
-        }
-
-        /// <summary>
-        /// Retrieves the <see cref="Category"/> object with the specified <see cref="Category"/> code.
-        /// </summary>
-        /// <param name="code">Code of the <see cref="Category"/> to retrieve.</param>
-        /// <param name="cancellationToken">Cancellation token.</param>
-        /// <returns><see cref="WhippetResultContainer{TEntity}"/> containing the result of the operation.</returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        public virtual async Task<WhippetResultContainer<Category>> GetByCodeAsync(string code, CancellationToken? cancellationToken = null)
-        {
-            if (String.IsNullOrWhiteSpace(code))
-            {
-                throw new ArgumentNullException(nameof(code));
-            }
-            else
-            {
-                WhippetResultContainer<Category> result = null;
-                WhippetResultContainer<IEnumerable<CategoryGroup>> groupResult = null;
-                WhippetResultContainer<IEnumerable<CategoryWebsite>> websiteResult = null;
-                
-                RestRequest request = null;
-                RestResponse response = null;
-
-                List<CategoryInterface> categoryInterfaces = null;
-
-                Category category = null;
-                
-                try
-                {
-                    groupResult = await _LoadAllCategoryGroupsAsync();
-                    groupResult.ThrowIfFailed();
-
-                    websiteResult = await _LoadAllCategoryWebsitesAsync();
-                    websiteResult.ThrowIfFailed();
-                    
-                    request = CreateRequest(CreateEndpointUrl(), Method.Get);
-                    
-                    response = await Client.ExecuteAsync(request);
-                    response.ThrowIfError();
-
-                    if (response.IsOkStatus())
-                    {
-                        categoryInterfaces = JsonConvert.DeserializeObject<List<CategoryInterface>>(response.Content);
-
-                        if (categoryInterfaces != null && categoryInterfaces.Count > 0)
-                        {
-                            foreach (CategoryInterface categoryInterface in categoryInterfaces)
-                            {
-                                if (String.Equals(categoryInterface.Code?.Trim(), code.Trim(), StringComparison.InvariantCultureIgnoreCase))
-                                {
-                                    category = new Category(categoryInterface);
-
-                                    if (groupResult.HasItem && groupResult.Item.Any())
-                                    {
-                                        category.Group = (from g in groupResult.Item where g.ID == category.Group.ID select g).FirstOrDefault();
-                                    }
-
-                                    if (websiteResult.HasItem && websiteResult.Item.Any())
-                                    {
-                                        category.Website = (from w in websiteResult.Item where w.ID == category.Website.ID select w).FirstOrDefault();
-                                    }
-                                    
-                                    result = new WhippetResultContainer<Category>(WhippetResult.Success, new Category(categoryInterface));
-                                }
-                            }
-
-                            if (result == null)
-                            {
-                                result = new WhippetResultContainer<Category>(WhippetResult.Success, null);
-                            }
-                        }
-                        else
-                        {
-                            result = new WhippetResultContainer<Category>(WhippetResult.Success, null);
-                        }
-                    }
-                    else
-                    {
-                        throw new Exception(response.StatusDescription);
-                    }
-                }
-                catch (Exception e)
-                {
-                    result = new WhippetResultContainer<Category>(e);
-                }
-
-                return result;
-            }
         }
 
         /// <summary>
@@ -285,64 +186,51 @@ namespace Athi.Whippet.Adobe.Magento.Categories.Repositories
             else
             {
                 WhippetResultContainer<Category> result = null;
-                WhippetResultContainer<IEnumerable<CategoryGroup>> groupResult = null;
-                WhippetResultContainer<IEnumerable<CategoryWebsite>> websiteResult = null;
+                WhippetResultContainer<Category> parentResult = null;
                 
                 RestRequest request = null;
                 RestResponse response = null;
 
-                List<CategoryInterface> categoryInterfaces = null;
+                List<Category> categories = null;
 
-                Category category = null;
+                MagentoInterfaceJsonSearchResultItemContainer<CategoryInterface> searchContainer = null;
                 
+                Category category = null;
+
+                MagentoSearchCriteria nameCriteria = null;
+
                 try
                 {
-                    groupResult = await _LoadAllCategoryGroupsAsync();
-                    groupResult.ThrowIfFailed();
-
-                    websiteResult = await _LoadAllCategoryWebsitesAsync();
-                    websiteResult.ThrowIfFailed();
+                    nameCriteria = new MagentoSearchCriteria();
+                    nameCriteria.AddCriterion(MagentoSearchCriteriaConditionType.Field.Create("name"), MagentoSearchCriteriaConditionType.SearchValue.Create(name), MagentoSearchCriteriaConditionType.EqualsCondition.Create());
                     
-                    request = CreateRequest(CreateEndpointUrl(), Method.Get);
+                    request = CreateRequest(CreateEndpointUrl() + nameCriteria.ToString(), Method.Get);
                     
                     response = await Client.ExecuteAsync(request);
                     response.ThrowIfError();
 
                     if (response.IsOkStatus())
                     {
-                        categoryInterfaces = JsonConvert.DeserializeObject<List<CategoryInterface>>(response.Content);
+                        categories = new List<Category>();
+                        searchContainer = new MagentoInterfaceJsonSearchResultItemContainer<CategoryInterface>(response.Content);
 
-                        if (categoryInterfaces != null && categoryInterfaces.Count > 0)
+                        if (searchContainer.Count > 0)
                         {
-                            foreach (CategoryInterface categoryInterface in categoryInterfaces)
+                            category = new Category(searchContainer.First());
+
+                            if ((category.Parent != null) && (category.Parent.ID != category.ID) && (category.Parent.ID > 0))
                             {
-                                if (String.Equals(categoryInterface.Name?.Trim(), name.Trim(), StringComparison.InvariantCultureIgnoreCase))
+                                parentResult = await GetAsync(Convert.ToUInt32(category.Parent.ID));
+                                parentResult.ThrowIfFailed();
+
+                                if (parentResult.HasItem)
                                 {
-                                    category = new Category(categoryInterface);
-
-                                    if (groupResult.HasItem && groupResult.Item.Any())
-                                    {
-                                        category.Group = (from g in groupResult.Item where g.ID == category.Group.ID select g).FirstOrDefault();
-                                    }
-
-                                    if (websiteResult.HasItem && websiteResult.Item.Any())
-                                    {
-                                        category.Website = (from w in websiteResult.Item where w.ID == category.Website.ID select w).FirstOrDefault();
-                                    }
-                                    
-                                    result = new WhippetResultContainer<Category>(WhippetResult.Success, new Category(categoryInterface));
+                                    category.Parent = parentResult.Item;
                                 }
                             }
-
-                            if (result == null)
-                            {
-                                result = new WhippetResultContainer<Category>(WhippetResult.Success, null);
-                            }
                         }
-                        else
-                        {
-                            result = new WhippetResultContainer<Category>(WhippetResult.Success, null);
-                        }
+                        
+                        result = new WhippetResultContainer<Category>(WhippetResult.Success, category);
                     }
                     else
                     {
@@ -367,7 +255,52 @@ namespace Athi.Whippet.Adobe.Magento.Categories.Repositories
         /// <exception cref="MagentoOperationApplicationException"></exception>
         public override async Task<WhippetResult> CreateAsync(Category item, CancellationToken? cancellationToken = null)
         {
-            throw new MagentoOperationApplicationException();
+            if (item == null)
+            {
+                throw new ArgumentNullException(nameof(item));
+            }
+            else
+            {
+                WhippetResultContainer<Category> result = null;
+                
+                RestRequest request = null;
+                RestResponse response = null;
+
+                CategoryInterface categoryInterface = null;
+                
+                try
+                {
+                    request = CreateRequest(BASE_URL_SINGLE, Method.Post);
+                    request.AddJsonBody(item.ToInterface(), ContentType.Json);
+                    
+                    response = await Client.ExecuteAsync(request);
+                    response.ThrowIfError();
+
+                    if (response.IsOkStatus())
+                    {
+                        categoryInterface = JsonConvert.DeserializeObject<CategoryInterface>(response.Content);
+
+                        if (categoryInterface != null)
+                        {
+                            result = new WhippetResultContainer<Category>(WhippetResult.Success, new Category(categoryInterface));
+                        }
+                        else
+                        {
+                            result = new WhippetResultContainer<Category>(WhippetResult.Success, null);
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception(response.StatusDescription);
+                    }
+                }
+                catch (Exception e)
+                {
+                    result = new WhippetResultContainer<Category>(e);
+                }
+
+                return result;                
+            }
         }
 
         /// <summary>
@@ -379,7 +312,52 @@ namespace Athi.Whippet.Adobe.Magento.Categories.Repositories
         /// <exception cref="MagentoOperationApplicationException"></exception>
         public override async Task<WhippetResult> UpdateAsync(Category item, CancellationToken? cancellationToken = null)
         {
-            throw new MagentoOperationApplicationException();
+            if (item == null)
+            {
+                throw new ArgumentNullException(nameof(item));
+            }
+            else
+            {
+                WhippetResultContainer<Category> result = null;
+                
+                RestRequest request = null;
+                RestResponse response = null;
+
+                CategoryInterface categoryInterface = null;
+                
+                try
+                {
+                    request = CreateRequest(CreateEndpointUrl(new[] { BASE_URL_SINGLE, Convert.ToString(item.ID) }), Method.Put);
+                    request.AddJsonBody(item.ToInterface(), ContentType.Json);
+                    
+                    response = await Client.ExecuteAsync(request);
+                    response.ThrowIfError();
+
+                    if (response.IsOkStatus())
+                    {
+                        categoryInterface = JsonConvert.DeserializeObject<CategoryInterface>(response.Content);
+
+                        if (categoryInterface != null)
+                        {
+                            result = new WhippetResultContainer<Category>(WhippetResult.Success, new Category(categoryInterface));
+                        }
+                        else
+                        {
+                            result = new WhippetResultContainer<Category>(WhippetResult.Success, null);
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception(response.StatusDescription);
+                    }
+                }
+                catch (Exception e)
+                {
+                    result = new WhippetResultContainer<Category>(e);
+                }
+
+                return result;                
+            }
         }
 
         /// <summary>
@@ -391,7 +369,47 @@ namespace Athi.Whippet.Adobe.Magento.Categories.Repositories
         /// <exception cref="MagentoOperationApplicationException"></exception>
         public override async Task<WhippetResult> DeleteAsync(Category item, CancellationToken? cancellationToken = null)
         {
-            throw new MagentoOperationApplicationException();
+            if (item == null)
+            {
+                throw new ArgumentNullException(nameof(item));
+            }
+            else
+            {
+                WhippetResult result = null;
+                
+                RestRequest request = null;
+                RestResponse response = null;
+
+                try
+                {
+                    request = CreateRequest(CreateEndpointUrl(new[] { BASE_URL_SINGLE, Convert.ToString(item.ID) }), Method.Delete);
+                    
+                    response = await Client.ExecuteAsync(request);
+                    response.ThrowIfError();
+
+                    if (response.IsOkStatus())
+                    {
+                        if (!Convert.ToBoolean(response.Content))
+                        {
+                            throw new MagentoOperationApplicationException();
+                        }
+                        else
+                        {
+                            result = WhippetResult.Success;
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception(response.StatusDescription);
+                    }
+                }
+                catch (Exception e)
+                {
+                    result = new WhippetResult(e);
+                }
+
+                return result;                
+            }            
         }
 
         /// <summary>

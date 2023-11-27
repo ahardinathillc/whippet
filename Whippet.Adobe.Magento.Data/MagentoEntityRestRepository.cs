@@ -207,7 +207,7 @@ namespace Athi.Whippet.Adobe.Magento.Data
                 return builder.ToString().Trim();
             }
         }
-
+        
         /// <summary>
         /// Creates a Magento endpoint URL (i.e., &quot;/rest/async/bulk/V1/&quot;) for bulk operations.
         /// </summary>
