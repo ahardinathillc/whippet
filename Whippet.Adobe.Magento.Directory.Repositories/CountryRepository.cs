@@ -91,7 +91,7 @@ namespace Athi.Whippet.Adobe.Magento.Directory.Repositories
         }
 
         /// <summary>
-        /// Asynchronusly retrieves all <see cref="Country"/> objects in Magento.
+        /// Asynchronously retrieves all <see cref="Country"/> objects in Magento.
         /// </summary>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns><see cref="WhippetResultContainer{T}"/> containing the result of the operation.</returns>

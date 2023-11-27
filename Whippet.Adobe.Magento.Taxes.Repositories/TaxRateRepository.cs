@@ -90,7 +90,7 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.Repositories
         }
 
         /// <summary>
-        /// Asynchronusly retrieves all <see cref="TaxRate"/> objects in Magento.
+        /// Asynchronously retrieves all <see cref="TaxRate"/> objects in Magento.
         /// </summary>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns><see cref="WhippetResultContainer{T}"/> containing the result of the operation.</returns>

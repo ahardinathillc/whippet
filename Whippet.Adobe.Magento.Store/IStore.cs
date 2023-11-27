@@ -32,6 +32,5 @@ namespace Athi.Whippet.Adobe.Magento.Store
         /// </summary>
         IStoreGroup Group
         { get; set; }
-        
     }
 }

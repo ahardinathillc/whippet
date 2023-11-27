@@ -459,7 +459,7 @@ namespace Athi.Whippet.Adobe.Magento.Data
         }
 
         /// <summary>
-        /// Asynchronusly retrieves all <typeparamref name="TEntity"/> objects in Magento using paging.
+        /// Asynchronously retrieves all <typeparamref name="TEntity"/> objects in Magento using paging.
         /// </summary>
         /// <param name="url">URL to submit the request to.</param>
         /// <param name="searchPageSize">Paging query parameter and value.</param>
