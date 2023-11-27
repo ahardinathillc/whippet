@@ -101,7 +101,8 @@ namespace Athi.Whippet.Adobe.Magento.Store.Repositories
                                     store.Website = (from w in websiteResult.Item where w.ID == store.Website.ID select w).FirstOrDefault();
                                 }
                                 
-                                result = new WhippetResultContainer<Store>(WhippetResult.Success, new Store(storeInterface));
+                                result = new WhippetResultContainer<Store>(WhippetResult.Success, store);
+                                break;
                             }
                         }
 
@@ -273,7 +274,8 @@ namespace Athi.Whippet.Adobe.Magento.Store.Repositories
                                         store.Website = (from w in websiteResult.Item where w.ID == store.Website.ID select w).FirstOrDefault();
                                     }
                                     
-                                    result = new WhippetResultContainer<Store>(WhippetResult.Success, new Store(storeInterface));
+                                    result = new WhippetResultContainer<Store>(WhippetResult.Success, store);
+                                    break;
                                 }
                             }
 
@@ -374,7 +376,8 @@ namespace Athi.Whippet.Adobe.Magento.Store.Repositories
                                         store.Website = (from w in websiteResult.Item where w.ID == store.Website.ID select w).FirstOrDefault();
                                     }
                                     
-                                    result = new WhippetResultContainer<Store>(WhippetResult.Success, new Store(storeInterface));
+                                    result = new WhippetResultContainer<Store>(WhippetResult.Success, store);
+                                    break;
                                 }
                             }
 
