@@ -25,7 +25,6 @@
   <ItemGroup>
     <Folder Include="EntityMappings\" />
     <Folder Include="Repositories\" />
-    <Folder Include="Json\" />
     <Folder Include="ServiceManagers\Extensions\" />
     <Folder Include="ResourceFiles\" />
   </ItemGroup>

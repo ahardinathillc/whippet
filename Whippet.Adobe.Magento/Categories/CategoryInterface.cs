@@ -111,5 +111,23 @@ namespace Athi.Whippet.Adobe.Magento.Categories
         /// </summary>
         public CategoryInterface()
         { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CategoryInterface"/> class with the specified <see cref="CategoryAbstractInterface"/> object.
+        /// </summary>
+        /// <param name="category"><see cref="CategoryAbstractInterface"/> object to initialize with.</param>
+        public CategoryInterface(CategoryAbstractInterface category)
+            : this()
+        {
+            if (category != null)
+            {
+                ID = category.ID;
+                ParentID = category.ParentID;
+                Name = category.Name;
+                Active = category.Active;
+                Position = category.Position;
+                Level = category.Level;
+            }
+        }
     }
 }

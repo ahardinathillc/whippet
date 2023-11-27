@@ -11,7 +11,7 @@ namespace Athi.Whippet.Adobe.Magento.Store.Repositories
     public interface IStoreRepository : IMagentoEntityRepository<Store>, IWhippetExternalQueryRepository<Store, uint>
     {
         /// <summary>
-        /// Retrieves the <see cref="Store"/> object with the specified code.
+        /// Retrieves the <see cref="Store"/> object with the specified name.
         /// </summary>
         /// <param name="name">Name of the <see cref="Store"/> to retrieve.</param>
         /// <returns><see cref="WhippetResultContainer{TEntity}"/> containing the result of the operation.</returns>

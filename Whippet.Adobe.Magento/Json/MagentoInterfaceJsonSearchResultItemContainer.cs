@@ -8,8 +8,8 @@ namespace Athi.Whippet.Adobe.Magento.Json
     /// <summary>
     /// Provides a JSON container for search results from the Magento API. This class cannot be inherited.
     /// </summary>
-    /// <typeparam name="T"><see cref="IMagentoEntity"/> object type that is contained within the results.</typeparam>
-    public sealed class MagentoJsonSearchResultItemContainer<T> : IEnumerable<T>, IReadOnlyList<T> where T : IMagentoEntity, new()
+    /// <typeparam name="T"><see cref="IExtensionInterface"/> object type that is contained within the results.</typeparam>
+    public sealed class MagentoInterfaceJsonSearchResultItemContainer<T> : IEnumerable<T>, IReadOnlyList<T> where T : IExtensionInterface, new()
     {
         /// <summary>
         /// Gets the item located at the specified index. This property is read-only.
@@ -33,9 +33,9 @@ namespace Athi.Whippet.Adobe.Magento.Json
         }
 
         /// <summary>
-        /// Gets the <see cref="IMagentoJsonSearchResultItemContainerViewModel{T}"/> object that contains the serialized JSON search result. This property is read-only.
+        /// Gets the <see cref="IMagentoInterfaceJsonSearchResultItemContainerViewModel{T}"/> object that contains the serialized JSON search result. This property is read-only.
         /// </summary>
-        public IMagentoJsonSearchResultItemContainerViewModel<T> SearchResult
+        public IMagentoInterfaceJsonSearchResultItemContainerViewModel<T> SearchResult
         { get; private set; }
 
         /// <summary>
@@ -61,17 +61,17 @@ namespace Athi.Whippet.Adobe.Magento.Json
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MagentoJsonSearchResultItemContainer{T}"/> class with no arguments.
+        /// Initializes a new instance of the <see cref="MagentoInterfaceJsonSearchResultItemContainer{T}"/> class with no arguments.
         /// </summary>
-        private MagentoJsonSearchResultItemContainer()
+        private MagentoInterfaceJsonSearchResultItemContainer()
         { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MagentoJsonSearchResultItemContainer{T}"/> class with the specified raw JSON response.
+        /// Initializes a new instance of the <see cref="MagentoInterfaceJsonSearchResultItemContainer{T}"/> class with the specified raw JSON response.
         /// </summary>
         /// <param name="rawJsonResponse">Raw JSON returned by the Magento API.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public MagentoJsonSearchResultItemContainer(string rawJsonResponse)
+        public MagentoInterfaceJsonSearchResultItemContainer(string rawJsonResponse)
             : this()
         {
             if (String.IsNullOrWhiteSpace(rawJsonResponse))
@@ -80,7 +80,7 @@ namespace Athi.Whippet.Adobe.Magento.Json
             }
             else
             {
-                SearchResult = JsonConvert.DeserializeObject<MagentoJsonSearchResultItemContainerViewModel<T>>(rawJsonResponse);
+                SearchResult = JsonConvert.DeserializeObject<MagentoInterfaceJsonSearchResultItemContainerViewModel<T>>(rawJsonResponse);
             }
         }
 

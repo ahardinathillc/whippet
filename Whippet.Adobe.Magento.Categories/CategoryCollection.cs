@@ -133,7 +133,7 @@ namespace Athi.Whippet.Adobe.Magento.Categories
         /// <returns>String representation of the current object.</returns>
         public override string ToString()
         {
-            return base.ToString();
+            return ToString(false);
         }
 
         /// <summary>

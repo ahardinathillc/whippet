@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Athi.Whippet.Adobe.Magento.Data;
 
 namespace Athi.Whippet.Adobe.Magento.Json
 {
     /// <summary>
     /// View model for items returned by the Magento search API.
     /// </summary>
-    /// <typeparam name="T"><see cref="IMagentoEntity"/> object that is stored in the result set.</typeparam>
-    public interface IMagentoJsonSearchResultItemContainerViewModel<T> where T : IMagentoEntity, new()
+    /// <typeparam name="T"><see cref="IExtensionInterface"/> object that is stored in the result set.</typeparam>
+    public interface IMagentoInterfaceJsonSearchResultItemContainerViewModel<T> where T : IExtensionInterface, new()
     {
         /// <summary>
         /// Gets the items of type <typeparamref name="T"/> that have been deserialized from the JSON result. This property is read-only.
