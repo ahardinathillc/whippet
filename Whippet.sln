@@ -20,10 +20,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.Direc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.Directory.ServiceManagers.Queries", "Whippet.Adobe.Magento.Directory.ServiceManagers.Queries\Whippet.Adobe.Magento.Directory.ServiceManagers.Queries.csproj", "{720FE40A-9ABC-4F11-A665-590AD38974ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.EAV", "Whippet.Adobe.Magento.EAV\Whippet.Adobe.Magento.EAV.csproj", "{9F037BD8-683C-4706-9D4F-655CB41C8342}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.EAV.Repositories", "Whippet.Adobe.Magento.EAV.Repositories\Whippet.Adobe.Magento.EAV.Repositories.csproj", "{42295234-1192-4563-B1F2-235718A71AAB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.Sales.ServiceManagers.Handlers", "Whippet.Adobe.Magento.Sales.ServiceManagers.Handlers\Whippet.Adobe.Magento.Sales.ServiceManagers.Handlers.csproj", "{339AEEE0-1835-4BAF-A238-29AAE623F721}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.Sales.ServiceManagers.Queries", "Whippet.Adobe.Magento.Sales.ServiceManagers.Queries\Whippet.Adobe.Magento.Sales.ServiceManagers.Queries.csproj", "{5E21F574-7E19-4501-9CC1-2742264E9100}"
@@ -234,23 +230,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{530D04
 		CleanSolution.ps1 = CleanSolution.ps1
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.EAV.ServiceManagers.Handlers", "Whippet.Adobe.Magento.EAV.ServiceManagers.Handlers\Whippet.Adobe.Magento.EAV.ServiceManagers.Handlers.csproj", "{9D2208AD-7A84-48C2-B661-8FE5E9C240CB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.Taxes", "Whippet.Adobe.Magento.Taxes\Whippet.Adobe.Magento.Taxes.csproj", "{C930809E-CC86-40F3-9390-D36D60B40B46}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.Taxes.ServiceManagers", "Whippet.Adobe.Magento.Taxes.ServiceManagers\Whippet.Adobe.Magento.Taxes.ServiceManagers.csproj", "{530F66FC-0C19-4603-851B-2BD23CB71629}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.Sales.ServiceManagers", "Whippet.Adobe.Magento.Sales.ServiceManagers\Whippet.Adobe.Magento.Sales.ServiceManagers.csproj", "{A1AF8163-38A2-4936-A0EA-CC0F1C39EE7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.EAV.ServiceManagers", "Whippet.Adobe.Magento.EAV.ServiceManagers\Whippet.Adobe.Magento.EAV.ServiceManagers.csproj", "{84FDED15-579A-42D9-A7AB-C80466E7CF5D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.Taxes.ServiceManagers.Commands", "Whippet.Adobe.Magento.Taxes.ServiceManagers.Commands\Whippet.Adobe.Magento.Taxes.ServiceManagers.Commands.csproj", "{D6124691-0014-4094-AD3A-84FE2AD2A243}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.Taxes.ServiceManagers.Handlers", "Whippet.Adobe.Magento.Taxes.ServiceManagers.Handlers\Whippet.Adobe.Magento.Taxes.ServiceManagers.Handlers.csproj", "{9F05FCA4-C7B1-4F7B-A51D-D94D22AC7057}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.Taxes.ServiceManagers.Queries", "Whippet.Adobe.Magento.Taxes.ServiceManagers.Queries\Whippet.Adobe.Magento.Taxes.ServiceManagers.Queries.csproj", "{03C12572-E361-4250-B99C-53FD8D35FC6F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.EAV.ServiceManagers.Queries", "Whippet.Adobe.Magento.EAV.ServiceManagers.Queries\Whippet.Adobe.Magento.EAV.ServiceManagers.Queries.csproj", "{B3189A89-0D59-49B4-B21F-04EAF4E6D279}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Data.Database.NoSQL.Apache.CouchDB", "Whippet.Data.Database.NoSQL.Apache.CouchDB\Whippet.Data.Database.NoSQL.Apache.CouchDB.csproj", "{CC53D32C-61B7-4F26-BA0C-FD29A4DE0505}"
 EndProject
@@ -316,14 +306,6 @@ Global
 		{720FE40A-9ABC-4F11-A665-590AD38974ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{720FE40A-9ABC-4F11-A665-590AD38974ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{720FE40A-9ABC-4F11-A665-590AD38974ED}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9F037BD8-683C-4706-9D4F-655CB41C8342}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9F037BD8-683C-4706-9D4F-655CB41C8342}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9F037BD8-683C-4706-9D4F-655CB41C8342}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9F037BD8-683C-4706-9D4F-655CB41C8342}.Release|Any CPU.Build.0 = Release|Any CPU
-		{42295234-1192-4563-B1F2-235718A71AAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{42295234-1192-4563-B1F2-235718A71AAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{42295234-1192-4563-B1F2-235718A71AAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{42295234-1192-4563-B1F2-235718A71AAB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{339AEEE0-1835-4BAF-A238-29AAE623F721}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{339AEEE0-1835-4BAF-A238-29AAE623F721}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{339AEEE0-1835-4BAF-A238-29AAE623F721}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -728,10 +710,6 @@ Global
 		{6BB44572-024A-4E68-B7FE-2229EFD1231E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BB44572-024A-4E68-B7FE-2229EFD1231E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BB44572-024A-4E68-B7FE-2229EFD1231E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9D2208AD-7A84-48C2-B661-8FE5E9C240CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9D2208AD-7A84-48C2-B661-8FE5E9C240CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9D2208AD-7A84-48C2-B661-8FE5E9C240CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9D2208AD-7A84-48C2-B661-8FE5E9C240CB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C930809E-CC86-40F3-9390-D36D60B40B46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C930809E-CC86-40F3-9390-D36D60B40B46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C930809E-CC86-40F3-9390-D36D60B40B46}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -744,10 +722,6 @@ Global
 		{A1AF8163-38A2-4936-A0EA-CC0F1C39EE7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1AF8163-38A2-4936-A0EA-CC0F1C39EE7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1AF8163-38A2-4936-A0EA-CC0F1C39EE7A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{84FDED15-579A-42D9-A7AB-C80466E7CF5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{84FDED15-579A-42D9-A7AB-C80466E7CF5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{84FDED15-579A-42D9-A7AB-C80466E7CF5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{84FDED15-579A-42D9-A7AB-C80466E7CF5D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D6124691-0014-4094-AD3A-84FE2AD2A243}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D6124691-0014-4094-AD3A-84FE2AD2A243}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6124691-0014-4094-AD3A-84FE2AD2A243}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -760,10 +734,6 @@ Global
 		{03C12572-E361-4250-B99C-53FD8D35FC6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03C12572-E361-4250-B99C-53FD8D35FC6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03C12572-E361-4250-B99C-53FD8D35FC6F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B3189A89-0D59-49B4-B21F-04EAF4E6D279}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B3189A89-0D59-49B4-B21F-04EAF4E6D279}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B3189A89-0D59-49B4-B21F-04EAF4E6D279}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B3189A89-0D59-49B4-B21F-04EAF4E6D279}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CC53D32C-61B7-4F26-BA0C-FD29A4DE0505}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CC53D32C-61B7-4F26-BA0C-FD29A4DE0505}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC53D32C-61B7-4F26-BA0C-FD29A4DE0505}.Release|Any CPU.ActiveCfg = Release|Any CPU

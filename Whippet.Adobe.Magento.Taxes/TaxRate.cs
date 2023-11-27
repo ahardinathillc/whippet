@@ -1,65 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
-using Newtonsoft.Json;
-using Athi.Whippet.Json;
+using Athi.Whippet.Adobe.Magento.Extensions;
 using Athi.Whippet.Adobe.Magento.Data;
 using Athi.Whippet.Adobe.Magento.Directory;
 using Athi.Whippet.Adobe.Magento.Directory.Extensions;
 using Athi.Whippet.Adobe.Magento.Taxes.Extensions;
-using Athi.Whippet.Json.Newtonsoft.Extensions;
 
 namespace Athi.Whippet.Adobe.Magento.Taxes
 {
     /// <summary>
-    /// Tax rate that is applied to a region in Magento.
+    /// Represents a tax rate in Magento.
     /// </summary>
-    public class TaxRate : MagentoEntity, IMagentoEntity, ITaxRate, IEqualityComparer<ITaxRate>, ICloneable, IWhippetCloneable, IJsonObject
+    public class TaxRate : MagentoRestEntity<TaxRateInterface>, IMagentoEntity, ITaxRate, IEqualityComparer<ITaxRate>, IMagentoRestEntity<TaxRateInterface>, IMagentoRestEntity
     {
-        /// <summary>
-        /// Default <see cref="TaxRate.Code"/> that indicates the tax rate is tax-exempt.
-        /// </summary>
-        public const string DEFAULT_TAX_EXEMPT_CODE = "EXEMPT";
-
-        private const string JP_CODE = "code";
-        private const string JP_ID = "id";
-        private const string JP_RATE = "rate";
-        private const string JP_REGION_NAME = "region_name";
-        private const string JP_TAX_COUNTRY_ID = "tax_country_id";
-        private const string JP_TAX_POSTAL_CODE = "tax_postcode";
-        private const string JP_TAX_REGION_ID = "tax_region_id";
-        private const string JP_TITLES = "titles";
-        private const string JP_TITLE = "title";
-        private const string JP_STORE_ID = "store_id";
-        private const string JP_VALUE = "value";
-        private const string JP_ZIP_FROM = "zip_from";
-        private const string JP_ZIP_TO = "zip_to";
-        private const string JP_ZIP_IS_RANGE = "zip_is_range";
-
-        private const byte MAX_LEN_CODE = 255;
-
-        private string _code;
-
         private Country _country;
         private Region _region;
-
+        
         /// <summary>
-        /// Gets or sets the unique ID of the <see cref="TaxRate"/>.
-        /// </summary>
-        public new int ID
-        {
-            get
-            {
-                return Convert.ToInt32(base.ID);
-            }
-            set
-            {
-                base.ID = Convert.ToUInt32(value);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the <see cref="Directory.Country"/> that the <see cref="TaxRate"/> applies to.
+        /// Gets or sets the tax rate's parent country.
         /// </summary>
         public virtual Country Country
         {
@@ -79,7 +38,7 @@ namespace Athi.Whippet.Adobe.Magento.Taxes
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="ICountry"/> that the <see cref="ITaxRate"/> applies to.
+        /// Gets or sets the tax rate's parent country.
         /// </summary>
         ICountry ITaxRate.Country
         {
@@ -94,25 +53,7 @@ namespace Athi.Whippet.Adobe.Magento.Taxes
         }
 
         /// <summary>
-        /// Gets or sets the ISO-2 country identifier that the <see cref="TaxRate"/> applies to.
-        /// </summary>
-        /// <exception cref="ArgumentNullException" />
-        /// <exception cref="ArgumentOutOfRangeException" />
-        [JsonProperty(JP_TAX_COUNTRY_ID)]
-        public virtual string CountryID
-        {
-            get
-            {
-                return Country.ID;
-            }
-            set
-            {
-                Country = new Country(value, Server);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the <see cref="Directory.Region"/> that the <see cref="TaxRate"/> applies to.
+        /// Gets or sets the tax rate's region.
         /// </summary>
         public virtual Region Region
         {
@@ -132,7 +73,7 @@ namespace Athi.Whippet.Adobe.Magento.Taxes
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="IRegion"/> that the <see cref="ITaxRate"/> applies to.
+        /// Gets or sets the tax rate's region.
         /// </summary>
         IRegion ITaxRate.Region
         {
@@ -145,179 +86,112 @@ namespace Athi.Whippet.Adobe.Magento.Taxes
                 Region = value.ToRegion();
             }
         }
-
+        
         /// <summary>
-        /// Gets or sets the ID of the <see cref="Directory.Region"/> that the <see cref="TaxRate"/> applies to.
+        /// Gets or sets the tax rate's applicable postal code.
         /// </summary>
-        [JsonProperty(JP_TAX_REGION_ID)]
-        public virtual int RegionID
-        {
-            get
-            {
-                return Convert.ToInt32(Region.ID);
-            }
-            set
-            {
-                Region = new Region(Convert.ToUInt32(value), Server);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the postal code that the <see cref="TaxRate"/> applies to.
-        /// </summary>
-        [JsonProperty(JP_TAX_POSTAL_CODE)]
         public virtual string PostalCode
         { get; set; }
-
+        
         /// <summary>
-        /// Numeric flag that specifies whether the <see cref="PostalCode"/> value is a ZIP code and, if so, is represented as a range in <see cref="ZipFrom"/> and <see cref="ZipTo"/>.
+        /// Specifies whether the tax rate applies to a range of postal codes.
         /// </summary>
-        [JsonProperty(JP_ZIP_IS_RANGE)]
-        public virtual int ZipIsRange
-        {
-            get
-            {
-                return ZipIsRangeInternal.GetValueOrDefault();
-            }
-            set
-            {
-                ZipIsRangeInternal = Convert.ToInt16(value);
-            }
-        }
-
-        /// <summary>
-        /// Numeric flag that specifies whether the <see cref="PostalCode"/> value is a ZIP code and, if so, is represented as a range in <see cref="ZipFrom"/> and <see cref="ZipTo"/>.
-        /// </summary>
-        protected internal virtual short? ZipIsRangeInternal
+        public virtual bool PostalCodeIsRange
         { get; set; }
 
         /// <summary>
-        /// Lower-bound ZIP code value that the <see cref="TaxRate"/> applies to.
+        /// Gets or sets the lower bound of the <see cref="PostalCode"/> range.
         /// </summary>
-        [JsonProperty(JP_ZIP_FROM)]
-        public virtual int ZipFrom
-        {
-            get
-            {
-                return Convert.ToInt32(ZipFromInternal.GetValueOrDefault());
-            }
-            set
-            {
-                ZipFromInternal = Convert.ToUInt32(value);
-            }
-        }
-
-        /// <summary>
-        /// Upper-bound ZIP code value that the <see cref="TaxRate"/> applies to.
-        /// </summary>
-        [JsonProperty(JP_ZIP_TO)]
-        public virtual int ZipTo
-        {
-            get
-            {
-                return Convert.ToInt32(ZipToInternal.GetValueOrDefault());
-            }
-            set
-            {
-                ZipToInternal = Convert.ToUInt32(value);
-            }
-        }
-
-        /// <summary>
-        /// Lower-bound ZIP code value that the <see cref="TaxRate"/> applies to.
-        /// </summary>
-        protected internal virtual uint? ZipFromInternal
+        public virtual int? PostalCodeLowerBound
         { get; set; }
 
         /// <summary>
-        /// Upper-bound ZIP code value that the <see cref="TaxRate"/> applies to.
+        /// Gets or sets the upper bound of the <see cref="PostalCode"/> range.
         /// </summary>
-        protected internal virtual uint? ZipToInternal
+        public virtual int? PostalCodeUpperBound
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the numeric tax rate value.
+        /// Gets or sets the tax rate percentage.
         /// </summary>
-        [JsonProperty(JP_RATE)]
         public virtual decimal Rate
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="TaxRate"/> code.
+        /// Gets or sets the tax rate code.
         /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException" />
-        [JsonProperty(JP_CODE)]
         public virtual string Code
-        {
-            get
-            {
-                return _code;
-            }
-            set
-            {
-                if (!String.IsNullOrWhiteSpace(value) && (value.Length > MAX_LEN_CODE))
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value));
-                }
-                else
-                {
-                    _code = value;
-                }
-            }
-        }
+        { get; set; }
 
         /// <summary>
-        /// Gets or sets the available <see cref="TaxRateTitle"/> associations for the <see cref="TaxRate"/>.
+        /// Gets or sets the tax rate titles.
         /// </summary>
-        [JsonProperty(JP_TITLES)]
         public virtual IEnumerable<TaxRateTitle> Titles
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the available <see cref="ITaxRateTitle"/> associations for the <see cref="ITaxRate"/>.
+        /// Gets or sets the tax rate titles.
         /// </summary>
         IEnumerable<ITaxRateTitle> ITaxRate.Titles
         {
             get
             {
-                return Titles;
+                return (Titles == null) ? null : Titles.Select(t => t);
             }
             set
             {
-                Titles = (value == null) ? null : new ReadOnlyCollection<TaxRateTitle>(new List<TaxRateTitle>(value.Select(trt => trt.ToTaxRateTitle())));
+                if (value == null)
+                {
+                    Titles = null;
+                }
+                else
+                {
+                    Titles = value.Select(t => t.ToTaxRateTitle());
+                }
             }
         }
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="TaxRate"/> class with no arguments.
         /// </summary>
         public TaxRate()
             : base()
         { }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TaxRate"/> class with the specified ID.
+        /// </summary>
+        /// <param name="entityId">ID to assign the <see cref="MagentoEntity"/> object.</param>
+        /// <param name="server"><see cref="MagentoServer"/> the entity resides on.</param>
+        /// <param name="restEndpoint"><see cref="MagentoRestEndpoint"/> the entity resides on.</param>
+        public TaxRate(uint entityId, MagentoServer server = null, MagentoRestEndpoint restEndpoint = null)
+            : base(entityId, server, restEndpoint)
+        { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TaxRate"/> class with the specified class ID and <see cref="MagentoServer"/>.
+        /// Initializes a new instance of the <see cref="TaxRate"/> class with the specified <see cref="IExtensionInterface"/> object.
         /// </summary>
-        /// <param name="rateId">Tax rate ID.</param>
+        /// <param name="model"><see cref="IExtensionInterface"/> object to initialize a new instance of the class with.</param>
         /// <param name="server"><see cref="MagentoServer"/> the entity resides on.</param>
-        public TaxRate(int rateId, MagentoServer server)
-            : base(Convert.ToUInt32(rateId), server)
+        /// <param name="restEndpoint"><see cref="MagentoRestEndpoint"/> the entity resides on.</param>
+        public TaxRate(TaxRateInterface model, MagentoServer server = null, MagentoRestEndpoint restEndpoint = null)
+            : base(model, server, restEndpoint)
         { }
 
         /// <summary>
         /// Compares the current instance to the specified object for equality.
         /// </summary>
-        /// <param name="obj">Object to compare against.</param>
+        /// <param name="obj">Object to compare.</param>
         /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
-        public override bool Equals(object? obj)
+        public override bool Equals(object obj)
         {
-            return (obj == null || !(obj is ITaxRate)) ? false : Equals(obj as ITaxRate);
+            return ((obj == null) || !(obj is ITaxRate)) ? false : Equals((ITaxRate)(obj));
         }
 
         /// <summary>
         /// Compares the current instance to the specified object for equality.
         /// </summary>
-        /// <param name="obj">Object to compare against.</param>
+        /// <param name="obj">Object to compare.</param>
         /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
         public virtual bool Equals(ITaxRate obj)
         {
@@ -332,293 +206,132 @@ namespace Athi.Whippet.Adobe.Magento.Taxes
         /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
         public virtual bool Equals(ITaxRate x, ITaxRate y)
         {
-            bool equals = (x == null && y == null);
+            bool equals = (x == null) && (y == null);
 
             if (!equals && (x != null) && (y != null))
             {
-                equals = ((x.Country == null && y.Country == null) || (x.Country != null && x.Country.Equals(y.Country)))
-                    && String.Equals(x.Code, y.Code, StringComparison.InvariantCultureIgnoreCase)
-                    && String.Equals(x.PostalCode, y.PostalCode, StringComparison.InvariantCultureIgnoreCase)
-                    && (x.Rate == y.Rate)
-                    && ((x.Region == null && y.Region == null) || (x.Region != null && x.Region.Equals(y.Region)))
-                    && (x.ZipFrom == y.ZipFrom)
-                    && (x.ZipTo == y.ZipTo);
+                equals = (((x.Titles == null) && (y.Titles == null)) || ((x.Titles) != null && x.Titles.SequenceEqual(y.Titles)))
+                         && (x.PostalCodeIsRange == y.PostalCodeIsRange)
+                         && (((x.Region == null) && (y.Region == null)) || ((x.Region) != null && x.Region.Equals(y.Region)))
+                         && String.Equals(x.Code?.Trim(), y.Code?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && (((x.Country == null) && (y.Country == null)) || ((x.Country) != null && x.Country.Equals(y.Country)))
+                         && (x.Rate == y.Rate)
+                         && String.Equals(x.PostalCode?.Trim(), y.PostalCode?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && x.PostalCodeLowerBound.GetValueOrDefault().Equals(y.PostalCodeLowerBound.GetValueOrDefault())
+                         && x.PostalCodeUpperBound.GetValueOrDefault().Equals(y.PostalCodeUpperBound.GetValueOrDefault());
             }
 
             return equals;
         }
 
         /// <summary>
-        /// Gets the hash code for the current object.
+        /// Converts the current instance to an <see cref="IExtensionInterface"/> of type <see cref="TaxRateInterface"/>.
         /// </summary>
-        /// <returns>Hash code for the current object.</returns>
-        public override int GetHashCode()
+        /// <returns><see cref="IExtensionInterface"/> object of type <see cref="TaxRateInterface"/>.</returns>
+        public override TaxRateInterface ToInterface()
         {
-            return base.GetHashCode();
-        }
-
-        /// <summary>
-        /// Gets the hash code for the specified object.
-        /// </summary>
-        /// <param name="obj"><see cref="ITaxRate"/> object.</param>
-        /// <returns>Hash code for the specified object.</returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        public virtual int GetHashCode(ITaxRate obj)
-        {
-            if (obj == null)
-            {
-                throw new ArgumentNullException(nameof(obj));
-            }
-            else
-            {
-                return obj.GetHashCode();
-            }
+            TaxRateInterface taxInterface = new TaxRateInterface();
+            taxInterface.ID = ID;
+            taxInterface.Code = Code;
+            taxInterface.Titles = (Titles == null) ? null : Titles.Select(t => t.ToInterface()).ToArray();
+            taxInterface.Region = Convert.ToInt32(Region.ID);
+            taxInterface.Country = Country.ID;
+            taxInterface.Rate = Rate;
+            taxInterface.PostalCode = PostalCode;
+            taxInterface.RegionName = Region.Name;
+            taxInterface.PostalCodeFrom = PostalCodeLowerBound.GetValueOrDefault();
+            taxInterface.PostalCodeTo = PostalCodeUpperBound.GetValueOrDefault();
+            taxInterface.PostalCodeIsRange = PostalCodeIsRange.ToMagentoBoolean();
+            
+            return taxInterface;
         }
 
         /// <summary>
         /// Creates a duplicate instance of the current object.
         /// </summary>
         /// <returns>Duplicate instance of the current object.</returns>
-        public virtual object Clone()
+        public override object Clone()
         {
-            TaxRate rate = new TaxRate();
+            TaxRate taxRate = new TaxRate();
 
-            rate.Code = Code;
-            rate.Country = Country.Clone<Country>();
-            rate.ID = ID;
-            rate.PostalCode = PostalCode;
-            rate.Rate = Rate;
-            rate.Region = Region.Clone<Region>();
-            rate.RestEndpoint = RestEndpoint.Clone<MagentoRestEndpoint>();
-            rate.Server = Server.Clone<MagentoServer>();
-
-            if (Titles != null && Titles.Any())
-            {
-                rate.Titles = Titles.Select(t => t.Clone<TaxRateTitle>());
-            }
-
-            rate.ZipFrom = ZipFrom;
-            rate.ZipFromInternal = ZipFromInternal;
-            rate.ZipIsRange = ZipIsRange;
-            rate.ZipIsRangeInternal = ZipIsRangeInternal;
-            rate.ZipTo = ZipTo;
-            rate.ZipToInternal = ZipToInternal;
-
-            return rate;
+            taxRate.Rate = Rate;
+            taxRate.RestEndpoint = RestEndpoint.Clone<MagentoRestEndpoint>();
+            taxRate.PostalCode = PostalCode;
+            taxRate.Code = Code;
+            taxRate.Country = Country.Clone<Country>();
+            taxRate.Region = Region.Clone<Region>();
+            taxRate.Titles = (Titles == null) ? null : new ReadOnlyCollection<TaxRateTitle>(Titles.Select(t => t.Clone<TaxRateTitle>()).ToList());
+            taxRate.PostalCodeIsRange = PostalCodeIsRange;
+            taxRate.PostalCodeLowerBound = PostalCodeLowerBound;
+            taxRate.PostalCodeUpperBound = PostalCodeUpperBound;
+            taxRate.Server = Server.Clone<MagentoServer>();
+            taxRate.ID = ID;
+            
+            return taxRate;
         }
 
         /// <summary>
-        /// Creates a duplicate instance of the current object with the optional <see cref="Guid"/> that represents the user ID of the user who instantiated the new instance.
+        /// Gets the hash code of the current instance.
         /// </summary>
-        /// <typeparam name="TObject">Type of object to return from the operation.</typeparam>
-        /// <param name="createdBy"><see cref="Guid"/> ID of the user who instantiated the new instance.</param>
-        /// <returns>Object of type <typeparamref name="TObject"/>.</returns>
-        public virtual TObject Clone<TObject>(Guid? createdBy = null)
+        /// <returns>Hash code.</returns>
+        public override int GetHashCode()
         {
-            return (TObject)(Clone());
+            HashCode hash = new HashCode();
+
+            hash.Add(ID);
+            hash.Add(Rate);
+            hash.Add(PostalCode);
+            hash.Add(Code);
+            hash.Add(Country);
+            hash.Add(Region);
+            hash.Add(Titles);
+            hash.Add(PostalCodeIsRange);
+            hash.Add(PostalCodeLowerBound);
+            hash.Add(PostalCodeUpperBound);
+            
+            return hash.ToHashCode();
         }
 
+        /// <summary>
+        /// Constructs the current instance with the specified <see cref="IExtensionInterface"/> object.
+        /// </summary>
+        /// <param name="model"><see cref="IExtensionInterface"/> object to construct the current instance from.</param>
+        protected override void ImportFromModel(TaxRateInterface model)
+        {
+            if (model != null)
+            {
+                ID = model.ID;
+                PostalCode = model.PostalCode;
+                Code = model.Code;
+                Country = new Country() { CountryID = model.Country };
+                Region = new Region() { RegionID = Convert.ToString(model.Region) };
+                Titles = (model.Titles == null) ? null : model.Titles.Select(t => new TaxRateTitle(t));
+                PostalCodeIsRange = model.PostalCodeIsRange.FromMagentoBoolean();
+                PostalCodeLowerBound = (model.PostalCodeFrom > 0) ? model.PostalCodeFrom : null;
+                PostalCodeUpperBound = (model.PostalCodeTo > 0) ? model.PostalCodeTo : null;
+                Rate = model.Rate;
+            }
+        }
+
+        /// <summary>
+        /// Gets the hash code of the specified object.
+        /// </summary>
+        /// <param name="taxRate"><see cref="ITaxRate"/> object to get hash code for.</param>
+        /// <returns>Hash code.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public virtual int GetHashCode(ITaxRate taxRate)
+        {
+            ArgumentNullException.ThrowIfNull(taxRate);
+            return taxRate.GetHashCode();
+        }
+        
         /// <summary>
         /// Gets the string representation of the current object.
         /// </summary>
         /// <returns>String representation of the current object.</returns>
         public override string ToString()
         {
-            return String.IsNullOrWhiteSpace(Code) ? base.ToString() : Code + " [" + Region.ToString() + "]";
-        }
-
-        /// <summary>
-        /// Returns the current instance as a JSON object in a <see cref="String"/> that is defined by the API documentation in Magento. This is typically used for POST and PUT requests as the default serializer suffices in GET requests.
-        /// </summary>
-        /// <returns><see cref="String"/> containing the JSON object representation of the current instance.</returns>
-        /// <remarks>See <a href="https://magento.stackexchange.com/questions/3480/how-to-programatically-create-tax-rates">How to Programatically Create Tax Rates</a> as the Adobe documentation is incorrect.</remarks>
-        public override string ToMagentoJsonString()
-        {
-            return ToMagentoJsonString(true);
-        }
-
-        /// <summary>
-        /// Returns the current instance as a JSON object in a <see cref="String"/> that is defined by the API documentation in Magento. This is typically used for POST and PUT requests as the default serializer suffices in GET requests.
-        /// </summary>
-        /// <param name="openSource">If <see langword="true"/>, will generate the JSON necessary for Magento Open Source.</param>
-        /// <returns><see cref="String"/> containing the JSON object representation of the current instance.</returns>
-        /// <remarks>See <a href="https://magento.stackexchange.com/questions/3480/how-to-programatically-create-tax-rates">How to Programatically Create Tax Rates</a> as the Adobe documentation is incorrect.</remarks>
-        public string ToMagentoJsonString(bool openSource)
-        {
-            return InternalToMagentoJsonString(openSource);
-        }
-
-        /// <summary>
-        /// Returns the current instance as a JSON object in a <see cref="String"/> that is defined by the API documentation in Magento. This is typically used for POST and PUT requests as the default serializer suffices in GET requests.
-        /// </summary>
-        /// <returns><see cref="String"/> containing the JSON object representation of the current instance.</returns>
-        /// <remarks>If creating for Open Source, see <a href="https://magento.stackexchange.com/questions/3480/how-to-programatically-create-tax-rates">How to Programatically Create Tax Rates</a> as the Adobe documentation is incorrect.</remarks>
-        private string InternalToMagentoJsonString(bool openSource)
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-            StringWriter stringWriter = new StringWriter(stringBuilder);
-
-            using (JsonWriter writer = new JsonTextWriter(stringWriter))
-            {
-                writer.Formatting = Formatting.Indented;
-
-                writer.WriteStartObject();
-
-                writer.WritePropertyName("taxRate");
-                writer.WriteStartObject();                          // tax rate object - start
-
-                writer.WritePropertyName(JP_CODE);
-                writer.WriteValue(Code);
-
-                if (ID > 0)
-                {
-                    writer.WritePropertyName(JP_ID);
-                    writer.WriteValue(ID);
-                }
-
-                writer.WritePropertyName(JP_RATE);
-                writer.WriteValue(Rate);
-
-                if (!openSource)
-                {
-                    writer.WritePropertyName(JP_REGION_NAME);
-                    writer.WriteValue(Region.Name);
-                }
-
-                writer.WritePropertyName(JP_TAX_COUNTRY_ID);
-                writer.WriteValue(CountryID);
-
-                writer.WritePropertyName(JP_TAX_POSTAL_CODE);
-                writer.WriteValue(PostalCode);
-
-                writer.WritePropertyName(JP_TAX_REGION_ID);
-                writer.WriteValue(RegionID);
-
-                if (Titles != null && Titles.Any())
-                {
-                    writer.WritePropertyName(JP_TITLES);
-                    writer.WriteStartArray();
-
-                    foreach (TaxRateTitle title in Titles)
-                    {
-                        if (title != null)
-                        {
-                            writer.WriteStartObject();
-                            writer.WritePropertyName(JP_STORE_ID);
-                            writer.WriteValue(title.StoreID);
-                            writer.WritePropertyName(JP_VALUE);
-                            writer.WriteValue(title.Value);
-                            writer.WriteEndObject();
-                        }
-                    }
-
-                    writer.WriteEndArray();
-                }
-
-                if (!openSource)
-                {
-                    writer.WritePropertyName(JP_ZIP_FROM);
-
-                    if (ZipFrom > 0)
-                    {
-                        writer.WriteValue(ZipFrom);
-                    }
-                    else
-                    {
-                        writer.WriteNull();
-                    }
-
-                    writer.WritePropertyName(JP_ZIP_TO);
-
-                    if (ZipTo > 0)
-                    {
-                        writer.WriteValue(ZipTo);
-                    }
-                    else
-                    {
-                        writer.WriteNull();
-                    }
-
-                    writer.WritePropertyName(JP_TITLE);
-                    writer.WriteValue(Code);
-                }
-
-                writer.WritePropertyName(JP_ZIP_IS_RANGE);
-                writer.WriteValue(ZipIsRange);
-
-                writer.WriteEndObject();                            // tax rate object - end
-
-                writer.WriteEndObject();
-            }
-
-            return stringBuilder.ToString();
-        }
-        
-        /// <summary>
-        /// Builds the <see cref="Code"/> value based on the specified parameters.
-        /// </summary>
-        /// <param name="countryIso2">ISO-2 abbreviation of the country.</param>
-        /// <param name="stateProvinceAbbreviation">Two-letter state or province abbreviation.</param>
-        /// <param name="postalCode">Postal code for the rate (if any).</param>
-        /// <exception cref="ArgumentNullException" />
-        public virtual void BuildCode(string countryIso2, string stateProvinceAbbreviation, string postalCode)
-        {
-            BuildCode(countryIso2, stateProvinceAbbreviation, postalCode, out string code);
-            Code = code;
-        }
-
-        /// <summary>
-        /// Builds the <see cref="Code"/> value based on the specified parameters.
-        /// </summary>
-        /// <param name="countryIso2">ISO-2 abbreviation of the country.</param>
-        /// <param name="stateProvinceAbbreviation">Two-letter state or province abbreviation.</param>
-        /// <param name="postalCode">Postal code for the rate (if any).</param>
-        /// <param name="code"><see cref="TaxRate.Code"/> value.</param>
-        /// <exception cref="ArgumentNullException" />
-        public static void BuildCode(string countryIso2, string stateProvinceAbbreviation, string postalCode, out string code)
-        {
-            if (String.IsNullOrWhiteSpace(countryIso2))
-            {
-                throw new ArgumentNullException(nameof(countryIso2));
-            }
-            else
-            {
-                StringBuilder builder = new StringBuilder();
-
-                builder.Append(countryIso2);
-                builder.Append('-');
-
-                if (String.IsNullOrWhiteSpace(stateProvinceAbbreviation))
-                {
-                    builder.Append('*');
-                }
-                else
-                {
-                    builder.Append(stateProvinceAbbreviation);
-                    builder.Append('-');
-
-                    if (String.IsNullOrWhiteSpace(postalCode))
-                    {
-                        builder.Append('*');
-                    }
-                    else
-                    {
-                        builder.Append(postalCode);
-                    }
-                }
-
-                code = builder.ToString();
-            }
-        }
-
-        /// <summary>
-        /// Returns a JSON string representing the current object. This method must be inherited.
-        /// </summary>
-        /// <typeparam name="T">Type of object to serialize.</typeparam>
-        /// <returns>JSON string.</returns>
-        public override string ToJson<T>()
-        {
-            return this.SerializeJson(this);
+            return String.IsNullOrWhiteSpace(Code) ? base.ToString() : Code;
         }
     }
 }

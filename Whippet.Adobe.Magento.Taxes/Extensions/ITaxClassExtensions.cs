@@ -4,7 +4,7 @@ using Athi.Whippet.Adobe.Magento.Extensions;
 namespace Athi.Whippet.Adobe.Magento.Taxes.Extensions
 {
     /// <summary>
-    /// Provides extension methods to <see cref="ITaxClass"/> objects.
+    /// Provides extension methods to <see cref="ITaxClass"/> objects. This class cannot be inherited.
     /// </summary>
     public static class ITaxClassExtensions
     {
@@ -19,22 +19,15 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.Extensions
 
             if (taxClass != null)
             {
-                if (taxClass is TaxClass)
-                {
-                    tc = (TaxClass)(taxClass);
-                }
-                else
-                {
-                    tc = new TaxClass();
-                    tc.ClassID = taxClass.ClassID;
-                    tc.ClassName = taxClass.ClassName;
-                    tc.ClassType = taxClass.ClassType;
-                    tc.Server = taxClass.Server.ToMagentoServer();
-                }
+                tc = new TaxClass();
+                tc.ID = taxClass.ID;
+                tc.Server = taxClass.Server.ToMagentoServer();
+                tc.RestEndpoint = taxClass.RestEndpoint.ToMagentoRestEndpoint();
+                tc.Name = taxClass.Name;
+                tc.Type = taxClass.Type;
             }
 
             return tc;
         }
     }
 }
-

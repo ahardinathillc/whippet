@@ -1,12 +1,11 @@
 ﻿using System;
-using Athi.Whippet.Adobe.Magento.EAV.Extensions;
 using Athi.Whippet.Adobe.Magento.Extensions;
 using Athi.Whippet.Adobe.Magento.Directory.Extensions;
 
 namespace Athi.Whippet.Adobe.Magento.Taxes.Extensions
 {
     /// <summary>
-    /// Provides extension methods to <see cref="ITaxRate"/> objects.
+    /// Provides extension methods to <see cref="ITaxRate"/> objects. This class cannot be inherited.
     /// </summary>
     public static class ITaxRateExtensions
     {
@@ -17,31 +16,26 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.Extensions
         /// <returns><see cref="TaxRate"/> object.</returns>
         public static TaxRate ToTaxRate(this ITaxRate taxRate)
         {
-            TaxRate tc = null;
+            TaxRate rate = null;
 
             if (taxRate != null)
             {
-                if (taxRate is TaxRate)
-                {
-                    tc = (TaxRate)(taxRate);
-                }
-                else
-                {
-                    tc = new TaxRate();
-                    tc.ID = taxRate.ID;
-                    tc.Code = taxRate.Code;
-                    tc.Country = taxRate.Country.ToCountry();
-                    tc.PostalCode = taxRate.PostalCode;
-                    tc.Rate = taxRate.Rate;
-                    tc.Region = taxRate.Region.ToRegion();
-                    tc.Server = taxRate.Server.ToMagentoServer();
-                    tc.ZipFrom = taxRate.ZipFrom;
-                    tc.ZipTo = taxRate.ZipTo;
-                }
+                rate = new TaxRate();
+                rate.ID = taxRate.ID;
+                rate.Server = taxRate.Server.ToMagentoServer();
+                rate.RestEndpoint = taxRate.RestEndpoint.ToMagentoRestEndpoint();
+                rate.Rate = taxRate.Rate;
+                rate.Code = taxRate.Code;
+                rate.Country = taxRate.Country.ToCountry();
+                rate.Region = taxRate.Region.ToRegion();
+                rate.Titles = (taxRate.Titles == null) ? null : taxRate.Titles.Select(t => t.ToTaxRateTitle());
+                rate.PostalCode = taxRate.PostalCode;
+                rate.PostalCodeIsRange = taxRate.PostalCodeIsRange;
+                rate.PostalCodeLowerBound = taxRate.PostalCodeLowerBound;
+                rate.PostalCodeUpperBound = taxRate.PostalCodeUpperBound;
             }
 
-            return tc;
+            return rate;
         }
     }
 }
-

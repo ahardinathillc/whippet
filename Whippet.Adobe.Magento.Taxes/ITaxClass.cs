@@ -1,19 +1,20 @@
 ﻿using System;
+using System.Linq;
 using Athi.Whippet.Adobe.Magento.Data;
 
 namespace Athi.Whippet.Adobe.Magento.Taxes
 {
     /// <summary>
-    /// Tax classification for customers in Magento.
+    /// Represents a tax classification in Magento.
     /// </summary>
-    public interface ITaxClass : IMagentoEntity, IEqualityComparer<ITaxClass>, IMagentoRestEntity, IMagentoRestEntity<TaxClassInterface>
+    public interface ITaxClass : IMagentoEntity, IEqualityComparer<ITaxClass>, IMagentoRestEntity
     {
         /// <summary>
-        /// Gets or sets the tax class name. 
+        /// Gets or sets the tax class name.
         /// </summary>
         string Name
         { get; set; }
-
+        
         /// <summary>
         /// Gets or sets the tax class type.
         /// </summary>

@@ -1,50 +1,28 @@
 ﻿using System;
-using Newtonsoft.Json;
 using Athi.Whippet.Adobe.Magento.Data;
-using Athi.Whippet.Adobe.Magento.EAV;
-using Athi.Whippet.Adobe.Magento.EAV.Extensions;
-using Athi.Whippet.Adobe.Magento.Taxes.Extensions;
-using Athi.Whippet.Json.Newtonsoft.Extensions;
+using Athi.Whippet.Adobe.Magento.Store;
+using Athi.Whippet.Adobe.Magento.Store.Extensions;
+using MagentoStore = Athi.Whippet.Adobe.Magento.Store.Store;
 
 namespace Athi.Whippet.Adobe.Magento.Taxes
 {
     /// <summary>
-    /// <see cref="TaxRate"/> label that is associated to individual <see cref="TaxRate"/> objects and their respective <see cref="Store"/> assignment.
+    /// Represents a tax rate title in Magento.
     /// </summary>
-    public class TaxRateTitle : MagentoEntity, IMagentoEntity, ITaxRateTitle, IEqualityComparer<ITaxRateTitle>, ICloneable, IWhippetCloneable
+    public class TaxRateTitle : MagentoRestEntity<TaxRateTitleInterface>, IMagentoEntity, ITaxRateTitle, IEqualityComparer<ITaxRateTitle>, IMagentoRestEntity<TaxRateTitleInterface>
     {
-        private const byte MAX_LEN_VALUE = 255;
-
-        private string _value;
-
-        private Store _store;
-        private TaxRate _rate;
+        private MagentoStore _store;
 
         /// <summary>
-        /// Gets or sets the unique ID of the <see cref="TaxRateTitle"/>.
+        /// Gets or sets the <see cref="MagentoStore"/> that the title applies to.
         /// </summary>
-        public new int ID
-        {
-            get
-            {
-                return Convert.ToInt32(base.ID);
-            }
-            set
-            {
-                base.ID = Convert.ToUInt32(value);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the <see cref="EAV.Store"/> that the <see cref="TaxRateTitle"/> is assigned to.
-        /// </summary>
-        public virtual Store Store
+        public virtual MagentoStore Store
         {
             get
             {
                 if (_store == null)
                 {
-                    _store = new Store();
+                    _store = new MagentoStore();
                 }
 
                 return _store;
@@ -56,7 +34,7 @@ namespace Athi.Whippet.Adobe.Magento.Taxes
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="IStore"/> that the <see cref="ITaxRateTitle"/> is assigned to.
+        /// Gets or sets the <see cref="IStore"/> that the title applies to.
         /// </summary>
         IStore ITaxRateTitle.Store
         {
@@ -69,85 +47,12 @@ namespace Athi.Whippet.Adobe.Magento.Taxes
                 Store = value.ToStore();
             }
         }
-
+        
         /// <summary>
-        /// Gets or sets the unique store ID. Value must be able to be represented as an unsigned 16-bit integer.
+        /// Gets or sets the title value.
         /// </summary>
-        /// <exception cref="FormatException" />
-        /// <exception cref="OverflowException" />
-        [JsonProperty("store_id")]
-        public virtual string StoreID
-        {
-            get
-            {
-                return Convert.ToString(Store.StoreID);
-            }
-            set
-            {
-                Store = new Store();
-                Store.Server = Server;
-                Store.StoreID = Convert.ToUInt16(value);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the <see cref="TaxRate"/> that is associated with the <see cref="EAV.Store"/>.
-        /// </summary>
-        public virtual TaxRate Rate
-        {
-            get
-            {
-                if (_rate == null)
-                {
-                    _rate = new TaxRate();
-                }
-
-                return _rate;
-            }
-            set
-            {
-                _rate = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the <see cref="ITaxRate"/> that is associated with the <see cref="IStore"/>.
-        /// </summary>
-        ITaxRate ITaxRateTitle.Rate
-        {
-            get
-            {
-                return Rate;
-            }
-            set
-            {
-                Rate = value.ToTaxRate();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the <see cref="TaxRateTitle"/> value.
-        /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException" />
-        [JsonProperty("value")]
         public virtual string Value
-        {
-            get
-            {
-                return _value;
-            }
-            set
-            {
-                if (!String.IsNullOrWhiteSpace(value) && (value.Length > MAX_LEN_VALUE))
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
-                else
-                {
-                    _value = value;
-                }
-            }
-        }
+        { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TaxRateTitle"/> class with no arguments.
@@ -155,30 +60,41 @@ namespace Athi.Whippet.Adobe.Magento.Taxes
         public TaxRateTitle()
             : base()
         { }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TaxRateTitle"/> class with the specified ID.
+        /// </summary>
+        /// <param name="entityId">ID to assign the <see cref="MagentoEntity"/> object.</param>
+        /// <param name="server"><see cref="MagentoServer"/> the entity resides on.</param>
+        /// <param name="restEndpoint"><see cref="MagentoRestEndpoint"/> the entity resides on.</param>
+        public TaxRateTitle(uint entityId, MagentoServer server = null, MagentoRestEndpoint restEndpoint = null)
+            : base(entityId, server, restEndpoint)
+        { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TaxRateTitle"/> class with the specified ID and <see cref="MagentoServer"/>.
+        /// Initializes a new instance of the <see cref="TaxRateTitle"/> class with the specified <see cref="IExtensionInterface"/> object.
         /// </summary>
-        /// <param name="id">ID of the tax rate title.</param>
+        /// <param name="model"><see cref="IExtensionInterface"/> object to initialize a new instance of the class with.</param>
         /// <param name="server"><see cref="MagentoServer"/> the entity resides on.</param>
-        public TaxRateTitle(int id, MagentoServer server)
-            : base(Convert.ToUInt32(id), server)
+        /// <param name="restEndpoint"><see cref="MagentoRestEndpoint"/> the entity resides on.</param>
+        public TaxRateTitle(TaxRateTitleInterface model, MagentoServer server = null, MagentoRestEndpoint restEndpoint = null)
+            : base(model, server, restEndpoint)
         { }
 
         /// <summary>
         /// Compares the current instance to the specified object for equality.
         /// </summary>
-        /// <param name="obj">Object to compare against.</param>
+        /// <param name="obj">Object to compare.</param>
         /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
-        public override bool Equals(object? obj)
+        public override bool Equals(object obj)
         {
-            return (obj == null || !(obj is ITaxRateTitle)) ? false : Equals(obj as ITaxRateTitle);
+            return ((obj == null) || !(obj is ITaxRateTitle)) ? false : Equals((ITaxRateTitle)(obj));
         }
 
         /// <summary>
         /// Compares the current instance to the specified object for equality.
         /// </summary>
-        /// <param name="obj">Object to compare against.</param>
+        /// <param name="obj">Object to compare.</param>
         /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
         public virtual bool Equals(ITaxRateTitle obj)
         {
@@ -193,92 +109,94 @@ namespace Athi.Whippet.Adobe.Magento.Taxes
         /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
         public virtual bool Equals(ITaxRateTitle x, ITaxRateTitle y)
         {
-            bool equals = (x == null && y == null);
+            bool equals = (x == null) && (y == null);
 
             if (!equals && (x != null) && (y != null))
             {
-                equals = ((x.Rate == null && y.Rate == null) || (x.Rate != null && x.Rate.Equals(y.Rate)))
-                    && ((x.Store == null && y.Store == null) || (x.Store != null && x.Store.Equals(y.Store)))
-                    && String.Equals(x.Value, y.Value, StringComparison.InvariantCultureIgnoreCase);
+                equals = String.Equals(x.Value?.Trim(), y.Value?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && (((x.Store == null) && (y.Store == null)) || ((x.Store != null) && x.Store.Equals(y.Store)));
             }
 
             return equals;
         }
 
         /// <summary>
-        /// Gets the hash code for the current object.
+        /// Converts the current instance to an <see cref="IExtensionInterface"/> of type <see cref="TaxRateTitleInterface"/>.
         /// </summary>
-        /// <returns>Hash code for the current object.</returns>
-        public override int GetHashCode()
+        /// <returns><see cref="IExtensionInterface"/> object of type <see cref="TaxRateTitleInterface"/>.</returns>
+        public override TaxRateTitleInterface ToInterface()
         {
-            return base.GetHashCode();
-        }
-
-        /// <summary>
-        /// Gets the hash code for the specified object.
-        /// </summary>
-        /// <param name="obj"><see cref="ITaxRateTitle"/> object.</param>
-        /// <returns>Hash code for the specified object.</returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        public virtual int GetHashCode(ITaxRateTitle obj)
-        {
-            if (obj == null)
-            {
-                throw new ArgumentNullException(nameof(obj));
-            }
-            else
-            {
-                return obj.GetHashCode();
-            }
+            TaxRateTitleInterface taxInterface = new TaxRateTitleInterface();
+            taxInterface.StoreID = Convert.ToString(Store.ID);
+            taxInterface.Value = Value;
+            
+            return taxInterface;
         }
 
         /// <summary>
         /// Creates a duplicate instance of the current object.
         /// </summary>
         /// <returns>Duplicate instance of the current object.</returns>
-        public virtual object Clone()
+        public override object Clone()
         {
-            TaxRateTitle obj = new TaxRateTitle();
+            TaxRateTitle title = new TaxRateTitle();
 
-            obj.ID = ID;
-            obj.Rate = Rate.ToTaxRate();
-            obj.RestEndpoint = RestEndpoint.Clone<MagentoRestEndpoint>();
-            obj.Server = Server.Clone<MagentoServer>();
-            obj.Store = Store.Clone<Store>();
-            obj.StoreID = StoreID;
-            obj.Value = Value;
+            title.ID = ID;
+            title.Store = Store.Clone<MagentoStore>();
+            title.Value = Value;
+            title.Server = Server.Clone<MagentoServer>();
+            title.RestEndpoint = RestEndpoint.Clone<MagentoRestEndpoint>();
 
-            return obj;
+            return title;
         }
 
         /// <summary>
-        /// Creates a duplicate instance of the current object with the optional <see cref="Guid"/> that represents the user ID of the user who instantiated the new instance.
+        /// Gets the hash code of the current instance.
         /// </summary>
-        /// <typeparam name="TObject">Type of object to return from the operation.</typeparam>
-        /// <param name="createdBy"><see cref="Guid"/> ID of the user who instantiated the new instance.</param>
-        /// <returns>Object of type <typeparamref name="TObject"/>.</returns>
-        public virtual TObject Clone<TObject>(Guid? createdBy = null)
+        /// <returns>Hash code.</returns>
+        public override int GetHashCode()
         {
-            return (TObject)(Clone());
+            HashCode hash = new HashCode();
+
+            hash.Add(ID);
+            hash.Add(Store);
+            hash.Add(Value);
+            
+            return hash.ToHashCode();
         }
 
+        /// <summary>
+        /// Constructs the current instance with the specified <see cref="IExtensionInterface"/> object.
+        /// </summary>
+        /// <param name="model"><see cref="IExtensionInterface"/> object to construct the current instance from.</param>
+        protected override void ImportFromModel(TaxRateTitleInterface model)
+        {
+            if (model != null)
+            {
+                Store = new MagentoStore() { ID = Convert.ToInt32(model.StoreID) };
+                Value = model.Value;
+            }
+        }
+
+        /// <summary>
+        /// Gets the hash code of the specified object.
+        /// </summary>
+        /// <param name="title"><see cref="ITaxRateTitle"/> object to get hash code for.</param>
+        /// <returns>Hash code.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public virtual int GetHashCode(ITaxRateTitle title)
+        {
+            ArgumentNullException.ThrowIfNull(title);
+            return title.GetHashCode();
+        }
+        
         /// <summary>
         /// Gets the string representation of the current object.
         /// </summary>
         /// <returns>String representation of the current object.</returns>
         public override string ToString()
         {
-            return String.IsNullOrWhiteSpace(Value) ? base.ToString() : Value + " [" + Store.ToString() + "]";
-        }
-
-        /// <summary>
-        /// Returns a JSON string representing the current object. This method must be inherited.
-        /// </summary>
-        /// <typeparam name="T">Type of object to serialize.</typeparam>
-        /// <returns>JSON string.</returns>
-        public override string ToJson<T>()
-        {
-            return this.SerializeJson(this);
+            return String.IsNullOrWhiteSpace(Value) ? base.ToString() : Value;
         }
     }
 }

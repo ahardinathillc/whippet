@@ -1,243 +1,142 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using Newtonsoft.Json;
 using Athi.Whippet.Adobe.Magento.Data;
-using Athi.Whippet.Json.Newtonsoft.Converters;
-using Athi.Whippet.Json.Newtonsoft.Extensions;
+using Athi.Whippet.Adobe.Magento.Taxes.Extensions;
 
 namespace Athi.Whippet.Adobe.Magento.Taxes
 {
     /// <summary>
     /// Represents a tax rule in Magento.
     /// </summary>
-    public class TaxRule : MagentoEntity, IMagentoEntity, ITaxRule, IEqualityComparer<ITaxRule>
+    public class TaxRule : MagentoRestEntity<TaxRuleInterface>, IMagentoEntity, ITaxRule, IEqualityComparer<ITaxRule>, IMagentoRestEntity<TaxRuleInterface>, IMagentoRestEntity
     {
-        private IReadOnlyList<TaxClass> _customerClasses;
-        private IReadOnlyList<TaxClass> _productClasses;
-        private IReadOnlyList<TaxRate> _rates;
-
-        /// <summary>
-        /// Specifies whether the subtotal of the order should be calculated with respect to the rule.
-        /// </summary>
-        [JsonProperty("calculate_subtotal")]
-        public virtual bool CalculateSubtotal
-        { get; set; }
-
         /// <summary>
         /// Gets or sets the tax rule code.
         /// </summary>
-        [JsonProperty("code")]
         public virtual string Code
         { get; set; }
 
         /// <summary>
-        /// Gets the customer tax classes that the rule applies to. This property is read-only.
+        /// Gets or sets the priority.
         /// </summary>
-        public virtual IEnumerable<TaxClass> CustomerTaxClasses
-        {
-            get
-            {
-                if (_customerClasses == null)
-                {
-                    _customerClasses = new List<TaxClass>().AsReadOnly();
-                }
-
-                return _customerClasses;
-            }
-            protected set
-            {
-                _customerClasses = (value == null) ? null : new List<TaxClass>(value).AsReadOnly();
-            }
-        }
+        public virtual int Priority
+        { get; set; }
 
         /// <summary>
-        /// Gets the customer tax classes that the rule applies to. This property is read-only.
+        /// Gets or sets the sort order.
+        /// </summary>
+        public virtual int Position
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the customer tax classes.
+        /// </summary>
+        public virtual IEnumerable<TaxClass> CustomerTaxClasses
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the customer tax classes.
         /// </summary>
         IEnumerable<ITaxClass> ITaxRule.CustomerTaxClasses
         {
             get
             {
-                return CustomerTaxClasses;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the customer tax class IDs that the rule applies to. Setting this property will reset all entries in <see cref="CustomerTaxClasses"/>.
-        /// </summary>
-        [JsonProperty("customer_tax_class_ids")]
-        [JsonConverter(typeof(PrimitiveEnumerableConverter))]
-        public virtual IEnumerable<int> CustomerTaxClassIDs
-        {
-            get
-            {
-                return CustomerTaxClasses.Select(ctc => Convert.ToInt32(ctc.ClassID));
+                return (CustomerTaxClasses == null) ? null : CustomerTaxClasses.Select(c => c);
             }
             set
             {
-                if (value != null && value.Any())
-                {
-                    CustomerTaxClasses = new List<TaxClass>(value.Select(id => new TaxClass(Convert.ToUInt32(id), Server))).AsReadOnly();
-                }
-                else
-                {
-                    CustomerTaxClasses = null;
-                }
+                CustomerTaxClasses = (value == null) ? null : value.Select(c => c.ToTaxClass());
             }
         }
-
+        
         /// <summary>
-        /// Specifies the order in which the tax rule is applied.
-        /// </summary>
-        [JsonProperty("position")]
-        public virtual int SortOrder
-        { get; set; }
-
-        /// <summary>
-        /// Specifies the priority of the tax rule.
-        /// </summary>
-        [JsonProperty("priority")]
-        public virtual int Priority
-        { get; set; }
-
-        /// <summary>
-        /// Gets the product tax classes that the rule applies to. This property is read-only.
+        /// Gets or sets the product tax classes.
         /// </summary>
         public virtual IEnumerable<TaxClass> ProductTaxClasses
-        {
-            get
-            {
-                if (_productClasses == null)
-                {
-                    _productClasses = new List<TaxClass>().AsReadOnly();
-                }
-
-                return _productClasses;
-            }
-            protected set
-            {
-                _productClasses = (value == null) ? null : new List<TaxClass>(value).AsReadOnly();
-            }
-        }
+        { get; set; }
 
         /// <summary>
-        /// Gets the product tax classes that the rule applies to. This property is read-only.
+        /// Gets or sets the product tax classes.
         /// </summary>
         IEnumerable<ITaxClass> ITaxRule.ProductTaxClasses
         {
             get
             {
-                return ProductTaxClasses;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the product tax class IDs that the rule applies to. Setting this property will reset all entries in <see cref="ProductTaxClasses"/>.
-        /// </summary>
-        [JsonProperty("product_tax_class_ids")]
-        [JsonConverter(typeof(PrimitiveEnumerableConverter))]
-        public virtual IEnumerable<int> ProductTaxClassIDs
-        {
-            get
-            {
-                return ProductTaxClasses.Select(ctc => Convert.ToInt32(ctc.ClassID));
+                return (ProductTaxClasses == null) ? null : ProductTaxClasses.Select(c => c);
             }
             set
             {
-                if (value != null && value.Any())
-                {
-                    ProductTaxClasses = new List<TaxClass>(value.Select(id => new TaxClass(Convert.ToUInt32(id), Server))).AsReadOnly();
-                }
-                else
-                {
-                    ProductTaxClasses = null;
-                }
+                ProductTaxClasses = (value == null) ? null : value.Select(c => c.ToTaxClass());
             }
         }
-
+        
         /// <summary>
-        /// Gets the tax rates that are applied in the rule. This property is read-only.
+        /// Gets or sets the tax rates that the rule applies.
         /// </summary>
         public virtual IEnumerable<TaxRate> TaxRates
-        {
-            get
-            {
-                if (_rates == null)
-                {
-                    _rates = new List<TaxRate>().AsReadOnly();
-                }
-
-                return _rates;
-            }
-            protected set
-            {
-                _rates = (value == null) ? null : new List<TaxRate>(value).AsReadOnly();
-            }
-        }
+        { get; set; }
 
         /// <summary>
-        /// Gets the tax rates that are applied in the rule. This property is read-only.
+        /// Gets or sets the tax rates that the rule applies.
         /// </summary>
         IEnumerable<ITaxRate> ITaxRule.TaxRates
         {
             get
             {
-                return TaxRates;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the product tax rate IDs that are applied in the rule. Setting this property will reset all entries in <see cref="TaxRates"/>.
-        /// </summary>
-        [JsonProperty("tax_rate_ids")]
-        [JsonConverter(typeof(PrimitiveEnumerableConverter))]
-        public virtual IEnumerable<int> TaxRateIDs
-        {
-            get
-            {
-                return TaxRates.Select(ctc => Convert.ToInt32(ctc.ID));
+                return (TaxRates == null) ? null : TaxRates.Select(c => c);
             }
             set
             {
-                if (value != null && value.Any())
-                {
-                    TaxRates = new List<TaxRate>(value.Select(id => new TaxRate(id, Server))).AsReadOnly();
-                }
-                else
-                {
-                    TaxRates = null;
-                }
+                TaxRates = (value == null) ? null : value.Select(c => c.ToTaxRate());
             }
         }
+        
+        /// <summary>
+        /// Specifies whether the subtotal should be calculated for the rule.
+        /// </summary>
+        public virtual bool CalculateSubtotal
+        { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TaxRule"/> class with no arguments.
         /// </summary>
         public TaxRule()
+            : base()
+        { }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TaxRule"/> class with the specified ID.
+        /// </summary>
+        /// <param name="entityId">ID to assign the <see cref="MagentoEntity"/> object.</param>
+        /// <param name="server"><see cref="MagentoServer"/> the entity resides on.</param>
+        /// <param name="restEndpoint"><see cref="MagentoRestEndpoint"/> the entity resides on.</param>
+        public TaxRule(uint entityId, MagentoServer server = null, MagentoRestEndpoint restEndpoint = null)
+            : base(entityId, server, restEndpoint)
         { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TaxRule"/> class with the specified class ID and <see cref="MagentoServer"/>.
+        /// Initializes a new instance of the <see cref="TaxRule"/> class with the specified <see cref="IExtensionInterface"/> object.
         /// </summary>
-        /// <param name="ruleId">Tax rule ID.</param>
+        /// <param name="model"><see cref="IExtensionInterface"/> object to initialize a new instance of the class with.</param>
         /// <param name="server"><see cref="MagentoServer"/> the entity resides on.</param>
-        public TaxRule(uint ruleId, MagentoServer server)
-            : base(ruleId, server)
+        /// <param name="restEndpoint"><see cref="MagentoRestEndpoint"/> the entity resides on.</param>
+        public TaxRule(TaxRuleInterface model, MagentoServer server = null, MagentoRestEndpoint restEndpoint = null)
+            : base(model, server, restEndpoint)
         { }
 
         /// <summary>
         /// Compares the current instance to the specified object for equality.
         /// </summary>
-        /// <param name="obj">Object to compare against.</param>
+        /// <param name="obj">Object to compare.</param>
         /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
-        public override bool Equals(object? obj)
+        public override bool Equals(object obj)
         {
-            return (obj == null || !(obj is ITaxRule)) ? false : Equals(obj as ITaxRule);
+            return ((obj == null) || !(obj is ITaxRule)) ? false : Equals((ITaxRule)(obj));
         }
 
         /// <summary>
         /// Compares the current instance to the specified object for equality.
         /// </summary>
-        /// <param name="obj">Object to compare against.</param>
+        /// <param name="obj">Object to compare.</param>
         /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
         public virtual bool Equals(ITaxRule obj)
         {
@@ -252,49 +151,114 @@ namespace Athi.Whippet.Adobe.Magento.Taxes
         /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
         public virtual bool Equals(ITaxRule x, ITaxRule y)
         {
-            bool equals = (x == null && y == null);
+            bool equals = (x == null) && (y == null);
 
             if (!equals && (x != null) && (y != null))
             {
-                equals = x.CalculateSubtotal == y.CalculateSubtotal
-                    && String.Equals(x.Code, y.Code, StringComparison.InvariantCultureIgnoreCase)
-                    && ((x.CustomerTaxClassIDs == null && y.CustomerTaxClassIDs == null) || (x.CustomerTaxClassIDs != null && x.CustomerTaxClassIDs.SequenceEqual(y.CustomerTaxClassIDs)))
-                    && x.Priority == y.Priority
-                    && x.SortOrder == y.SortOrder
-                    && ((x.ProductTaxClassIDs == null && y.ProductTaxClassIDs == null) || (x.ProductTaxClassIDs != null && x.ProductTaxClassIDs.SequenceEqual(y.ProductTaxClassIDs)))
-                    && ((x.TaxRateIDs == null && y.TaxRateIDs == null) || (x.TaxRateIDs != null && x.TaxRateIDs.SequenceEqual(y.TaxRateIDs)));
+                equals = (((x.CustomerTaxClasses == null) && (y.CustomerTaxClasses == null)) || ((x.CustomerTaxClasses != null) && x.CustomerTaxClasses.SequenceEqual(y.CustomerTaxClasses)))
+                         && (x.CalculateSubtotal == y.CalculateSubtotal)
+                         && (((x.ProductTaxClasses == null) && (y.ProductTaxClasses == null)) || ((x.ProductTaxClasses != null) && x.ProductTaxClasses.SequenceEqual(y.ProductTaxClasses)))
+                         && (((x.TaxRates == null) && (y.TaxRates == null)) || ((x.TaxRates != null) && x.TaxRates.SequenceEqual(y.TaxRates)))
+                         && String.Equals(x.Code?.Trim(), y.Code?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && (x.Position == y.Position)
+                         && (x.Priority == y.Priority);
             }
 
             return equals;
         }
 
         /// <summary>
-        /// Gets the hash code for the current object.
+        /// Converts the current instance to an <see cref="IExtensionInterface"/> of type <see cref="TaxRuleInterface"/>.
         /// </summary>
-        /// <returns>Hash code for the current object.</returns>
-        public override int GetHashCode()
+        /// <returns><see cref="IExtensionInterface"/> object of type <see cref="TaxRuleInterface"/>.</returns>
+        public override TaxRuleInterface ToInterface()
         {
-            return base.GetHashCode();
+            TaxRuleInterface taxInterface = new TaxRuleInterface();
+            taxInterface.ID = ID;
+            taxInterface.CalculateSubtotal = CalculateSubtotal;
+            taxInterface.Code = Code;
+            taxInterface.Position = Position;
+            taxInterface.Priority = Priority;
+            taxInterface.TaxRateIDs = (TaxRates == null) ? null : TaxRates.Select(tr => tr.ID).ToArray();
+            taxInterface.CustomerTaxClassIDs = (CustomerTaxClasses == null) ? null : CustomerTaxClasses.Select(ct => ct.ID).ToArray();
+            taxInterface.ProductTaxClassIDs = (ProductTaxClasses == null) ? null : ProductTaxClasses.Select(pt => pt.ID).ToArray();
+            
+            return taxInterface;
         }
 
         /// <summary>
-        /// Gets the hash code for the specified object.
+        /// Creates a duplicate instance of the current object.
         /// </summary>
-        /// <param name="obj"><see cref="ITaxRule"/> object.</param>
-        /// <returns>Hash code for the specified object.</returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        public virtual int GetHashCode(ITaxRule obj)
+        /// <returns>Duplicate instance of the current object.</returns>
+        public override object Clone()
         {
-            if (obj == null)
+            TaxRule taxRule = new TaxRule();
+
+            taxRule.ID = ID;
+            taxRule.CustomerTaxClasses = (CustomerTaxClasses == null) ? null : CustomerTaxClasses.Select(ct => ct.Clone<TaxClass>());
+            taxRule.ProductTaxClasses = (ProductTaxClasses == null) ? null : ProductTaxClasses.Select(ct => ct.Clone<TaxClass>());
+            taxRule.CalculateSubtotal = CalculateSubtotal;
+            taxRule.TaxRates = (TaxRates == null) ? null : TaxRates.Select(ct => ct.Clone<TaxRate>());
+            taxRule.Code = Code;
+            taxRule.Position = Position;
+            taxRule.Priority = Priority;
+            taxRule.Server = Server.Clone<MagentoServer>();
+            taxRule.RestEndpoint = RestEndpoint.Clone<MagentoRestEndpoint>();
+            
+            return taxRule;
+        }
+
+        /// <summary>
+        /// Gets the hash code of the current instance.
+        /// </summary>
+        /// <returns>Hash code.</returns>
+        public override int GetHashCode()
+        {
+            HashCode hash = new HashCode();
+
+            hash.Add(ID);
+            hash.Add(CustomerTaxClasses);
+            hash.Add(ProductTaxClasses);
+            hash.Add(CalculateSubtotal);
+            hash.Add(TaxRates);
+            hash.Add(Code);
+            hash.Add(Position);
+            hash.Add(Priority);
+            
+            return hash.ToHashCode();
+        }
+
+        /// <summary>
+        /// Constructs the current instance with the specified <see cref="IExtensionInterface"/> object.
+        /// </summary>
+        /// <param name="model"><see cref="IExtensionInterface"/> object to construct the current instance from.</param>
+        protected override void ImportFromModel(TaxRuleInterface model)
+        {
+            if (model != null)
             {
-                throw new ArgumentNullException(nameof(obj));
-            }
-            else
-            {
-                return obj.GetHashCode();
+                ID = model.ID;
+                CustomerTaxClasses = (model.CustomerTaxClassIDs == null) ? null : model.CustomerTaxClassIDs.Select(ctc => new TaxClass(Convert.ToUInt32(ctc)));
+                ProductTaxClasses = (model.ProductTaxClassIDs == null) ? null : model.ProductTaxClassIDs.Select(ctc => new TaxClass(Convert.ToUInt32(ctc)));
+                CalculateSubtotal = model.CalculateSubtotal;
+                TaxRates = (model.TaxRateIDs == null) ? null : model.TaxRateIDs.Select(ctc => new TaxRate(Convert.ToUInt32(ctc)));
+                Code = model.Code;
+                Position = model.Position;
+                Priority = model.Priority;
             }
         }
 
+        /// <summary>
+        /// Gets the hash code of the specified object.
+        /// </summary>
+        /// <param name="taxRule"><see cref="ITaxRule"/> object to get hash code for.</param>
+        /// <returns>Hash code.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public virtual int GetHashCode(ITaxRule taxRule)
+        {
+            ArgumentNullException.ThrowIfNull(taxRule);
+            return taxRule.GetHashCode();
+        }
+        
         /// <summary>
         /// Gets the string representation of the current object.
         /// </summary>
@@ -302,16 +266,6 @@ namespace Athi.Whippet.Adobe.Magento.Taxes
         public override string ToString()
         {
             return String.IsNullOrWhiteSpace(Code) ? base.ToString() : Code;
-        }
-
-        /// <summary>
-        /// Returns a JSON string representing the current object. This method must be inherited.
-        /// </summary>
-        /// <typeparam name="T">Type of object to serialize.</typeparam>
-        /// <returns>JSON string.</returns>
-        public override string ToJson<T>()
-        {
-            return this.SerializeJson(this);
         }
     }
 }
