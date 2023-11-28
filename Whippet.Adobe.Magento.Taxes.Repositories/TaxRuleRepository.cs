@@ -33,6 +33,27 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.Repositories
         /// Gets the <see cref="TaxRule"/> with the specified ID.
         /// </summary>
         /// <param name="key">Entity ID.</param>
+        /// <returns><see cref="WhippetResultContainer{TEntity}"/> containing the result of the domain object operation and the corresponding item if found.</returns>
+        public virtual WhippetResultContainer<TaxRule> Get(int key)
+        {
+            return Get(Convert.ToUInt32(key));
+        }
+
+        /// <summary>
+        /// Gets the <see cref="TaxRule"/> with the specified ID.
+        /// </summary>
+        /// <param name="key">Entity ID.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns><see cref="Task{TResult}"/> object which encapsulates a <see cref="WhippetResultContainer{TEntity}"/> containing the result of the domain object operation and the corresponding item if found.</returns>
+        public virtual async Task<WhippetResultContainer<TaxRule>> GetAsync(int key, CancellationToken? cancellationToken = null)
+        {
+            return await GetAsync(Convert.ToUInt32(key), cancellationToken);
+        }
+        
+        /// <summary>
+        /// Gets the <see cref="TaxRule"/> with the specified ID.
+        /// </summary>
+        /// <param name="key">Entity ID.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns><see cref="Task{TResult}"/> object which encapsulates a <see cref="WhippetResultContainer{TEntity}"/> containing the result of the domain object operation and the corresponding item if found.</returns>
         public override async Task<WhippetResultContainer<TaxRule>> GetAsync(uint key, CancellationToken? cancellationToken = null)

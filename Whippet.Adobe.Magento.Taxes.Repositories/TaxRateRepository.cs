@@ -16,7 +16,7 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.Repositories
     /// <summary>
     /// Represents a data repository for mapping <see cref="TaxRate"/> entity objects.
     /// </summary>
-    public class TaxRateRepository : MagentoEntityRestRepository<TaxRate>, ITaxRateRepository, IMagentoBulkSupport<TaxRate>
+    public class TaxRateRepository : MagentoEntityBulkRestRepository<TaxRate>, ITaxRateRepository, IMagentoBulkSupport<TaxRate>
     {
         private const string TAXRATE_BASE_URL = "taxRates";
         private const string TAXRATE_SEARCH_URL = TAXRATE_BASE_URL + "/search";
@@ -117,8 +117,8 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.Repositories
             try
             {
                 request = CreateRequest(CreateEndpointUrl(TAXRATE_BASE_URL), Method.Post);
-                //request = request.AddJsonBody(item.ToMagentoJsonString(), false);
-                request = request.AddStringBody(item.ToMagentoJsonString(), DataFormat.Json);
+                request = request.AddJsonBody(item.ToInterface(), ContentType.Json);
+                //request = request.AddStringBody(item.ToMagentoJsonString(), DataFormat.Json);
 
                 response = await Client.ExecuteAsync(request);
 
@@ -160,7 +160,8 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.Repositories
             try
             {
                 request = CreateRequest(CreateEndpointUrl(new[] { TAXRATE_BASE_URL }), Method.Post);
-                request.AddJsonBody(item.ToMagentoJsonString(), false);
+                //request.AddJsonBody(item.ToMagentoJsonString(), false);
+                request = request.AddJsonBody(item.ToInterface(), ContentType.Json);
                 
                 response = await Client.ExecuteAsync(request);
 
@@ -229,7 +230,7 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.Repositories
         /// <param name="objects"><see cref="IEnumerable{T}"/> collection of <see cref="TaxRate"/> objects.</param>
         /// <returns><see cref="WhippetResultContainer{T}"/> object containing the result of the operation.</returns>
         /// <exception cref="ArgumentNullException" />
-        public virtual WhippetResultContainer<MagentoBulkOperationResponseViewModel> BulkAdd(IEnumerable<TaxRate> objects)
+        public override WhippetResultContainer<MagentoBulkOperationResponseViewModel> BulkAdd(IEnumerable<TaxRate> objects)
         {
             if (objects == null)
             {
@@ -248,7 +249,7 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.Repositories
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns><see cref="WhippetResultContainer{T}"/> object containing the result of the operation.</returns>
         /// <exception cref="ArgumentNullException" />
-        public virtual async Task<WhippetResultContainer<MagentoBulkOperationResponseViewModel>> BulkAddAsync(IEnumerable<TaxRate> objects, CancellationToken? cancellationToken = null)
+        public override async Task<WhippetResultContainer<MagentoBulkOperationResponseViewModel>> BulkAddAsync(IEnumerable<TaxRate> objects, CancellationToken? cancellationToken = null)
         {
             if (objects == null)
             {
@@ -287,7 +288,7 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.Repositories
         /// <param name="objects"><see cref="IEnumerable{T}"/> collection of <see cref="TaxRate"/> objects.</param>
         /// <returns><see cref="WhippetResultContainer{T}"/> object containing the result of the operation.</returns>
         /// <exception cref="ArgumentNullException" />
-        public virtual WhippetResultContainer<MagentoBulkOperationResponseViewModel> BulkDelete(IEnumerable<TaxRate> objects)
+        public override WhippetResultContainer<MagentoBulkOperationResponseViewModel> BulkDelete(IEnumerable<TaxRate> objects)
         {
             if (objects == null)
             {
@@ -306,7 +307,7 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.Repositories
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns><see cref="WhippetResultContainer{T}"/> object containing the result of the operation.</returns>
         /// <exception cref="ArgumentNullException" />
-        public virtual async Task<WhippetResultContainer<MagentoBulkOperationResponseViewModel>> BulkDeleteAsync(IEnumerable<TaxRate> objects, CancellationToken? cancellationToken = null)
+        public override async Task<WhippetResultContainer<MagentoBulkOperationResponseViewModel>> BulkDeleteAsync(IEnumerable<TaxRate> objects, CancellationToken? cancellationToken = null)
         {
             if (objects == null)
             {
@@ -322,7 +323,8 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.Repositories
                 try
                 {
                     request = CreateRequest(CreateBulkEndpointUrl(new[] { TAXRATE_BASE_URL }), Method.Delete);
-                    request.AddStringBody(JsonConvert.SerializeObject(objects.Select(rate => JObject.Parse(rate.ToMagentoJsonString()))), DataFormat.Json);
+                    request = request.AddJsonBody(JsonConvert.SerializeObject(objects.Select(rate => rate.ToInterface())), ContentType.Json);
+                    //request.AddStringBody(JsonConvert.SerializeObject(objects.Select(rate => JObject.Parse(rate.ToMagentoJsonString()))), DataFormat.Json);
 
                     response = await Client.ExecuteAsync(request);
 
@@ -345,7 +347,7 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.Repositories
         /// <param name="objects"><see cref="IEnumerable{T}"/> collection of <see cref="TaxRate"/> objects.</param>
         /// <returns><see cref="WhippetResultContainer{T}"/> object containing the result of the operation.</returns>
         /// <exception cref="ArgumentNullException" />
-        public virtual WhippetResultContainer<MagentoBulkOperationResponseViewModel> BulkUpdate(IEnumerable<TaxRate> objects)
+        public override WhippetResultContainer<MagentoBulkOperationResponseViewModel> BulkUpdate(IEnumerable<TaxRate> objects)
         {
             return BulkAdd(objects);
         }
@@ -357,7 +359,7 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.Repositories
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns><see cref="WhippetResultContainer{T}"/> object containing the result of the operation.</returns>
         /// <exception cref="ArgumentNullException" />
-        public virtual async Task<WhippetResultContainer<MagentoBulkOperationResponseViewModel>> BulkUpdateAsync(IEnumerable<TaxRate> objects, CancellationToken? cancellationToken = null)
+        public override async Task<WhippetResultContainer<MagentoBulkOperationResponseViewModel>> BulkUpdateAsync(IEnumerable<TaxRate> objects, CancellationToken? cancellationToken = null)
         {
             return await BulkAddAsync(objects, cancellationToken);
         }

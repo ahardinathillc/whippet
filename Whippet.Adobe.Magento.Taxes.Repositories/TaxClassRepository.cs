@@ -26,7 +26,7 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.Repositories
         /// <param name="bearerToken">Authorization bearer token for making requests.</param>
         /// <exception cref="ArgumentNullException" />
         public TaxClassRepository(IWhippetRestClient restClient, string bearerToken)
-            : base(restClient, bearerToken)
+            : base(restClient, bearerToken, TAXCLASS_BASE_URL)
         { }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.Repositories
         /// </summary>
         /// <param name="key">Entity ID.</param>
         /// <returns><see cref="WhippetResultContainer{TEntity}"/> containing the result of the domain object operation and the corresponding item if found.</returns>
-        public virtual WhippetResultContainer<TaxClass> Get(short key)
+        public virtual WhippetResultContainer<TaxClass> Get(int key)
         {
             return Get(Convert.ToUInt32(key));
         }
@@ -45,7 +45,7 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.Repositories
         /// <param name="key">Entity ID.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns><see cref="Task{TResult}"/> object which encapsulates a <see cref="WhippetResultContainer{TEntity}"/> containing the result of the domain object operation and the corresponding item if found.</returns>
-        public virtual async Task<WhippetResultContainer<TaxClass>> GetAsync(short key, CancellationToken? cancellationToken = null)
+        public virtual async Task<WhippetResultContainer<TaxClass>> GetAsync(int key, CancellationToken? cancellationToken = null)
         {
             return await GetAsync(Convert.ToUInt32(key), cancellationToken);
         }
@@ -196,7 +196,7 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.Repositories
 
             try
             {
-                request = CreateRequest(CreateEndpointUrl(new[] { TAXCLASS_BASE_URL, "/", item.ClassID.ToString() }), Method.Delete);
+                request = CreateRequest(CreateEndpointUrl(new[] { TAXCLASS_BASE_URL, "/", item.ID.ToString() }), Method.Delete);
                 response = await Client.ExecuteAsync(request);
 
                 response.ThrowIfError();

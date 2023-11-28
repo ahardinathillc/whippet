@@ -7,6 +7,8 @@ namespace Athi.Whippet.Json
     /// </summary>
     public interface IJsonObject : IJsonSerializableObject
     {
+        // TO-DO: Change this to a non-generic implementation
+        
         /// <summary>
         /// Returns a JSON string representing the current object.
         /// </summary>
@@ -15,4 +17,3 @@ namespace Athi.Whippet.Json
         string ToJson<T>() where T : IJsonSerializableObject;
     }
 }
-

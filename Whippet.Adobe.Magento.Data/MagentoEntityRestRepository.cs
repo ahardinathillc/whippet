@@ -547,6 +547,8 @@ namespace Athi.Whippet.Adobe.Magento.Data
             }
         }
 
+        // TODO: Remove the bulk op status and move them into their own class
+        
         /// <summary>
         /// Gets the bulk operation status based on the unique ID of the operation.
         /// </summary>

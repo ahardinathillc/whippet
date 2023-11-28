@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NHibernate;
 using Athi.Whippet.Adobe.Magento.Data;
+using Athi.Whippet.Data;
 
 namespace Athi.Whippet.Adobe.Magento.Taxes.Repositories
 {
@@ -13,6 +14,18 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.Repositories
     /// </summary>
     public class TaxRateTitleRepository : MagentoEntityRepository<TaxRateTitle>, ITaxRateTitleRepository
     {
+        /// <summary>
+        /// Bearer token for RESTful operations. This property is read-only.
+        /// </summary>
+        /// <remarks>Not used as TaxRateTitle is a database-backed entity.</remarks>
+        string IWhippetRestRepository<TaxRateTitle, uint>.BearerToken
+        {
+            get
+            {
+                return String.Empty;
+            }
+        }
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="TaxRateTitleRepository"/> class with the specified <see cref="ISession"/> object which provides context for the NHibernate connection.
         /// </summary>

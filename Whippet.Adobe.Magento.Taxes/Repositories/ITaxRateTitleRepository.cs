@@ -9,6 +9,6 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.Repositories
     /// <summary>
     /// Represents a data repository for mapping <see cref="TaxRateTitle"/> entity objects.
     /// </summary>
-    public interface ITaxRateTitleRepository : IWhippetRepository<TaxRateTitle, int>, IWhippetExternalQueryRepository<TaxRateTitle, int>, IMagentoBulkSupport<TaxRateTitle>, IMagentoEntityRepository<TaxRateTitle>
+    public interface ITaxRateTitleRepository : IWhippetRepository<TaxRateTitle, int>, IWhippetExternalQueryRepository<TaxRateTitle, int>, IMagentoEntityRepository<TaxRateTitle>
     { }
 }
