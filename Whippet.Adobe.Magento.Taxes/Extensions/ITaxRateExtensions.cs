@@ -18,7 +18,11 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.Extensions
         {
             TaxRate rate = null;
 
-            if (taxRate != null)
+            if (taxRate is TaxRate)
+            {
+                rate = (TaxRate)(taxRate);
+            }
+            else if (taxRate != null)
             {
                 rate = new TaxRate();
                 rate.ID = taxRate.ID;

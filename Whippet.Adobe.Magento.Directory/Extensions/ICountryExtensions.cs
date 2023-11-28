@@ -17,47 +17,24 @@ namespace Athi.Whippet.Adobe.Magento.Directory.Extensions
         {
             Country c = null;
 
-            if (country != null)
+            if (country is Country)
             {
-                if (country is Country)
-                {
-                    c = (Country)(country);
-                }
-                else 
-                {
-                    c = new Country(country.ID, country.ISO2, country.ISO3, country.Server.ToMagentoServer());
-                }
+                c = (Country)(country);
+            }
+            else if (country != null)
+            {
+                c = new Country();
+                c.ID = country.ID;
+                c.Name = country.Name;
+                c.AvailableRegions = (country.AvailableRegions == null) ? null : country.AvailableRegions.Select(r => r.ToRegion());
+                c.LocaleName = country.LocaleName;
+                c.ISO2 = country.ISO2;
+                c.ISO3 = country.ISO3;
+                c.Server = country.Server.ToMagentoServer();
+                c.RestEndpoint = country.RestEndpoint.ToMagentoRestEndpoint();
             }
 
             return c;
         }
-
-        /// <summary>
-        /// Creates an <see cref="IRegion"/> object for the current <see cref="ICountry"/>.
-        /// </summary>
-        /// <typeparam name="TRegion">Type of <see cref="IRegion"/> to create.</typeparam>
-        /// <param name="country"></param>
-        /// <returns><see cref="IRegion"/> object.</returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        public static IRegion CreateDefaultRegion<TRegion>(this ICountry country) where TRegion : IRegion, new()
-        {
-            if (country == null)
-            {
-                throw new ArgumentNullException(nameof(country));
-            }
-            else
-            {
-                IRegion region = new TRegion();
-
-                region.Code = "*";
-                region.Country = country;
-                region.ID = 0;
-                region.Name = "*";
-                region.Server = country.Server;
-
-                return region;
-            }
-        }
     }
 }
-

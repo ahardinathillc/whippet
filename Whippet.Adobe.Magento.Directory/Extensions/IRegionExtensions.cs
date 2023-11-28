@@ -17,20 +17,21 @@ namespace Athi.Whippet.Adobe.Magento.Directory.Extensions
         {
             Region r = null;
 
-            if (region != null)
+            if (region is Region)
             {
-                if (region is Region)
-                {
-                    r = (Region)(region);
-                }
-                else
-                {
-                    r = new Region(region.ID, region.Country.ToCountry(), region.Code, region.Name, region.Server.ToMagentoServer());
-                }
+                r = (Region)(region);
+            }
+            else if (region != null)
+            {
+                r = new Region();
+                r.ID = region.ID;
+                r.Code = region.Code;
+                r.Name = region.Name;
+                r.RestEndpoint = region.RestEndpoint.ToMagentoRestEndpoint();
+                r.Server = region.Server.ToMagentoServer();
             }
 
             return r;
         }
     }
 }
-

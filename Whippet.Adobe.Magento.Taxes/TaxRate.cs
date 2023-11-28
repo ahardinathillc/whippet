@@ -303,8 +303,8 @@ namespace Athi.Whippet.Adobe.Magento.Taxes
                 ID = model.ID;
                 PostalCode = model.PostalCode;
                 Code = model.Code;
-                Country = new Country() { CountryID = model.Country };
-                Region = new Region() { RegionID = Convert.ToString(model.Region) };
+                Country = new Country() { ID = model.Country };
+                Region = new Region() { ID = model.Region };
                 Titles = (model.Titles == null) ? null : model.Titles.Select(t => new TaxRateTitle(t));
                 PostalCodeIsRange = model.PostalCodeIsRange.FromMagentoBoolean();
                 PostalCodeLowerBound = (model.PostalCodeFrom > 0) ? model.PostalCodeFrom : null;

@@ -10,7 +10,6 @@ using Athi.Whippet.Adobe.Magento.Taxes.ServiceManagers.Queries;
 using Athi.Whippet.Adobe.Magento.Taxes.ServiceManagers.Commands;
 using Athi.Whippet.Adobe.Magento.Taxes.ServiceManagers.Handlers.Queries;
 using Athi.Whippet.Adobe.Magento.Taxes.ServiceManagers.Handlers.Commands;
-using Athi.Whippet.Adobe.Magento.ServiceManagers.Extensions;
 using Athi.Whippet.Adobe.Magento.ServiceManagers;
 
 namespace Athi.Whippet.Adobe.Magento.Taxes.ServiceManagers
@@ -18,7 +17,7 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.ServiceManagers
     /// <summary>
     /// Service manager for <see cref="ITaxRate"/> domain objects.
     /// </summary>
-    public class TaxRateServiceManager : ServiceManager, IDisposable, IBulkServiceManager
+    public class TaxRateServiceManager : ServiceManager, IDisposable
     {
         /// <summary>
         /// Gets the <see cref="ITaxRateRepository"/> that queries are executed against. This property is read-only.
@@ -284,29 +283,6 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.ServiceManagers
                 }
 
                 return new WhippetResultContainer<ITaxRate>(result, taxRate);
-            }
-        }
-
-        /// <summary>
-        /// Gets the status of a bulk operation in Magento.
-        /// </summary>
-        /// <param name="responseViewModel"><see cref="MagentoBulkOperationResponseViewModel"/> object that contains information about the bulk operation.</param>
-        /// <param name="storeCode">Magento store code.</param>
-        /// <returns><see cref="WhippetResultContainer{T}"/> object containing the result of the query.</returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        public virtual async Task<WhippetResultContainer<MagentoBulkOperationStatusViewModel>> GetBulkOperationStatus(MagentoBulkOperationResponseViewModel responseViewModel, string storeCode)
-        {
-            if (responseViewModel == null)
-            {
-                throw new ArgumentNullException(nameof(responseViewModel));
-            }
-            else if (String.IsNullOrWhiteSpace(storeCode))
-            {
-                throw new ArgumentNullException(nameof(storeCode));
-            }
-            else
-            {
-                return await this.GetMagentoBulkOperationStatus<ITaxRateRepository, TaxRate>(TaxRateRepository, responseViewModel, storeCode);
             }
         }
 

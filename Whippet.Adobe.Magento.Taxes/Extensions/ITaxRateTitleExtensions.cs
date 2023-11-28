@@ -18,7 +18,11 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.Extensions
         {
             TaxRateTitle title = null;
 
-            if (taxTitle != null)
+            if (taxTitle is TaxRateTitle)
+            {
+                title = (TaxRateTitle)(taxTitle);
+            }
+            else if (taxTitle != null)
             {
                 title = new TaxRateTitle();
                 title.ID = taxTitle.ID;

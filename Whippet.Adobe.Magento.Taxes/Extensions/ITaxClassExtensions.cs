@@ -17,7 +17,11 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.Extensions
         {
             TaxClass tc = null;
 
-            if (taxClass != null)
+            if (taxClass is TaxClass)
+            {
+                tc = (TaxClass)(taxClass);
+            }
+            else if (taxClass != null)
             {
                 tc = new TaxClass();
                 tc.ID = taxClass.ID;

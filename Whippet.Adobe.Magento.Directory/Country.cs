@@ -1,172 +1,74 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using Newtonsoft.Json;
-using Athi.Whippet.Extensions.Primitives;
 using Athi.Whippet.Json;
-using Athi.Whippet.Json.Newtonsoft;
 using Athi.Whippet.Adobe.Magento.Data;
 using Athi.Whippet.Adobe.Magento.Directory.Extensions;
-using Athi.Whippet.Json.Newtonsoft.Extensions;
 
 namespace Athi.Whippet.Adobe.Magento.Directory
 {
     /// <summary>
-    /// Represents a country in Magento. This entity only encapsulates the ISO-2 and ISO-3 country codes.
+    /// Represents a country in Magento.
     /// </summary>
-    public class Country : MagentoEntity, IMagentoEntity, ICountry, IEqualityComparer<ICountry>, ICloneable, IWhippetCloneable
+    public class Country : MagentoRestEntity<CountryInterface>, IMagentoEntity, IEqualityComparer<ICountry>, ICloneable, IWhippetCloneable, IJsonObject, IMagentoRestEntity, ICountry
     {
-        private const byte MAX_LEN_ID = 2;
-        private const byte MAX_LEN_ISO2 = 2;
-        private const byte MAX_LEN_ISO3 = 3;
-
-        private string _countryID;
-        private string _iso2;
-        private string _iso3;
-        private string _nameLocale;
-        private string _nameEnglish;
-
         /// <summary>
-        /// Gets or sets the unique ID of the <see cref="MagentoEntity"/>.
+        /// Gets or sets the country ID. The country ID is the country's ISO-2 code.
         /// </summary>
-        /// <exception cref="ArgumentNullException" />
-        /// <exception cref="ArgumentOutOfRangeException" />
-        [JsonProperty("id")]
         public new virtual string ID
         {
             get
             {
-                return _countryID;
+                return ISO2;
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value) && (value.Length > MAX_LEN_ID))
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
-                else
-                {
-                    _countryID = value;
-                }
+                ISO2 = value;
             }
         }
-
-        /// <summary>
-        /// Gets or sets the unique ID of the <see cref="Country"/>.
-        /// </summary>
-        public virtual string CountryID
-        {
-            get
-            {
-                return ID;
-            }
-            set
-            {
-                ID = value;
-            }
-        }
-
+                
         /// <summary>
         /// Gets or sets the ISO-2 country code.
         /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException" />
-        [JsonProperty("two_letter_abbreviation")]
         public virtual string ISO2
-        {
-            get
-            {
-                return _iso2;
-            }
-            set
-            {
-                if (!String.IsNullOrWhiteSpace(value) && (value.Length > MAX_LEN_ISO2))
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
-                else
-                {
-                    _iso2 = value;
-                }
-            }
-        }
-
+        { get; set; }
+        
         /// <summary>
-        /// Gets or sets the ISO-3 country code.
+        /// Gets or setes the ISO-3 country code.
         /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException" />
-        [JsonProperty("three_letter_abbreviation")]
         public virtual string ISO3
-        {
-            get
-            {
-                return _iso3;
-            }
-            set
-            {
-                if (!String.IsNullOrWhiteSpace(value) && (value.Length > MAX_LEN_ISO3))
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
-                else
-                {
-                    _iso3 = value;
-                }
-            }
-        }
-
+        { get; set; }
+        
         /// <summary>
-        /// Gets or sets the locale-specific name of the <see cref="Country"/>.
+        /// Gets or sets the country name with respect to its locale.
         /// </summary>
-        [JsonProperty("full_name_locale")]
         public virtual string LocaleName
-        {
-            get
-            {
-                return _nameLocale;
-            }
-            set
-            {
-                _nameLocale = value;
-            }
-        }
-
+        { get; set; }
+        
         /// <summary>
-        /// Gets or sets the English name of the <see cref="Country"/>.
+        /// Gets or sets the country name in English.
         /// </summary>
-        [JsonProperty("full_name_english")]
-        public virtual string EnglishName
-        {
-            get
-            {
-                return _nameEnglish;
-            }
-            set
-            {
-                _nameEnglish = value;
-            }
-        }
-
+        public virtual string Name
+        { get; set; }
+        
         /// <summary>
-        /// Gets or sets the available regions for the store.
+        /// Gets or sets the available countrys for the country.
         /// </summary>
-        [JsonProperty("available_regions")]
-        [JsonIgnore]
-        public virtual IReadOnlyList<Region> AvailableRegions
+        public virtual IEnumerable<Region> AvailableRegions
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the available regions for the store.
+        /// Gets or sets the available countrys for the country.
         /// </summary>
         IEnumerable<IRegion> ICountry.AvailableRegions
         {
             get
             {
-                return AvailableRegions;
+                return (AvailableRegions == null) ? null : AvailableRegions.Select(r => r);
             }
             set
             {
-                AvailableRegions = (value == null) ? null : new ReadOnlyCollection<Region>(value.Select(r => r.ToRegion()).ToList());
+                AvailableRegions = (value == null) ? null : value.Select(r => r.ToRegion());
             }
-        }
+        }    
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Country"/> class with no arguments.
@@ -174,95 +76,41 @@ namespace Athi.Whippet.Adobe.Magento.Directory
         public Country()
             : base()
         { }
-
+        
         /// <summary>
-        /// Initializes a new instance of the <see cref="Country"/> class with the specified ID and <see cref="MagentoServer"/>.
+        /// Initializes a new instance of the <see cref="Country"/> class with the specified ID.
         /// </summary>
-        /// <param name="id">Country ID.</param>
+        /// <param name="entityId">ID to assign the <see cref="MagentoEntity"/> object.</param>
         /// <param name="server"><see cref="MagentoServer"/> the entity resides on.</param>
-        /// <exception cref="ArgumentNullException" />
-        /// <exception cref="ArgumentOutOfRangeException" />
-        public Country(string id, MagentoServer server)
-            : this(id, null, null, server)
+        /// <param name="restEndpoint"><see cref="MagentoRestEndpoint"/> the entity resides on.</param>
+        public Country(uint entityId, MagentoServer server = null, MagentoRestEndpoint restEndpoint = null)
+            : base(entityId, server, restEndpoint)
         { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Country"/> class with the specified parameters.
+        /// Initializes a new instance of the <see cref="Country"/> class with the specified <see cref="IExtensionInterface"/> object.
         /// </summary>
-        /// <param name="id">Country ID.</param>
-        /// <param name="iso2">ISO-2 country code.</param>
-        /// <param name="iso3">ISO-3 country code.</param>
+        /// <param name="model"><see cref="IExtensionInterface"/> object to initialize a new instance of the class with.</param>
         /// <param name="server"><see cref="MagentoServer"/> the entity resides on.</param>
-        /// <exception cref="ArgumentNullException" />
-        /// <exception cref="ArgumentOutOfRangeException" />
-        public Country(string id, string iso2, string iso3, MagentoServer server)
-            : this(id, iso2, iso3, null, null, null, server, false, false)
+        /// <param name="restEndpoint"><see cref="MagentoRestEndpoint"/> the entity resides on.</param>
+        public Country(CountryInterface model, MagentoServer server = null, MagentoRestEndpoint restEndpoint = null)
+            : base(model, server, restEndpoint)
         { }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Country"/> class with the specified parameters.
-        /// </summary>
-        /// <param name="id">Country ID.</param>
-        /// <param name="iso2">ISO-2 country code.</param>
-        /// <param name="iso3">ISO-3 country code.</param>
-        /// <param name="localeName">Locale name.</param>
-        /// <param name="englishName">English name.</param>
-        /// <param name="availableRegions">Available <see cref="Region"/> objects assigned to the country.</param>
-        /// <param name="server"><see cref="MagentoServer"/> the entity resides on.</param>
-        /// <exception cref="ArgumentNullException" />
-        /// <exception cref="ArgumentOutOfRangeException" />
-        public Country(string id, string iso2, string iso3, string localeName, string englishName, IEnumerable<Region> availableRegions, MagentoServer server)
-            : this(id, iso2, iso3, localeName, englishName, availableRegions, server, true, true)
-        { }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Country"/> class with the specified parameters.
-        /// </summary>
-        /// <param name="id">Country ID.</param>
-        /// <param name="iso2">ISO-2 country code.</param>
-        /// <param name="iso3">ISO-3 country code.</param>
-        /// <param name="localeName">Locale name.</param>
-        /// <param name="englishName">English name.</param>
-        /// <param name="availableRegions">Available <see cref="Region"/> objects assigned to the country.</param>
-        /// <param name="server"><see cref="MagentoServer"/> the entity resides on.</param>
-        /// <param name="hasLocale">Indicates whether <paramref name="localeName"/> should contain a value.</param>
-        /// <param name="hasEnglishName">Indicates whether <paramref name="englishName"/> should contain a value.</param>
-        /// <exception cref="ArgumentNullException" />
-        /// <exception cref="ArgumentOutOfRangeException" />
-        private Country(string id, string iso2, string iso3, string localeName, string englishName, IEnumerable<Region> availableRegions, MagentoServer server, bool hasLocale, bool hasEnglishName)
-            : base(default(int), server)
-        {
-            ID = id;
-            ISO2 = iso2;
-            ISO3 = iso3;
-
-            if (hasLocale)
-            {
-                LocaleName = localeName;
-            }
-
-            if (hasEnglishName)
-            {
-                EnglishName = englishName;
-            }
-
-            AvailableRegions = (availableRegions == null ? null : new ReadOnlyCollection<Region>(new List<Region>(availableRegions)));
-        }
-
-        /// <summary>
+        
+                /// <summary>
         /// Compares the current instance to the specified object for equality.
         /// </summary>
-        /// <param name="obj">Object to compare against.</param>
+        /// <param name="obj">Object to compare.</param>
         /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
         public override bool Equals(object obj)
         {
-            return (obj == null || !(obj is ICountry)) ? false : Equals(obj as ICountry);
+            return ((obj == null) || !(obj is ICountry)) ? false : Equals((ICountry)(obj));
         }
 
         /// <summary>
         /// Compares the current instance to the specified object for equality.
         /// </summary>
-        /// <param name="obj">Object to compare against.</param>
+        /// <param name="obj">Object to compare.</param>
         /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
         public virtual bool Equals(ICountry obj)
         {
@@ -277,106 +125,111 @@ namespace Athi.Whippet.Adobe.Magento.Directory
         /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
         public virtual bool Equals(ICountry x, ICountry y)
         {
-            bool equals = (x == null && y == null);
+            bool equals = (x == null) && (y == null);
 
             if (!equals && (x != null) && (y != null))
             {
-                equals = String.Equals(x.ID, y.ID, StringComparison.InvariantCultureIgnoreCase)
-                    && String.Equals(x.CountryID, y.CountryID, StringComparison.InvariantCultureIgnoreCase)
-                    && String.Equals(x.ISO2, y.ISO2, StringComparison.InvariantCultureIgnoreCase)
-                    && String.Equals(x.ISO3, y.ISO3, StringComparison.InvariantCultureIgnoreCase)
-                    && String.Equals(x.LocaleName, y.LocaleName, StringComparison.InvariantCultureIgnoreCase)
-                    && String.Equals(x.EnglishName, y.EnglishName, StringComparison.InvariantCultureIgnoreCase);
+                equals = String.Equals(x.Name?.Trim(), y.Name?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && (((x.AvailableRegions == null) && (y.AvailableRegions == null)) && ((x.AvailableRegions != null) && x.AvailableRegions.SequenceEqual(y.AvailableRegions)))
+                         && String.Equals(x.LocaleName?.Trim(), y.LocaleName?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x.ISO2?.Trim(), y.ISO2?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x.ISO3?.Trim(), y.ISO3?.Trim(), StringComparison.InvariantCultureIgnoreCase);
             }
 
             return equals;
         }
 
         /// <summary>
-        /// Gets the hash code for the current object.
+        /// Converts the current instance to an <see cref="IExtensionInterface"/> of type <see cref="CountryInterface"/>.
         /// </summary>
-        /// <returns>Hash code for the current object.</returns>
-        public override int GetHashCode()
+        /// <returns><see cref="IExtensionInterface"/> object of type <see cref="CountryInterface"/>.</returns>
+        public override CountryInterface ToInterface()
         {
-            return base.GetHashCode();
-        }
-
-        /// <summary>
-        /// Gets the hash code for the specified object.
-        /// </summary>
-        /// <param name="obj"><see cref="ICountry"/> object.</param>
-        /// <returns>Hash code for the specified object.</returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        public virtual int GetHashCode(ICountry obj)
-        {
-            if (obj == null)
-            {
-                throw new ArgumentNullException(nameof(obj));
-            }
-            else
-            {
-                return obj.GetHashCode();
-            }
+            CountryInterface countryInterface = new CountryInterface();
+            countryInterface.AvailableRegions = (AvailableRegions == null) ? null : AvailableRegions.Select(ar => ar.ToInterface()).ToArray();
+            countryInterface.Name = Name;
+            countryInterface.LocaleName = LocaleName;
+            countryInterface.ID = ID;
+            countryInterface.ISO2 = ISO2;
+            countryInterface.ISO3 = ISO3;
+            
+            return countryInterface;
         }
 
         /// <summary>
         /// Creates a duplicate instance of the current object.
         /// </summary>
         /// <returns>Duplicate instance of the current object.</returns>
-        public virtual object Clone()
+        public override object Clone()
         {
-            Country obj = new Country();
-            List<Region> regions = new List<Region>();
+            Country countryClass = new Country();
 
-            if (AvailableRegions != null && AvailableRegions.Count > 0)
-            {
-                foreach (Region region in AvailableRegions)
-                {
-                    regions.Add(region.Clone<Region>());
-                }
-            }
+            countryClass.ID = ID;
+            countryClass.Name = Name;
+            countryClass.AvailableRegions = (AvailableRegions == null) ? null : AvailableRegions.Select(ar => ar.Clone<Region>());
+            countryClass.LocaleName = LocaleName;
+            countryClass.ISO2 = ISO2;
+            countryClass.ISO3 = ISO3;
+            countryClass.Server = Server.Clone<MagentoServer>();
+            countryClass.RestEndpoint = RestEndpoint.Clone<MagentoRestEndpoint>();
 
-            obj.AvailableRegions = regions.AsReadOnly();
-            obj.EnglishName = EnglishName;
-            obj.ID = ID;
-            obj.ISO2 = ISO2;
-            obj.ISO3 = ISO3;
-            obj.LocaleName = LocaleName;
-            obj.RestEndpoint = RestEndpoint.Clone<MagentoRestEndpoint>();
-            obj.Server = Server.Clone<MagentoServer>();
-
-            return obj;
+            return countryClass;
         }
 
         /// <summary>
-        /// Creates a duplicate instance of the current object with the optional <see cref="Guid"/> that represents the user ID of the user who instantiated the new instance.
+        /// Gets the hash code of the current instance.
         /// </summary>
-        /// <typeparam name="TObject">Type of object to return from the operation.</typeparam>
-        /// <param name="createdBy"><see cref="Guid"/> ID of the user who instantiated the new instance.</param>
-        /// <returns>Object of type <typeparamref name="TObject"/>.</returns>
-        public virtual TObject Clone<TObject>(Guid? createdBy = null)
+        /// <returns>Hash code.</returns>
+        public override int GetHashCode()
         {
-            return (TObject)(Clone());
+            HashCode hash = new HashCode();
+
+            hash.Add(ID);
+            hash.Add(Name);
+            hash.Add(AvailableRegions);
+            hash.Add(LocaleName);
+            hash.Add(ISO2);
+            hash.Add(ISO3);
+
+            return hash.ToHashCode();
         }
 
+        /// <summary>
+        /// Constructs the current instance with the specified <see cref="IExtensionInterface"/> object.
+        /// </summary>
+        /// <param name="model"><see cref="IExtensionInterface"/> object to construct the current instance from.</param>
+        protected override void ImportFromModel(CountryInterface model)
+        {
+            if (model != null)
+            {
+                ID = model.ID;
+                Name = model.Name;
+                AvailableRegions = (model.AvailableRegions == null) ? null : model.AvailableRegions.Select(ar => new Region(ar));
+                LocaleName = model.LocaleName;
+                ISO2 = model.ISO2;
+                ISO3 = model.ISO3;
+            }
+        }
+
+        /// <summary>
+        /// Gets the hash code of the specified object.
+        /// </summary>
+        /// <param name="countryClass"><see cref="ICountry"/> object to get hash code for.</param>
+        /// <returns>Hash code.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public virtual int GetHashCode(ICountry countryClass)
+        {
+            ArgumentNullException.ThrowIfNull(countryClass);
+            return countryClass.GetHashCode();
+        }
+        
         /// <summary>
         /// Gets the string representation of the current object.
         /// </summary>
         /// <returns>String representation of the current object.</returns>
         public override string ToString()
         {
-            return String.IsNullOrWhiteSpace(CountryID) ? base.ToString() : CountryID;
-        }
-
-        /// <summary>
-        /// Returns a JSON string representing the current object. This method must be inherited.
-        /// </summary>
-        /// <typeparam name="T">Type of object to serialize.</typeparam>
-        /// <returns>JSON string.</returns>
-        public override string ToJson<T>()
-        {
-            return this.SerializeJson(this);
-        }
+            return String.IsNullOrWhiteSpace(Name) ? base.ToString() : Name;
+        }    
     }
 }
-
