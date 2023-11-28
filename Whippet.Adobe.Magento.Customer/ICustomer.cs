@@ -3,128 +3,62 @@ using NodaTime;
 using Athi.Whippet.Data;
 using Athi.Whippet.Adobe.Magento.Data;
 using Athi.Whippet.Adobe.Magento.Customer.Extensions;
-using Athi.Whippet.Adobe.Magento.EAV;
-using Athi.Whippet.Adobe.Magento.EAV.Extensions;
+using Athi.Whippet.Adobe.Magento.Customer.Addressing;
+using Athi.Whippet.Adobe.Magento.Store;
 
 namespace Athi.Whippet.Adobe.Magento.Customer
 {
     /// <summary>
     /// Represents an individual customer in Magento.
     /// </summary>
-    public interface ICustomer : IMagentoEntity, IEqualityComparer<ICustomer>
+    public interface ICustomer : IMagentoEntity, IEqualityComparer<ICustomer>, IMagentoRestEntity, IMagentoAuditableEntity
     {
         /// <summary>
-        /// Gets or sets the unique customer ID.
-        /// </summary>
-        uint EntityID
-        { get; set; }
-
-        /// <summary>
-        /// Gets or setes the confirmation code for the customer account.
-        /// </summary>
-        string Confirmation
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the date/time the customer was created.
-        /// </summary>
-        Instant CreatedAt
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the environment in which the <see cref="ICustomer"/> was created.
-        /// </summary>
-        string CreatedIn
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the <see cref="ICustomerAddress"/> that is the default billing address.
-        /// </summary>
-        ICustomerAddress DefaultBillingAddress
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the <see cref="ICustomerAddress"/> that is the default shipping address.
-        /// </summary>
-        ICustomerAddress DefaultShippingAddress
-        { get; set; }
-
-        /// <summary>
-        /// Indicates whether auto group changing is disabled.
-        /// </summary>
-        bool DisableAutoGroupChange
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the customer's date of birth.
-        /// </summary>
-        Instant? DateOfBirth
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the customer's e-mail address.
-        /// </summary>
-        string Email
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the total number of failed login attempts.
-        /// </summary>
-        short? FailedLoginAttempts
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the date/time the first failed login attempt was captured.
-        /// </summary>
-        Instant? FirstFailedLoginAttempt
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the first name of the customer.
-        /// </summary>
-        string FirstName
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the gender code for the customer. Gender codes are defined in Magento configuration.
-        /// </summary>
-        ushort? Gender
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the customer group.
+        /// Gets or sets the <see cref="ICustomerGroup"/> for the current instance.
         /// </summary>
         ICustomerGroup Group
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the unique increment ID that identifies the row.
+        /// Gets or sets the customer's default billing address.
         /// </summary>
-        string IncrementID
+        ICustomerAddress DefaultBilling
         { get; set; }
 
         /// <summary>
-        /// Indicates whether the customer is currently active.
+        /// Gets or sets the customer's default shipping address.
         /// </summary>
-        bool Active
+        ICustomerAddress DefaultShipping
+        { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the customer confirmation number.
+        /// </summary>
+        string ConfirmationNumber
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the customer's last name.
+        /// Gets or sets the area in which the <see cref="ICustomer"/> was created.
         /// </summary>
-        string LastName
+        string CreatedArea
+        { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the customer's date of birth.
+        /// </summary>
+        LocalDate? DateOfBirth
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the legacy customer ID (if any).
+        /// Gets or sets the user's e-mail address.
         /// </summary>
-        int? LegacyCustomerNumber
+        string Email
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the date/time the customer's account lock expires.
+        /// Gets or sets the customer's first name.
         /// </summary>
-        Instant? LockExpiration
+        string FirstName
         { get; set; }
 
         /// <summary>
@@ -134,9 +68,9 @@ namespace Athi.Whippet.Adobe.Magento.Customer
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the customer's password hash code.
+        /// Gets or sets the customer's last name.
         /// </summary>
-        string PasswordHash
+        string LastName
         { get; set; }
 
         /// <summary>
@@ -146,52 +80,23 @@ namespace Athi.Whippet.Adobe.Magento.Customer
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the customer's password reset token.
-        /// </summary>
-        string ResetPasswordToken
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the date/time the customer's password reset token was created.
-        /// </summary>
-        Instant? ResetPasswordTokenCreated
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the session expiration date/time for the customer.
-        /// </summary>
-        Instant? SessionCutoff
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the customer's associated store.
-        /// </summary>
-        IStore Store
-        { get; set; }
-
-        /// <summary>
         /// Gets or sets the customer's suffix.
         /// </summary>
         string Suffix
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the customer's VAT number.
+        /// Gets or sets the Magento attribute ID of the <see cref="ICustomer"/> object's gender.
         /// </summary>
-        string ValueAddedTax
+        int? Gender
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the date/time the record was last updated.
+        /// Gets or sets the <see cref="IStore"/> that the <see cref="ICustomer"/> object belongs to.
         /// </summary>
-        Instant UpdatedAt
+        IStore Store
         { get; set; }
 
-        /// <summary>
-        /// Gets or sets the customer's associated store website.
-        /// </summary>
-        IStoreWebsite Website
-        { get; set; }
+        
     }
 }
-

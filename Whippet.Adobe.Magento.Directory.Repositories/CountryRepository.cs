@@ -7,7 +7,6 @@ using Athi.Whippet.Adobe.Magento.Data;
 using Athi.Whippet.Data;
 using Athi.Whippet.Net.Rest;
 using Athi.Whippet.Net.Rest.Extensions;
-using Athi.Whippet.Adobe.Magento.Directory.Models;
 
 namespace Athi.Whippet.Adobe.Magento.Directory.Repositories
 {
@@ -60,8 +59,8 @@ namespace Athi.Whippet.Adobe.Magento.Directory.Repositories
         public virtual async Task<WhippetResultContainer<Country>> GetAsync(WhippetNonNullableString key, CancellationToken? cancellationToken = null)
         {
             WhippetResultContainer<Country> result = null;
-            WhippetResultContainer<CountryDataModel> dataModelResult = null;
-
+            CountryInterface country = null;
+            
             RestRequest request = null;
             RestResponse response = null;
 
@@ -74,8 +73,8 @@ namespace Athi.Whippet.Adobe.Magento.Directory.Repositories
 
                 if (response.IsOkStatus())
                 {
-                    dataModelResult = new WhippetResultContainer<CountryDataModel>(WhippetResult.Success, JsonConvert.DeserializeObject<CountryDataModel>(response.Content));
-                    result = new WhippetResultContainer<Country>(dataModelResult.Result, dataModelResult.Item == null ? null : dataModelResult.Item.ToCountry());
+                    country = JsonConvert.DeserializeObject<CountryInterface>(response.Content);
+                    result = new WhippetResultContainer<Country>(WhippetResult.Success, (country == null) ? null : new Country(country));
                 }
                 else
                 {
@@ -98,7 +97,7 @@ namespace Athi.Whippet.Adobe.Magento.Directory.Repositories
         public override async Task<WhippetResultContainer<IEnumerable<Country>>> GetAllAsync(CancellationToken? cancellationToken = null)
         {
             WhippetResultContainer<IEnumerable<Country>> result = null;
-            WhippetResultContainer<IEnumerable<CountryDataModel>> dataModelResult = null;
+            List<CountryInterface> countries = null;
 
             RestRequest request = null;
             RestResponse response = null;
@@ -112,8 +111,8 @@ namespace Athi.Whippet.Adobe.Magento.Directory.Repositories
 
                 if (response.IsOkStatus())
                 {
-                    dataModelResult = new WhippetResultContainer<IEnumerable<CountryDataModel>>(WhippetResult.Success, JsonConvert.DeserializeObject<List<CountryDataModel>>(response.Content));
-                    result = new WhippetResultContainer<IEnumerable<Country>>(dataModelResult.Result, dataModelResult.Item == null ? null : dataModelResult.Item.Select(c => c.ToCountry()));
+                    countries = JsonConvert.DeserializeObject<List<CountryInterface>>(response.Content);
+                    result = new WhippetResultContainer<IEnumerable<Country>>(WhippetResult.Success, (countries == null) ? null : countries.Select(c => new Country(c)));
                 }
                 else
                 {

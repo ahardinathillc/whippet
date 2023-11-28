@@ -76,16 +76,18 @@ namespace Athi.Whippet.Adobe.Magento.Directory
         public Country()
             : base()
         { }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Country"/> class with the specified ID.
         /// </summary>
         /// <param name="entityId">ID to assign the <see cref="MagentoEntity"/> object.</param>
         /// <param name="server"><see cref="MagentoServer"/> the entity resides on.</param>
         /// <param name="restEndpoint"><see cref="MagentoRestEndpoint"/> the entity resides on.</param>
-        public Country(uint entityId, MagentoServer server = null, MagentoRestEndpoint restEndpoint = null)
-            : base(entityId, server, restEndpoint)
-        { }
+        public Country(string entityId, MagentoServer server = null, MagentoRestEndpoint restEndpoint = null)
+            : base(default(uint), server, restEndpoint)
+        {
+            ID = entityId;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Country"/> class with the specified <see cref="IExtensionInterface"/> object.

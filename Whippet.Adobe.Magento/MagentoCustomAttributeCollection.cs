@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Security;
 using Athi.Whippet.Adobe.Magento.Extensions;
+using Athi.Whippet.Json;
 
 namespace Athi.Whippet.Adobe.Magento
 {
@@ -543,6 +544,29 @@ namespace Athi.Whippet.Adobe.Magento
             }
 
             return hash.ToHashCode();
+        }
+
+        /// <summary>
+        /// Converts the current instance into a <see cref="CustomAttributeInterface"/> array.
+        /// </summary>
+        /// <returns><see cref="CustomAttributeInterface"/> array.</returns>
+        public CustomAttributeInterface[] ToInterface()
+        {
+            CustomAttributeInterface[] array = null;
+            int index = 0;
+            
+            if (Count > 0)
+            {
+                array = new CustomAttributeInterface[Count];
+
+                foreach (KeyValuePair<string, string> entry in this)
+                {
+                    array[index] = new CustomAttributeInterface(entry.Key, entry.Value);
+                    index++;
+                }
+            }
+            
+            return array;
         }
     }
 }

@@ -18,6 +18,8 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.Repositories
     /// </summary>
     public class TaxRateRepository : MagentoEntityBulkRestRepository<TaxRate>, ITaxRateRepository, IMagentoBulkSupport<TaxRate>
     {
+        //TODO: Update the entities returned to populate the interface first, then assign it to the domain object
+        
         private const string TAXRATE_BASE_URL = "taxRates";
         private const string TAXRATE_SEARCH_URL = TAXRATE_BASE_URL + "/search";
 
