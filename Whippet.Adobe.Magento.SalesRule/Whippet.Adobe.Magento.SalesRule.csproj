@@ -31,10 +31,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extensions\" />
-    <Folder Include="EntityMappings\" />
     <Folder Include="Repositories\" />
-    <Folder Include="Data\" />
-    <Folder Include="Data\NHibernate\" />
-    <Folder Include="Data\NHibernate\UserTypes\" />
   </ItemGroup>
 </Project>

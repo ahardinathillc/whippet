@@ -49,7 +49,8 @@ namespace Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.Models
             {
                 if (String.IsNullOrWhiteSpace(_exemptCode))
                 {
-                    _exemptCode = TaxRate.DEFAULT_TAX_EXEMPT_CODE;
+                    _exemptCode = "EXEMPT";
+                    //_exemptCode = TaxRate.DEFAULT_TAX_EXEMPT_CODE;
                 }
 
                 return _exemptCode;

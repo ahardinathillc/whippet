@@ -30,7 +30,6 @@
     <None Remove="Repositories\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="EntityMappings\" />
     <Folder Include="Extensions\" />
     <Folder Include="Repositories\" />
   </ItemGroup>

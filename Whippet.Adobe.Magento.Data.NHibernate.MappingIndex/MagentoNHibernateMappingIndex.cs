@@ -30,7 +30,7 @@ namespace Athi.Whippet.Adobe.Magento.Data.NHibernate.MappingIndex
             options.MappingConfiguration = new Action<MappingConfiguration>(m =>
             {
                 // Sales Rule
-                m.FluentMappings.AddFromAssemblyOf<Athi.Whippet.Adobe.Magento.SalesRule.FluentEntityMapper>();
+                //m.FluentMappings.AddFromAssemblyOf<Athi.Whippet.Adobe.Magento.SalesRule.FluentEntityMapper>();
 
                 if (externalMappings != null)
                 {
@@ -40,4 +40,3 @@ namespace Athi.Whippet.Adobe.Magento.Data.NHibernate.MappingIndex
         }
     }
 }
-

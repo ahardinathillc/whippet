@@ -13,7 +13,6 @@ using Athi.Whippet.Adobe.Magento.ServiceManagers;
 using Athi.Whippet.Adobe.Magento.Taxes;
 using Athi.Whippet.Adobe.Magento.Taxes.ServiceManagers;
 using Athi.Whippet.Adobe.Magento.Directory;
-using Athi.Whippet.Adobe.Magento.Directory.Models;
 using Athi.Whippet.Adobe.Magento.Directory.ServiceManagers;
 using Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.ServiceManagers;
 using Athi.Whippet.FreestyleSolutions.MultichannelOrderManager;
@@ -512,12 +511,12 @@ namespace Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.Jobs
                 {
                     foreach (MagentoSalesTaxRateSynchronizationRecordDataModel syncModel in syncModels)
                     {
-                        magentoCountry = await magentoCountrySM.Get(syncModel.Rate.CountryID);
+                        //magentoCountry = await magentoCountrySM.Get(syncModel.Rate.CountryID);
                         magentoCountry.ThrowIfFailed();
 
                         if (magentoCountry.HasItem)
                         {
-                            syncModel.Rate.Country = new CountryDataModel(magentoCountry.Item);
+                            //syncModel.Rate.Country = new CountryDataModel(magentoCountry.Item);
                         }
 
                         if (syncModel.DeleteRate)

@@ -311,7 +311,7 @@ namespace Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.ServiceManagers
 
                     if (country != null)
                     {
-                        region.Country = country.ToCountry();
+                        //region.Country = country.ToCountry();
 
                         if ((momRate.StateProvince != null) && !String.IsNullOrWhiteSpace(momRate.StateProvince.Abbreviation))
                         {
@@ -605,11 +605,11 @@ namespace Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.ServiceManagers
 
                             if (momRate.Country != null && !String.IsNullOrWhiteSpace(momRate.Country.ISO2))
                             {
-                                rate.BuildCode(
-                                    momRate.Country.ISO2,
-                                    momRate.StateProvince != null && !String.IsNullOrWhiteSpace(momRate.StateProvince.Abbreviation) ? momRate.StateProvince.Abbreviation : null,
-                                    momRate.PostalCode != null && !String.IsNullOrWhiteSpace(momRate.PostalCode.PostalCode) ? momRate.PostalCode.PostalCode : null
-                                );
+                                // rate.BuildCode(
+                                //     momRate.Country.ISO2,
+                                //     momRate.StateProvince != null && !String.IsNullOrWhiteSpace(momRate.StateProvince.Abbreviation) ? momRate.StateProvince.Abbreviation : null,
+                                //     momRate.PostalCode != null && !String.IsNullOrWhiteSpace(momRate.PostalCode.PostalCode) ? momRate.PostalCode.PostalCode : null
+                                // );
                             }
                             else
                             {
@@ -631,14 +631,14 @@ namespace Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.ServiceManagers
                             {
                                 rate.Server = magentoServer;
                                 rate.Region = region;
-                                rate.Country = region.Country;
-                                rate.CountryID = region.CountryID;
+                                // rate.Country = region.Country;
+                                // rate.CountryID = region.CountryID;
                                 rate.PostalCode = ((momRate.PostalCode == null) || String.IsNullOrWhiteSpace(momRate.PostalCode.PostalCode)) ? "*" : momRate.PostalCode.PostalCode.Trim();
                                 rate.Rate = momRate.TaxRate;
 
                                 syncViewModel = new MagentoSalesTaxRateSynchronizationRecordDataModel(rate, magentoServer.ID);
 
-                                Logger.LogDebug(new EventId(_EventID, EVENT_TITLE__TAX_IMPORT), EVENT_MISSING, rate.CountryID, rate.Region.Code, rate.PostalCode, user.UserName);
+                                //Logger.LogDebug(new EventId(_EventID, EVENT_TITLE__TAX_IMPORT), EVENT_MISSING, rate.CountryID, rate.Region.Code, rate.PostalCode, user.UserName);
 
                                 await asyncRateViewModels.AddAsync(syncViewModel);
                             }
@@ -670,8 +670,8 @@ namespace Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.ServiceManagers
                                     from sourceTaxRate in momTaxRates.Item
                                     where (sourceTaxRate.Country != null)
                                         && !String.IsNullOrWhiteSpace(sourceTaxRate.Country.ISO2)
-                                        && !String.IsNullOrWhiteSpace(magentoRate.CountryID)
-                                        && String.Equals(sourceTaxRate.Country?.ISO2?.Trim(), magentoRate.CountryID?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                                        //&& !String.IsNullOrWhiteSpace(magentoRate.CountryID)
+                                        //&& String.Equals(sourceTaxRate.Country?.ISO2?.Trim(), magentoRate.CountryID?.Trim(), StringComparison.InvariantCultureIgnoreCase)
                                     select sourceTaxRate;
 
                                 if (matchingMomRates.Any())
@@ -680,13 +680,13 @@ namespace Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.ServiceManagers
 
                                     if (magentoRate.Region != null && !String.IsNullOrWhiteSpace(magentoRate.Region.Code))
                                     {
-                                        matchingMomRates =
-                                            from sourceTaxRate in matchingMomRates
-                                            where String.Equals(sourceTaxRate.Country?.ISO2?.Trim(), magentoRate.CountryID?.Trim(), StringComparison.InvariantCultureIgnoreCase)
-                                                && (sourceTaxRate.StateProvince != null)
-                                                && !String.IsNullOrWhiteSpace(sourceTaxRate.StateProvince.Abbreviation)
-                                                && String.Equals(sourceTaxRate.StateProvince.Abbreviation.Trim(), magentoRate.Region.Code.Trim(), StringComparison.InvariantCultureIgnoreCase)
-                                            select sourceTaxRate;
+                                        // matchingMomRates =
+                                        //     from sourceTaxRate in matchingMomRates
+                                        //     where String.Equals(sourceTaxRate.Country?.ISO2?.Trim(), magentoRate.CountryID?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                                        //         && (sourceTaxRate.StateProvince != null)
+                                        //         && !String.IsNullOrWhiteSpace(sourceTaxRate.StateProvince.Abbreviation)
+                                        //         && String.Equals(sourceTaxRate.StateProvince.Abbreviation.Trim(), magentoRate.Region.Code.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                                        //     select sourceTaxRate;
 
                                         if (matchingMomRates.Any())
                                         {
@@ -694,13 +694,13 @@ namespace Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.ServiceManagers
                                             {
                                                 // rate applies to all postal codes in region... we need to see if there are any specific postal codes from MOM. If there is, delete this rate and the new ones will be picked up later
 
-                                                matchingMomRates =
-                                                    from sourceTaxRate in matchingMomRates
-                                                    where String.Equals(sourceTaxRate.Country?.ISO2?.Trim(), magentoRate.CountryID?.Trim(), StringComparison.InvariantCultureIgnoreCase)
-                                                        && String.Equals(sourceTaxRate.StateProvince.Abbreviation.Trim(), magentoRate.Region.Code.Trim(), StringComparison.InvariantCultureIgnoreCase)
-                                                        && (sourceTaxRate.PostalCode != null)
-                                                        && !String.IsNullOrWhiteSpace(sourceTaxRate.PostalCode.PostalCode)
-                                                    select sourceTaxRate;
+                                                // matchingMomRates =
+                                                //     from sourceTaxRate in matchingMomRates
+                                                //     where String.Equals(sourceTaxRate.Country?.ISO2?.Trim(), magentoRate.CountryID?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                                                //         && String.Equals(sourceTaxRate.StateProvince.Abbreviation.Trim(), magentoRate.Region.Code.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                                                //         && (sourceTaxRate.PostalCode != null)
+                                                //         && !String.IsNullOrWhiteSpace(sourceTaxRate.PostalCode.PostalCode)
+                                                //     select sourceTaxRate;
 
                                                 if (matchingMomRates.Any())
                                                 {
@@ -716,7 +716,7 @@ namespace Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.ServiceManagers
                                                     }
                                                     else if (!matchingMomRates.ElementAt(0).TaxRate.Equals(magentoRate.Rate) || String.Equals(magentoRate.PostalCode, "*", StringComparison.InvariantCultureIgnoreCase))
                                                     {
-                                                        Logger.LogDebug(new EventId(_EventID, EVENT_TITLE__TAX_IMPORT), EVENT_UPDATE, magentoRate.CountryID, (magentoRate.Region == null || String.IsNullOrWhiteSpace(magentoRate.Region.Code)) ? "*" : magentoRate.Region.Code, magentoRate.PostalCode, user.UserName);
+                                                        //Logger.LogDebug(new EventId(_EventID, EVENT_TITLE__TAX_IMPORT), EVENT_UPDATE, magentoRate.CountryID, (magentoRate.Region == null || String.IsNullOrWhiteSpace(magentoRate.Region.Code)) ? "*" : magentoRate.Region.Code, magentoRate.PostalCode, user.UserName);
 
                                                         magentoRate.PostalCode = matchingMomRates.ElementAt(0).PostalCode.PostalCode;
                                                         syncViewModel = new MagentoSalesTaxRateSynchronizationRecordDataModel(magentoRate, magentoServer.ID);
@@ -727,20 +727,20 @@ namespace Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.ServiceManagers
                                             {
                                                 // search for MOM rates via postal code
 
-                                                matchingMomRates =
-                                                    from sourceTaxRate in matchingMomRates
-                                                    where String.Equals(sourceTaxRate.Country?.ISO2?.Trim(), magentoRate.CountryID?.Trim(), StringComparison.InvariantCultureIgnoreCase)
-                                                        && String.Equals(sourceTaxRate.StateProvince.Abbreviation.Trim(), magentoRate.Region.Code.Trim(), StringComparison.InvariantCultureIgnoreCase)
-                                                        && (sourceTaxRate.PostalCode != null)
-                                                        && !String.IsNullOrWhiteSpace(sourceTaxRate.PostalCode.PostalCode)
-                                                        && String.Equals(sourceTaxRate.PostalCode.PostalCode.Trim(), magentoRate.PostalCode, StringComparison.InvariantCultureIgnoreCase)
-                                                    select sourceTaxRate;
+                                                // matchingMomRates =
+                                                //     from sourceTaxRate in matchingMomRates
+                                                //     where String.Equals(sourceTaxRate.Country?.ISO2?.Trim(), magentoRate.CountryID?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                                                //         && String.Equals(sourceTaxRate.StateProvince.Abbreviation.Trim(), magentoRate.Region.Code.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                                                //         && (sourceTaxRate.PostalCode != null)
+                                                //         && !String.IsNullOrWhiteSpace(sourceTaxRate.PostalCode.PostalCode)
+                                                //         && String.Equals(sourceTaxRate.PostalCode.PostalCode.Trim(), magentoRate.PostalCode, StringComparison.InvariantCultureIgnoreCase)
+                                                //     select sourceTaxRate;
 
                                                 if (matchingMomRates.Any())
                                                 {
                                                     if (!matchingMomRates.ElementAt(0).TaxRate.Equals(magentoRate.Rate))
                                                     {
-                                                        Logger.LogDebug(new EventId(_EventID, EVENT_TITLE__TAX_IMPORT), EVENT_UPDATE, magentoRate.CountryID, (magentoRate.Region == null || String.IsNullOrWhiteSpace(magentoRate.Region.Code)) ? "*" : magentoRate.Region.Code, magentoRate.PostalCode, user.UserName);
+                                                        //Logger.LogDebug(new EventId(_EventID, EVENT_TITLE__TAX_IMPORT), EVENT_UPDATE, magentoRate.CountryID, (magentoRate.Region == null || String.IsNullOrWhiteSpace(magentoRate.Region.Code)) ? "*" : magentoRate.Region.Code, magentoRate.PostalCode, user.UserName);
 
                                                         magentoRate.Rate = matchingMomRates.ElementAt(0).TaxRate;
                                                         syncViewModel = new MagentoSalesTaxRateSynchronizationRecordDataModel(magentoRate, magentoServer.ID);
@@ -772,7 +772,7 @@ namespace Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.ServiceManagers
                                         {
                                             if (!matchingMomRates.ElementAt(0).TaxRate.Equals(magentoRate.Rate))
                                             {
-                                                Logger.LogDebug(new EventId(_EventID, EVENT_TITLE__TAX_IMPORT), EVENT_UPDATE, magentoRate.CountryID, (magentoRate.Region == null || String.IsNullOrWhiteSpace(magentoRate.Region.Code)) ? "*" : magentoRate.Region.Code, magentoRate.PostalCode, user.UserName);
+                                                //Logger.LogDebug(new EventId(_EventID, EVENT_TITLE__TAX_IMPORT), EVENT_UPDATE, magentoRate.CountryID, (magentoRate.Region == null || String.IsNullOrWhiteSpace(magentoRate.Region.Code)) ? "*" : magentoRate.Region.Code, magentoRate.PostalCode, user.UserName);
 
                                                 syncViewModel = new MagentoSalesTaxRateSynchronizationRecordDataModel(magentoRate, magentoServer.ID);
                                             }
@@ -797,12 +797,12 @@ namespace Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.ServiceManagers
                                     syncViewModel = new MagentoSalesTaxRateSynchronizationRecordDataModel(magentoRate, magentoServer.ID, true);
                                 }
 
-                                if (syncViewModel != null && syncViewModel.CreateOrUpdateRate && ((syncViewModel.Rate.RegionID == 0 || String.IsNullOrWhiteSpace(syncViewModel.Rate.Region.Code)) || String.IsNullOrWhiteSpace(syncViewModel.Rate.PostalCode)))
-                                {
-                                    // couldn't find the region, which is required, so delete it
-
-                                    syncViewModel.DeleteRate = true;
-                                }
+                                // if (syncViewModel != null && syncViewModel.CreateOrUpdateRate && ((syncViewModel.Rate.RegionID == 0 || String.IsNullOrWhiteSpace(syncViewModel.Rate.Region.Code)) || String.IsNullOrWhiteSpace(syncViewModel.Rate.PostalCode)))
+                                // {
+                                //     // couldn't find the region, which is required, so delete it
+                                //
+                                //     syncViewModel.DeleteRate = true;
+                                // }
 
                                 await asyncRateViewModels.AddAsync(syncViewModel);
                             }
@@ -830,14 +830,15 @@ namespace Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.ServiceManagers
 
                                 // determine which route to take!
 
-                                if (!String.IsNullOrWhiteSpace(rate.CountryID))         // we have a country
+                                //if (!String.IsNullOrWhiteSpace(rate.CountryID))         // we have a country
+                                if (true)
                                 {
-                                    filterMatches =
-                                        from r in rateViewModels
-                                        where String.Equals(r.Rate.CountryID, rate.CountryID, StringComparison.InvariantCultureIgnoreCase)
-                                            && (String.Equals(r.Rate.Code?.Trim(), magentoExemptTaxRateCode?.Trim(), StringComparison.InvariantCultureIgnoreCase)
-                                                && !preserveMagentoExemptTaxRates) || !String.Equals(rate.Code?.Trim(), magentoExemptTaxRateCode?.Trim(), StringComparison.InvariantCultureIgnoreCase)
-                                        select r;
+                                    // filterMatches =
+                                    //     from r in rateViewModels
+                                    //     where String.Equals(r.Rate.CountryID, rate.CountryID, StringComparison.InvariantCultureIgnoreCase)
+                                    //         && (String.Equals(r.Rate.Code?.Trim(), magentoExemptTaxRateCode?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                                    //             && !preserveMagentoExemptTaxRates) || !String.Equals(rate.Code?.Trim(), magentoExemptTaxRateCode?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                                    //     select r;
 
                                     if (!filterMatches.Any())
                                     {
