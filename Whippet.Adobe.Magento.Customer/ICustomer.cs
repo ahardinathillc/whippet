@@ -1,8 +1,6 @@
 ﻿using System;
 using NodaTime;
-using Athi.Whippet.Data;
 using Athi.Whippet.Adobe.Magento.Data;
-using Athi.Whippet.Adobe.Magento.Customer.Extensions;
 using Athi.Whippet.Adobe.Magento.Customer.Addressing;
 using Athi.Whippet.Adobe.Magento.Store;
 
@@ -11,7 +9,7 @@ namespace Athi.Whippet.Adobe.Magento.Customer
     /// <summary>
     /// Represents an individual customer in Magento.
     /// </summary>
-    public interface ICustomer : IMagentoEntity, IEqualityComparer<ICustomer>, IMagentoRestEntity, IMagentoAuditableEntity
+    public interface ICustomer : IMagentoEntity, IEqualityComparer<ICustomer>, IMagentoRestEntity, IMagentoAuditableEntity, IMagentoCustomAttributesEntity
     {
         /// <summary>
         /// Gets or sets the <see cref="ICustomerGroup"/> for the current instance.
@@ -97,6 +95,46 @@ namespace Athi.Whippet.Adobe.Magento.Customer
         IStore Store
         { get; set; }
 
+        /// <summary>
+        /// Gets or sets the customer's Value Added Tax (VAT) number.
+        /// </summary>
+        string VAT
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="IStoreWebsite"/> that the <see cref="ICustomer"/> is registered with.
+        /// </summary>
+        IStoreWebsite Website
+        { get; set; }
         
+        /// <summary>
+        /// Gets or sets the customer's associated addresses.
+        /// </summary>
+        IEnumerable<ICustomerAddress> Addresses
+        { get; set; }
+
+        /// <summary>
+        /// Specifies whether auto group reassignment should be disabled.
+        /// </summary>
+        bool DisableAutoGroupChange
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the customer's company profile.
+        /// </summary>
+        CustomerCompanyProfile? CompanyProfile
+        { get; set; }
+
+        /// <summary>
+        /// Specifies whether customer support is allowed for the current instance.
+        /// </summary>
+        bool AssistanceAllowed
+        { get; set; }
+
+        /// <summary>
+        /// Specifies whether the customer is currently a subscriber.
+        /// </summary>
+        bool IsSubscribed
+        { get; set; }
     }
 }

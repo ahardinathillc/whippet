@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -160,6 +161,28 @@ namespace Athi.Whippet.Extensions
         public static string ToTimestamp(this Instant? instant)
         {
             return instant.HasValue ? instant.Value.ToTimestamp() : String.Empty;
+        }
+
+        /// <summary>
+        /// Converts the value of the current <see cref="DateTime"/> object to Coordinated Universal Time (UTC).
+        /// </summary>
+        /// <param name="dateTime">The <see cref="DateTime"/> object to convert.</param>
+        /// <param name="preserveValue">If <see langword="true"/>, the original value of the <see cref="DateTime"/> object will be preserved and the <see cref="DateTime.Kind"/> will be set to <see cref="DateTimeKind.Utc"/>.</param>
+        /// <returns>An object whose <see cref="DateTime.Kind"/> property is <see cref="DateTimeKind.Utc"/>, and whose value is the UTC equivalent to the value of the current <see cref="DateTime"/> object, or <see cref="DateTime.MaxValue"/> if the converted value is too large to be represented by a <see cref="DateTime"/> object, or <see cref="DateTime.MinValue"/> if the converted value is too small to be represented by a <see cref="DateTime"/> object.</returns>
+        public static DateTime ToUniversalTime(this DateTime dateTime, bool preserveValue)
+        {
+            DateTime utcTime;
+
+            if (preserveValue)
+            {
+                utcTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second, dateTime.Millisecond, dateTime.Microsecond, new GregorianCalendar(GregorianCalendarTypes.Localized), DateTimeKind.Utc);
+            }
+            else
+            {
+                utcTime = dateTime.ToUniversalTime();
+            }
+
+            return utcTime;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
+using Athi.Whippet.Adobe.Magento.Customer.Addressing.Extensions;
 using Athi.Whippet.Adobe.Magento.Extensions;
-using Athi.Whippet.Adobe.Magento.EAV.Extensions;
+using Athi.Whippet.Adobe.Magento.Store.Extensions;
 
 namespace Athi.Whippet.Adobe.Magento.Customer.Extensions
 {
@@ -26,38 +27,32 @@ namespace Athi.Whippet.Adobe.Magento.Customer.Extensions
                 }
                 else
                 {
-                    customer = new Customer();
-                    customer.Active = cust.Active;
-                    customer.Confirmation = cust.Confirmation;
-                    customer.CreatedAt = cust.CreatedAt;
-                    customer.CreatedIn = cust.CreatedIn;
-                    customer.DateOfBirth = cust.DateOfBirth;
-                    customer.DefaultBillingAddress = cust.DefaultBillingAddress.ToCustomerAddress();
-                    customer.DefaultShippingAddress = cust.DefaultShippingAddress.ToCustomerAddress();
-                    customer.DisableAutoGroupChange = cust.DisableAutoGroupChange;
+                    customer = new Customer(Convert.ToUInt32(cust.ID), cust.Server.ToMagentoServer(), cust.RestEndpoint.ToMagentoRestEndpoint());
+
+                    customer.CustomAttributes = new MagentoCustomAttributeCollection(cust.CustomAttributes);
                     customer.Email = cust.Email;
-                    customer.EntityID = cust.EntityID;
-                    customer.FailedLoginAttempts = cust.FailedLoginAttempts;
-                    customer.FirstFailedLoginAttempt = cust.FirstFailedLoginAttempt;
-                    customer.FirstName = cust.FirstName;
                     customer.Gender = cust.Gender;
+                    customer.Addresses = (cust.Addresses == null) ? null : cust.Addresses.Select(a => a.ToCustomerAddress());
                     customer.Group = cust.Group.ToCustomerGroup();
-                    customer.IncrementID = cust.IncrementID;
-                    customer.LastName = cust.LastName;
-                    customer.LegacyCustomerNumber = cust.LegacyCustomerNumber;
-                    customer.LockExpiration = cust.LockExpiration;
-                    customer.MiddleName = cust.MiddleName;
-                    customer.PasswordHash = cust.PasswordHash;
                     customer.Prefix = cust.Prefix;
-                    customer.ResetPasswordToken = cust.ResetPasswordToken;
-                    customer.ResetPasswordTokenCreated = cust.ResetPasswordTokenCreated;
-                    customer.Server = cust.Server.ToMagentoServer();
-                    customer.SessionCutoff = cust.SessionCutoff;
                     customer.Store = cust.Store.ToStore();
                     customer.Suffix = cust.Suffix;
-                    customer.UpdatedAt = cust.UpdatedAt;
-                    customer.ValueAddedTax = cust.ValueAddedTax;
                     customer.Website = cust.Website.ToStoreWebsite();
+                    customer.AssistanceAllowed = cust.AssistanceAllowed;
+                    customer.CompanyProfile = cust.CompanyProfile;
+                    customer.ConfirmationNumber = cust.ConfirmationNumber;
+                    customer.CreatedArea = cust.CreatedArea;
+                    customer.CreatedTimestamp = cust.CreatedTimestamp;
+                    customer.DefaultBilling = cust.DefaultBilling.ToCustomerAddress();
+                    customer.DefaultShipping = cust.DefaultBilling.ToCustomerAddress();
+                    customer.FirstName = cust.FirstName;
+                    customer.IsSubscribed = cust.IsSubscribed;
+                    customer.LastName = cust.LastName;
+                    customer.MiddleName = cust.MiddleName;
+                    customer.UpdatedTimestamp = cust.UpdatedTimestamp;
+                    customer.DateOfBirth = cust.DateOfBirth;
+                    customer.VAT = cust.VAT;
+                    customer.DisableAutoGroupChange = cust.DisableAutoGroupChange;
                 }
             }
 
@@ -65,4 +60,3 @@ namespace Athi.Whippet.Adobe.Magento.Customer.Extensions
         }
     }
 }
-

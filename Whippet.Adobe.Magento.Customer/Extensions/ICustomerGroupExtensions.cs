@@ -1,5 +1,6 @@
 ﻿using System;
 using Athi.Whippet.Adobe.Magento.Extensions;
+using Athi.Whippet.Adobe.Magento.Store.Extensions;
 using Athi.Whippet.Adobe.Magento.Taxes.Extensions;
 
 namespace Athi.Whippet.Adobe.Magento.Customer.Extensions
@@ -26,10 +27,10 @@ namespace Athi.Whippet.Adobe.Magento.Customer.Extensions
                 }
                 else
                 {
-                    group = new CustomerGroup();
-                    group.Server = custGroup.Server.ToMagentoServer();
-                    group.GroupCode = custGroup.GroupCode;
+                    group = new CustomerGroup(Convert.ToUInt32(custGroup.ID), custGroup.Server.ToMagentoServer(), custGroup.RestEndpoint.ToMagentoRestEndpoint());
+                    group.ExcludedWebsites = (custGroup.ExcludedWebsites == null) ? null : custGroup.ExcludedWebsites.Select(w => w.ToStoreWebsite());
                     group.TaxClass = custGroup.TaxClass.ToTaxClass();
+                    group.Code = custGroup.Code;
                 }
             }
 
@@ -37,4 +38,3 @@ namespace Athi.Whippet.Adobe.Magento.Customer.Extensions
         }
     }
 }
-

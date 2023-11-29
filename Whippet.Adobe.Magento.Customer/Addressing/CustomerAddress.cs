@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Text;
 using NodaTime;
 using Athi.Whippet.Data;
 using Athi.Whippet.Adobe.Magento.Data;
 using Athi.Whippet.Adobe.Magento.Customer.Extensions;
 using Athi.Whippet.Adobe.Magento.Directory;
 using Athi.Whippet.Adobe.Magento.Directory.Extensions;
+using Athi.Whippet.Extensions.Text;
 
 namespace Athi.Whippet.Adobe.Magento.Customer.Addressing
 {
@@ -446,13 +448,13 @@ namespace Athi.Whippet.Adobe.Magento.Customer.Addressing
         /// <summary>
         /// Gets the hash code of the specified object.
         /// </summary>
-        /// <param name="website"><see cref="ICustomerAddress"/> object to get hash code for.</param>
+        /// <param name="address"><see cref="ICustomerAddress"/> object to get hash code for.</param>
         /// <returns>Hash code.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual int GetHashCode(ICustomerAddress website)
+        public virtual int GetHashCode(ICustomerAddress address)
         {
-            ArgumentNullException.ThrowIfNull(website);
-            return website.GetHashCode();
+            ArgumentNullException.ThrowIfNull(address);
+            return address.GetHashCode();
         }
 
         /// <summary>
@@ -461,7 +463,43 @@ namespace Athi.Whippet.Adobe.Magento.Customer.Addressing
         /// <returns>String representation of the current object.</returns>
         public override string ToString()
         {
-            return String.IsNullOrWhiteSpace(Name) ? base.ToString() : Name;
+            StringBuilder builder = new StringBuilder();
+
+            if (String.IsNullOrWhiteSpace(FirstName) || String.IsNullOrWhiteSpace(LastName))
+            {
+                builder.Append(base.ToString());
+            }
+            else
+            {
+                builder.Append(FirstName);
+                builder.AppendSpace();
+                builder.Append(LastName);
+                builder.AppendSpace();
+
+                if (!String.IsNullOrWhiteSpace(Region.Name))
+                {
+                    builder.Append('[');
+                    builder.Append(Region.Name);
+
+                    if (!String.IsNullOrWhiteSpace(Country.Name))
+                    {
+                        builder.AppendSpace();
+                        builder.Append('(');
+                        builder.Append(Country.Name);
+                        builder.Append(')');
+                    }
+
+                    builder.Append(']');
+                }
+                else if (!String.IsNullOrWhiteSpace(Country.Name))
+                {
+                    builder.Append('[');
+                    builder.Append(Country.Name);
+                    builder.Append(']');
+                }
+            }
+            
+            return builder.ToString().Trim();
         }
     }
 }
