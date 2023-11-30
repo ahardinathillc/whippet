@@ -4,11 +4,17 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <AssemblyName>Athi.Whippet.Adobe.Magento.Catalog</AssemblyName>
-        <RootNamespace>Athi.Whippet.Adobe.Magento.Catalog</RootNamespace>
+        <AssemblyName>Athi.Whippet.Adobe.Magento.Catalog.Products</AssemblyName>
+        <RootNamespace>Athi.Whippet.Adobe.Magento.Catalog.Products</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+      <PackageReference Include="NodaTime" Version="3.1.9" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Whippet.Adobe.Magento.Customer\Whippet.Adobe.Magento.Customer.csproj" />
       <ProjectReference Include="..\Whippet.Adobe.Magento.Data\Whippet.Adobe.Magento.Data.csproj" />
       <ProjectReference Include="..\Whippet.Adobe.Magento\Whippet.Adobe.Magento.csproj" />
       <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />

@@ -264,6 +264,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.Compa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.Catalog", "Whippet.Adobe.Magento.Catalog\Whippet.Adobe.Magento.Catalog.csproj", "{25DF3CCF-C57E-42A5-AF30-E4C0D90C0C00}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.Catalog.Products", "Whippet.Adobe.Magento.Catalog.Products\Whippet.Adobe.Magento.Catalog.Products.csproj", "{C4714D01-D8D3-4EC7-B7A3-E8ABAF37672F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -782,5 +784,9 @@ Global
 		{25DF3CCF-C57E-42A5-AF30-E4C0D90C0C00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25DF3CCF-C57E-42A5-AF30-E4C0D90C0C00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{25DF3CCF-C57E-42A5-AF30-E4C0D90C0C00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4714D01-D8D3-4EC7-B7A3-E8ABAF37672F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4714D01-D8D3-4EC7-B7A3-E8ABAF37672F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4714D01-D8D3-4EC7-B7A3-E8ABAF37672F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4714D01-D8D3-4EC7-B7A3-E8ABAF37672F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

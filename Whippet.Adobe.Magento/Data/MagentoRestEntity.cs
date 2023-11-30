@@ -9,7 +9,7 @@ namespace Athi.Whippet.Adobe.Magento.Data
     /// Base class for all <see cref="MagentoEntity"/> objects that have a corresponding REST API model. This class must be inherited.
     /// </summary>
     /// <typeparam name="TInterface"><see cref="IExtensionInterface"/> of the corresponding REST model.</typeparam>
-    public abstract class MagentoRestEntity<TInterface> : MagentoEntity, IWhippetEntity, IMagentoEntity, IJsonObject, IMagentoRestEntity, IMagentoRestEntity<TInterface>, IEqualityComparer<IMagentoRestEntity>
+    public abstract class MagentoRestEntity<TInterface> : MagentoEntity, IWhippetEntity, IMagentoEntity, IJsonObject, IMagentoRestEntity, IMagentoRestEntity<TInterface>, IEqualityComparer<IMagentoRestEntity>, IExtensionInterfaceMap<TInterface>
         where TInterface : IExtensionInterface, new()
     {
         /// <summary>
@@ -100,6 +100,15 @@ namespace Athi.Whippet.Adobe.Magento.Data
             }
 
             return equals;
+        }
+
+        /// <summary>
+        /// Populates the current instance based on the specified <see cref="IExtensionInterface"/>.
+        /// </summary>
+        /// <param name="model"><typeparamref name="TInterface"/> object used to populate the object.</param>
+        void IExtensionInterfaceMap<TInterface>.FromModel(TInterface model)
+        {
+            ImportFromModel(model);
         }
 
         /// <summary>

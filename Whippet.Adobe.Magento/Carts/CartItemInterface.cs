@@ -1,6 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
-using Athi.Whippet.Adobe.Magento.Catalog.Product;
+using Athi.Whippet.Adobe.Magento.Catalog.Products;
 
 namespace Athi.Whippet.Adobe.Magento.Carts
 {

@@ -20,12 +20,6 @@ namespace Athi.Whippet.Adobe.Magento.Data
     /// Represents an <see cref="IMagentoEntity"/> that has a REST API implementation.
     /// </summary>
     /// <typeparam name="TInterface"><see cref="IExtensionInterface"/> of the corresponding REST model.</typeparam>
-    public interface IMagentoRestEntity<TInterface> : IMagentoRestEntity, IMagentoEntity, IWhippetEntity, IJsonObject where TInterface : IExtensionInterface, new()
-    {
-        /// <summary>
-        /// Converts the current instance to an <see cref="IExtensionInterface"/> of type <typeparamref name="TInterface"/>.
-        /// </summary>
-        /// <returns><see cref="IExtensionInterface"/> object of type <typeparamref name="TInterface"/>.</returns>
-        TInterface ToInterface();
-    }
+    public interface IMagentoRestEntity<TInterface> : IMagentoRestEntity, IMagentoEntity, IWhippetEntity, IJsonObject, IExtensionInterfaceMap<TInterface> where TInterface : IExtensionInterface, new()
+    { }
 }
