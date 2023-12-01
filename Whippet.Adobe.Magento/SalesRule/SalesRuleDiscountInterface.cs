@@ -55,6 +55,7 @@ namespace Athi.Whippet.Adobe.Magento.SalesRule
         {
             Discounts = (discounts == null) ? null : discounts.ToArray();
             RuleLabel = ruleLabel;
+            RuleID = ruleId;
         }
     }
 }

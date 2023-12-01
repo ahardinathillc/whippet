@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Athi.Whippet.Adobe.Magento.Catalog.Products.Bundle;
 using Athi.Whippet.Adobe.Magento.Catalog.Products.Configurable;
 using Athi.Whippet.Adobe.Magento.Catalog.StockItem;
+using Athi.Whippet.Adobe.Magento.Categories;
 using Athi.Whippet.Adobe.Magento.Downloads;
 using Athi.Whippet.Adobe.Magento.GiftCard;
 using Athi.Whippet.Adobe.Magento.SalesRule;
@@ -25,7 +26,7 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Products
         /// Gets or sets the category links associated with the product.
         /// </summary>
         [JsonProperty("category_links")]
-        public CatalogLinkInterface[] CategoryLinks
+        public CategoryLinkInterface[] CategoryLinks
         { get; set; }
             
         /// <summary>

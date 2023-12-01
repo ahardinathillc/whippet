@@ -34,5 +34,19 @@ namespace Athi.Whippet.Adobe.Magento.SalesRule
         /// </summary>
         public SalesRuleDiscountDataInterface()
         { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SalesRuleDiscountDataInterface"/> class with the specified parameters.
+        /// </summary>
+        /// <param name="amount">Discount amount.</param>
+        /// <param name="baseAmount">Base amount.</param>
+        /// <param name="originalAmount">Original amount before discount was applied.</param>
+        public SalesRuleDiscountDataInterface(decimal amount, decimal baseAmount, decimal originalAmount)
+            : this()
+        {
+            Amount = amount;
+            BaseAmount = baseAmount;
+            OriginalAmount = originalAmount;
+        }
     }
 }
