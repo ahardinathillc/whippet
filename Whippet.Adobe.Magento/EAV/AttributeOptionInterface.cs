@@ -23,7 +23,7 @@ namespace Athi.Whippet.Adobe.Magento.EAV
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the option value.
+        /// Gets or sets the sort order.
         /// </summary>
         [JsonProperty("sort_order")]
         public int SortOrder

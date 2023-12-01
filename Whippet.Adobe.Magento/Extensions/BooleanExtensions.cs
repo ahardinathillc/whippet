@@ -26,5 +26,29 @@ namespace Athi.Whippet.Adobe.Magento.Extensions
         {
             return (value > 1) ? true : false;
         }
+
+        /// <summary>
+        /// Converts the specified <see cref="String"/> value to its equivalent <see cref="Boolean"/> value.
+        /// </summary>
+        /// <param name="value"><see cref="String"/> value to convert.</param>
+        /// <returns><see cref="Boolean"/> value.</returns>
+        public static bool FromMagentoBoolean(this string value)
+        {
+            bool returnValue = default(bool);
+
+            if (!String.IsNullOrWhiteSpace(value))
+            {
+                if (String.Equals(bool.TrueString, value?.Trim(), StringComparison.InvariantCultureIgnoreCase) || String.Equals("yes", value?.Trim(), StringComparison.InvariantCultureIgnoreCase))
+                {
+                    returnValue = true;
+                }
+                else if (String.Equals(bool.FalseString, value?.Trim(), StringComparison.InvariantCultureIgnoreCase) || String.Equals("no", value?.Trim(), StringComparison.InvariantCultureIgnoreCase))
+                {
+                    returnValue = false;
+                }
+            }
+
+            return returnValue;
+        }
     }
 }
