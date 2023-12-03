@@ -39,6 +39,16 @@ namespace Athi.Whippet.Adobe.Magento.SalesRule
         { }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="SalesRuleDiscountData"/> struct with the specified <see cref="SalesRuleDiscountDataInterface"/>.
+        /// </summary>
+        /// <param name="model"><see cref="SalesRuleDiscountDataInterface"/> object.</param>
+        public SalesRuleDiscountData(SalesRuleDiscountDataInterface model)
+            : this()
+        {
+            FromModel(model);
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SalesRuleDiscountData"/> struct with the specified parameters.
         /// </summary>
         /// <param name="amount">Discount amount.</param>

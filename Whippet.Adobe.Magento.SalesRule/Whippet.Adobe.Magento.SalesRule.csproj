@@ -30,8 +30,4 @@
     <None Remove="Data\NHibernate\" />
     <None Remove="Data\NHibernate\UserTypes\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-    <Folder Include="Repositories\" />
-  </ItemGroup>
 </Project>

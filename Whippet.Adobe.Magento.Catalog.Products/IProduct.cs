@@ -67,7 +67,7 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Products
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="StoreWebsite"/> objects associated with the product.
+        /// Gets or sets the <see cref="IStoreWebsite"/> objects associated with the product.
         /// </summary>
         IEnumerable<IStoreWebsite> Websites
         { get; set; }
@@ -81,7 +81,7 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Products
         /// <summary>
         /// Gets or sets the discounts associated with the product.
         /// </summary>
-        IEnumerable<SalesRuleDiscountData> Discounts
+        IEnumerable<ISalesRuleDiscount> Discounts
         { get; set; }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Products
         /// <summary>
         /// Gets or sets the (configurable) product links.
         /// </summary>
-        IEnumerable<ProductLink> ConfigurableOptionLinks
+        IEnumerable<int> ConfigurableOptionLinks
         { get; set; }
 
         /// <summary>

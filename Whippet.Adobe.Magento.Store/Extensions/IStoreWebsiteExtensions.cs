@@ -32,6 +32,8 @@ namespace Athi.Whippet.Adobe.Magento.Store.Extensions
                     sw.Name = website.Name;
                     sw.RestEndpoint = website.RestEndpoint.ToMagentoRestEndpoint();
                     sw.Server = website.Server.ToMagentoServer();
+                    sw.RestEndpoint = (website.RestEndpoint == null) ? null : website.RestEndpoint.ToMagentoRestEndpoint();
+                    sw.Server = (website.Server == null) ? null : website.Server.ToMagentoServer();
                 }
             }
 

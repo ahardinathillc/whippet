@@ -25,7 +25,8 @@ namespace Athi.Whippet.Adobe.Magento.SalesRule
         /// <summary>
         /// Gets or sets the sales rule ID.
         /// </summary>
-        public string RuleID
+        [JsonProperty("rule_id")]
+        public int ID
         { get; set; }
 
         /// <summary>
@@ -55,7 +56,7 @@ namespace Athi.Whippet.Adobe.Magento.SalesRule
         {
             Discounts = (discounts == null) ? null : discounts.ToArray();
             RuleLabel = ruleLabel;
-            RuleID = ruleId;
+            ID = ruleId;
         }
     }
 }

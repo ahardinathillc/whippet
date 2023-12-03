@@ -85,6 +85,5 @@ namespace Athi.Whippet.Adobe.Magento.Downloads
         /// </summary>
         Uri FileURL
         { get; set; }
-        
     }
 }
