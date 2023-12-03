@@ -14,8 +14,11 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Whippet.Adobe.Magento.Catalog.Inventory\Whippet.Adobe.Magento.Catalog.Inventory.csproj" />
       <ProjectReference Include="..\Whippet.Adobe.Magento.Customer\Whippet.Adobe.Magento.Customer.csproj" />
       <ProjectReference Include="..\Whippet.Adobe.Magento.Data\Whippet.Adobe.Magento.Data.csproj" />
+      <ProjectReference Include="..\Whippet.Adobe.Magento.Downloads\Whippet.Adobe.Magento.Downloads.csproj" />
+      <ProjectReference Include="..\Whippet.Adobe.Magento.GiftCard\Whippet.Adobe.Magento.GiftCard.csproj" />
       <ProjectReference Include="..\Whippet.Adobe.Magento.SalesRule\Whippet.Adobe.Magento.SalesRule.csproj" />
       <ProjectReference Include="..\Whippet.Adobe.Magento\Whippet.Adobe.Magento.csproj" />
       <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />

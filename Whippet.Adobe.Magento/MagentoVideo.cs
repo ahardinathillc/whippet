@@ -58,6 +58,16 @@ namespace Athi.Whippet.Adobe.Magento
         { }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="MagentoVideo"/> struct with the specified <see cref="VideoContentInterface"/>.
+        /// </summary>
+        /// <param name="model"><see cref="VideoContentInterface"/> object.</param>
+        public MagentoVideo(VideoContentInterface model)
+            : this()
+        {
+            FromModel(model);
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="MagentoVideo"/> struct with the specified parameters.
         /// </summary>
         /// <param name="title">Video title.</param>
@@ -90,6 +100,63 @@ namespace Athi.Whippet.Adobe.Magento
             URL = url;
         }
         
+                /// <summary>
+        /// Compares the current instance to the specified object for equality.
+        /// </summary>
+        /// <param name="obj">Object to compare.</param>
+        /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
+        public override bool Equals(object obj)
+        {
+            return ((obj == null) || !(obj is MagentoVideo)) ? false : Equals((MagentoVideo)(obj));
+        }
+
+        /// <summary>
+        /// Compares the current instance to the specified object for equality.
+        /// </summary>
+        /// <param name="obj">Object to compare.</param>
+        /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
+        public bool Equals(MagentoVideo obj)
+        {
+            return Equals(this, obj);
+        }
+
+        /// <summary>
+        /// Compares the two objects for equality.
+        /// </summary>
+        /// <param name="x">First object to compare.</param>
+        /// <param name="y">Second object to compare.</param>
+        /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
+        public bool Equals(MagentoVideo x, MagentoVideo y)
+        {
+            return String.Equals(x.Metadata?.Trim(), y.Metadata?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                   && String.Equals(x.MIME?.Trim(), y.MIME?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                   && String.Equals(x.Title?.Trim(), y.Title?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                   && String.Equals(x.Description?.Trim(), y.Description?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                   && String.Equals(x.Provider?.Trim(), y.Provider?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                   && (((x.URL == null) && (y.URL == null)) || ((x.URL != null) && x.URL.Equals(y.URL)));
+
+        }
+
+        /// <summary>
+        /// Gets the hash code of the current instance.
+        /// </summary>
+        /// <returns>Hash code.</returns>
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Metadata, MIME, Title, Description, Provider, URL);
+        }
+
+        /// <summary>
+        /// Gets the hash code of the specified object.
+        /// </summary>
+        /// <param name="obj"><see cref="MagentoVideo"/> object to get hash code for.</param>
+        /// <returns>Hash code.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public int GetHashCode(MagentoVideo obj)
+        {
+            return obj.GetHashCode();
+        }
+
         /// <summary>
         /// Converts the current instance to an <see cref="IExtensionInterface"/> of type <see cref="VideoContentInterface"/>.
         /// </summary>

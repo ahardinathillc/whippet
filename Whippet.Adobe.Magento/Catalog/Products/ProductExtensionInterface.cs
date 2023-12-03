@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Athi.Whippet.Adobe.Magento.Catalog.Products.Bundle;
 using Athi.Whippet.Adobe.Magento.Catalog.Products.Configurable;
-using Athi.Whippet.Adobe.Magento.Catalog.StockItem;
+using Athi.Whippet.Adobe.Magento.Catalog.Inventory.StockItems;
 using Athi.Whippet.Adobe.Magento.Categories;
 using Athi.Whippet.Adobe.Magento.Downloads;
 using Athi.Whippet.Adobe.Magento.GiftCard;

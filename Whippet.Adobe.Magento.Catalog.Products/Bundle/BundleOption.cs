@@ -1,5 +1,6 @@
 ﻿using System;
 using Athi.Whippet.Adobe.Magento.Data;
+using Terminal.Gui;
 
 namespace Athi.Whippet.Adobe.Magento.Catalog.Products.Bundle
 {
@@ -107,8 +108,12 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Products.Bundle
         public bool Equals(BundleOption x, BundleOption y)
         {
             return x.ID == y.ID
-                   && x.Quantity == y.Quantity
-                   && (((x.Selections == null) && (y.Selections == null)) || (x.Selections != null && x.Selections.SequenceEqual(y.Selections)));
+                   && String.Equals(x.Title?.Trim(), y.Title?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                   && x.Required == y.Required
+                   && String.Equals(x.Type?.Trim(), y.Type?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                   && x.Position == y.Position
+                   && String.Equals(x.SKU?.Trim(), y.SKU?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                   && (((x.ProductLinks == null) && (y.ProductLinks == null)) || ((x.ProductLinks != null) && x.ProductLinks.SequenceEqual(y.ProductLinks)));
         }
         
         /// <summary>
@@ -117,7 +122,17 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Products.Bundle
         /// <returns>Hash code.</returns>
         public override int GetHashCode()
         {
-            return HashCode.Combine(ID, Quantity, Selections);
+            HashCode code = new HashCode();
+
+            code.Add(ID);
+            code.Add(Title);
+            code.Add(Required);
+            code.Add(Type);
+            code.Add(Position);
+            code.Add(SKU);
+            code.Add(ProductLinks);
+
+            return code.ToHashCode();
         }
 
         /// <summary>
@@ -137,7 +152,18 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Products.Bundle
         /// <returns><see cref="IExtensionInterface"/> object of type <see cref="BundleOptionInterface"/>.</returns>
         public BundleOptionInterface ToInterface()
         {
-            return new BundleOptionInterface(ID, Quantity, Selections, new BundleOptionExtensionInterface());
+            BundleOptionInterface bInterface = new BundleOptionInterface();
+
+            bInterface.Position = Position;
+            bInterface.OptionID = ID;
+            bInterface.ProductLinks = (ProductLinks == null) ? null : ProductLinks.Select(pl => pl.ToInterface()).ToArray();
+            bInterface.Required = Required;
+            bInterface.Title = Title;
+            bInterface.Type = Type;
+            bInterface.SKU = SKU;
+            bInterface.ExtensionAttributes = new BundleOptionExtensionInterface();
+            
+            return bInterface;
         }
 
         /// <summary>
@@ -148,9 +174,13 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Products.Bundle
         {
             if (model != null)
             {
-                model.OptionID = ID;
-                model.OptionQuantity = Quantity;
-                model.OptionSelections = (Selections == null) ? null : Selections.ToArray();
+                ID = model.OptionID;
+                Position = model.Position;
+                ProductLinks = (model.ProductLinks == null) ? null : model.ProductLinks.Select(pl => new BundleLink(pl));
+                Required = model.Required;
+                Title = model.Title;
+                Type = model.Type;
+                SKU = model.SKU;
             }
         }
     }

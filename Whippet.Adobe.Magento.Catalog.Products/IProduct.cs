@@ -16,211 +16,139 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Products
     /// <summary>
     /// Represents a product in Magento.
     /// </summary>
-    public class Product : MagentoRestEntity<ProductInterface>, IMagentoEntity, IProduct, IEqualityComparer<IProduct>, IMagentoAuditableEntity, IMagentoCustomAttributesEntity, IMagentoRestEntity, IMagentoRestEntity<ProductInterface
+    public interface IProduct : IMagentoEntity, IEqualityComparer<IProduct>, IMagentoAuditableEntity, IMagentoCustomAttributesEntity, IMagentoRestEntity
     {
-        private MagentoCustomAttributeCollection _collection;
-        private AttributeSet _attribSet;
-        private StockItem _stockItem;
-        
         /// <summary>
         /// Gets or sets the SKU.
         /// </summary>
-        public virtual string SKU
+        string SKU
         { get; set; }
 
         /// <summary>
         /// Gets or sets the product name.
         /// </summary>
-        public virtual string Name
+        string Name
         { get; set; }
 
         /// <summary>
         /// Gets or sets the attribute set of the product.
         /// </summary>
-        public virtual AttributeSet AttributeSet
-        {
-            get
-            {
-                if (_attribSet == null)
-                {
-                    _attribSet = new AttributeSet();
-                }
+        IAttributeSet AttributeSet
+        { get; set; }
 
-                return _attribSet;
-            }
-            set
-            {
-                _attribSet = value;
-            }
-        }
-
-        IAttributeSet IProduct.AttributeSet
-        {
-            get
-            {
-                return AttributeSet;
-            }
-            set
-            {
-                AttributeSet = value.ToAttributeSet();
-            }
-        }
-        
         /// <summary>
         /// Gets or sets the product price.
         /// </summary>
-        public virtual decimal Price
+        decimal Price
         { get; set; }
 
         /// <summary>
         /// Gets or sets the product status flag.
         /// </summary>
-        public virtual int Status
+        int Status
         { get; set; }
 
         /// <summary>
         /// Gets or sets the visibility option flag.
         /// </summary>
-        public virtual int Visibility
+        int Visibility
         { get; set; }
 
         /// <summary>
         /// Gets or sets the product type.
         /// </summary>
-        public virtual ProductType Type
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the date and time the product was created.
-        /// </summary>
-        public virtual Instant CreatedTimestamp
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the date and time the product was last updated.
-        /// </summary>
-        public virtual Instant? UpdatedTimestamp
+        ProductType Type
         { get; set; }
 
         /// <summary>
         /// Gets or sets the product weight.
         /// </summary>
-        public virtual decimal Weight
+        decimal Weight
         { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="StoreWebsite"/> objects associated with the product.
         /// </summary>
-        public virtual IEnumerable<StoreWebsite> Websites
+        IEnumerable<IStoreWebsite> Websites
         { get; set; }
 
         /// <summary>
         /// Gets or sets the category links associated with the product.
         /// </summary>
-        public virtual IEnumerable<CategoryLink> CategoryLinks
+        IEnumerable<CategoryLink> CategoryLinks
         { get; set; }
         
         /// <summary>
         /// Gets or sets the discounts associated with the product.
         /// </summary>
-        public virtual IEnumerable<SalesRuleDiscountData> Discounts
+        IEnumerable<SalesRuleDiscountData> Discounts
         { get; set; }
 
         /// <summary>
         /// Gets or sets the product's bundle options.
         /// </summary>
-        public virtual IEnumerable<BundleOption> BundleOptions
+        IEnumerable<BundleOption> BundleOptions
         { get; set; }
         
         /// <summary>
         /// Gets or sets the associated stock item for the product.
         /// </summary>
-        public virtual StockItem StockItem
-        {
-            get
-            {
-                if (_stockItem == null)
-                {
-                    _stockItem = new StockItem();
-                }
-
-                return _stockItem;
-            }
-            set
-            {
-                _stockItem = value;
-            }
-        }
+        IStockItem StockItem
+        { get; set; }
         
         /// <summary>
         /// Gets or sets the downloadable product links.
         /// </summary>
-        public virtual IEnumerable<DownloadableLink> ProductLinks
+        IEnumerable<IDownloadableLink> ProductLinks
         { get; set; }
 
         /// <summary>
         /// Gets or sets the downloadable product samples.
         /// </summary>
-        public virtual IEnumerable<DownloadableSample> Samples
+        IEnumerable<IDownloadableSample> Samples
         { get; set; }
 
         /// <summary>
         /// Gets or sets the gift card amounts associated with the product.
         /// </summary>
-        public virtual IEnumerable<GiftCardAmount> GiftCardAmounts
+        IEnumerable<GiftCardAmount> GiftCardAmounts
         { get; set; }
 
         /// <summary>
         /// Gets or sets the product options if the product is configurable.
         /// </summary>
-        public virtual IEnumerable<ConfigurableProductOption> ConfigurableOptions
+        IEnumerable<IConfigurableProductOption> ConfigurableOptions
         { get; set; }
 
         /// <summary>
         /// Gets or sets the (configurable) product links.
         /// </summary>
-        public virtual IEnumerable<ProductLink> ConfigurableOptionLinks
+        IEnumerable<ProductLink> ConfigurableOptionLinks
         { get; set; }
 
         /// <summary>
         /// Gets or sets the product links for the current instance.
         /// </summary>
-        public virtual IEnumerable<ProductLink> Links
+        IEnumerable<ProductLink> Links
         { get; set; }
 
         /// <summary>
         /// Gets or sets the product options.
         /// </summary>
-        public virtual IEnumerable<ProductCustomOption> Options
+        IEnumerable<IProductCustomOption> Options
         { get; set; }
 
         /// <summary>
         /// Gets or sets the product's media gallery entries.
         /// </summary>
-        public virtual IEnumerable<ProductMediaGalleryEntry> MediaGalleryEntries
+        IEnumerable<IProductMediaGalleryEntry> MediaGalleryEntries
         { get; set; }
 
         /// <summary>
         /// Gets or sets the product's tier prices.
         /// </summary>
-        public virtual IEnumerable<ProductTierPrice> TierPrices
+        IEnumerable<IProductTierPrice> TierPrices
         { get; set; }
-
-        /// <summary>
-        /// Gets the entity's <see cref="MagentoCustomAttributeCollection"/> that contains all <see cref="MagentoCustomAttribute"/> entries. This property is read-only.
-        /// </summary>
-        public virtual MagentoCustomAttributeCollection CustomAttributes
-        {
-            get
-            {
-                if (_collection == null)
-                {
-                    _collection = new MagentoCustomAttributeCollection();
-                }
-
-                return _collection;
-            }
-        }
 
     }
 }

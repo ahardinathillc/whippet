@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Athi.Whippet.Adobe.Magento.Catalog.StockItem
+namespace Athi.Whippet.Adobe.Magento.Catalog.Inventory.StockItems
 {
     /// <summary>
     /// Interface that provides information about a Magento stock item.
@@ -72,24 +72,31 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.StockItem
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the minimum quantity allowed in a Magento shopping cart or <see langword="null"/> when there is no limitation.
+        /// Flag that specifies whether to use the configuration's minimum sale quantity value. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>.
+        /// </summary>
+        [JsonProperty("use_config_min_sale_qty")]
+        public int UseConfigurationMinimumSaleQuantity
+        { get; set; }
+        
+        /// <summary>
+        /// Specifies the minimal quantity allowed in the shopping cart or <see langword="null"/> if there is no limitation.
         /// </summary>
         [JsonProperty("min_sale_qty")]
-        public int? UseConfigurationMinimumSaleQuantity
+        public decimal? MinimumSaleQuantity
         { get; set; }
 
         /// <summary>
-        /// Specifies whether the configuration's maximum quantity value should be used for determining the limit of the stock item can be placed in a customer's Magento shopping cart.
+        /// Flag that specifies whether to use the configuration's maximum sale quantity value. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>.
         /// </summary>
         [JsonProperty("max_config_max_sale_qty")]
         public bool UseConfigurationMaximumSaleQuantity
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the maximum quantity allowed in a Magento shopping cart.
+        /// Gets or sets the maximum quantity allowed in a Magento shopping cart or <see langword="null"/> if there is no limit.
         /// </summary>
         [JsonProperty("max_sale_qty")]
-        public decimal MaximumQuantity
+        public decimal? MaximumSaleQuantity
         { get; set; }
 
         /// <summary>
@@ -177,7 +184,7 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.StockItem
         { get; set; }
 
         /// <summary>
-        /// Flag that specifies whether the stock status is automatically updated based on quantity values. A value greater than zero (0) is <see langword="true"/>;; otherwise, <see langword="false"/>.
+        /// Flag that specifies whether the stock status is automatically updated based on quantity values. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>.
         /// </summary>
         [JsonProperty("stock_status_changed_auto")]
         public int AutoStockStatusChanged

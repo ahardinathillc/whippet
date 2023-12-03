@@ -37,10 +37,17 @@ namespace Athi.Whippet.Adobe.Magento.Downloads
         { get; set; }
 
         /// <summary>
+        /// Gets or sets the relative file path.
+        /// </summary>
+        [JsonProperty("sample_file")]
+        public string SampleFile
+        { get; set; }
+        
+        /// <summary>
         /// Gets or sets the sample file content.
         /// </summary>
         [JsonProperty("sample_file_content")]
-        public DownloadableFileContentInterface SampleFileContent
+        public DownloadableFileContentInterface SampleFileContents
         { get; set; }
 
         /// <summary>
@@ -78,7 +85,7 @@ namespace Athi.Whippet.Adobe.Magento.Downloads
             ID = id;
             SortOrder = sortOrder;
             SampleType = sampleType;
-            SampleFileContent = sampleFileContent;
+            SampleFileContents = sampleFileContent;
             SampleURL = sampleUrl;
             ExtensionAttributes = extensionAttributes;
         }

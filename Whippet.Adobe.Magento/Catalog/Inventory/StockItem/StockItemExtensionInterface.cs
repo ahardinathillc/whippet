@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Athi.Whippet.Adobe.Magento.Catalog.StockItem
+namespace Athi.Whippet.Adobe.Magento.Catalog.Inventory.StockItems
 {
     /// <summary>
     /// Interface that provides extra information to Magento stock items.

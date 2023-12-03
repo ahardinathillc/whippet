@@ -23,6 +23,7 @@
     <None Remove="ResourceFiles\" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Catalog\Inventory\" />
     <Folder Include="EntityMappings\" />
     <Folder Include="Repositories\" />
     <Folder Include="ServiceManagers\Extensions\" />

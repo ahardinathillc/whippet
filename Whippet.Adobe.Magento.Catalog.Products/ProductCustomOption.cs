@@ -296,6 +296,5 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Products
         {
             return String.Format("[SKU: {0} | Title: {1}]", SKU, Title);
         }
-
     }
 }
