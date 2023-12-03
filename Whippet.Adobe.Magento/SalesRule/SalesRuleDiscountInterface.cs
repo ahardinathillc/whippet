@@ -41,7 +41,7 @@ namespace Athi.Whippet.Adobe.Magento.SalesRule
         /// <param name="discount"><see cref="SalesRuleDiscountInterface"/> object that specifies the discounts applied.</param>
         /// <param name="ruleLabel">Sales rule label that the discounts are associated with.</param>
         /// <param name="ruleId">Sales rule ID.</param>
-        public SalesRuleDiscountInterface(SalesRuleDiscountDataInterface discount, string ruleLabel, string ruleId)
+        public SalesRuleDiscountInterface(SalesRuleDiscountDataInterface discount, string ruleLabel, int ruleId)
             : this(discount == null ? null : new[] { discount }, ruleLabel, ruleId)
         { }
         
@@ -51,7 +51,7 @@ namespace Athi.Whippet.Adobe.Magento.SalesRule
         /// <param name="discounts"><see cref="SalesRuleDiscountInterface"/> objects that specify the discounts applied.</param>
         /// <param name="ruleLabel">Sales rule label that the discounts are associated with.</param>
         /// <param name="ruleId">Sales rule ID.</param>
-        public SalesRuleDiscountInterface(IEnumerable<SalesRuleDiscountDataInterface> discounts, string ruleLabel, string ruleId)
+        public SalesRuleDiscountInterface(IEnumerable<SalesRuleDiscountDataInterface> discounts, string ruleLabel, int ruleId)
             : this()
         {
             Discounts = (discounts == null) ? null : discounts.ToArray();
