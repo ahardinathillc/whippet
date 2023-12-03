@@ -6,7 +6,7 @@ namespace Athi.Whippet.Adobe.Magento
     /// <summary>
     /// Represents a custom attribute in Magento that is applied to a Magento entity.
     /// </summary>
-    public struct MagentoCustomAttribute : IEqualityComparer<MagentoCustomAttribute>
+    public struct MagentoCustomAttribute : IEqualityComparer<MagentoCustomAttribute>, IExtensionInterfaceMap<CustomAttributeInterface>
     {
         /// <summary>
         /// Gets or sets the attribute code.
@@ -35,6 +35,16 @@ namespace Athi.Whippet.Adobe.Magento
         { }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="MagentoCustomAttribute"/> structure with the specified <see cref="CustomAttributeInterface"/>.
+        /// </summary>
+        /// <param name="model"><see cref="CustomAttributeInterface"/> object.</param>
+        public MagentoCustomAttribute(CustomAttributeInterface model)
+            : this()
+        {
+            FromModel(model);
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="MagentoCustomAttribute"/> structure with the specified code and value.
         /// </summary>
         /// <param name="code">Attribute code.</param>
@@ -46,6 +56,28 @@ namespace Athi.Whippet.Adobe.Magento
             Value = value;
         }
 
+        /// <summary>
+        /// Converts the current instance to an <see cref="IExtensionInterface"/> of type <see cref="CustomAttributeInterface"/>.
+        /// </summary>
+        /// <returns><see cref="IExtensionInterface"/> object of type <see cref="CustomAttributeInterface"/>.</returns>
+        public CustomAttributeInterface ToInterface()
+        {
+            return new CustomAttributeInterface(Code, Value);
+        }
+
+        /// <summary>
+        /// Populates the current instance based on the specified <see cref="IExtensionInterface"/>.
+        /// </summary>
+        /// <param name="model"><see cref="CustomAttributeInterface"/> object used to populate the object.</param>
+        public void FromModel(CustomAttributeInterface model)
+        {
+            if (model != null)
+            {
+                Code = model.AttributeCode;
+                Value = model.Value;
+            }
+        }
+        
         /// <summary>
         /// Compares the current instance to the specified object for equality.
         /// </summary>

@@ -56,6 +56,16 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Products
         { }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ProductLink"/> struct with the specified <see cref="ProductLinkInterface"/>.
+        /// </summary>
+        /// <param name="model"><see cref="ProductLinkInterface"/> object.</param>
+        public ProductLink(ProductLinkInterface model)
+            : this()
+        {
+            FromModel(model);
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ProductLink"/> struct with the specified parameters.
         /// </summary>
         /// <param name="sku">Base product SKU.</param>

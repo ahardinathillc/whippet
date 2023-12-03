@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Security;
-using Athi.Whippet.Adobe.Magento.Extensions;
-using Athi.Whippet.Json;
 
 namespace Athi.Whippet.Adobe.Magento
 {
@@ -14,7 +11,7 @@ namespace Athi.Whippet.Adobe.Magento
     /// </summary>
     [Serializable]
     [DebuggerDisplay("Count = {Count}")]
-    public sealed class MagentoCustomAttributeCollection : IDictionary<string, string>, IDictionary, IReadOnlyDictionary<string, string>, ISerializable, IDeserializationCallback, IEnumerable<MagentoCustomAttribute>, ICollection<KeyValuePair<string, string>>, IEquatable<MagentoCustomAttributeCollection>
+    public sealed class MagentoCustomAttributeCollection : IDictionary<string, string>, IDictionary, IReadOnlyDictionary<string, string>, ISerializable, IDeserializationCallback, IEnumerable<MagentoCustomAttribute>, ICollection<KeyValuePair<string, string>>, IEquatable<MagentoCustomAttributeCollection>, IExtensionInterfaceCollectionMap<CustomAttributeInterface>, IExtensionInterfaceMap<CustomAttributeInterface>
     {
         private Dictionary<string, string> _dict;
 
@@ -225,6 +222,16 @@ namespace Athi.Whippet.Adobe.Magento
             InternalDictionary = new Dictionary<string, string>(collection, StringComparer.InvariantCultureIgnoreCase);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MagentoCustomAttributeCollection"/> class that contains elements copied from the specified collection of <see cref="CustomAttributeInterface"/> objects.
+        /// </summary>
+        /// <param name="models"><see cref="CustomAttributeInterface"/> objects to create the current instance from.</param>
+        public MagentoCustomAttributeCollection(IEnumerable<CustomAttributeInterface> models)
+            : this()
+        {
+            FromModel(models);
+        }
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="MagentoCustomAttributeCollection"/> class that contains elements copied from the specified <see cref="IEnumerable{T}"/>.
         /// </summary>
@@ -544,6 +551,52 @@ namespace Athi.Whippet.Adobe.Magento
             }
 
             return hash.ToHashCode();
+        }
+
+        /// <summary>
+        /// Populates the current instance based on the specified <see cref="IExtensionInterface"/>.
+        /// </summary>
+        /// <param name="model"><see cref="CustomAttributeInterface"/> object used to populate the object.</param>
+        void IExtensionInterfaceMap<CustomAttributeInterface>.FromModel(CustomAttributeInterface model)
+        {
+            if (model != null)
+            {
+                Add(new MagentoCustomAttribute(model));
+            }
+        }
+
+        /// <summary>
+        /// Populates the current instance based on the specified enumerable collection of <see cref="IExtensionInterface"/> objects.
+        /// </summary>
+        /// <param name="models"><see cref="CustomAttributeInterface"/> objects used to populate the object.</param>
+        public void FromModel(IEnumerable<CustomAttributeInterface> models)
+        {
+            if (models != null)
+            {
+                foreach (CustomAttributeInterface model in models)
+                {
+                    Add(new MagentoCustomAttribute(model));
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Converts the current instance to an <see cref="IExtensionInterface"/> of type <see cref="CustomAttributeInterface"/> that is enumerable.
+        /// </summary>
+        /// <returns><see cref="IExtensionInterface"/> object of type <see cref="CustomAttributeInterface"/> that is enumerable.</returns>
+        IEnumerable<CustomAttributeInterface> IExtensionInterfaceCollectionMap<CustomAttributeInterface>.ToInterface()
+        {
+            return ToInterface();
+        }
+
+        /// <summary>
+        /// Converts the current instance to an <see cref="IExtensionInterface"/> of type <see cref="CustomAttributeInterface"/>.
+        /// </summary>
+        /// <returns><see cref="IExtensionInterface"/> object of type <see cref="CustomAttributeInterface"/>.</returns>
+        /// <exception cref="InvalidOperationException"></exception>
+        CustomAttributeInterface IExtensionInterfaceMap<CustomAttributeInterface>.ToInterface()
+        {
+            throw new InvalidOperationException();
         }
 
         /// <summary>

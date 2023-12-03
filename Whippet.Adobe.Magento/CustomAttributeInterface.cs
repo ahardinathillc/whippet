@@ -6,7 +6,7 @@ namespace Athi.Whippet.Adobe.Magento
     /// <summary>
     /// Provides custom attribute values to a Magento object.
     /// </summary>
-    public class CustomAttributeInterface
+    public class CustomAttributeInterface : IExtensionInterface
     {
         /// <summary>
         /// Gets or sets the attribute code.

@@ -58,6 +58,16 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Products.Bundle
         { }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="BundleOption"/> class with the specified <see cref="BundleOptionInterface"/>.
+        /// </summary>
+        /// <param name="model"><see cref="BundleOptionInterface"/> object.</param>
+        public BundleOption(BundleOptionInterface model)
+            : this()
+        {
+            FromModel(model);
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="BundleOption"/> class with the specified parameters.
         /// </summary>
         /// <param name="optionId">Option ID.</param>

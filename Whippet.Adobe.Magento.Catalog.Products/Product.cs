@@ -1,5 +1,6 @@
 ﻿using System;
 using NodaTime;
+using Athi.Whippet.Extensions;
 using Athi.Whippet.Adobe.Magento.Data;
 using Athi.Whippet.Adobe.Magento.EAV;
 using Athi.Whippet.Adobe.Magento.EAV.Extensions;
@@ -23,7 +24,7 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Products
     /// <summary>
     /// Represents a product in Magento.
     /// </summary>
-    public class Product : MagentoRestEntity<ProductInterface>, IMagentoEntity, IProduct, IEqualityComparer<IProduct>, IMagentoAuditableEntity, IMagentoCustomAttributesEntity, IMagentoRestEntity, IMagentoRestEntity<ProductInterface
+    public class Product : MagentoRestEntity<ProductInterface>, IMagentoEntity, IProduct, IEqualityComparer<IProduct>, IMagentoAuditableEntity, IMagentoCustomAttributesEntity, IMagentoRestEntity, IMagentoRestEntity<ProductInterface>
     {
         private MagentoCustomAttributeCollection _collection;
         private AttributeSet _attribSet;
@@ -365,6 +366,10 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Products
 
                 return _collection;
             }
+            protected internal set
+            {
+                _collection = value;
+            }
         }
 
         /// <summary>
@@ -516,6 +521,15 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Products
             product.Discounts = (Discounts == null) ? null : Discounts.Select(d => d);
             product.BundleOptions = (BundleOptions == null) ? null : BundleOptions.Select(b => b);
             product.StockItem = (StockItem == null) ? null : StockItem.Clone<StockItem>();
+            product.ProductLinks = (ProductLinks == null) ? null : ProductLinks.Select(p => p);
+            product.Samples = (Samples == null) ? null : Samples.Select(s => s);
+            product.GiftCardAmounts = (GiftCardAmounts == null) ? null : GiftCardAmounts.Select(g => g);
+            product.ConfigurableOptions = (ConfigurableOptions == null) ? null : ConfigurableOptions.Select(c => c.Clone<ConfigurableProductOption>());
+            product.ConfigurableOptionLinks = (ConfigurableOptionLinks == null) ? null : ConfigurableOptionLinks.Select(c => c);
+            product.Options = (Options == null) ? null : Options.Select(o => o.Clone<ProductCustomOption>());
+            product.MediaGalleryEntries = (MediaGalleryEntries == null) ? null : MediaGalleryEntries.Select(m => m.Clone<ProductMediaGalleryEntry>());
+            product.TierPrices = (TierPrices == null) ? null : TierPrices.Select(t => t.Clone<ProductTierPrice>());
+            product.CustomAttributes = (CustomAttributes == null) ? null : new MagentoCustomAttributeCollection(CustomAttributes);
             
             return product;
         }
@@ -529,100 +543,94 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Products
             HashCode hash = new HashCode();
 
             hash.Add(ID);
-            hash.Add(PageBuilderEnabled);
-            hash.Add(WYSIWYG);
-            hash.Add(AllowHTML);
-            hash.Add(UsedForSortBy);
-            hash.Add(Filterable);
-            hash.Add(FilterableInSearch);
-            hash.Add(UsedInGrid);
-            hash.Add(FilterableInGrid);
-            hash.Add(Position);
-            hash.Add(ApplyTo);
-            hash.Add(IsSearchable);
-            hash.Add(IsVisibleInAdvancedSearch);
-            hash.Add(IsComparable);
-            hash.Add(UsedForPromoRules);
-            hash.Add(VisibleOnFront);
-            hash.Add(UsedInProductListing);
-            hash.Add(Scope);
-            hash.Add(Code);
-            hash.Add(FrontendInput);
-            hash.Add(EntityTypeID);
-            hash.Add(IsRequired);
+            hash.Add(SKU);
+            hash.Add(Name);
+            hash.Add(AttributeSet);
+            hash.Add(Price);
+            hash.Add(Status);
+            hash.Add(Visibility);
+            hash.Add(Type);
+            hash.Add(CreatedTimestamp);
+            hash.Add(UpdatedTimestamp);
+            hash.Add(Weight);
+            hash.Add(Websites);
+            hash.Add(CategoryLinks);
+            hash.Add(Discounts);
+            hash.Add(BundleOptions);
+            hash.Add(StockItem);
+            hash.Add(ProductLinks);
+            hash.Add(Samples);
+            hash.Add(GiftCardAmounts);
+            hash.Add(ConfigurableOptions);
+            hash.Add(ConfigurableOptionLinks);
             hash.Add(Options);
-            hash.Add(IsUserDefined);
-            hash.Add(DefaultFrontendLabel);
-            hash.Add(FrontendLabels);
-            hash.Add(Note);
-            hash.Add(BackendType);
-            hash.Add(BackendModel);
-            hash.Add(SourceModel);
-            hash.Add(IsUnique);
-            hash.Add(FrontendClass);
-            hash.Add(ValidationRules);
+            hash.Add(MediaGalleryEntries);
+            hash.Add(TierPrices);
+            hash.Add(CustomAttributes);
             
             return hash.ToHashCode();
         }
 
         /// <summary>
+        /// Gets the hash code of the specified object.
+        /// </summary>
+        /// <param name="product"><see cref="IProduct"/> object to get hash code for.</param>
+        /// <returns>Hash code.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public virtual int GetHashCode(IProduct product)
+        {
+            ArgumentNullException.ThrowIfNull(product);
+            return product.GetHashCode();
+        }
+        
+        /// <summary>
         /// Constructs the current instance with the specified <see cref="IExtensionInterface"/> object.
         /// </summary>
         /// <param name="model"><see cref="IExtensionInterface"/> object to construct the current instance from.</param>
-        protected override void ImportFromModel(ProductAttributeInterface model)
+        protected override void ImportFromModel(ProductInterface model)
         {
             if (model != null)
             {
-                PageBuilderEnabled = (model.ExtensionAttributes == null) ? default(bool) : model.ExtensionAttributes.PageBuilderEnabled;
-                WYSIWYG = model.WYSIWYG;
-                AllowHTML = model.AllowHTML;
-                UsedForSortBy = model.UsedForSortBy;
-                Filterable = model.Filterable;
-                FilterableInSearch = model.FilterableInSearch;
-                UsedInGrid = model.UsedInGrid;
-                FilterableInGrid = model.FilterableInGrid;
-                Position = model.Position;
-                ApplyTo = model.ApplyTo;
-                IsSearchable = model.IsSearchable.FromMagentoBoolean();
-                IsVisibleInAdvancedSearch = model.IsVisibleInAdvancedSearch.FromMagentoBoolean();
-                IsComparable = model.IsComparable.FromMagentoBoolean();
-                UsedForPromoRules = model.UsedForPromoRules.FromMagentoBoolean();
-                VisibleOnFront = model.VisibleOnFront.FromMagentoBoolean();
-                UsedInProductListing = model.UsedInProductListing.FromMagentoBoolean();
-                Scope = model.Scope;
-                Code = model.Code;
-                FrontendInput = model.FrontendInput;
-                EntityTypeID = model.EntityTypeID;
-                IsRequired = model.IsRequired;
-                Options = (model.Options == null) ? null : model.Options.Select(o => new AttributeOption(o));
-                IsUserDefined = model.IsUserDefined;
-                DefaultFrontendLabel = model.DefaultFrontendLabel;
-                FrontendLabels = (model.FrontendLabels == null) ? null : model.FrontendLabels.Select(l => new AttributeFrontendLabel());
-                Note = model.Note;
-                BackendType = model.BackendType;
-                BackendModel = model.BackendModel;
-                SourceModel = model.SourceModel;
-                IsUnique = model.IsUnique.FromMagentoBoolean();
-                FrontendClass = model.FrontendClass;
-                ValidationRules = (model.ValidationRules == null) ? null : model.ValidationRules.Select(vr => new AttributeValidationRule());
+                ID = model.ID;
+                SKU = model.SKU;
+                AttributeSet = new AttributeSet(Convert.ToUInt32(model.AttributeSetID));
+                Price = model.Price;
+                Status = model.Status;
+                Visibility = model.Visibility;
+                Type = new ProductType(model.TypeID, String.Empty);
 
-                if (model.CustomAttributes != null)
+                if (!String.IsNullOrWhiteSpace(model.CreatedAt))
                 {
-                    CustomAttributes = new MagentoCustomAttributeCollection(model.CustomAttributes.Select(c => new KeyValuePair<string, string>(c.AttributeCode, c.Value)));
+                    CreatedTimestamp = Instant.FromDateTimeUtc(DateTime.Parse(model.CreatedAt).ToUniversalTime(true));
                 }
-            }
-        }
+                
+                if (!String.IsNullOrWhiteSpace(model.UpdatedAt))
+                {
+                    UpdatedTimestamp = Instant.FromDateTimeUtc(DateTime.Parse(model.UpdatedAt).ToUniversalTime(true));
+                }
 
-        /// <summary>
-        /// Gets the hash code of the specified object.
-        /// </summary>
-        /// <param name="attribute"><see cref="IProductAttribute"/> object to get hash code for.</param>
-        /// <returns>Hash code.</returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        public virtual int GetHashCode(IProductAttribute attribute)
-        {
-            ArgumentNullException.ThrowIfNull(attribute);
-            return attribute.GetHashCode();
+                Weight = model.Weight;
+
+                if (model.ExtensionAttributes != null)
+                {
+                    Websites = (model.ExtensionAttributes.WebsiteIDs == null) ? null : model.ExtensionAttributes.WebsiteIDs.Select(w => new StoreWebsite(Convert.ToUInt32(w)));
+                    CategoryLinks = (model.ExtensionAttributes.CategoryLinks == null) ? null : model.ExtensionAttributes.CategoryLinks.Select(c => new CategoryLink(c));
+                    Discounts = (model.ExtensionAttributes.Discounts == null) ? null : model.ExtensionAttributes.Discounts.Select(d => new SalesRuleDiscount(d));
+                    BundleOptions = (model.ExtensionAttributes.BundleProductOptions == null) ? null : model.ExtensionAttributes.BundleProductOptions.Select(b => new BundleOption(b));
+                    StockItem = (model.ExtensionAttributes.StockItem == null) ? null : new StockItem(model.ExtensionAttributes.StockItem);
+                }
+                
+                ProductLinks = (model.ExtensionAttributes.DownloadableProductLinks == null) ? null : model.ExtensionAttributes.DownloadableProductLinks.Select(l => new DownloadableLink((l)));
+                Samples = (model.ExtensionAttributes.DownloadableProductSamples == null) ? null : model.ExtensionAttributes.DownloadableProductSamples.Select(s => new DownloadableSample(s));
+                GiftCardAmounts = (model.ExtensionAttributes.GiftCardAmounts == null) ? null : model.ExtensionAttributes.GiftCardAmounts.Select(g => new GiftCardAmount(g));
+                ConfigurableOptions = (model.ExtensionAttributes.ConfigurableProductOptions == null) ? null : model.ExtensionAttributes.ConfigurableProductOptions.Select(c => new ConfigurableProductOption(c));
+                ConfigurableOptionLinks = (model.ExtensionAttributes.ConfigurableProductLinks == null) ? null : model.ExtensionAttributes.ConfigurableProductLinks;
+                Links = (model.ProductLinks == null) ? null : model.ProductLinks.Select(p => new ProductLink(p));
+                Options = (model.Options == null) ? null : model.Options.Select(o => new ProductCustomOption(o));
+                MediaGalleryEntries = (model.MediaGalleryEntries == null) ? null : model.MediaGalleryEntries.Select(m => new ProductMediaGalleryEntry(m));
+                TierPrices = (model.TierPrices == null) ? null : model.TierPrices.Select(t => new ProductTierPrice(t));
+                CustomAttributes = (model.CustomAttributes == null) ? null : new MagentoCustomAttributeCollection(model.CustomAttributes);
+            }
         }
     }
 }

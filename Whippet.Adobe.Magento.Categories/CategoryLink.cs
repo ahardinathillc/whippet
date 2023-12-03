@@ -24,6 +24,16 @@ namespace Athi.Whippet.Adobe.Magento.Categories
         /// </summary>
         public CategoryLink()
         { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CategoryLink"/> class with the specified <see cref="CategoryLinkInterface"/>.
+        /// </summary>
+        /// <param name="model"><see cref="CategoryLinkInterface"/> object.</param>
+        public CategoryLink(CategoryLinkInterface model)
+            : this()
+        {
+            FromModel(model);
+        }
         
         /// <summary>
         /// Initializes a new instance of the <see cref="CategoryLink"/> class with the specified parameters.
