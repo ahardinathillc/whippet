@@ -23,7 +23,7 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Products
         /// Gets or sets the bundle options for the product.
         /// </summary>
         [JsonProperty("bundle_option")]
-        public BundleOptionExtensionInterface[] BundleOptions
+        public BundleOptionInterface[] BundleOptions
         { get; set; }
         
         /// <summary>
@@ -46,13 +46,16 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Products
         [JsonProperty("configurable_item_options")]
         public ConfigurableItemOptionValueInterface[] ConfigurableItemOptions
         { get; set; }
+
+        // This didn't show up in the API? Don't know where it came from...
+        // ATH 12/4/23
         
-        /// <summary>
-        /// Gets or sets the grouped products options.
-        /// </summary>
-        [JsonProperty("grouped_options")]
-        public ProductGroupedOptionsInterface[] GroupedOptions
-        { get; set; }
+        // /// <summary>
+        // /// Gets or sets the grouped products options.
+        // /// </summary>
+        // [JsonProperty("grouped_options")]
+        // public ProductGroupedOptionsInterface[] GroupedOptions
+        // { get; set; }
         
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductOptionExtensionInterface"/> class with no arguments.

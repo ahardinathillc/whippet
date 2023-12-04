@@ -40,7 +40,7 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Products
         /// <summary>
         /// Gets or sets the ID of the option type. 
         /// </summary>
-        public int ID
+        public int TypeID
         { get; set; }
         
         /// <summary>
@@ -58,16 +58,16 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Products
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductCustomOptionValue"/> struct with the specified parameters. 
         /// </summary>
-        /// <param name="id">Option value ID.</param>
+        /// <param name="typeId">Option type ID.</param>
         /// <param name="title">Option value title.</param>
         /// <param name="sortOrder">Sort order.</param>
         /// <param name="price">Option value price.</param>
         /// <param name="priceType">Price type.</param>
         /// <param name="sku">Option value SKU.</param>
-        public ProductCustomOptionValue(int id, string title, int sortOrder, decimal price, string priceType, string sku)
+        public ProductCustomOptionValue(int typeId, string title, int sortOrder, decimal price, string priceType, string sku)
             : this()
         {
-            ID = id;
+            TypeID = typeId;
             Title = title;
             SortOrder = sortOrder;
             Price = price;
@@ -118,7 +118,7 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Products
                    && String.Equals(x.PriceType?.Trim(), y.PriceType?.Trim(), StringComparison.InvariantCultureIgnoreCase)
                    && x.SortOrder == y.SortOrder
                    && x.Price == y.Price
-                   && x.ID == y.ID;
+                   && x.TypeID == y.TypeID;
         }
         
         /// <summary>
@@ -127,7 +127,7 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Products
         /// <returns>Hash code.</returns>
         public override int GetHashCode()
         {
-            return HashCode.Combine(ID, Price, SortOrder, PriceType, SKU, Title);
+            return HashCode.Combine(TypeID, Price, SortOrder, PriceType, SKU, Title);
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Products
         /// <returns><see cref="IExtensionInterface"/> object of type <see cref="ProductCustomOptionValueInterface"/>.</returns>
         public ProductCustomOptionValueInterface ToInterface()
         {
-            return new ProductCustomOptionValueInterface(Title, SortOrder, Price, PriceType, SKU, ID);
+            return new ProductCustomOptionValueInterface(Title, SortOrder, Price, PriceType, SKU, TypeID);
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Products
                 PriceType = model.PriceType;
                 SortOrder = model.SortOrder;
                 Price = model.Price;
-                ID = model.OptionTypeID;
+                TypeID = model.OptionTypeID;
             }
         }
         
