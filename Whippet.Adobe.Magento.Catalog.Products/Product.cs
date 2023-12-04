@@ -464,7 +464,7 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Products
         /// <summary>
         /// Converts the current instance to an <see cref="IExtensionInterface"/> of type <see cref="ProductInterface"/>.
         /// </summary>
-        /// <returns><see cref="IExtensionInterface"/> object of type <see cref="ProductAttributeInterface"/>.</returns>
+        /// <returns><see cref="IExtensionInterface"/> object of type <see cref="ProductInterface"/>.</returns>
         public override ProductInterface ToInterface()
         {
             ProductInterface product = new ProductInterface();

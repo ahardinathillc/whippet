@@ -138,13 +138,13 @@ namespace Athi.Whippet.Adobe.Magento.SalesRule
         /// <summary>
         /// Gets the hash code of the specified object.
         /// </summary>
-        /// <param name="ruleute"><see cref="ISalesRuleDiscount"/> object to get hash code for.</param>
+        /// <param name="discount"><see cref="ISalesRuleDiscount"/> object to get hash code for.</param>
         /// <returns>Hash code.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual int GetHashCode(ISalesRuleDiscount ruleute)
+        public virtual int GetHashCode(ISalesRuleDiscount discount)
         {
-            ArgumentNullException.ThrowIfNull(ruleute);
-            return ruleute.GetHashCode();
+            ArgumentNullException.ThrowIfNull(discount);
+            return discount.GetHashCode();
         }
         
         /// <summary>

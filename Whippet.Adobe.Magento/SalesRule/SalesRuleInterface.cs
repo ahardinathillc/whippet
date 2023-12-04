@@ -1,6 +1,5 @@
 ﻿using System;
 using Newtonsoft.Json;
-using Athi.Whippet.Data;
 
 namespace Athi.Whippet.Adobe.Magento.SalesRule
 {

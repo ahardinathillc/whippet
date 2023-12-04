@@ -1,11 +1,12 @@
 ﻿using System;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 
 namespace Athi.Whippet.Adobe.Magento.SalesRule
 {
     /// <summary>
     /// Represents a sales rule label for a Magento store.
     /// </summary>
-    public class SalesRuleLabel : IEqualityComparer<SalesRuleLabel>
+    public class SalesRuleLabel : IEqualityComparer<SalesRuleLabel>, IExtensionInterfaceMap<SalesRuleLabelInterface>
     {
         /// <summary>
         /// Gets or sets the store ID.
@@ -32,6 +33,16 @@ namespace Athi.Whippet.Adobe.Magento.SalesRule
         { }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="SalesRuleLabel"/> struct with the specified <see cref="SalesRuleLabelInterface"/>.
+        /// </summary>
+        /// <param name="model"><see cref="SalesRuleLabelInterface"/> object.</param>
+        public SalesRuleLabel(SalesRuleLabelInterface model)
+            : this()
+        {
+            FromModel(model);
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SalesRuleLabel"/> struct with the specified store ID and label value.
         /// </summary>
         /// <param name="storeId">Store ID.</param>
@@ -43,6 +54,28 @@ namespace Athi.Whippet.Adobe.Magento.SalesRule
             Label = label;
         }
 
+        /// <summary>
+        /// Converts the current instance to an <see cref="IExtensionInterface"/> of type <see cref="SalesRuleLabelInterface"/>.
+        /// </summary>
+        /// <returns><see cref="IExtensionInterface"/> object of type <see cref="SalesRuleLabelInterface"/>.</returns>
+        public SalesRuleLabelInterface ToInterface()
+        {
+            return new SalesRuleLabelInterface(StoreID, Label, new SalesRuleLabelExtensionInterface());
+        }
+
+        /// <summary>
+        /// Populates the current instance based on the specified <see cref="IExtensionInterface"/>.
+        /// </summary>
+        /// <param name="model"><see cref="SalesRuleLabelInterface"/> object used to populate the object.</param>
+        public void FromModel(SalesRuleLabelInterface model)
+        {
+            if (model != null)
+            {
+                StoreID = model.StoreID;
+                Label = model.Label;
+            }
+        }
+        
         /// <summary>
         /// Compares the current instance to the specified object for equality.
         /// </summary>
