@@ -1,5 +1,13 @@
 ﻿using System;
+using System.Net;
+using NodaTime;
+using Athi.Whippet.Adobe.Magento.Customer;
 using Athi.Whippet.Adobe.Magento.Data;
+using Athi.Whippet.Adobe.Magento.SalesRule;
+using Athi.Whippet.Adobe.Magento.Customer.Addressing;
+using Athi.Whippet.Adobe.Magento.Customer.Addressing.Extensions;
+using MagentoCustomer = Athi.Whippet.Adobe.Magento.Customer.Customer;
+using MagentoStore = Athi.Whippet.Adobe.Magento.Store.Store;
 
 namespace Athi.Whippet.Adobe.Magento.Sales
 {
@@ -8,6 +16,12 @@ namespace Athi.Whippet.Adobe.Magento.Sales
     /// </summary>
     public class SalesOrder : MagentoRestEntity<SalesOrderInterface>, IMagentoEntity, ISalesOrder, IEqualityComparer<ISalesOrder>, IMagentoAuditableEntity, IMagentoRestEntity, IMagentoRestEntity<SalesOrderInterface>
     {
+        private CustomerAddress _billingAddress;
+        private CustomerAddress _quoteAddress;
+        private CustomerGroup _group;
+        private MagentoCustomer _customer;
+        private MagentoStore _store;
+        
         /// <summary>
         /// Gets or sets the negative adjustment value.
         /// </summary>
@@ -23,7 +37,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         /// <summary>
         /// Gets or sets the applied rule IDs.
         /// </summary>
-        public virtual string AppliedRuleIDs
+        public virtual IEnumerable<ISalesRule> AppliedRuleIDs
         { get; set; }
 
         /// <summary>
@@ -261,12 +275,6 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the billing address ID.
-        /// </summary>
-        public virtual int BillingAddressID
-        { get; set; }
-
-        /// <summary>
         /// Flag that indicates whether the order can be shipped partially. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>.
         /// </summary>
         public virtual int CanShipPartially
@@ -285,64 +293,55 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the date and time the order entry was created.
+        /// Gets or sets the date and time the entity was created.
         /// </summary>
-        public virtual string CreatedAt
+        public virtual Instant CreatedTimestamp
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the customer date of birth.
+        /// Gets or sets the customer group.
         /// </summary>
-        /// <remarks>In keeping with current security and privacy best practices, be sure you are aware of any potential legal and security risks associated with the storage of customers’ full date of birth (month, day, year) along with other personal identifiers (e.g., full name) before collecting or processing such data.</remarks>
-        public virtual string CustomerDateOfBirth
-        { get; set; }
+        public virtual CustomerGroup CustomerGroup
+        {
+            get
+            {
+                if (_group == null)
+                {
+                    _group = new CustomerGroup();
+                }
+
+                return _group;
+            }
+            set
+            {
+                _group = value;
+            }
+        }
 
         /// <summary>
-        /// Gets or sets the customer e-mail address.
+        /// Gets or sets the customer associated with the order.
         /// </summary>
-        public virtual string CustomerEmail
-        { get; set; }
+        public virtual MagentoCustomer Customer
+        {
+            get
+            {
+                if (_customer == null)
+                {
+                    _customer = new MagentoCustomer();
+                }
 
-        /// <summary>
-        /// Gets or sets the customer first name.
-        /// </summary>
-        public virtual string CustomerFirstName
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the customer gender.
-        /// </summary>
-        public virtual int CustomerGender
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the customer group ID.
-        /// </summary>
-        public virtual int CustomerGroupID
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the customer ID.
-        /// </summary>
-        public virtual int CustomerID
-        { get; set; }
-
+                return _customer;
+            }
+            set
+            {
+                _customer = value;
+            }
+        }
+        
         /// <summary>
         /// Flag that indicates whether the customer is a guest and not registered. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>.
         /// </summary>
         public virtual int CustomerIsGuest
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the customer's last name.
-        /// </summary>
-        public virtual string CustomerLastName
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the customer's middle name.
-        /// </summary>
-        public virtual string CustomerMiddleName
         { get; set; }
 
         /// <summary>
@@ -355,24 +354,6 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         /// Gets or sets the customer notification flag.
         /// </summary>
         public virtual bool NotifyNotice
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the customer prefix.
-        /// </summary>
-        public virtual string CustomerPrefix
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the customer suffix.
-        /// </summary>
-        public virtual string CustomerSuffix
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the customer's Value Added Tax (VAT) number.
-        /// </summary>
-        public virtual string CustomerVAT
         { get; set; }
 
         /// <summary>
@@ -412,11 +393,11 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
 
         /// <summary>
-        /// Flag that indicates whether an e-mail was sent to the customer. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>.
+        /// Indciates whether an e-mail was sent to the customer.
         /// </summary>
-        public virtual int EmailSent
+        public virtual bool EmailSent
         { get; set; }
-
+        
         /// <summary>
         /// Gets or sets the external customer ID.
         /// </summary>
@@ -520,11 +501,25 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the quote address ID.
+        /// Gets or sets the quote address.
         /// </summary>
-        public virtual int QuoteAddressID
-        { get; set; }
+        public virtual CustomerAddress QuoteAddress
+        {
+            get
+            {
+                if (_quoteAddress == null)
+                {
+                    _quoteAddress = new CustomerAddress();
+                }
 
+                return _quoteAddress;
+            }
+            set
+            {
+                _quoteAddress = value;
+            }
+        }
+        
         /// <summary>
         /// Gets or sets the quote ID.
         /// </summary>
@@ -558,9 +553,9 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         /// <summary>
         /// Gets or sets the customer's remote IP address.
         /// </summary>
-        public virtual string RemoteIP
+        public virtual IPAddress? RemoteIP
         { get; set; }
-
+        
         /// <summary>
         /// Gets or sets the shipping amount.
         /// </summary>
@@ -604,12 +599,6 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the customer state.
-        /// </summary>
-        public virtual string State
-        { get; set; }
-
-        /// <summary>
         /// Gets or sets the order status.
         /// </summary>
         public virtual string Status
@@ -622,17 +611,25 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the store ID.
+        /// Gets or sets the store the order is associated with.
         /// </summary>
-        public virtual int StoreID
-        { get; set; }
+        public virtual MagentoStore Store
+        {
+            get
+            {
+                if (_store == null)
+                {
+                    _store = new MagentoStore();
+                }
 
-        /// <summary>
-        /// Gets or sets the store name.
-        /// </summary>
-        public virtual string StoreName
-        { get; set; }
-
+                return _store;
+            }
+            set
+            {
+                _store = value;
+            }
+        }
+        
         /// <summary>
         /// Gets or sets the store-to-base rate.
         /// </summary>
@@ -754,11 +751,11 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
 
         /// <summary>
-        /// Gets the date and time the order was last updated.
+        /// Gets or sets the date and time the entity was last updated (if any).
         /// </summary>
-        public virtual string UpdatedAt
+        public virtual Instant? UpdatedTimestamp
         { get; set; }
-
+        
         /// <summary>
         /// Gets or sets the order weight.
         /// </summary>
@@ -771,6 +768,8 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         public virtual string TransactionForwardedFor
         { get; set; }
 
+        
+        
         /// <summary>
         /// Gets or sets the items associated with the order.
         /// </summary>
