@@ -26,7 +26,7 @@ namespace Athi.Whippet.Adobe.Magento.GiftMessage
         /// Gets or sets the gift wrapping ID.
         /// </summary>
         [JsonProperty("wrapping_id")]
-        public string WrappingID
+        public int WrappingID
         { get; set; }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Athi.Whippet.Adobe.Magento.GiftMessage
         /// <param name="wrappingId">Wrapping option ID.</param>
         /// <param name="allowGiftReceipt">Specifies whether a gift receipt is allowed with the order.</param>
         /// <param name="addPrintedCard">Specifies whether a printed card is allowed with the order.</param>
-        public GiftMessageExtensionInterface(string entityId, string entityType, string wrappingId, bool allowGiftReceipt, bool addPrintedCard)
+        public GiftMessageExtensionInterface(string entityId, string entityType, int wrappingId, bool allowGiftReceipt, bool addPrintedCard)
             : this()
         {
             EntityID = entityId;

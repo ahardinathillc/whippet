@@ -1,6 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
-using Athi.Whippet.Adobe.Magento.Payments.Vault;
+using Athi.Whippet.Adobe.Magento.Vault;
 
 namespace Athi.Whippet.Adobe.Magento.Sales
 {
@@ -20,7 +20,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         /// Gets or sets the gateway vault payment token.
         /// </summary>
         [JsonProperty("vault_payment_token")]
-        public PaymentVaultTokenInterface VaultPaymentToken
+        public VaultPaymentTokenInterface VaultPaymentToken
         { get; set; }
 
         /// <summary>
@@ -33,12 +33,12 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         /// Initializes a new instance of the <see cref="SalesOrderPaymentExtensionInterface"/> class with the specified parameters.
         /// </summary>
         /// <param name="notificationMessage">Notification message.</param>
-        /// <param name="vaultToken">Vault payment token.</param>
-        public SalesOrderPaymentExtensionInterface(string notificationMessage, PaymentVaultTokenInterface vaultToken)
+        /// <param name="token">Vault payment token.</param>
+        public SalesOrderPaymentExtensionInterface(string notificationMessage, VaultPaymentTokenInterface token)
             : this()
         {
             NotificationMessage = notificationMessage;
-            VaultPaymentToken = vaultToken;
+            VaultPaymentToken = token;
         }
     }
 }

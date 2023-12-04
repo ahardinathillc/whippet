@@ -2,9 +2,11 @@
 using NodaTime;
 using Athi.Whippet.Adobe.Magento.Data;
 using Athi.Whippet.Adobe.Magento.Catalog.Products;
+using Athi.Whippet.Adobe.Magento.Sales.Addressing;
 using Athi.Whippet.Adobe.Magento.Catalog.Inventory.StockItems;
 using Athi.Whippet.Adobe.Magento.Catalog.Inventory.StockItems.Extensions;
 using MagentoSalesRule = Athi.Whippet.Adobe.Magento.SalesRule.SalesRule;
+using MagentoGiftMessage = Athi.Whippet.Adobe.Magento.GiftMessage.GiftMessage;
 
 namespace Athi.Whippet.Adobe.Magento.Sales
 {
@@ -16,7 +18,8 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         private StockItem _item;
         private StockItem _parentItem;
         private Product _product;
-
+        private SalesOrderAddress _billingAddress;
+        
         /// <summary>
         /// Gets or sets additional data.
         /// </summary>
@@ -591,21 +594,114 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         public virtual SalesOrderItem ParentItem
         { get; set; }
 
-        public virtual ProductOption
-        
         /// <summary>
         /// Gets or sets the product options for the item.
         /// </summary>
-        [JsonProperty("product_option")]
-        public virtual ProductOptionInterface ProductOption
+        public virtual ProductOption ProductOption
+        { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the gift message associated with the order item.
+        /// </summary>
+        public virtual MagentoGiftMessage GiftMessage
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the extension attributes for the current instance.
+        /// Gets or sets the gift wrap ID.
         /// </summary>
-        [JsonProperty("extension_attributes")]
-        public virtual SalesOrderItemExtensionInterface ExtensionAttributes
+        public virtual string _GiftWrapID
         { get; set; }
         
+        /// <summary>
+        /// Gets or sets the gift wrap price in base currency.
+        /// </summary>
+        public virtual string _GiftWrapPriceBase
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the gift wrap price.
+        /// </summary>
+        public virtual string _GiftWrapPrice
+        { get; set; }
+                
+        /// <summary>
+        /// Gets or sets the gift wrap tax amount in base currency.
+        /// </summary>
+        public virtual string _GiftWrapTaxAmountBase
+        { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the gift wrap tax amount.
+        /// </summary>
+        public virtual string _GiftWrapTaxAmount
+        { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the gift wrap price invoiced in base currency.
+        /// </summary>
+        public virtual string _GiftWrapPriceInvoicedBase
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the gift wrap price invoiced.
+        /// </summary>
+        public virtual string _GiftWrapPriceInvoiced
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the gift wrap tax amount invoiced in base currency.
+        /// </summary>
+        public virtual string _GiftWrapTaxAmountInvoicedBase
+        { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the gift wrap tax amount invoiced.
+        /// </summary>
+        public virtual string _GiftWrapTaxAmountInvoiced
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the gift wrap price refunded in base currency.
+        /// </summary>
+        public virtual string _GiftWrapPriceRefundedBase
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the gift wrap price refunded.
+        /// </summary>
+        public virtual string _GiftWrapPriceRefunded
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the gift wrap tax amount refunded in base currency.
+        /// </summary>
+        public virtual string _GiftWrapTaxAmountRefundedBase
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the gift wrap tax amount refunded.
+        /// </summary>
+        public virtual string _GiftWrapTaxAmountRefunded
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the billing address of the order.
+        /// </summary>
+        public virtual SalesOrderAddress BillingAddress
+        {
+            get
+            {
+                if (_billingAddress == null)
+                {
+                    _billingAddress = new SalesOrderAddress();
+                }
+
+                return _billingAddress;
+            }
+            set
+            {
+                _billingAddress = value;
+            }
+        }
     }
 }

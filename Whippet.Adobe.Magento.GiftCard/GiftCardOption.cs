@@ -3,7 +3,7 @@
 namespace Athi.Whippet.Adobe.Magento.GiftCard
 {
     /// <summary>
-    /// Represents a link type for an <see cref="ICategory"/>. 
+    /// Represents a configurable option for a gift card. 
     /// </summary>
     public struct GiftCardOption : IEqualityComparer<GiftCardOption>, IExtensionInterfaceMap<GiftCardOptionInterface>
     {

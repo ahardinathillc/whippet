@@ -274,6 +274,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.Downl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.GiftCard", "Whippet.Adobe.Magento.GiftCard\Whippet.Adobe.Magento.GiftCard.csproj", "{835CD8AB-040D-42CD-8301-CCF38F50187D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.GiftMessage", "Whippet.Adobe.Magento.GiftMessage\Whippet.Adobe.Magento.GiftMessage.csproj", "{AEC9F878-1B45-4622-83EE-24EFDE755D36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.GiftWrappings", "Whippet.Adobe.Magento.GiftWrappings\Whippet.Adobe.Magento.GiftWrappings.csproj", "{C835F581-D83F-4FD9-96CD-E09E9DA5CAFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.Vault", "Whippet.Adobe.Magento.Vault\Whippet.Adobe.Magento.Vault.csproj", "{8F78E47E-731C-48A5-A012-91C9D583C8F2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -812,5 +818,17 @@ Global
 		{835CD8AB-040D-42CD-8301-CCF38F50187D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{835CD8AB-040D-42CD-8301-CCF38F50187D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{835CD8AB-040D-42CD-8301-CCF38F50187D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEC9F878-1B45-4622-83EE-24EFDE755D36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEC9F878-1B45-4622-83EE-24EFDE755D36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEC9F878-1B45-4622-83EE-24EFDE755D36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEC9F878-1B45-4622-83EE-24EFDE755D36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C835F581-D83F-4FD9-96CD-E09E9DA5CAFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C835F581-D83F-4FD9-96CD-E09E9DA5CAFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C835F581-D83F-4FD9-96CD-E09E9DA5CAFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C835F581-D83F-4FD9-96CD-E09E9DA5CAFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F78E47E-731C-48A5-A012-91C9D583C8F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F78E47E-731C-48A5-A012-91C9D583C8F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F78E47E-731C-48A5-A012-91C9D583C8F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F78E47E-731C-48A5-A012-91C9D583C8F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

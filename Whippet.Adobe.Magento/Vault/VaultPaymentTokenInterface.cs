@@ -1,12 +1,12 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Athi.Whippet.Adobe.Magento.Payments.Vault
+namespace Athi.Whippet.Adobe.Magento.Vault
 {
     /// <summary>
     /// Interface that represents the gateway vault payment token information in Magento.
     /// </summary>
-    public class PaymentVaultTokenInterface : IExtensionInterface
+    public class VaultPaymentTokenInterface : IExtensionInterface
     {
         /// <summary>
         /// Gets or sets the entity ID.
@@ -86,9 +86,9 @@ namespace Athi.Whippet.Adobe.Magento.Payments.Vault
         { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PaymentVaultTokenInterface"/> class with no arguments.
+        /// Initializes a new instance of the <see cref="VaultPaymentTokenInterface"/> class with no arguments.
         /// </summary>
-        public PaymentVaultTokenInterface()
+        public VaultPaymentTokenInterface()
         { }
     }
 }
