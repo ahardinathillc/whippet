@@ -212,9 +212,9 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
 
         /// <summary>
-        /// Flag that specifies whether the item has free shipping. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>.
+        /// specifies whether the item has free shipping.
         /// </summary>
-        int FreeShipping
+        bool FreeShipping
         { get; set; }
 
         /// <summary>
@@ -338,15 +338,15 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
         
         /// <summary>
-        /// Flag that indicates whether the invoice is locked. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>.
+        /// Specifies whether the invoice is locked.
         /// </summary>
-        int LockedInvoice
+        bool LockedInvoice
         { get; set; }
 
         /// <summary>
-        /// Flag that indicates whether the shipping is locked. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>.
+        /// Specifies whether shipping is locked.
         /// </summary>
-        int LockedShipping
+        bool LockedShipping
         { get; set; }
 
         /// <summary>
@@ -356,9 +356,9 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
 
         /// <summary>
-        /// Flag that indicates whether there is no discount. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>.
+        /// Indicates whether there is no discount.
         /// </summary>
-        int NoDiscount
+        bool NoDiscount
         { get; set; }
 
         /// <summary>

@@ -2,11 +2,14 @@
 using NodaTime;
 using Athi.Whippet.Adobe.Magento.Data;
 using Athi.Whippet.Adobe.Magento.Catalog.Products;
+using Athi.Whippet.Adobe.Magento.Catalog.Products.Extensions;
 using Athi.Whippet.Adobe.Magento.Sales.Addressing;
 using Athi.Whippet.Adobe.Magento.Catalog.Inventory.StockItems;
 using Athi.Whippet.Adobe.Magento.Catalog.Inventory.StockItems.Extensions;
+using Athi.Whippet.Adobe.Magento.Extensions;
 using Athi.Whippet.Adobe.Magento.SalesRule;
 using Athi.Whippet.Adobe.Magento.SalesRule.Extensions;
+using Athi.Whippet.Extensions.Primitives;
 using MagentoSalesRule = Athi.Whippet.Adobe.Magento.SalesRule.SalesRule;
 using MagentoGiftMessage = Athi.Whippet.Adobe.Magento.GiftMessage.GiftMessage;
 
@@ -40,6 +43,9 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         public virtual IEnumerable<MagentoSalesRule> AppliedRules
         { get; set; }
 
+        /// <summary>
+        /// Gets or sets the applied rules.
+        /// </summary>
         IEnumerable<ISalesRule> ISalesOrderItem.AppliedRules
         {
             get
@@ -48,7 +54,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
             }
             set
             {
-                AppliedRules = (value == null) ? null : value.Select(ar => ar.ToSalesRule)
+                AppliedRules = (value == null) ? null : value.Select(ar => ar.ToSalesRule());
             }
         }
         
@@ -233,9 +239,9 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
 
         /// <summary>
-        /// Flag that specifies whether the item has free shipping. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>.
+        /// Specifies whether the item has free shipping.
         /// </summary>
-        public virtual int FreeShipping
+        public virtual bool FreeShipping
         { get; set; }
 
         /// <summary>
@@ -371,6 +377,21 @@ namespace Athi.Whippet.Adobe.Magento.Sales
                 _item = value;
             }
         }
+
+        /// <summary>
+        /// Gets or sets the parent <see cref="IStockItem"/> object.
+        /// </summary>
+        IStockItem ISalesOrderItem.Item
+        {
+            get
+            {
+                return Item;
+            }
+            set
+            {
+                Item = value.ToStockItem();
+            }
+        }
         
         /// <summary>
         /// Flag that indicates whether the invoice is locked. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>.
@@ -443,6 +464,21 @@ namespace Athi.Whippet.Adobe.Magento.Sales
             set
             {
                 _product = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the order item's product.
+        /// </summary>
+        IProduct ISalesOrderItem.Product
+        {
+            get
+            {
+                return Product;
+            }
+            set
+            {
+                Product = value.ToProduct();
             }
         }
         
@@ -757,31 +793,111 @@ namespace Athi.Whippet.Adobe.Magento.Sales
 
             if (!equals && (x != null) && (y != null))
             {
-                equals = String.Equals(x.Name?.Trim(), y.Name?.Trim(), StringComparison.InvariantCultureIgnoreCase)
-                        && (((x.StoreLabels == null) && (y.StoreLabels == null)) || ((x.StoreLabels != null) && x.StoreLabels.SequenceEqual(y.StoreLabels)))
-                        && String.Equals(x.Description?.Trim(), y.Description?.Trim(), StringComparison.InvariantCultureIgnoreCase)
-                        && (((x.Websites == null) && (y.Websites == null)) || ((x.Websites != null) && x.Websites.SequenceEqual(y.Websites)))
-                        && x.EffectiveDate.GetValueOrDefault().Equals(y.EffectiveDate.GetValueOrDefault())
-                        && x.ExpirationDate.GetValueOrDefault().Equals(y.ExpirationDate.GetValueOrDefault())
-                        && x.UsesPerCustomer == y.UsesPerCustomer
-                        && (((x.Condition == null) && (y.Condition == null)) || ((x.Condition != null) && x.Condition.Equals(y.Condition)))
-                        && (((x.ActionCondition == null) && (y.ActionCondition == null)) || ((x.Condition != null) && x.ActionCondition.Equals(y.ActionCondition)))
-                        && x.StopRulesProcessing == y.StopRulesProcessing
-                        && x.IsAdvanced == y.IsAdvanced
-                        && (((x.ProductIDs == null) && (y.ProductIDs == null)) || ((x.ProductIDs != null) && x.ProductIDs.Equals(y.ProductIDs)))
-                        && x.SortOrder == y.SortOrder
-                        && String.Equals(x.SimpleAction?.Trim(), y.SimpleAction?.Trim(), StringComparison.InvariantCultureIgnoreCase)
-                        && x.DiscountAmount == y.DiscountAmount
-                        && x.DiscountQuantity == y.DiscountQuantity
-                        && x.Step == y.Step
-                        && x.AppliesToShipping == y.AppliesToShipping
-                        && x.TimesUsed == y.TimesUsed
-                        && x.IsRSS == y.IsRSS
-                        && String.Equals(x.CouponType?.Trim(), y.CouponType?.Trim(), StringComparison.InvariantCultureIgnoreCase)
-                        && x.AutoGenerateCoupon == y.AutoGenerateCoupon
-                        && x.UsesPerCoupon == y.UsesPerCoupon
-                        && String.Equals(x.SimpleFreeShipping?.Trim(), y.SimpleFreeShipping?.Trim(), StringComparison.InvariantCultureIgnoreCase)
-                        && x.RewardPointsDelta == y.RewardPointsDelta
+                equals = String.Equals(x.AdditionalData?.Trim(), y.AdditionalData?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && x.AmountRefunded == y.AmountRefunded
+                         && (((x.AppliedRules == null) && (y.AppliedRules == null)) || ((x.AppliedRules != null) && x.AppliedRules.Equals(y.AppliedRules)))
+                         && x.AmountRefundedBase == y.AmountRefundedBase
+                         && x.CostBase == y.CostBase
+                         && x.DiscountAmountBase == y.DiscountAmountBase
+                         && x.DiscountInvoicedBase == y.DiscountInvoicedBase
+                         && x.DiscountRefundedBase == y.DiscountRefundedBase
+                         && x.DiscountTaxCompensationAmountBase == y.DiscountTaxCompensationAmountBase
+                         && x.DiscountTaxCompensationInvoicedBase == y.DiscountTaxCompensationInvoicedBase
+                         && x.DiscountTaxCompensationRefundedBase == y.DiscountTaxCompensationRefundedBase
+                         && x.OriginalPriceBase == y.OriginalPriceBase
+                         && x.PriceBase == y.PriceBase
+                         && x.PriceWithTaxBase == y.PriceWithTaxBase
+                         && x.RowInvoicedBase == y.RowInvoicedBase
+                         && x.RowTotalBase == y.RowTotalBase
+                         && x.RowTotalWithTaxBase == y.RowTotalWithTaxBase
+                         && x.TaxAmountBase == y.TaxAmountBase
+                         && x.TaxBeforeDiscountBase == y.TaxBeforeDiscountBase
+                         && x.TaxInvoicedBase == y.TaxInvoicedBase
+                         && x.TaxRefundedBase == y.TaxRefundedBase
+                         && x.EcologicalTaxAppliedAmountBase == y.EcologicalTaxAppliedAmountBase
+                         && x.EcologicalTaxAppliedRowAmountBase == y.EcologicalTaxAppliedRowAmountBase
+                         && x.EcologicalTaxDispositionBase == y.EcologicalTaxDispositionBase
+                         && x.EcologicalTaxRowDispositionBase == y.EcologicalTaxRowDispositionBase
+                         && x.CreatedTimestamp.Equals(y.CreatedTimestamp)
+                         && String.Equals(x.Description?.Trim(), y.Description?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && x.DiscountAmount == y.DiscountAmount
+                         && x.DiscountInvoiced == y.DiscountInvoiced
+                         && x.DiscountPercent == y.DiscountPercent
+                         && x.DiscountRefunded == y.DiscountRefunded
+                         && x.EventID == y.EventID
+                         && String.Equals(x.ExternalItemID?.Trim(), y.ExternalItemID?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && x.FreeShipping == y.FreeShipping
+                         && x.GiftWrapPriceBase == y.GiftWrapPriceBase
+                         && x.GiftWrapPriceInvoicedBase == y.GiftWrapPriceInvoicedBase
+                         && x.GiftWrapPriceRefundedBase == y.GiftWrapPriceRefundedBase
+                         && x.GiftWrapTaxAmountBase == y.GiftWrapTaxAmountBase
+                         && x.GiftWrapTaxAmountInvoicedBase == y.GiftWrapTaxAmountInvoicedBase
+                         && x.GiftWrapTaxAmountRefundedBase == y.GiftWrapTaxAmountRefundedBase
+                         && x.GiftWrapID == y.GiftWrapID
+                         && x.GiftWrapPrice == y.GiftWrapPrice
+                         && x.GiftWrapPriceInvoiced == y.GiftWrapPriceInvoiced
+                         && x.GiftWrapPriceRefunded == y.GiftWrapPriceRefunded
+                         && x.GiftWrapTaxAmount == y.GiftWrapTaxAmount
+                         && x.GiftWrapTaxAmountInvoiced == y.GiftWrapTaxAmountInvoiced
+                         && x.GiftWrapTaxAmountRefunded == y.GiftWrapTaxAmountRefunded
+                         && x.DiscountTaxCompensationAmount == y.DiscountTaxCompensationAmount
+                         && x.DiscountTaxCompensationCanceled == y.DiscountTaxCompensationCanceled
+                         && x.DiscountTaxCompensationInvoiced == y.DiscountTaxCompensationInvoiced
+                         && x.DiscountTaxCompensationRefunded == y.DiscountTaxCompensationRefunded
+                         && x.QuantityIsDecimal == y.QuantityIsDecimal
+                         && x.IsVirtual == y.IsVirtual
+                         && (((x.Item == null) && (y.Item == null)) || ((x.Item != null) && x.Item.Equals(y.Item)))
+                         && x.LockedInvoice == y.LockedInvoice
+                         && x.LockedShipping == y.LockedShipping
+                         && x.NoDiscount == y.NoDiscount
+                         && x.OrderID == y.OrderID
+                         && x.OriginalPrice == y.OriginalPrice
+                         && x.ParentItemID == y.ParentItemID
+                         && x.Price == y.Price
+                         && x.PriceWithTax == y.PriceWithTax
+                         && (((x.Product == null) && (y.Product == null)) || ((x.Product != null) && x.Product.Equals(y.Product)))
+                         && x.ProductType.Equals(y.ProductType)
+                         && x.QuantityBackordered == y.QuantityBackordered
+                         && x.QuantityCanceled == y.QuantityCanceled
+                         && x.QuantityInvoiced == y.QuantityInvoiced
+                         && x.QuantityOrdered == y.QuantityOrdered
+                         && x.QuantityRefunded == y.QuantityRefunded
+                         && x.QuantityReturned == y.QuantityReturned
+                         && x.QuantityShipped == y.QuantityShipped
+                         && x.QuoteItemID == y.QuoteItemID
+                         && x.RowInvoiced == y.RowInvoiced
+                         && x.RowTotal == y.RowTotal
+                         && x.RowTotalWithTax == y.RowTotalWithTax
+                         && x.RowWeight == y.RowWeight
+                         && x.TaxAmount == y.TaxAmount
+                         && x.TaxBeforeDiscount == y.TaxBeforeDiscount
+                         && x.TaxCanceled == y.TaxCanceled
+                         && x.TaxInvoiced == y.TaxInvoiced
+                         && x.TaxPercent == y.TaxPercent
+                         && x.TaxRefunded == y.TaxRefunded
+                         && x.UpdatedTimestamp.GetValueOrDefault().Equals(y.UpdatedTimestamp.GetValueOrDefault())
+                         && String.Equals(x.EcologicalTaxApplied?.Trim(), y.EcologicalTaxApplied?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && x.EcologicalTaxAmount == y.EcologicalTaxAmount
+                         && x.EcologicalTaxRowAmount == y.EcologicalTaxRowAmount
+                         && x.EcologicalTaxDisposition == y.EcologicalTaxDisposition
+                         && x.EcologicalTaxRowDisposition == y.EcologicalTaxRowDisposition
+                         && x.Weight == y.Weight
+                         && (((x.ParentItem == null) && (y.ParentItem == null)) || ((x.ParentItem != null) && x.ParentItem.Equals(y.Product)))
+                         && x.ProductOption.Equals(y.ProductOption)
+                         && x.GiftMessage.Equals(y.GiftMessage)
+                         && String.Equals(x._GiftWrapID?.Trim(), y._GiftWrapID?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x._GiftWrapPriceBase?.Trim(), y._GiftWrapPriceBase?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x._GiftWrapPrice?.Trim(), y._GiftWrapPrice?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x._GiftWrapTaxAmountBase?.Trim(), y._GiftWrapTaxAmountBase?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x._GiftWrapTaxAmount?.Trim(), y._GiftWrapTaxAmount?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x._GiftWrapPriceInvoicedBase?.Trim(), y._GiftWrapPriceInvoicedBase?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x._GiftWrapPriceInvoiced?.Trim(), y._GiftWrapPriceInvoiced?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x._GiftWrapTaxAmountInvoicedBase?.Trim(), y._GiftWrapTaxAmountInvoicedBase?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x._GiftWrapTaxAmountInvoiced?.Trim(), y._GiftWrapTaxAmountInvoiced?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x._GiftWrapPriceRefundedBase?.Trim(), y._GiftWrapPriceRefundedBase?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x._GiftWrapPriceRefunded?.Trim(), y._GiftWrapPriceRefunded?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x._GiftWrapTaxAmountRefundedBase?.Trim(), y._GiftWrapTaxAmountRefundedBase?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x._GiftWrapTaxAmountRefunded?.Trim(), y._GiftWrapTaxAmountRefunded?.Trim(), StringComparison.InvariantCultureIgnoreCase)
                         && (((x.Server == null) && (y.Server == null)) || ((x.Server != null) && x.Server.Equals(y.Server)))
                         && (((x.RestEndpoint == null) && (y.RestEndpoint == null)) || ((x.RestEndpoint != null) && x.RestEndpoint.Equals(y.RestEndpoint)));
             }
@@ -795,38 +911,116 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         /// <returns><see cref="IExtensionInterface"/> object of type <see cref="SalesOrderItemInterface"/>.</returns>
         public override SalesOrderItemInterface ToInterface()
         {
-            SalesOrderItemInterface rule = new SalesOrderItemInterface();
+            SalesOrderItemInterface item = new SalesOrderItemInterface();
 
-            rule.ID = ID;
-            rule.Name = Name;
-            rule.StoreLabels = (StoreLabels == null) ? null : StoreLabels.Select(s => s.ToInterface()).ToArray();
-            rule.Description = Description;
-            rule.WebsiteIDs = (Websites == null) ? null : Websites.Select(w => w.ID).ToArray();
-            rule.CustomerGroupIDs = (CustomerGroups == null) ? null : CustomerGroups.Select(c => c.ID).ToArray();
-            rule.EffectiveDate = !EffectiveDate.HasValue ? String.Empty : EffectiveDate.Value.ToDateTimeUtc().ToString();
-            rule.ExpirationDate = !ExpirationDate.HasValue ? String.Empty : ExpirationDate.Value.ToDateTimeUtc().ToString();
-            rule.UsesPerCustomer = UsesPerCustomer;
-            rule.Active = Active;
-            rule.Condition = (Condition == null) ? null : Condition.ToInterface();
-            rule.ActionCondition = (ActionCondition == null) ? null : ActionCondition.ToInterface();
-            rule.StopRulesProcessing = StopRulesProcessing;
-            rule.IsAdvanced = IsAdvanced;
-            rule.ProductIDs = (ProductIDs == null) ? null : ProductIDs.ToArray();
-            rule.SortOrder = SortOrder;
-            rule.SimpleAction = SimpleAction;
-            rule.DiscountAmount = DiscountAmount;
-            rule.DiscountQuantity = DiscountQuantity;
-            rule.DiscountStep = Step;
-            rule.ApplyToShipping = AppliesToShipping;
-            rule.TimesUsed = TimesUsed;
-            rule.IsRSS = IsRSS;
-            rule.CouponType = CouponType;
-            rule.UseAutoGeneration = AutoGenerateCoupon;
-            rule.UsesPerCoupon = UsesPerCoupon;
-            rule.SimpleFreeShipping = SimpleFreeShipping;
-            rule.ExtensionAttributes = new SalesOrderItemExtensionInterface(RewardPointsDelta);
+            item.AdditionalData = AdditionalData;
+            item.AmountRefunded = AmountRefunded;
+            item.AppliedRuleIDs = (AppliedRules == null) ? String.Empty : AppliedRules.Select(ar => Convert.ToString(ar.ID)).Concat(",");
+            item.AmountRefundedBase = AmountRefundedBase;
+            item.CostBase = CostBase;
+            item.DiscountAmountBase = DiscountAmountBase;
+            item.DiscountInvoicedBase = DiscountInvoicedBase;
+            item.DiscountRefundedBase = DiscountRefundedBase;
+            item.DiscountTaxCompensationAmountBase = DiscountTaxCompensationAmountBase;
+            item.DiscountTaxCompensationInvoicedBase = DiscountTaxCompensationInvoicedBase;
+            item.DiscountTaxCompensationRefundedBase = DiscountTaxCompensationRefundedBase;
+            item.OriginalPriceBase = OriginalPriceBase;
+            item.PriceBase = PriceBase;
+            item.PriceWithTaxBase = PriceWithTaxBase;
+            item.RowInvoicedBase = RowInvoicedBase;
+            item.RowTotalBase = RowTotalBase;
+            item.RowTotalWithTaxBase = RowTotalWithTaxBase;
+            item.TaxAmountBase = TaxAmountBase;
+            item.TaxBeforeDiscountBase = TaxBeforeDiscountBase;
+            item.TaxInvoicedBase = TaxInvoicedBase;
+            item.TaxRefundedBase = TaxRefundedBase;
+            item.EcologicalTaxAppliedAmountBase = EcologicalTaxAppliedAmountBase;
+            item.EcologicalTaxAppliedRowAmountBase = EcologicalTaxAppliedRowAmountBase;
+            item.EcologicalTaxDispositionBase = EcologicalTaxDispositionBase;
+            item.EcologicalTaxRowDispositionBase = EcologicalTaxRowDispositionBase;
+            item.CreatedAt = CreatedTimestamp.ToDateTimeUtc().ToString();
+            item.Description = Description;
+            item.DiscountAmount = DiscountAmount;
+            item.DiscountInvoiced = DiscountInvoiced;
+            item.DiscountPercent = DiscountPercent;
+            item.DiscountRefunded = DiscountRefunded;
+            item.EventID = EventID;
+            item.ExternalItemID = ExternalItemID;
+            item.FreeShipping = FreeShipping.ToMagentoBoolean();
+            item.GiftWrapPriceBase = GiftWrapPriceBase;
+            item.GiftWrapPriceInvoicedBase = GiftWrapPriceInvoicedBase;
+            item.GiftWrapPriceRefundedBase = GiftWrapPriceRefundedBase;
+            item.GiftWrapTaxAmountBase = GiftWrapTaxAmountBase;
+            item.GiftWrapTaxAmountInvoicedBase = GiftWrapTaxAmountInvoicedBase;
+            item.GiftWrapTaxAmountRefundedBase = GiftWrapTaxAmountRefundedBase;
+            item.GiftWrapID = GiftWrapID;
+            item.GiftWrapPrice = GiftWrapPrice;
+            item.GiftWrapPriceInvoiced = GiftWrapPriceInvoiced;
+            item.GiftWrapPriceRefunded = GiftWrapPriceRefunded;
+            item.GiftWrapTaxAmount = GiftWrapTaxAmount;
+            item.GiftWrapTaxAmountInvoiced = GiftWrapTaxAmountInvoiced;
+            item.GiftWrapTaxAmountRefunded = GiftWrapTaxAmountRefunded;
+            item.DiscountTaxCompensationAmount = DiscountTaxCompensationAmount;
+            item.DiscountTaxCompensationCanceled = DiscountTaxCompensationCanceled;
+            item.DiscountTaxCompensationInvoiced = DiscountTaxCompensationInvoiced;
+            item.DiscountTaxCompensationRefunded = DiscountTaxCompensationRefunded;
+            item.QuantityIsDecimal = QuantityIsDecimal;
+            item.IsVirtual = IsVirtual;
+            item.ItemID = (Item == null) ? default(int) : Item.ItemID;
+            item.LockedInvoice = LockedInvoice;
+            item.LockedShipping = LockedShipping;
+            item.NoDiscount = NoDiscount;
+            item.OrderID = OrderID;
+            item.OriginalPrice = OriginalPrice;
+            item.ParentItemID = ParentItemID;
+            item.Price = Price;
+            item.PriceWithTax = PriceWithTax;
+            item.ProductID = (Product == null) ? default(int) : Product.ID;
+            item.ProductType = ProductType.Name;
+            item.QuantityBackordered = QuantityBackordered;
+            item.QuantityCanceled = QuantityCanceled;
+            item.QuantityInvoiced = QuantityInvoiced;
+            item.QuantityOrdered = QuantityOrdered;
+            item.QuantityRefunded = QuantityRefunded;
+            item.QuantityReturned = QuantityReturned;
+            item.QuantityShipped = QuantityShipped;
+            item.QuoteItemID = QuoteItemID;
+            item.RowInvoiced = RowInvoiced;
+            item.RowTotal = RowTotal;
+            item.RowTotalWithTax = RowTotalWithTax;
+            item.RowWeight = RowWeight;
+            item.TaxAmount = TaxAmount;
+            item.TaxBeforeDiscount = TaxBeforeDiscount;
+            item.TaxCanceled = TaxCanceled;
+            item.TaxInvoiced = TaxInvoiced;
+            item.TaxPercent = TaxPercent;
+            item.TaxRefunded = TaxRefunded;
+            item.UpdatedAt = UpdatedTimestamp.HasValue ? String.Empty : UpdatedTimestamp.Value.ToDateTimeUtc().ToString();
+            item.EcologicalTaxApplied = EcologicalTaxApplied;
+            item.EcologicalTaxAmount = EcologicalTaxAmount;
+            item.EcologicalTaxRowAmount = EcologicalTaxRowAmount;
+            item.EcologicalTaxDisposition = EcologicalTaxDisposition;
+            item.EcologicalTaxRowDisposition = EcologicalTaxRowDisposition;
+            item.Weight = Weight;
+            item.ParentItemID = (ParentItem == null) ? default(int) : ParentItem.ID;
+            item.ProductOption = ProductOption.ToInterface();
+            item.ExtensionAttributes = new SalesOrderItemExtensionInterface();
+            item.ExtensionAttributes.GiftMessage = GiftMessage.ToInterface();
+            item.ExtensionAttributes.GiftWrapID = _GiftWrapID;
+            item.ExtensionAttributes.GiftWrapPriceBase = _GiftWrapPriceBase;
+            item.ExtensionAttributes.GiftWrapPrice = _GiftWrapPrice;
+            item.ExtensionAttributes.GiftWrapTaxAmountBase = _GiftWrapTaxAmountBase;
+            item.ExtensionAttributes.GiftWrapTaxAmountBase = _GiftWrapTaxAmountBase;
+            item.ExtensionAttributes.GiftWrapInvoicedPriceBase = _GiftWrapPriceInvoicedBase;
+            item.ExtensionAttributes.GiftWrapInvoicedPrice = _GiftWrapPriceInvoiced;
+            item.ExtensionAttributes.GiftWrapInvoicedTaxAmountBase = _GiftWrapTaxAmountInvoicedBase;
+            item.ExtensionAttributes.GiftWrapInvoicedTaxAmount = _GiftWrapTaxAmountInvoiced;
+            item.ExtensionAttributes.GiftWrapRefundedPriceBase = _GiftWrapPriceRefundedBase;
+            item.ExtensionAttributes.GiftWrapRefundedPrice = _GiftWrapPriceRefunded;
+            item.ExtensionAttributes.GiftWrapRefundedTaxAmountBase = _GiftWrapTaxAmountRefundedBase;
+            item.ExtensionAttributes.GiftWrapRefundedTaxAmount = _GiftWrapTaxAmountRefunded;
             
-            return rule;
+            return item;
         }
 
         /// <summary>
@@ -835,37 +1029,115 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         /// <returns>Duplicate instance of the current object.</returns>
         public override object Clone()
         {
-            SalesOrderItem rule = new SalesOrderItem();
+            SalesOrderItem item = new SalesOrderItem();
 
-            rule.Name = Name;
-            rule.StoreLabels = (StoreLabels == null) ? null : StoreLabels.Select(sl => sl);
-            rule.Description = Description;
-            rule.Websites = (Websites == null) ? null : Websites.Select(w => w.Clone<StoreWebsite>());
-            rule.CustomerGroups = (CustomerGroups == null) ? null : CustomerGroups.Select(c => c.Clone<CustomerGroup>());
-            rule.EffectiveDate = EffectiveDate;
-            rule.ExpirationDate = ExpirationDate;
-            rule.UsesPerCustomer = UsesPerCustomer;
-            rule.Condition = Condition;
-            rule.ActionCondition = ActionCondition;
-            rule.StopRulesProcessing = StopRulesProcessing;
-            rule.IsAdvanced = IsAdvanced;
-            rule.ProductIDs = (ProductIDs == null) ? null : ProductIDs.Select(p => p);
-            rule.SortOrder = SortOrder;
-            rule.SimpleAction = SimpleAction;
-            rule.DiscountAmount = DiscountAmount;
-            rule.DiscountQuantity = DiscountQuantity;
-            rule.Step = Step;
-            rule.AppliesToShipping = AppliesToShipping;
-            rule.TimesUsed = TimesUsed;
-            rule.IsRSS = IsRSS;
-            rule.CouponType = CouponType;
-            rule.AutoGenerateCoupon = AutoGenerateCoupon;
-            rule.UsesPerCoupon = UsesPerCoupon;
-            rule.SimpleFreeShipping = SimpleFreeShipping;
-            rule.RewardPointsDelta = RewardPointsDelta;
-            rule.Active = Active;
+            item.AdditionalData = AdditionalData;
+            item.AmountRefunded = AmountRefunded;
+            item.AppliedRules = (AppliedRules == null) ? null : AppliedRules.Select(ar => ar);
+            item.AmountRefundedBase = AmountRefundedBase;
+            item.CostBase = CostBase;
+            item.DiscountAmountBase = DiscountAmountBase;
+            item.DiscountInvoicedBase = DiscountInvoicedBase;
+            item.DiscountRefundedBase = DiscountRefundedBase;
+            item.DiscountTaxCompensationAmountBase = DiscountTaxCompensationAmountBase;
+            item.DiscountTaxCompensationInvoicedBase = DiscountTaxCompensationInvoicedBase;
+            item.DiscountTaxCompensationRefundedBase = DiscountTaxCompensationRefundedBase;
+            item.OriginalPriceBase = OriginalPriceBase;
+            item.PriceBase = PriceBase;
+            item.PriceWithTaxBase = PriceWithTaxBase;
+            item.RowInvoicedBase = RowInvoicedBase;
+            item.RowTotalBase = RowTotalBase;
+            item.RowTotalWithTaxBase = RowTotalWithTaxBase;
+            item.TaxAmountBase = TaxAmountBase;
+            item.TaxBeforeDiscountBase = TaxBeforeDiscountBase;
+            item.TaxInvoicedBase = TaxInvoicedBase;
+            item.TaxRefundedBase = TaxRefundedBase;
+            item.EcologicalTaxAppliedAmountBase = EcologicalTaxAppliedAmountBase;
+            item.EcologicalTaxAppliedRowAmountBase = EcologicalTaxAppliedRowAmountBase;
+            item.EcologicalTaxDispositionBase = EcologicalTaxDispositionBase;
+            item.EcologicalTaxRowDispositionBase = EcologicalTaxRowDispositionBase;
+            item.CreatedTimestamp = CreatedTimestamp;
+            item.Description = Description;
+            item.DiscountAmount = DiscountAmount;
+            item.DiscountInvoiced = DiscountInvoiced;
+            item.DiscountPercent = DiscountPercent;
+            item.DiscountRefunded = DiscountRefunded;
+            item.EventID = EventID;
+            item.ExternalItemID = ExternalItemID;
+            item.FreeShipping = FreeShipping;
+            item.GiftWrapPriceBase = GiftWrapPriceBase;
+            item.GiftWrapPriceInvoicedBase = GiftWrapPriceInvoicedBase;
+            item.GiftWrapPriceRefundedBase = GiftWrapPriceRefundedBase;
+            item.GiftWrapTaxAmountBase = GiftWrapTaxAmountBase;
+            item.GiftWrapTaxAmountInvoicedBase = GiftWrapTaxAmountInvoicedBase;
+            item.GiftWrapTaxAmountRefundedBase = GiftWrapTaxAmountRefundedBase;
+            item.GiftWrapID = GiftWrapID;
+            item.GiftWrapPrice = GiftWrapPrice;
+            item.GiftWrapPriceInvoiced = GiftWrapPriceInvoiced;
+            item.GiftWrapPriceRefunded = GiftWrapPriceRefunded;
+            item.GiftWrapTaxAmount = GiftWrapTaxAmount;
+            item.GiftWrapTaxAmountInvoiced = GiftWrapTaxAmountInvoiced;
+            item.GiftWrapTaxAmountRefunded = GiftWrapTaxAmountRefunded;
+            item.DiscountTaxCompensationAmount = DiscountTaxCompensationAmount;
+            item.DiscountTaxCompensationCanceled = DiscountTaxCompensationCanceled;
+            item.DiscountTaxCompensationInvoiced = DiscountTaxCompensationInvoiced;
+            item.DiscountTaxCompensationRefunded = DiscountTaxCompensationRefunded;
+            item.QuantityIsDecimal = QuantityIsDecimal;
+            item.IsVirtual = IsVirtual;
+            item.Item = (Item == null) ? null : Item.Clone<StockItem>();
+            item.LockedInvoice = LockedInvoice;
+            item.LockedShipping = LockedShipping;
+            item.NoDiscount = NoDiscount;
+            item.OrderID = OrderID;
+            item.OriginalPrice = OriginalPrice;
+            item.ParentItemID = ParentItemID;
+            item.Price = Price;
+            item.PriceWithTax = PriceWithTax;
+            item.Product = (Product == null) ? null : Product.Clone<Product>();
+            item.ProductType = ProductType;
+            item.QuantityBackordered = QuantityBackordered;
+            item.QuantityCanceled = QuantityCanceled;
+            item.QuantityInvoiced = QuantityInvoiced;
+            item.QuantityOrdered = QuantityOrdered;
+            item.QuantityRefunded = QuantityRefunded;
+            item.QuantityReturned = QuantityReturned;
+            item.QuantityShipped = QuantityShipped;
+            item.QuoteItemID = QuoteItemID;
+            item.RowInvoiced = RowInvoiced;
+            item.RowTotal = RowTotal;
+            item.RowTotalWithTax = RowTotalWithTax;
+            item.RowWeight = RowWeight;
+            item.TaxAmount = TaxAmount;
+            item.TaxBeforeDiscount = TaxBeforeDiscount;
+            item.TaxCanceled = TaxCanceled;
+            item.TaxInvoiced = TaxInvoiced;
+            item.TaxPercent = TaxPercent;
+            item.TaxRefunded = TaxRefunded;
+            item.UpdatedTimestamp = UpdatedTimestamp;
+            item.EcologicalTaxApplied = EcologicalTaxApplied;
+            item.EcologicalTaxAmount = EcologicalTaxAmount;
+            item.EcologicalTaxRowAmount = EcologicalTaxRowAmount;
+            item.EcologicalTaxDisposition = EcologicalTaxDisposition;
+            item.EcologicalTaxRowDisposition = EcologicalTaxRowDisposition;
+            item.Weight = Weight;
+            item.ParentItemID = (ParentItem == null) ? default(int) : ParentItem.ID;
+            item.ProductOption = ProductOption;
+            item.GiftMessage = GiftMessage;
+            item._GiftWrapID = _GiftWrapID;
+            item._GiftWrapPriceBase = _GiftWrapPriceBase;
+            item._GiftWrapPrice = _GiftWrapPrice;
+            item._GiftWrapTaxAmountBase = _GiftWrapTaxAmountBase;
+            item._GiftWrapTaxAmountBase = _GiftWrapTaxAmountBase;
+            item._GiftWrapPriceInvoicedBase = _GiftWrapPriceInvoicedBase;
+            item._GiftWrapPriceInvoiced = _GiftWrapPriceInvoiced;
+            item._GiftWrapTaxAmountInvoicedBase = _GiftWrapTaxAmountInvoicedBase;
+            item._GiftWrapTaxAmountInvoiced = _GiftWrapTaxAmountInvoiced;
+            item._GiftWrapPriceRefundedBase = _GiftWrapPriceRefundedBase;
+            item._GiftWrapPriceRefunded = _GiftWrapPriceRefunded;
+            item._GiftWrapTaxAmountRefundedBase = _GiftWrapTaxAmountRefundedBase;
+            item._GiftWrapTaxAmountRefunded = _GiftWrapTaxAmountRefunded;
             
-            return rule;
+            return item;
         }
 
         /// <summary>
@@ -876,35 +1148,112 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         {
             HashCode hash = new HashCode();
 
-            hash.Add(ID);
-            hash.Add(Name);
-            hash.Add(StoreLabels);
+            hash.Add(AdditionalData);
+            hash.Add(AmountRefunded);
+            hash.Add(AppliedRules);
+            hash.Add(AmountRefundedBase);
+            hash.Add(CostBase);
+            hash.Add(DiscountAmountBase);
+            hash.Add(DiscountInvoicedBase);
+            hash.Add(DiscountRefundedBase);
+            hash.Add(DiscountTaxCompensationAmountBase);
+            hash.Add(DiscountTaxCompensationInvoicedBase);
+            hash.Add(DiscountTaxCompensationRefundedBase);
+            hash.Add(OriginalPriceBase);
+            hash.Add(PriceBase);
+            hash.Add(PriceWithTaxBase);
+            hash.Add(RowInvoicedBase);
+            hash.Add(RowTotalBase);
+            hash.Add(RowTotalWithTaxBase);
+            hash.Add(TaxAmountBase);
+            hash.Add(TaxBeforeDiscountBase);
+            hash.Add(TaxInvoicedBase);
+            hash.Add(TaxRefundedBase);
+            hash.Add(EcologicalTaxAppliedAmountBase);
+            hash.Add(EcologicalTaxAppliedRowAmountBase);
+            hash.Add(EcologicalTaxDispositionBase);
+            hash.Add(EcologicalTaxRowDispositionBase);
+            hash.Add(CreatedTimestamp);
             hash.Add(Description);
-            hash.Add(Websites);
-            hash.Add(CustomerGroups);
-            hash.Add(EffectiveDate);
-            hash.Add(ExpirationDate);
-            hash.Add(UsesPerCustomer);
-            hash.Add(Condition);
-            hash.Add(ActionCondition);
-            hash.Add(StopRulesProcessing);
-            hash.Add(IsAdvanced);
-            hash.Add(ProductIDs);
-            hash.Add(SortOrder);
-            hash.Add(SimpleAction);
             hash.Add(DiscountAmount);
-            hash.Add(DiscountQuantity);
-            hash.Add(Step);
-            hash.Add(AppliesToShipping);
-            hash.Add(TimesUsed);
-            hash.Add(IsRSS);
-            hash.Add(CouponType);
-            hash.Add(AutoGenerateCoupon);
-            hash.Add(UsesPerCoupon);
-            hash.Add(SimpleFreeShipping);
-            hash.Add(RewardPointsDelta);
-            hash.Add(Active);
-            
+            hash.Add(DiscountInvoiced);
+            hash.Add(DiscountPercent);
+            hash.Add(DiscountRefunded);
+            hash.Add(EventID);
+            hash.Add(ExternalItemID);
+            hash.Add(FreeShipping);
+            hash.Add(GiftWrapPriceBase);
+            hash.Add(GiftWrapPriceInvoicedBase);
+            hash.Add(GiftWrapPriceRefundedBase);
+            hash.Add(GiftWrapTaxAmountBase);
+            hash.Add(GiftWrapTaxAmountInvoicedBase);
+            hash.Add(GiftWrapTaxAmountRefundedBase);
+            hash.Add(GiftWrapID);
+            hash.Add(GiftWrapPrice);
+            hash.Add(GiftWrapPriceInvoiced);
+            hash.Add(GiftWrapPriceRefunded);
+            hash.Add(GiftWrapTaxAmount);
+            hash.Add(GiftWrapTaxAmountInvoiced);
+            hash.Add(GiftWrapTaxAmountRefunded);
+            hash.Add(DiscountTaxCompensationAmount);
+            hash.Add(DiscountTaxCompensationCanceled);
+            hash.Add(DiscountTaxCompensationInvoiced);
+            hash.Add(DiscountTaxCompensationRefunded);
+            hash.Add(QuantityIsDecimal);
+            hash.Add(IsVirtual);
+            hash.Add(Item);
+            hash.Add(LockedInvoice);
+            hash.Add(LockedShipping);
+            hash.Add(NoDiscount);
+            hash.Add(OrderID);
+            hash.Add(OriginalPrice);
+            hash.Add(ParentItemID);
+            hash.Add(Price);
+            hash.Add(PriceWithTax);
+            hash.Add(Product);
+            hash.Add(ProductType);
+            hash.Add(QuantityBackordered);
+            hash.Add(QuantityCanceled);
+            hash.Add(QuantityInvoiced);
+            hash.Add(QuantityOrdered);
+            hash.Add(QuantityRefunded);
+            hash.Add(QuantityReturned);
+            hash.Add(QuantityShipped);
+            hash.Add(QuoteItemID);
+            hash.Add(RowInvoiced);
+            hash.Add(RowTotal);
+            hash.Add(RowTotalWithTax);
+            hash.Add(RowWeight);
+            hash.Add(TaxAmount);
+            hash.Add(TaxBeforeDiscount);
+            hash.Add(TaxCanceled);
+            hash.Add(TaxInvoiced);
+            hash.Add(TaxPercent);
+            hash.Add(TaxRefunded);
+            hash.Add(UpdatedTimestamp);
+            hash.Add(EcologicalTaxApplied);
+            hash.Add(EcologicalTaxAmount);
+            hash.Add(EcologicalTaxRowAmount);
+            hash.Add(EcologicalTaxDisposition);
+            hash.Add(EcologicalTaxRowDisposition);
+            hash.Add(Weight);;
+            hash.Add(ParentItemID);
+            hash.Add(ProductOption);
+            hash.Add(GiftMessage);
+            hash.Add(_GiftWrapID);
+            hash.Add(_GiftWrapPriceBase);
+            hash.Add(_GiftWrapPrice);
+            hash.Add(_GiftWrapTaxAmountBase);
+            hash.Add(_GiftWrapTaxAmountBase);
+            hash.Add(_GiftWrapPriceInvoicedBase);
+            hash.Add(_GiftWrapPriceInvoiced);
+            hash.Add(_GiftWrapTaxAmountInvoicedBase);
+            hash.Add(_GiftWrapTaxAmountInvoiced);
+            hash.Add(_GiftWrapPriceRefundedBase);
+            hash.Add(_GiftWrapPriceRefunded);
+            hash.Add(_GiftWrapTaxAmountRefundedBase);
+            hash.Add(_GiftWrapTaxAmountRefunded);
+
             return hash.ToHashCode();
         }
 
