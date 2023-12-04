@@ -6,7 +6,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
     /// <summary>
     /// Interface that provides information about a sales order's totals in Magento.
     /// </summary>
-    public class SalesOrderTotalInterface : IExtensionInterface, IExtensionAttributes<SalesOrderTotalExtensionInterface>
+    public class SalesOrderShippingTotalInterface : IExtensionInterface, IExtensionAttributes<SalesOrderTotalExtensionInterface>
     {
         /// <summary>
         /// Gets or sets the shipping amount in base currency.
@@ -149,9 +149,9 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
         
         /// <summary>
-        /// Initializes a new instance of the <see cref="SalesOrderTotalInterface"/> class with no arguments.
+        /// Initializes a new instance of the <see cref="SalesOrderShippingTotalInterface"/> class with no arguments.
         /// </summary>
-        public SalesOrderTotalInterface()
+        public SalesOrderShippingTotalInterface()
         { }
     }
 }

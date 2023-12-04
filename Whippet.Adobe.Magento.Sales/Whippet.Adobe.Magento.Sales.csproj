@@ -34,7 +34,4 @@
     <None Remove="Extensions\" />
     <None Remove="Repositories\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Addressing\Extensions\" />
-  </ItemGroup>
 </Project>

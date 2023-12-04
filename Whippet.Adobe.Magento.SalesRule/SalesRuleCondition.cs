@@ -7,7 +7,7 @@ namespace Athi.Whippet.Adobe.Magento.SalesRule
     /// <summary>
     /// Represents an <see cref="ISalesRule"/> condition. This class cannot be inherited.
     /// </summary>
-    public sealed class SalesRuleCondition : IEnumerable<SalesRuleCondition>, IEnumerable, IExtensionInterfaceMap<SalesRuleConditionInterface>, IEqualityComparer<SalesRuleCondition>
+    public struct SalesRuleCondition : IEnumerable<SalesRuleCondition>, IEnumerable, IExtensionInterfaceMap<SalesRuleConditionInterface>, IEqualityComparer<SalesRuleCondition>
     {
         /// <summary>
         /// Gets or sets the condition type.
@@ -98,7 +98,7 @@ namespace Athi.Whippet.Adobe.Magento.SalesRule
         /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
         public bool Equals(SalesRuleCondition obj)
         {
-            return (obj == null) ? false : Equals(this, obj);
+            return Equals(this, obj);
         }
 
         /// <summary>
@@ -109,19 +109,12 @@ namespace Athi.Whippet.Adobe.Magento.SalesRule
         /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
         public bool Equals(SalesRuleCondition x, SalesRuleCondition y)
         {
-            bool equals = (x == null) && (y == null);
-
-            if (!equals && (x != null) && (y != null))
-            {
-                equals = String.Equals(x.Type?.Trim(), y.Type?.Trim(), StringComparison.InvariantCultureIgnoreCase)
-                         && (((x.Conditions == null) && (y.Conditions == null)) || ((x.Conditions != null) && (x.Conditions.SequenceEqual(y.Conditions))))
-                         && String.Equals(x.AggregatorType?.Trim(), y.AggregatorType?.Trim(), StringComparison.InvariantCultureIgnoreCase)
-                         && String.Equals(x.Operator?.Trim(), y.Operator?.Trim(), StringComparison.InvariantCultureIgnoreCase)
-                         && String.Equals(x.AttributeName?.Trim(), y.AttributeName?.Trim(), StringComparison.InvariantCultureIgnoreCase)
-                         && String.Equals(x.Value?.Trim(), y.Value?.Trim(), StringComparison.InvariantCultureIgnoreCase);
-            }
-
-            return equals;
+            return String.Equals(x.Type?.Trim(), y.Type?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                     && (((x.Conditions == null) && (y.Conditions == null)) || ((x.Conditions != null) && (x.Conditions.SequenceEqual(y.Conditions))))
+                     && String.Equals(x.AggregatorType?.Trim(), y.AggregatorType?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                     && String.Equals(x.Operator?.Trim(), y.Operator?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                     && String.Equals(x.AttributeName?.Trim(), y.AttributeName?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                     && String.Equals(x.Value?.Trim(), y.Value?.Trim(), StringComparison.InvariantCultureIgnoreCase);
         }
         
         /// <summary>

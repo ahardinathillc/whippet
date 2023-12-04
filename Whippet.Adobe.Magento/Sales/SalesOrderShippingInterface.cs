@@ -27,7 +27,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         /// Gets or sets the order's shipping totals.
         /// </summary>
         [JsonProperty("total")]
-        public SalesOrderTotalInterface Total
+        public SalesOrderShippingTotalInterface ShippingTotal
         { get; set; }
 
         /// <summary>
@@ -48,14 +48,14 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         /// </summary>
         /// <param name="address">Order address.</param>
         /// <param name="method">Shipping method.</param>
-        /// <param name="total">Order's shipping totals.</param>
+        /// <param name="shippingTotal">Order's shipping totals.</param>
         /// <param name="extensionAttributes">Extension attributes.</param>
-        public SalesOrderShippingInterface(SalesOrderAddressInterface address, string method, SalesOrderTotalInterface total, SalesOrderShippingExtensionInterface extensionAttributes)
+        public SalesOrderShippingInterface(SalesOrderAddressInterface address, string method, SalesOrderShippingTotalInterface shippingTotal, SalesOrderShippingExtensionInterface extensionAttributes)
             : this()
         {
             Address = address;
             Method = method;
-            Total = total;
+            ShippingTotal = shippingTotal;
             ExtensionAttributes = extensionAttributes;
         }
     }

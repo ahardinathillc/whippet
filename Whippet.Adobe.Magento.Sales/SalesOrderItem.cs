@@ -5,6 +5,8 @@ using Athi.Whippet.Adobe.Magento.Catalog.Products;
 using Athi.Whippet.Adobe.Magento.Sales.Addressing;
 using Athi.Whippet.Adobe.Magento.Catalog.Inventory.StockItems;
 using Athi.Whippet.Adobe.Magento.Catalog.Inventory.StockItems.Extensions;
+using Athi.Whippet.Adobe.Magento.SalesRule;
+using Athi.Whippet.Adobe.Magento.SalesRule.Extensions;
 using MagentoSalesRule = Athi.Whippet.Adobe.Magento.SalesRule.SalesRule;
 using MagentoGiftMessage = Athi.Whippet.Adobe.Magento.GiftMessage.GiftMessage;
 
@@ -37,6 +39,18 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         /// </summary>
         public virtual IEnumerable<MagentoSalesRule> AppliedRules
         { get; set; }
+
+        IEnumerable<ISalesRule> ISalesOrderItem.AppliedRules
+        {
+            get
+            {
+                return AppliedRules;
+            }
+            set
+            {
+                AppliedRules = (value == null) ? null : value.Select(ar => ar.ToSalesRule)
+            }
+        }
         
         /// <summary>
         /// Gets or sets the base amount refunded in base currency.
@@ -684,24 +698,266 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         public virtual string _GiftWrapTaxAmountRefunded
         { get; set; }
 
-        /// <summary>
-        /// Gets or sets the billing address of the order.
+                /// <summary>
+        /// Initializes a new instance of the <see cref="SalesOrderItem"/> class with no arguments.
         /// </summary>
-        public virtual SalesOrderAddress BillingAddress
-        {
-            get
-            {
-                if (_billingAddress == null)
-                {
-                    _billingAddress = new SalesOrderAddress();
-                }
+        public SalesOrderItem()
+            : base()
+        { }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SalesOrderItem"/> class with the specified ID.
+        /// </summary>
+        /// <param name="entityId">ID to assign the <see cref="MagentoEntity"/> object.</param>
+        /// <param name="server"><see cref="MagentoServer"/> the entity resides on.</param>
+        /// <param name="restEndpoint"><see cref="MagentoRestEndpoint"/> the entity resides on.</param>
+        public SalesOrderItem(uint entityId, MagentoServer server = null, MagentoRestEndpoint restEndpoint = null)
+            : base(entityId, server, restEndpoint)
+        { }
 
-                return _billingAddress;
-            }
-            set
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SalesOrderItem"/> class with the specified <see cref="IExtensionInterface"/> object.
+        /// </summary>
+        /// <param name="model"><see cref="IExtensionInterface"/> object to initialize a new instance of the class with.</param>
+        /// <param name="server"><see cref="MagentoServer"/> the entity resides on.</param>
+        /// <param name="restEndpoint"><see cref="MagentoRestEndpoint"/> the entity resides on.</param>
+        public SalesOrderItem(SalesOrderItemInterface model, MagentoServer server = null, MagentoRestEndpoint restEndpoint = null)
+            : base(model, server, restEndpoint)
+        { }
+
+        /// <summary>
+        /// Compares the current instance to the specified object for equality.
+        /// </summary>
+        /// <param name="obj">Object to compare.</param>
+        /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
+        public override bool Equals(object obj)
+        {
+            return ((obj == null) || !(obj is ISalesOrderItem)) ? false : Equals((ISalesOrderItem)(obj));
+        }
+
+        /// <summary>
+        /// Compares the current instance to the specified object for equality.
+        /// </summary>
+        /// <param name="obj">Object to compare.</param>
+        /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
+        public virtual bool Equals(ISalesOrderItem obj)
+        {
+            return (obj == null) ? false : Equals(this, obj);
+        }
+
+        /// <summary>
+        /// Compares the two objects for equality.
+        /// </summary>
+        /// <param name="x">First object to compare.</param>
+        /// <param name="y">Second object to compare.</param>
+        /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
+        public virtual bool Equals(ISalesOrderItem x, ISalesOrderItem y)
+        {
+            bool equals = (x == null) && (y == null);
+
+            if (!equals && (x != null) && (y != null))
             {
-                _billingAddress = value;
+                equals = String.Equals(x.Name?.Trim(), y.Name?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                        && (((x.StoreLabels == null) && (y.StoreLabels == null)) || ((x.StoreLabels != null) && x.StoreLabels.SequenceEqual(y.StoreLabels)))
+                        && String.Equals(x.Description?.Trim(), y.Description?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                        && (((x.Websites == null) && (y.Websites == null)) || ((x.Websites != null) && x.Websites.SequenceEqual(y.Websites)))
+                        && x.EffectiveDate.GetValueOrDefault().Equals(y.EffectiveDate.GetValueOrDefault())
+                        && x.ExpirationDate.GetValueOrDefault().Equals(y.ExpirationDate.GetValueOrDefault())
+                        && x.UsesPerCustomer == y.UsesPerCustomer
+                        && (((x.Condition == null) && (y.Condition == null)) || ((x.Condition != null) && x.Condition.Equals(y.Condition)))
+                        && (((x.ActionCondition == null) && (y.ActionCondition == null)) || ((x.Condition != null) && x.ActionCondition.Equals(y.ActionCondition)))
+                        && x.StopRulesProcessing == y.StopRulesProcessing
+                        && x.IsAdvanced == y.IsAdvanced
+                        && (((x.ProductIDs == null) && (y.ProductIDs == null)) || ((x.ProductIDs != null) && x.ProductIDs.Equals(y.ProductIDs)))
+                        && x.SortOrder == y.SortOrder
+                        && String.Equals(x.SimpleAction?.Trim(), y.SimpleAction?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                        && x.DiscountAmount == y.DiscountAmount
+                        && x.DiscountQuantity == y.DiscountQuantity
+                        && x.Step == y.Step
+                        && x.AppliesToShipping == y.AppliesToShipping
+                        && x.TimesUsed == y.TimesUsed
+                        && x.IsRSS == y.IsRSS
+                        && String.Equals(x.CouponType?.Trim(), y.CouponType?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                        && x.AutoGenerateCoupon == y.AutoGenerateCoupon
+                        && x.UsesPerCoupon == y.UsesPerCoupon
+                        && String.Equals(x.SimpleFreeShipping?.Trim(), y.SimpleFreeShipping?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                        && x.RewardPointsDelta == y.RewardPointsDelta
+                        && (((x.Server == null) && (y.Server == null)) || ((x.Server != null) && x.Server.Equals(y.Server)))
+                        && (((x.RestEndpoint == null) && (y.RestEndpoint == null)) || ((x.RestEndpoint != null) && x.RestEndpoint.Equals(y.RestEndpoint)));
+            }
+
+            return equals;
+        }
+
+        /// <summary>
+        /// Converts the current instance to an <see cref="IExtensionInterface"/> of type <see cref="SalesOrderItemInterface"/>.
+        /// </summary>
+        /// <returns><see cref="IExtensionInterface"/> object of type <see cref="SalesOrderItemInterface"/>.</returns>
+        public override SalesOrderItemInterface ToInterface()
+        {
+            SalesOrderItemInterface rule = new SalesOrderItemInterface();
+
+            rule.ID = ID;
+            rule.Name = Name;
+            rule.StoreLabels = (StoreLabels == null) ? null : StoreLabels.Select(s => s.ToInterface()).ToArray();
+            rule.Description = Description;
+            rule.WebsiteIDs = (Websites == null) ? null : Websites.Select(w => w.ID).ToArray();
+            rule.CustomerGroupIDs = (CustomerGroups == null) ? null : CustomerGroups.Select(c => c.ID).ToArray();
+            rule.EffectiveDate = !EffectiveDate.HasValue ? String.Empty : EffectiveDate.Value.ToDateTimeUtc().ToString();
+            rule.ExpirationDate = !ExpirationDate.HasValue ? String.Empty : ExpirationDate.Value.ToDateTimeUtc().ToString();
+            rule.UsesPerCustomer = UsesPerCustomer;
+            rule.Active = Active;
+            rule.Condition = (Condition == null) ? null : Condition.ToInterface();
+            rule.ActionCondition = (ActionCondition == null) ? null : ActionCondition.ToInterface();
+            rule.StopRulesProcessing = StopRulesProcessing;
+            rule.IsAdvanced = IsAdvanced;
+            rule.ProductIDs = (ProductIDs == null) ? null : ProductIDs.ToArray();
+            rule.SortOrder = SortOrder;
+            rule.SimpleAction = SimpleAction;
+            rule.DiscountAmount = DiscountAmount;
+            rule.DiscountQuantity = DiscountQuantity;
+            rule.DiscountStep = Step;
+            rule.ApplyToShipping = AppliesToShipping;
+            rule.TimesUsed = TimesUsed;
+            rule.IsRSS = IsRSS;
+            rule.CouponType = CouponType;
+            rule.UseAutoGeneration = AutoGenerateCoupon;
+            rule.UsesPerCoupon = UsesPerCoupon;
+            rule.SimpleFreeShipping = SimpleFreeShipping;
+            rule.ExtensionAttributes = new SalesOrderItemExtensionInterface(RewardPointsDelta);
+            
+            return rule;
+        }
+
+        /// <summary>
+        /// Creates a duplicate instance of the current object.
+        /// </summary>
+        /// <returns>Duplicate instance of the current object.</returns>
+        public override object Clone()
+        {
+            SalesOrderItem rule = new SalesOrderItem();
+
+            rule.Name = Name;
+            rule.StoreLabels = (StoreLabels == null) ? null : StoreLabels.Select(sl => sl);
+            rule.Description = Description;
+            rule.Websites = (Websites == null) ? null : Websites.Select(w => w.Clone<StoreWebsite>());
+            rule.CustomerGroups = (CustomerGroups == null) ? null : CustomerGroups.Select(c => c.Clone<CustomerGroup>());
+            rule.EffectiveDate = EffectiveDate;
+            rule.ExpirationDate = ExpirationDate;
+            rule.UsesPerCustomer = UsesPerCustomer;
+            rule.Condition = Condition;
+            rule.ActionCondition = ActionCondition;
+            rule.StopRulesProcessing = StopRulesProcessing;
+            rule.IsAdvanced = IsAdvanced;
+            rule.ProductIDs = (ProductIDs == null) ? null : ProductIDs.Select(p => p);
+            rule.SortOrder = SortOrder;
+            rule.SimpleAction = SimpleAction;
+            rule.DiscountAmount = DiscountAmount;
+            rule.DiscountQuantity = DiscountQuantity;
+            rule.Step = Step;
+            rule.AppliesToShipping = AppliesToShipping;
+            rule.TimesUsed = TimesUsed;
+            rule.IsRSS = IsRSS;
+            rule.CouponType = CouponType;
+            rule.AutoGenerateCoupon = AutoGenerateCoupon;
+            rule.UsesPerCoupon = UsesPerCoupon;
+            rule.SimpleFreeShipping = SimpleFreeShipping;
+            rule.RewardPointsDelta = RewardPointsDelta;
+            rule.Active = Active;
+            
+            return rule;
+        }
+
+        /// <summary>
+        /// Gets the hash code of the current instance.
+        /// </summary>
+        /// <returns>Hash code.</returns>
+        public override int GetHashCode()
+        {
+            HashCode hash = new HashCode();
+
+            hash.Add(ID);
+            hash.Add(Name);
+            hash.Add(StoreLabels);
+            hash.Add(Description);
+            hash.Add(Websites);
+            hash.Add(CustomerGroups);
+            hash.Add(EffectiveDate);
+            hash.Add(ExpirationDate);
+            hash.Add(UsesPerCustomer);
+            hash.Add(Condition);
+            hash.Add(ActionCondition);
+            hash.Add(StopRulesProcessing);
+            hash.Add(IsAdvanced);
+            hash.Add(ProductIDs);
+            hash.Add(SortOrder);
+            hash.Add(SimpleAction);
+            hash.Add(DiscountAmount);
+            hash.Add(DiscountQuantity);
+            hash.Add(Step);
+            hash.Add(AppliesToShipping);
+            hash.Add(TimesUsed);
+            hash.Add(IsRSS);
+            hash.Add(CouponType);
+            hash.Add(AutoGenerateCoupon);
+            hash.Add(UsesPerCoupon);
+            hash.Add(SimpleFreeShipping);
+            hash.Add(RewardPointsDelta);
+            hash.Add(Active);
+            
+            return hash.ToHashCode();
+        }
+
+        /// <summary>
+        /// Gets the hash code of the specified object.
+        /// </summary>
+        /// <param name="product"><see cref="ISalesOrderItem"/> object to get hash code for.</param>
+        /// <returns>Hash code.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public virtual int GetHashCode(ISalesOrderItem product)
+        {
+            ArgumentNullException.ThrowIfNull(product);
+            return product.GetHashCode();
+        }
+        
+        /// <summary>
+        /// Constructs the current instance with the specified <see cref="IExtensionInterface"/> object.
+        /// </summary>
+        /// <param name="model"><see cref="IExtensionInterface"/> object to construct the current instance from.</param>
+        protected override void ImportFromModel(SalesOrderItemInterface model)
+        {
+            if (model != null)
+            {
+                ID = model.ID;
+                Name = model.Name;
+                StoreLabels = (model.StoreLabels == null) ? null : model.StoreLabels.Select(s => new SalesOrderItemLabel(s));
+                Description = model.Description;
+                Websites = (model.WebsiteIDs == null) ? null : model.WebsiteIDs.Select(w => new StoreWebsite(Convert.ToUInt32(w)));
+                CustomerGroups = (model.CustomerGroupIDs == null) ? null : model.CustomerGroupIDs.Select(c => new CustomerGroup(Convert.ToUInt32(c)));
+                EffectiveDate = String.IsNullOrWhiteSpace(model.EffectiveDate) ? null : Instant.FromDateTimeUtc(DateTime.Parse(model.EffectiveDate).ToUniversalTime(true));
+                ExpirationDate = String.IsNullOrWhiteSpace(model.ExpirationDate) ? null : Instant.FromDateTimeUtc(DateTime.Parse(model.ExpirationDate).ToUniversalTime(true));
+                UsesPerCustomer = model.UsesPerCustomer;
+                Active = model.Active;
+                Condition = (model.Condition == null) ? null : new SalesOrderItemCondition(model.Condition);
+                ActionCondition = (model.ActionCondition == null) ? null : new SalesOrderItemCondition(model.ActionCondition);
+                StopRulesProcessing = model.StopRulesProcessing;
+                IsAdvanced = model.IsAdvanced;
+                ProductIDs = model.ProductIDs;
+                SortOrder = model.SortOrder;
+                SimpleAction = model.SimpleAction;
+                DiscountAmount = model.DiscountAmount;
+                DiscountQuantity = model.DiscountQuantity;
+                Step = model.DiscountStep;
+                AppliesToShipping = model.ApplyToShipping;
+                TimesUsed = model.TimesUsed;
+                IsRSS = model.IsRSS;
+                CouponType = model.CouponType;
+                AutoGenerateCoupon = model.UseAutoGeneration;
+                UsesPerCoupon = model.UsesPerCoupon;
+                SimpleFreeShipping = model.SimpleFreeShipping;
+                RewardPointsDelta = (model.ExtensionAttributes == null) ? default(int) : model.ExtensionAttributes.RewardPointsDelta;
             }
         }
+
     }
 }

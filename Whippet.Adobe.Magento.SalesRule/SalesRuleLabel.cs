@@ -6,7 +6,7 @@ namespace Athi.Whippet.Adobe.Magento.SalesRule
     /// <summary>
     /// Represents a sales rule label for a Magento store.
     /// </summary>
-    public class SalesRuleLabel : IEqualityComparer<SalesRuleLabel>, IExtensionInterfaceMap<SalesRuleLabelInterface>
+    public struct SalesRuleLabel : IEqualityComparer<SalesRuleLabel>, IExtensionInterfaceMap<SalesRuleLabelInterface>
     {
         /// <summary>
         /// Gets or sets the store ID.
