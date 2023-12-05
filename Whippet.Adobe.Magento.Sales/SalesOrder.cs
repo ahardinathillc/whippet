@@ -397,9 +397,9 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         }
         
         /// <summary>
-        /// Flag that indicates whether the customer is a guest and not registered. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>.
+        /// Specifies whether the customer is a guest and not registered.
         /// </summary>
-        public virtual int CustomerIsGuest
+        public virtual bool CustomerIsGuest
         { get; set; }
 
         /// <summary>
@@ -429,7 +429,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         /// <summary>
         /// Gets or sets the discount description.
         /// </summary>
-        public virtual decimal DiscountDescription
+        public virtual string DiscountDescription
         { get; set; }
 
         /// <summary>
@@ -469,9 +469,9 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
 
         /// <summary>
-        /// Flag that indicates whether the order is shipped regardless of the status of the invoice. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>.
+        /// Specifies whether the order is shipped regardless of the status of the invoice.
         /// </summary>
-        public virtual int ForcedShipmentWithInvoice
+        public virtual bool ForcedShipmentWithInvoice
         { get; set; }
 
         /// <summary>
@@ -523,9 +523,9 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
 
         /// <summary>
-        /// Flag that indicates whether the order is virtual. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>. 
+        /// Specifies whether the order is virtual. 
         /// </summary>
-        public virtual int IsVirtual
+        public virtual bool IsVirtual
         { get; set; }
 
         /// <summary>
@@ -1423,19 +1423,15 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         }
 
         /// <summary>
-        /// Converts the current instance to an <see cref="IExtensionInterface"/> of type <see cref="GiftCardInterface"/>.
+        /// Converts the current instance to an <see cref="IExtensionInterface"/> of type <see cref="SalesOrderInterface"/>.
         /// </summary>
-        /// <returns><see cref="IExtensionInterface"/> object of type <see cref="GiftCardInterface"/>.</returns>
+        /// <returns><see cref="IExtensionInterface"/> object of type <see cref="SalesOrderInterface"/>.</returns>
         public override SalesOrderInterface ToInterface()
         {
-            GiftCardInterface gcInterface = new GiftCardInterface();
+            SalesOrderInterface soInterface = new SalesOrderInterface();
 
-            gcInterface.ID = ID;
-            gcInterface.Code = Code;
-            gcInterface.Amount = Amount;
-            gcInterface.AmountBase = BaseAmount;
-            
-            return gcInterface;
+
+            return soInterface;
         }
 
         /// <summary>
