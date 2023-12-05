@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Athi.Whippet.Adobe.Magento.Payments
+namespace Athi.Whippet.Adobe.Magento.Payment
 {
     /// <summary>
     /// Interface that provides extra information about a payment in Magento.

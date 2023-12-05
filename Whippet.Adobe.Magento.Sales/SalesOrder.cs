@@ -6,6 +6,8 @@ using Athi.Whippet.Adobe.Magento.Data;
 using Athi.Whippet.Adobe.Magento.SalesRule;
 using Athi.Whippet.Adobe.Magento.Customer.Addressing;
 using Athi.Whippet.Adobe.Magento.Customer.Addressing.Extensions;
+using Athi.Whippet.Adobe.Magento.Payment;
+using Athi.Whippet.Adobe.Magento.Sales.Addressing;
 using MagentoCustomer = Athi.Whippet.Adobe.Magento.Customer.Customer;
 using MagentoStore = Athi.Whippet.Adobe.Magento.Store.Store;
 
@@ -16,8 +18,9 @@ namespace Athi.Whippet.Adobe.Magento.Sales
     /// </summary>
     public class SalesOrder : MagentoRestEntity<SalesOrderInterface>, IMagentoEntity, ISalesOrder, IEqualityComparer<ISalesOrder>, IMagentoAuditableEntity, IMagentoRestEntity, IMagentoRestEntity<SalesOrderInterface>
     {
-        private CustomerAddress _billingAddress;
-        private CustomerAddress _quoteAddress;
+        private SalesOrderAddress _billingAddress;
+        private SalesOrderAddress _quoteAddress;
+        private SalesOrderPayment _payment;
         private CustomerGroup _group;
         private MagentoCustomer _customer;
         private MagentoStore _store;
@@ -503,13 +506,13 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         /// <summary>
         /// Gets or sets the quote address.
         /// </summary>
-        public virtual CustomerAddress QuoteAddress
+        public virtual SalesOrderAddress QuoteAddress
         {
             get
             {
                 if (_quoteAddress == null)
                 {
-                    _quoteAddress = new CustomerAddress();
+                    _quoteAddress = new SalesOrderAddress();
                 }
 
                 return _quoteAddress;
@@ -768,39 +771,73 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         public virtual string TransactionForwardedFor
         { get; set; }
 
-        
-        
         /// <summary>
         /// Gets or sets the items associated with the order.
         /// </summary>
-        public virtual SalesOrderItemInterface[] Items
+        public virtual IEnumerable<SalesOrderItem> Items
         { get; set; }
 
         /// <summary>
         /// Gets or sets the billing address associated with the order.
         /// </summary>
         /// <remarks>An order is a document that a web store issues to a customer. Magento generates a sales order that lists the product items, billing and shipping addresses, and shipping and payment methods. A corresponding external document, known as a purchase order, is emailed to the customer.</remarks>
-        public virtual SalesOrderAddressInterface BillingAddress
-        { get; set; }
+        public virtual SalesOrderAddress BillingAddress
+        {
+            get
+            {
+                if (_billingAddress == null)
+                {
+                    _billingAddress = new SalesOrderAddress();
+                }
+
+                return _billingAddress;
+            }
+            set
+            {
+                _billingAddress = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the payment information for the order.
         /// </summary>
         /// <remarks>An order is a document that a web store issues to a customer. Magento generates a sales order that lists the product items, billing and shipping addresses, and shipping and payment methods. A corresponding external document, known as a purchase order, is emailed to the customer.</remarks>
-        public virtual SalesOrderPaymentInterface Payment
-        { get; set; }
+        public virtual SalesOrderPayment Payment
+        {
+            get
+            {
+                if (_payment == null)
+                {
+                    _payment = new SalesOrderPayment();
+                }
+
+                return _payment;
+            }
+            set
+            {
+                _payment = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the status histories of the current order.
         /// </summary>
-        public virtual SalesOrderStatusHistoryInterface[] StatusHistories
+        public virtual IEnumerable<SalesOrderStatusHistory> StatusHistories
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the extension attributes for the current instance.
+        /// Gets or sets the shipping assignments for the order.
         /// </summary>
-        public virtual SalesOrderExtensionInterface ExtensionAttributes
+        public virtual IEnumerable<SalesOrderShippingAssignment> ShippingAssignments
         { get; set; }
+        
+        /// <summary>
+        /// Gets or sets additional information concerning the payment of the order.
+        /// </summary>
+        public virtual IEnumerable<PaymentAdditionalInfo> PaymentAdditionalInformation
+        { get; set; }
+        
+        
 
     }
 }

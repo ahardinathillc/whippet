@@ -320,15 +320,15 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
 
         /// <summary>
-        /// Specifies whether quantity is an <see cref="Int32"/> or <see cref="Decimal"/>.
+        /// Flag that indicates whether quantity is an <see cref="Int32"/> or <see cref="Decimal"/>. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>.
         /// </summary>
-        bool QuantityIsDecimal
+        int QuantityIsDecimal
         { get; set; }
 
         /// <summary>
-        /// Specifies whether the order item is virtual.
+        /// Flag that indicates whether the order item is virtual. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>.
         /// </summary>
-        bool IsVirtual
+        int IsVirtual
         { get; set; }
 
         /// <summary>

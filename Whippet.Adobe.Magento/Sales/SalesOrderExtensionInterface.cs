@@ -1,6 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
-using Athi.Whippet.Adobe.Magento.Payments;
+using Athi.Whippet.Adobe.Magento.Payment;
 using Athi.Whippet.Adobe.Magento.Company;
 using Athi.Whippet.Adobe.Magento.Taxes.Orders;
 using Athi.Whippet.Adobe.Magento.GiftCard;
