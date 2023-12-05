@@ -2,12 +2,12 @@
 using Newtonsoft.Json;
 using Athi.Whippet.Adobe.Magento;
 
-namespace Athi.Whippet.ParadoxLabs.Magento.Subscription
+namespace Athi.Whippet.ParadoxLabs.Magento.Subscriptions
 {
     /// <summary>
     /// Interface that provides information about a Paradox Labs subscription in the Magento e-commerce product.
     /// </summary>
-    public class ParadoxLabsSubscription : IParadoxLabsExtensionInterface
+    public class ParadoxLabsSubscriptionInterface : IParadoxLabsExtensionInterface
     {
         /// <summary>
         /// Gets or sets the unique ID of the subscription.
@@ -129,9 +129,9 @@ namespace Athi.Whippet.ParadoxLabs.Magento.Subscription
         { get; set; }    
         
         /// <summary>
-        /// Initializes a new instance of the <see cref="ParadoxLabsSubscription"/> class with no arguments.
+        /// Initializes a new instance of the <see cref="ParadoxLabsSubscriptionInterface"/> class with no arguments.
         /// </summary>
-        public ParadoxLabsSubscription()
+        public ParadoxLabsSubscriptionInterface()
         { }
     }
 }

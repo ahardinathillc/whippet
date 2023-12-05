@@ -16,7 +16,7 @@ namespace Athi.Whippet.Adobe.Magento.Data
     /// <summary>
     /// Represents a generic repository that is independent of the backing data store for <see cref="MagentoEntity"/> objects accessible by a RESTful interface. This class must be inherited.
     /// </summary>
-    /// <typeparam name="TEntity">Type of <see cref="WhippetEntity"/> object to store in the repository.</typeparam>
+    /// <typeparam name="TEntity">Type of <see cref="MagentoEntity"/> object to store in the repository.</typeparam>
     public abstract class MagentoEntityRestRepository<TEntity> : WhippetRestRepository<TEntity, uint>, IWhippetEntityRepository<TEntity, uint>, IWhippetRepository<TEntity, uint>, IWhippetRestRepository<TEntity, uint>, IDisposable, IMagentoEntityRepository<TEntity>
         where TEntity : MagentoEntity, IMagentoEntity, new()
     {
@@ -26,6 +26,8 @@ namespace Athi.Whippet.Adobe.Magento.Data
         private const string TOKEN__PAGE_SIZE = "page_size";
         private const string TOKEN__CURRENT_PAGE = "current_page";
 
+        protected const string DEFAULT_BASE_URL = "/rest/V1/";
+        
         private const int DEFAULT_CHUNK_SIZE = 200;
 
         private int _pageSize;
@@ -53,7 +55,7 @@ namespace Athi.Whippet.Adobe.Magento.Data
         /// <summary>
         /// Gets the base URL for the request (e.g., &quot;orders/&quot;). This property is read-only.
         /// </summary>
-        protected string BaseUrl
+        protected virtual string BaseUrl
         { get; private set; }
 
         /// <summary>
