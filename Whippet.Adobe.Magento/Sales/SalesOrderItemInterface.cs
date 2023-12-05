@@ -151,7 +151,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
 
         /// <summary>
-        /// Gets or setes the tax amount refunded in base currency.
+        /// Gets or sets the tax amount refunded in base currency.
         /// </summary>
         [JsonProperty("base_tax_refunded")]
         public decimal TaxRefundedBase

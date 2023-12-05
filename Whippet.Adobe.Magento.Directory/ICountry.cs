@@ -22,7 +22,7 @@ namespace Athi.Whippet.Adobe.Magento.Directory
         { get; set; }
         
         /// <summary>
-        /// Gets or setes the ISO-3 country code.
+        /// Gets or sets the ISO-3 country code.
         /// </summary>
         string ISO3
         { get; set; }

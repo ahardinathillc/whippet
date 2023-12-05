@@ -4,6 +4,7 @@ using Athi.Whippet.Adobe.Magento.Data;
 using Athi.Whippet.Adobe.Magento.SalesRule;
 using Athi.Whippet.Adobe.Magento.Catalog.Products;
 using Athi.Whippet.Adobe.Magento.Catalog.Inventory.StockItems;
+using Athi.Whippet.Adobe.Magento.Store;
 using MagentoGiftMessage = Athi.Whippet.Adobe.Magento.GiftMessage.GiftMessage;
 
 namespace Athi.Whippet.Adobe.Magento.Sales
@@ -134,7 +135,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
 
         /// <summary>
-        /// Gets or setes the tax amount refunded in base currency.
+        /// Gets or sets the tax amount refunded in base currency.
         /// </summary>
         decimal TaxRefundedBase
         { get; set; }
@@ -320,15 +321,15 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
 
         /// <summary>
-        /// Flag that indicates whether quantity is an <see cref="Int32"/> or <see cref="Decimal"/>. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>.
+        /// Specifies whether quantity is an <see cref="Int32"/> or <see cref="Decimal"/>.
         /// </summary>
-        int QuantityIsDecimal
+        bool QuantityIsDecimal
         { get; set; }
 
         /// <summary>
-        /// Flag that indicates whether the order item is virtual. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>.
+        /// Indicates whether the order item is virtual.
         /// </summary>
-        int IsVirtual
+        bool IsVirtual
         { get; set; }
 
         /// <summary>
@@ -547,6 +548,12 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         decimal EcologicalTaxRowDisposition
         { get; set; }
 
+        /// <summary>
+        /// Gets or sets the store that the sales order item is associated with.
+        /// </summary>
+        IStore Store
+        { get; set; }
+        
         /// <summary>
         /// Gets or sets the weight of the item.
         /// </summary>

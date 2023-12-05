@@ -1,17 +1,21 @@
 ﻿using System;
 using NodaTime;
+using Athi.Whippet.Extensions;
+using Athi.Whippet.Extensions.Primitives;
+using Athi.Whippet.Adobe.Magento.Extensions;
 using Athi.Whippet.Adobe.Magento.Data;
 using Athi.Whippet.Adobe.Magento.Catalog.Products;
-using Athi.Whippet.Adobe.Magento.Catalog.Products.Extensions;
-using Athi.Whippet.Adobe.Magento.Sales.Addressing;
 using Athi.Whippet.Adobe.Magento.Catalog.Inventory.StockItems;
-using Athi.Whippet.Adobe.Magento.Catalog.Inventory.StockItems.Extensions;
-using Athi.Whippet.Adobe.Magento.Extensions;
+using Athi.Whippet.Adobe.Magento.Store;
+using Athi.Whippet.Adobe.Magento.Store.Extensions;
 using Athi.Whippet.Adobe.Magento.SalesRule;
+using Athi.Whippet.Adobe.Magento.Catalog.Inventory.StockItems.Extensions;
+using Athi.Whippet.Adobe.Magento.Catalog.Products.Extensions;
+using Athi.Whippet.Adobe.Magento.Extensions;
 using Athi.Whippet.Adobe.Magento.SalesRule.Extensions;
-using Athi.Whippet.Extensions.Primitives;
 using MagentoSalesRule = Athi.Whippet.Adobe.Magento.SalesRule.SalesRule;
 using MagentoGiftMessage = Athi.Whippet.Adobe.Magento.GiftMessage.GiftMessage;
+using MagentoStore = Athi.Whippet.Adobe.Magento.Store.Store;
 
 namespace Athi.Whippet.Adobe.Magento.Sales
 {
@@ -21,9 +25,9 @@ namespace Athi.Whippet.Adobe.Magento.Sales
     public class SalesOrderItem : MagentoRestEntity<SalesOrderItemInterface>, IMagentoEntity, ISalesOrderItem, IEqualityComparer<ISalesOrderItem>, IMagentoAuditableEntity, IMagentoRestEntity, IMagentoRestEntity<SalesOrderItemInterface>
     {
         private StockItem _item;
-        private StockItem _parentItem;
         private Product _product;
-        private SalesOrderAddress _billingAddress;
+        private SalesOrderItem _parentSalesOrderItem;
+        private MagentoStore _store;
         
         /// <summary>
         /// Gets or sets additional data.
@@ -54,7 +58,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
             }
             set
             {
-                AppliedRules = (value == null) ? null : value.Select(ar => ar.ToSalesRule());
+                AppliedRules = (value == null) ? null : AppliedRules.Select(ar => ar.ToSalesRule());
             }
         }
         
@@ -161,7 +165,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
 
         /// <summary>
-        /// Gets or setes the tax amount refunded in base currency.
+        /// Gets or sets the tax amount refunded in base currency.
         /// </summary>
         public virtual decimal TaxRefundedBase
         { get; set; }
@@ -239,7 +243,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
 
         /// <summary>
-        /// Specifies whether the item has free shipping.
+        /// Flag that specifies whether the item has free shipping. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>.
         /// </summary>
         public virtual bool FreeShipping
         { get; set; }
@@ -347,15 +351,15 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
 
         /// <summary>
-        /// Flag that indicates whether quantity is an <see cref="Int32"/> or <see cref="Decimal"/>. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>.
+        /// Specifies whether quantity is an <see cref="Int32"/> or <see cref="Decimal"/>.
         /// </summary>
-        public virtual int QuantityIsDecimal
+        public virtual bool QuantityIsDecimal
         { get; set; }
 
         /// <summary>
-        /// Flag that indicates whether the order item is virtual. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>.
+        /// Specifies whether the order item is virtual.
         /// </summary>
-        public virtual int IsVirtual
+        public virtual bool IsVirtual
         { get; set; }
 
         /// <summary>
@@ -396,13 +400,13 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         /// <summary>
         /// Flag that indicates whether the invoice is locked. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>.
         /// </summary>
-        public virtual int LockedInvoice
+        public virtual bool LockedInvoice
         { get; set; }
 
         /// <summary>
         /// Flag that indicates whether the shipping is locked. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>.
         /// </summary>
-        public virtual int LockedShipping
+        public virtual bool LockedShipping
         { get; set; }
 
         /// <summary>
@@ -414,7 +418,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         /// <summary>
         /// Flag that indicates whether there is no discount. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>.
         /// </summary>
-        public virtual int NoDiscount
+        public virtual bool NoDiscount
         { get; set; }
 
         /// <summary>
@@ -645,6 +649,41 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
 
         /// <summary>
+        /// Gets or sets the store that the sales order item is associated with.
+        /// </summary>
+        public virtual MagentoStore Store
+        {
+            get
+            {
+                if (_store == null)
+                {
+                    _store = new MagentoStore();
+                }
+
+                return _store;
+            }
+            set
+            {
+                _store = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the store that the sales order item is associated with.
+        /// </summary>
+        IStore ISalesOrderItem.Store
+        {
+            get
+            {
+                return Store;
+            }
+            set
+            {
+                Store = value.ToStore();
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the product options for the item.
         /// </summary>
         public virtual ProductOption ProductOption
@@ -732,9 +771,9 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         /// Gets or sets the gift wrap tax amount refunded.
         /// </summary>
         public virtual string _GiftWrapTaxAmountRefunded
-        { get; set; }
+        { get; set; }        
 
-                /// <summary>
+        /// <summary>
         /// Initializes a new instance of the <see cref="SalesOrderItem"/> class with no arguments.
         /// </summary>
         public SalesOrderItem()
@@ -795,7 +834,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
             {
                 equals = String.Equals(x.AdditionalData?.Trim(), y.AdditionalData?.Trim(), StringComparison.InvariantCultureIgnoreCase)
                          && x.AmountRefunded == y.AmountRefunded
-                         && (((x.AppliedRules == null) && (y.AppliedRules == null)) || ((x.AppliedRules != null) && x.AppliedRules.Equals(y.AppliedRules)))
+                         && (((x.AppliedRules == null) && (y.AppliedRules == null)) || ((x.AppliedRules != null) && x.AppliedRules.SequenceEqual(y.AppliedRules)))
                          && x.AmountRefundedBase == y.AmountRefundedBase
                          && x.CostBase == y.CostBase
                          && x.DiscountAmountBase == y.DiscountAmountBase
@@ -837,7 +876,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
                          && x.GiftWrapPrice == y.GiftWrapPrice
                          && x.GiftWrapPriceInvoiced == y.GiftWrapPriceInvoiced
                          && x.GiftWrapPriceRefunded == y.GiftWrapPriceRefunded
-                         && x.GiftWrapTaxAmount == y.GiftWrapTaxAmount
+                         && x.GiftWrapTaxAmount == y.GiftWrapTaxAmountBase
                          && x.GiftWrapTaxAmountInvoiced == y.GiftWrapTaxAmountInvoiced
                          && x.GiftWrapTaxAmountRefunded == y.GiftWrapTaxAmountRefunded
                          && x.DiscountTaxCompensationAmount == y.DiscountTaxCompensationAmount
@@ -849,6 +888,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
                          && (((x.Item == null) && (y.Item == null)) || ((x.Item != null) && x.Item.Equals(y.Item)))
                          && x.LockedInvoice == y.LockedInvoice
                          && x.LockedShipping == y.LockedShipping
+                         && String.Equals(x.Name?.Trim(), y.Name?.Trim(), StringComparison.InvariantCultureIgnoreCase)
                          && x.NoDiscount == y.NoDiscount
                          && x.OrderID == y.OrderID
                          && x.OriginalPrice == y.OriginalPrice
@@ -880,26 +920,26 @@ namespace Athi.Whippet.Adobe.Magento.Sales
                          && x.EcologicalTaxAmount == y.EcologicalTaxAmount
                          && x.EcologicalTaxRowAmount == y.EcologicalTaxRowAmount
                          && x.EcologicalTaxDisposition == y.EcologicalTaxDisposition
-                         && x.EcologicalTaxRowDisposition == y.EcologicalTaxRowDisposition
                          && x.Weight == y.Weight
-                         && (((x.ParentItem == null) && (y.ParentItem == null)) || ((x.ParentItem != null) && x.ParentItem.Equals(y.Product)))
+                         && (((x.ParentItem == null) && (y.ParentItem == null)) || ((x.ParentItem != null) && x.ParentItem.Equals(y.ParentItem)))
                          && x.ProductOption.Equals(y.ProductOption)
                          && x.GiftMessage.Equals(y.GiftMessage)
+                         && x.EcologicalTaxRowDisposition == y.EcologicalTaxRowDisposition
+                         && (((x.Store == null) && (y.Store == null)) || ((x.Store != null) && x.Store.Equals(y.Store)))
                          && String.Equals(x._GiftWrapID?.Trim(), y._GiftWrapID?.Trim(), StringComparison.InvariantCultureIgnoreCase)
                          && String.Equals(x._GiftWrapPriceBase?.Trim(), y._GiftWrapPriceBase?.Trim(), StringComparison.InvariantCultureIgnoreCase)
                          && String.Equals(x._GiftWrapPrice?.Trim(), y._GiftWrapPrice?.Trim(), StringComparison.InvariantCultureIgnoreCase)
                          && String.Equals(x._GiftWrapTaxAmountBase?.Trim(), y._GiftWrapTaxAmountBase?.Trim(), StringComparison.InvariantCultureIgnoreCase)
                          && String.Equals(x._GiftWrapTaxAmount?.Trim(), y._GiftWrapTaxAmount?.Trim(), StringComparison.InvariantCultureIgnoreCase)
                          && String.Equals(x._GiftWrapPriceInvoicedBase?.Trim(), y._GiftWrapPriceInvoicedBase?.Trim(), StringComparison.InvariantCultureIgnoreCase)
-                         && String.Equals(x._GiftWrapPriceInvoiced?.Trim(), y._GiftWrapPriceInvoiced?.Trim(), StringComparison.InvariantCultureIgnoreCase)
                          && String.Equals(x._GiftWrapTaxAmountInvoicedBase?.Trim(), y._GiftWrapTaxAmountInvoicedBase?.Trim(), StringComparison.InvariantCultureIgnoreCase)
                          && String.Equals(x._GiftWrapTaxAmountInvoiced?.Trim(), y._GiftWrapTaxAmountInvoiced?.Trim(), StringComparison.InvariantCultureIgnoreCase)
                          && String.Equals(x._GiftWrapPriceRefundedBase?.Trim(), y._GiftWrapPriceRefundedBase?.Trim(), StringComparison.InvariantCultureIgnoreCase)
                          && String.Equals(x._GiftWrapPriceRefunded?.Trim(), y._GiftWrapPriceRefunded?.Trim(), StringComparison.InvariantCultureIgnoreCase)
                          && String.Equals(x._GiftWrapTaxAmountRefundedBase?.Trim(), y._GiftWrapTaxAmountRefundedBase?.Trim(), StringComparison.InvariantCultureIgnoreCase)
                          && String.Equals(x._GiftWrapTaxAmountRefunded?.Trim(), y._GiftWrapTaxAmountRefunded?.Trim(), StringComparison.InvariantCultureIgnoreCase)
-                        && (((x.Server == null) && (y.Server == null)) || ((x.Server != null) && x.Server.Equals(y.Server)))
-                        && (((x.RestEndpoint == null) && (y.RestEndpoint == null)) || ((x.RestEndpoint != null) && x.RestEndpoint.Equals(y.RestEndpoint)));
+                         && (((x.Server == null) && (y.Server == null)) || ((x.Server != null) && x.Server.Equals(y.Server)))
+                         && (((x.RestEndpoint == null) && (y.RestEndpoint == null)) || ((x.RestEndpoint != null) && x.RestEndpoint.Equals(y.RestEndpoint)));
             }
 
             return equals;
@@ -915,7 +955,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
 
             item.AdditionalData = AdditionalData;
             item.AmountRefunded = AmountRefunded;
-            item.AppliedRuleIDs = (AppliedRules == null) ? String.Empty : AppliedRules.Select(ar => Convert.ToString(ar.ID)).Concat(",");
+            item.AppliedRuleIDs = (AppliedRules == null) ? String.Empty : AppliedRules.Select(ar => ar.ID.ToString()).Concat(",");
             item.AmountRefundedBase = AmountRefundedBase;
             item.CostBase = CostBase;
             item.DiscountAmountBase = DiscountAmountBase;
@@ -938,6 +978,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
             item.EcologicalTaxAppliedRowAmountBase = EcologicalTaxAppliedRowAmountBase;
             item.EcologicalTaxDispositionBase = EcologicalTaxDispositionBase;
             item.EcologicalTaxRowDispositionBase = EcologicalTaxRowDispositionBase;
+            item.EcologicalTaxRowDisposition = EcologicalTaxRowDisposition;
             item.CreatedAt = CreatedTimestamp.ToDateTimeUtc().ToString();
             item.Description = Description;
             item.DiscountAmount = DiscountAmount;
@@ -964,18 +1005,19 @@ namespace Athi.Whippet.Adobe.Magento.Sales
             item.DiscountTaxCompensationCanceled = DiscountTaxCompensationCanceled;
             item.DiscountTaxCompensationInvoiced = DiscountTaxCompensationInvoiced;
             item.DiscountTaxCompensationRefunded = DiscountTaxCompensationRefunded;
-            item.QuantityIsDecimal = QuantityIsDecimal;
-            item.IsVirtual = IsVirtual;
-            item.ItemID = (Item == null) ? default(int) : Item.ItemID;
-            item.LockedInvoice = LockedInvoice;
-            item.LockedShipping = LockedShipping;
-            item.NoDiscount = NoDiscount;
+            item.QuantityIsDecimal = QuantityIsDecimal.ToMagentoBoolean();
+            item.IsVirtual = IsVirtual.ToMagentoBoolean();
+            item.ItemID = Item.ItemID;
+            item.LockedInvoice = LockedInvoice.ToMagentoBoolean();
+            item.LockedShipping = LockedShipping.ToMagentoBoolean();
+            item.Name = Name;
+            item.NoDiscount = NoDiscount.ToMagentoBoolean();
             item.OrderID = OrderID;
             item.OriginalPrice = OriginalPrice;
             item.ParentItemID = ParentItemID;
             item.Price = Price;
             item.PriceWithTax = PriceWithTax;
-            item.ProductID = (Product == null) ? default(int) : Product.ID;
+            item.ProductID = Product.ID;
             item.ProductType = ProductType.Name;
             item.QuantityBackordered = QuantityBackordered;
             item.QuantityCanceled = QuantityCanceled;
@@ -989,37 +1031,39 @@ namespace Athi.Whippet.Adobe.Magento.Sales
             item.RowTotal = RowTotal;
             item.RowTotalWithTax = RowTotalWithTax;
             item.RowWeight = RowWeight;
+            item.SKU = Product.SKU;
+            item.StoreID = Store.ID;
             item.TaxAmount = TaxAmount;
             item.TaxBeforeDiscount = TaxBeforeDiscount;
             item.TaxCanceled = TaxCanceled;
             item.TaxInvoiced = TaxInvoiced;
             item.TaxPercent = TaxPercent;
             item.TaxRefunded = TaxRefunded;
-            item.UpdatedAt = UpdatedTimestamp.HasValue ? String.Empty : UpdatedTimestamp.Value.ToDateTimeUtc().ToString();
+            item.UpdatedAt = UpdatedTimestamp.HasValue ? UpdatedTimestamp.Value.ToDateTimeUtc().ToString() : String.Empty;
             item.EcologicalTaxApplied = EcologicalTaxApplied;
             item.EcologicalTaxAmount = EcologicalTaxAmount;
             item.EcologicalTaxRowAmount = EcologicalTaxRowAmount;
             item.EcologicalTaxDisposition = EcologicalTaxDisposition;
             item.EcologicalTaxRowDisposition = EcologicalTaxRowDisposition;
             item.Weight = Weight;
-            item.ParentItemID = (ParentItem == null) ? default(int) : ParentItem.ID;
+            item.ParentItem = (ParentItem == null) ? null : ParentItem.ToInterface();
             item.ProductOption = ProductOption.ToInterface();
             item.ExtensionAttributes = new SalesOrderItemExtensionInterface();
             item.ExtensionAttributes.GiftMessage = GiftMessage.ToInterface();
             item.ExtensionAttributes.GiftWrapID = _GiftWrapID;
-            item.ExtensionAttributes.GiftWrapPriceBase = _GiftWrapPriceBase;
             item.ExtensionAttributes.GiftWrapPrice = _GiftWrapPrice;
+            item.ExtensionAttributes.GiftWrapPriceBase = _GiftWrapPriceBase;
             item.ExtensionAttributes.GiftWrapTaxAmountBase = _GiftWrapTaxAmountBase;
-            item.ExtensionAttributes.GiftWrapTaxAmountBase = _GiftWrapTaxAmountBase;
-            item.ExtensionAttributes.GiftWrapInvoicedPriceBase = _GiftWrapPriceInvoicedBase;
+            item.ExtensionAttributes.GiftWrapTaxAmount = _GiftWrapTaxAmount;
             item.ExtensionAttributes.GiftWrapInvoicedPrice = _GiftWrapPriceInvoiced;
-            item.ExtensionAttributes.GiftWrapInvoicedTaxAmountBase = _GiftWrapTaxAmountInvoicedBase;
+            item.ExtensionAttributes.GiftWrapInvoicedPriceBase = _GiftWrapPriceInvoicedBase;
             item.ExtensionAttributes.GiftWrapInvoicedTaxAmount = _GiftWrapTaxAmountInvoiced;
-            item.ExtensionAttributes.GiftWrapRefundedPriceBase = _GiftWrapPriceRefundedBase;
+            item.ExtensionAttributes.GiftWrapInvoicedTaxAmountBase = _GiftWrapTaxAmountInvoicedBase;
             item.ExtensionAttributes.GiftWrapRefundedPrice = _GiftWrapPriceRefunded;
-            item.ExtensionAttributes.GiftWrapRefundedTaxAmountBase = _GiftWrapTaxAmountRefundedBase;
+            item.ExtensionAttributes.GiftWrapRefundedPriceBase = _GiftWrapPriceRefundedBase;
             item.ExtensionAttributes.GiftWrapRefundedTaxAmount = _GiftWrapTaxAmountRefunded;
-            
+            item.ExtensionAttributes.GiftWrapRefundedTaxAmountBase = _GiftWrapTaxAmountRefundedBase;
+
             return item;
         }
 
@@ -1056,6 +1100,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
             item.EcologicalTaxAppliedRowAmountBase = EcologicalTaxAppliedRowAmountBase;
             item.EcologicalTaxDispositionBase = EcologicalTaxDispositionBase;
             item.EcologicalTaxRowDispositionBase = EcologicalTaxRowDispositionBase;
+            item.EcologicalTaxRowDisposition = EcologicalTaxRowDisposition;
             item.CreatedTimestamp = CreatedTimestamp;
             item.Description = Description;
             item.DiscountAmount = DiscountAmount;
@@ -1084,16 +1129,17 @@ namespace Athi.Whippet.Adobe.Magento.Sales
             item.DiscountTaxCompensationRefunded = DiscountTaxCompensationRefunded;
             item.QuantityIsDecimal = QuantityIsDecimal;
             item.IsVirtual = IsVirtual;
-            item.Item = (Item == null) ? null : Item.Clone<StockItem>();
+            item.Item = Item.Clone<StockItem>();
             item.LockedInvoice = LockedInvoice;
             item.LockedShipping = LockedShipping;
+            item.Name = Name;
             item.NoDiscount = NoDiscount;
             item.OrderID = OrderID;
             item.OriginalPrice = OriginalPrice;
             item.ParentItemID = ParentItemID;
             item.Price = Price;
             item.PriceWithTax = PriceWithTax;
-            item.Product = (Product == null) ? null : Product.Clone<Product>();
+            item.Product = Product.Clone<Product>();
             item.ProductType = ProductType;
             item.QuantityBackordered = QuantityBackordered;
             item.QuantityCanceled = QuantityCanceled;
@@ -1107,6 +1153,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
             item.RowTotal = RowTotal;
             item.RowTotalWithTax = RowTotalWithTax;
             item.RowWeight = RowWeight;
+            item.Store = Store.Clone<MagentoStore>();
             item.TaxAmount = TaxAmount;
             item.TaxBeforeDiscount = TaxBeforeDiscount;
             item.TaxCanceled = TaxCanceled;
@@ -1120,22 +1167,22 @@ namespace Athi.Whippet.Adobe.Magento.Sales
             item.EcologicalTaxDisposition = EcologicalTaxDisposition;
             item.EcologicalTaxRowDisposition = EcologicalTaxRowDisposition;
             item.Weight = Weight;
-            item.ParentItemID = (ParentItem == null) ? default(int) : ParentItem.ID;
+            item.ParentItem = (ParentItem == null) ? null : ParentItem.Clone<SalesOrderItem>();
             item.ProductOption = ProductOption;
             item.GiftMessage = GiftMessage;
             item._GiftWrapID = _GiftWrapID;
-            item._GiftWrapPriceBase = _GiftWrapPriceBase;
             item._GiftWrapPrice = _GiftWrapPrice;
+            item._GiftWrapPriceBase = _GiftWrapPriceBase;
             item._GiftWrapTaxAmountBase = _GiftWrapTaxAmountBase;
-            item._GiftWrapTaxAmountBase = _GiftWrapTaxAmountBase;
-            item._GiftWrapPriceInvoicedBase = _GiftWrapPriceInvoicedBase;
+            item._GiftWrapTaxAmount = _GiftWrapTaxAmount;
             item._GiftWrapPriceInvoiced = _GiftWrapPriceInvoiced;
-            item._GiftWrapTaxAmountInvoicedBase = _GiftWrapTaxAmountInvoicedBase;
+            item._GiftWrapPriceInvoicedBase = _GiftWrapPriceInvoicedBase;
             item._GiftWrapTaxAmountInvoiced = _GiftWrapTaxAmountInvoiced;
-            item._GiftWrapPriceRefundedBase = _GiftWrapPriceRefundedBase;
+            item._GiftWrapTaxAmountInvoicedBase = _GiftWrapTaxAmountInvoicedBase;
             item._GiftWrapPriceRefunded = _GiftWrapPriceRefunded;
-            item._GiftWrapTaxAmountRefundedBase = _GiftWrapTaxAmountRefundedBase;
+            item._GiftWrapPriceRefundedBase = _GiftWrapPriceRefundedBase;
             item._GiftWrapTaxAmountRefunded = _GiftWrapTaxAmountRefunded;
+            item._GiftWrapTaxAmountRefundedBase = _GiftWrapTaxAmountRefundedBase;            
             
             return item;
         }
@@ -1148,9 +1195,9 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         {
             HashCode hash = new HashCode();
 
-            hash.Add(AdditionalData);
-            hash.Add(AmountRefunded);
-            hash.Add(AppliedRules);
+            hash.Add(AdditionalData); 
+            hash.Add(AmountRefunded); 
+            hash.Add(AppliedRules); 
             hash.Add(AmountRefundedBase);
             hash.Add(CostBase);
             hash.Add(DiscountAmountBase);
@@ -1173,6 +1220,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
             hash.Add(EcologicalTaxAppliedRowAmountBase);
             hash.Add(EcologicalTaxDispositionBase);
             hash.Add(EcologicalTaxRowDispositionBase);
+            hash.Add(EcologicalTaxRowDisposition);
             hash.Add(CreatedTimestamp);
             hash.Add(Description);
             hash.Add(DiscountAmount);
@@ -1201,9 +1249,10 @@ namespace Athi.Whippet.Adobe.Magento.Sales
             hash.Add(DiscountTaxCompensationRefunded);
             hash.Add(QuantityIsDecimal);
             hash.Add(IsVirtual);
-            hash.Add(Item);
+            hash.Add(Item); 
             hash.Add(LockedInvoice);
             hash.Add(LockedShipping);
+            hash.Add(Name);
             hash.Add(NoDiscount);
             hash.Add(OrderID);
             hash.Add(OriginalPrice);
@@ -1224,6 +1273,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
             hash.Add(RowTotal);
             hash.Add(RowTotalWithTax);
             hash.Add(RowWeight);
+            hash.Add(Store);
             hash.Add(TaxAmount);
             hash.Add(TaxBeforeDiscount);
             hash.Add(TaxCanceled);
@@ -1236,24 +1286,24 @@ namespace Athi.Whippet.Adobe.Magento.Sales
             hash.Add(EcologicalTaxRowAmount);
             hash.Add(EcologicalTaxDisposition);
             hash.Add(EcologicalTaxRowDisposition);
-            hash.Add(Weight);;
-            hash.Add(ParentItemID);
+            hash.Add(Weight);
+            hash.Add(ParentItem);
             hash.Add(ProductOption);
             hash.Add(GiftMessage);
             hash.Add(_GiftWrapID);
-            hash.Add(_GiftWrapPriceBase);
             hash.Add(_GiftWrapPrice);
+            hash.Add(_GiftWrapPriceBase);
             hash.Add(_GiftWrapTaxAmountBase);
-            hash.Add(_GiftWrapTaxAmountBase);
-            hash.Add(_GiftWrapPriceInvoicedBase);
+            hash.Add(_GiftWrapTaxAmount);
             hash.Add(_GiftWrapPriceInvoiced);
-            hash.Add(_GiftWrapTaxAmountInvoicedBase);
+            hash.Add(_GiftWrapPriceInvoicedBase);
             hash.Add(_GiftWrapTaxAmountInvoiced);
-            hash.Add(_GiftWrapPriceRefundedBase);
+            hash.Add(_GiftWrapTaxAmountInvoicedBase);
             hash.Add(_GiftWrapPriceRefunded);
-            hash.Add(_GiftWrapTaxAmountRefundedBase);
+            hash.Add(_GiftWrapPriceRefundedBase);
             hash.Add(_GiftWrapTaxAmountRefunded);
-
+            hash.Add(_GiftWrapTaxAmountRefundedBase);            
+            
             return hash.ToHashCode();
         }
 
@@ -1275,38 +1325,125 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         /// <param name="model"><see cref="IExtensionInterface"/> object to construct the current instance from.</param>
         protected override void ImportFromModel(SalesOrderItemInterface model)
         {
+            string[] appliedRuleIds = null;
+            
             if (model != null)
             {
-                ID = model.ID;
-                Name = model.Name;
-                StoreLabels = (model.StoreLabels == null) ? null : model.StoreLabels.Select(s => new SalesOrderItemLabel(s));
+                appliedRuleIds = !String.IsNullOrWhiteSpace(model.AppliedRuleIDs) ? model.AppliedRuleIDs.Split(new char[] { ',' }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries) : null;
+                
+                AdditionalData = model.AdditionalData;
+                AmountRefunded = model.AmountRefunded;
+                AppliedRules = (appliedRuleIds == null || appliedRuleIds.Length < 1) ? null : appliedRuleIds.Select(rid => new MagentoSalesRule(Convert.ToUInt32(rid)));
+                AmountRefundedBase = model.AmountRefundedBase;
+                CostBase = model.CostBase;
+                DiscountAmountBase = model.DiscountAmountBase;
+                DiscountInvoicedBase = model.DiscountInvoicedBase;
+                DiscountRefundedBase = model.DiscountRefundedBase;
+                DiscountTaxCompensationAmountBase = model.DiscountTaxCompensationAmountBase;
+                DiscountTaxCompensationInvoicedBase = model.DiscountTaxCompensationInvoicedBase;
+                DiscountTaxCompensationRefundedBase = model.DiscountTaxCompensationRefundedBase;
+                OriginalPriceBase = model.OriginalPriceBase;
+                PriceBase = model.PriceBase;
+                PriceWithTaxBase = model.PriceWithTaxBase;
+                RowInvoicedBase = model.RowInvoicedBase;
+                RowTotalBase = model.RowTotalBase;
+                RowTotalWithTaxBase = model.RowTotalWithTaxBase;
+                TaxAmountBase = model.TaxAmountBase;
+                TaxBeforeDiscountBase = model.TaxBeforeDiscountBase;
+                TaxInvoicedBase = model.TaxInvoicedBase;
+                TaxRefundedBase = model.TaxRefundedBase;
+                EcologicalTaxAppliedAmountBase = model.EcologicalTaxAppliedAmountBase;
+                EcologicalTaxAppliedRowAmountBase = model.EcologicalTaxAppliedRowAmountBase;
+                EcologicalTaxDispositionBase = model.EcologicalTaxDispositionBase;
+                EcologicalTaxRowDispositionBase = model.EcologicalTaxRowDispositionBase;
+                EcologicalTaxRowDisposition = model.EcologicalTaxRowDisposition;
+                CreatedTimestamp = Instant.FromDateTimeUtc(DateTime.Parse(model.CreatedAt).ToUniversalTime(true));
                 Description = model.Description;
-                Websites = (model.WebsiteIDs == null) ? null : model.WebsiteIDs.Select(w => new StoreWebsite(Convert.ToUInt32(w)));
-                CustomerGroups = (model.CustomerGroupIDs == null) ? null : model.CustomerGroupIDs.Select(c => new CustomerGroup(Convert.ToUInt32(c)));
-                EffectiveDate = String.IsNullOrWhiteSpace(model.EffectiveDate) ? null : Instant.FromDateTimeUtc(DateTime.Parse(model.EffectiveDate).ToUniversalTime(true));
-                ExpirationDate = String.IsNullOrWhiteSpace(model.ExpirationDate) ? null : Instant.FromDateTimeUtc(DateTime.Parse(model.ExpirationDate).ToUniversalTime(true));
-                UsesPerCustomer = model.UsesPerCustomer;
-                Active = model.Active;
-                Condition = (model.Condition == null) ? null : new SalesOrderItemCondition(model.Condition);
-                ActionCondition = (model.ActionCondition == null) ? null : new SalesOrderItemCondition(model.ActionCondition);
-                StopRulesProcessing = model.StopRulesProcessing;
-                IsAdvanced = model.IsAdvanced;
-                ProductIDs = model.ProductIDs;
-                SortOrder = model.SortOrder;
-                SimpleAction = model.SimpleAction;
                 DiscountAmount = model.DiscountAmount;
-                DiscountQuantity = model.DiscountQuantity;
-                Step = model.DiscountStep;
-                AppliesToShipping = model.ApplyToShipping;
-                TimesUsed = model.TimesUsed;
-                IsRSS = model.IsRSS;
-                CouponType = model.CouponType;
-                AutoGenerateCoupon = model.UseAutoGeneration;
-                UsesPerCoupon = model.UsesPerCoupon;
-                SimpleFreeShipping = model.SimpleFreeShipping;
-                RewardPointsDelta = (model.ExtensionAttributes == null) ? default(int) : model.ExtensionAttributes.RewardPointsDelta;
+                DiscountInvoiced = model.DiscountInvoiced;
+                DiscountPercent = model.DiscountPercent;
+                DiscountRefunded = model.DiscountRefunded;
+                EventID = model.EventID;
+                ExternalItemID = model.ExternalItemID;
+                FreeShipping = model.FreeShipping.FromMagentoBoolean();
+                GiftWrapPriceBase = model.GiftWrapPriceBase;
+                GiftWrapPriceInvoicedBase = model.GiftWrapPriceInvoicedBase;
+                GiftWrapPriceRefundedBase = model.GiftWrapPriceRefundedBase;
+                GiftWrapTaxAmountBase = model.GiftWrapTaxAmountBase;
+                GiftWrapTaxAmountInvoicedBase = model.GiftWrapTaxAmountInvoicedBase;
+                GiftWrapTaxAmountRefundedBase = model.GiftWrapTaxAmountRefundedBase;
+                GiftWrapID = model.GiftWrapID;
+                GiftWrapPrice = model.GiftWrapPrice;
+                GiftWrapPriceInvoiced = model.GiftWrapPriceInvoiced;
+                GiftWrapPriceRefunded = model.GiftWrapPriceRefunded;
+                GiftWrapTaxAmount = model.GiftWrapTaxAmount;
+                GiftWrapTaxAmountInvoiced = model.GiftWrapTaxAmountInvoiced;
+                GiftWrapTaxAmountRefunded = model.GiftWrapTaxAmountRefunded;
+                DiscountTaxCompensationAmount = model.DiscountTaxCompensationAmount;
+                DiscountTaxCompensationCanceled = model.DiscountTaxCompensationCanceled;
+                DiscountTaxCompensationInvoiced = model.DiscountTaxCompensationInvoiced;
+                DiscountTaxCompensationRefunded = model.DiscountTaxCompensationRefunded;
+                QuantityIsDecimal = model.QuantityIsDecimal.FromMagentoBoolean();
+                IsVirtual = model.IsVirtual.FromMagentoBoolean();
+                Item = new StockItem(Convert.ToUInt32(model.ItemID));
+                LockedInvoice = model.LockedInvoice.FromMagentoBoolean();
+                LockedShipping = model.LockedShipping.FromMagentoBoolean();
+                Name = model.Name;
+                NoDiscount = model.NoDiscount.FromMagentoBoolean();
+                OrderID = model.OrderID;
+                OriginalPrice = model.OriginalPrice;
+                ParentItemID = model.ParentItemID;
+                Price = model.Price;
+                PriceWithTax = model.PriceWithTax;
+                Product = new Product(Convert.ToUInt32(model.ProductID));
+                ProductType = new ProductType(model.ProductType, String.Empty);
+                QuantityBackordered = model.QuantityBackordered;
+                QuantityCanceled = model.QuantityCanceled;
+                QuantityInvoiced = model.QuantityInvoiced;
+                QuantityOrdered = model.QuantityOrdered;
+                QuantityRefunded = model.QuantityRefunded;
+                QuantityReturned = model.QuantityReturned;
+                QuantityShipped = model.QuantityShipped;
+                QuoteItemID = model.QuoteItemID;
+                RowInvoiced = model.RowInvoiced;
+                RowTotal = model.RowTotal;
+                RowTotalWithTax = model.RowTotalWithTax;
+                RowWeight = model.RowWeight;
+                Store = new MagentoStore(Convert.ToUInt32(model.StoreID));
+                TaxAmount = model.TaxAmount;
+                TaxBeforeDiscount = model.TaxBeforeDiscount;
+                TaxCanceled = model.TaxCanceled;
+                TaxInvoiced = model.TaxInvoiced;
+                TaxPercent = model.TaxPercent;
+                TaxRefunded = model.TaxRefunded;
+                UpdatedTimestamp = String.IsNullOrWhiteSpace(model.UpdatedAt) ? null : Instant.FromDateTimeUtc(DateTime.Parse(model.UpdatedAt).ToUniversalTime(true));
+                EcologicalTaxApplied = model.EcologicalTaxApplied;
+                EcologicalTaxAmount = model.EcologicalTaxAmount;
+                EcologicalTaxRowAmount = model.EcologicalTaxRowAmount;
+                EcologicalTaxDisposition = model.EcologicalTaxDisposition;
+                EcologicalTaxRowDisposition = model.EcologicalTaxRowDisposition;
+                Weight = model.Weight;
+                ParentItem = (model.ParentItem == null) ? null : new SalesOrderItem(model.ParentItem);
+                ProductOption = new ProductOption(model.ProductOption);
+
+                if (model.ExtensionAttributes != null)
+                {
+                    GiftMessage = new MagentoGiftMessage(model.ExtensionAttributes.GiftMessage);
+                    _GiftWrapID = model.ExtensionAttributes.GiftWrapID;
+                    _GiftWrapPrice = model.ExtensionAttributes.GiftWrapPrice;
+                    _GiftWrapPriceBase = model.ExtensionAttributes.GiftWrapPriceBase;
+                    _GiftWrapTaxAmountBase = model.ExtensionAttributes.GiftWrapTaxAmountBase;
+                    _GiftWrapTaxAmount = model.ExtensionAttributes.GiftWrapTaxAmount;
+                    _GiftWrapPriceInvoiced = model.ExtensionAttributes.GiftWrapInvoicedPrice;
+                    _GiftWrapPriceInvoicedBase = model.ExtensionAttributes.GiftWrapInvoicedPriceBase;
+                    _GiftWrapTaxAmountInvoiced = model.ExtensionAttributes.GiftWrapInvoicedTaxAmount;
+                    _GiftWrapTaxAmountInvoicedBase = model.ExtensionAttributes.GiftWrapInvoicedTaxAmountBase;
+                    _GiftWrapPriceRefunded = model.ExtensionAttributes.GiftWrapRefundedPrice;
+                    _GiftWrapPriceRefundedBase = model.ExtensionAttributes.GiftWrapRefundedPriceBase;
+                    _GiftWrapTaxAmountRefunded = model.ExtensionAttributes.GiftWrapRefundedTaxAmount;
+                    _GiftWrapTaxAmountRefundedBase = model.ExtensionAttributes.GiftWrapRefundedTaxAmountBase;
+                }
             }
         }
-
     }
 }
