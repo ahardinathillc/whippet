@@ -454,7 +454,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         /// Gets or sets the discount description.
         /// </summary>
         [JsonProperty("discount_description")]
-        public decimal DiscountDescription
+        public string DiscountDescription
         { get; set; }
 
         /// <summary>

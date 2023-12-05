@@ -35,12 +35,18 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the taxes that were applied to the order on a per item basis.
+        /// Gets or sets the taxes that were applied to the order.
         /// </summary>
         [JsonProperty("item_applied_taxes")]
         public SalesOrderAppliedTaxInterface[] AppliedTaxes
         { get; set; }
 
+        /// <summary>
+        /// Gets or sets the taxes that were applied to the order on a per item basis.
+        /// </summary>
+        public SalesOrderItemTaxDetailsInterface[] ItemAppliedTaxes
+        { get; set; }
+        
         /// <summary>
         /// Specifies whether the order is being converted from a quote.
         /// </summary>

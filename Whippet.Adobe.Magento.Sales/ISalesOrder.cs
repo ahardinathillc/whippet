@@ -9,6 +9,7 @@ using Athi.Whippet.Adobe.Magento.Payment;
 using Athi.Whippet.Adobe.Magento.Sales.Addressing;
 using Athi.Whippet.Adobe.Magento.Sales.Taxes;
 using Athi.Whippet.Adobe.Magento.Store;
+using Athi.Whippet.Adobe.Magento.Taxes;
 using MagentoGiftMessage = Athi.Whippet.Adobe.Magento.GiftMessage.GiftMessage;
 
 namespace Athi.Whippet.Adobe.Magento.Sales
@@ -746,7 +747,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         /// <summary>
         /// Gets or sets the order's applied taxes.
         /// </summary>
-        IEnumerable<SalesOrderItemTaxDetails> Taxes
+        IEnumerable<SalesOrderAppliedTax> Taxes
         { get; set; }
         
         /// <summary>
