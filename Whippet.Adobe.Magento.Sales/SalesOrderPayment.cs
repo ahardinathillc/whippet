@@ -501,7 +501,11 @@ namespace Athi.Whippet.Adobe.Magento.Sales
                          && x.QuotePaymentID == y.QuotePaymentID
                          && x.ShippingAmount == y.ShippingAmount
                          && x.ShippingCaptured == y.ShippingCaptured
-                         && x.ShippingRefunded == y.ShippingRefunded;
+                         && x.ShippingRefunded == y.ShippingRefunded
+                         && String.Equals(x.CreditCardIdentificationVerificationStatus?.Trim(), y.CreditCardIdentificationVerificationStatus?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x.NotificationMessage?.Trim(), y.NotificationMessage?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && (((x.PaymentToken == null) && (y.PaymentToken == null)) || ((x.PaymentToken == null) && x.PaymentToken.Equals(y.PaymentToken)));
+
             }
 
             return equals;

@@ -4,12 +4,18 @@ using NodaTime;
 using Athi.Whippet.Adobe.Magento.Customer;
 using Athi.Whippet.Adobe.Magento.Data;
 using Athi.Whippet.Adobe.Magento.SalesRule;
-using Athi.Whippet.Adobe.Magento.Customer.Addressing;
-using Athi.Whippet.Adobe.Magento.Customer.Addressing.Extensions;
+using Athi.Whippet.Adobe.Magento.Customer.Extensions;
 using Athi.Whippet.Adobe.Magento.GiftCard;
+using Athi.Whippet.Adobe.Magento.GiftCard.Extensions;
 using Athi.Whippet.Adobe.Magento.Payment;
 using Athi.Whippet.Adobe.Magento.Sales.Addressing;
+using Athi.Whippet.Adobe.Magento.Sales.Addressing.Extensions;
+using Athi.Whippet.Adobe.Magento.Sales.Extensions;
 using Athi.Whippet.Adobe.Magento.Sales.Taxes;
+using Athi.Whippet.Adobe.Magento.SalesRule.Extensions;
+using Athi.Whippet.Adobe.Magento.Store;
+using Athi.Whippet.Adobe.Magento.Store.Extensions;
+using MagentoSalesRule = Athi.Whippet.Adobe.Magento.SalesRule.SalesRule;
 using MagentoCustomer = Athi.Whippet.Adobe.Magento.Customer.Customer;
 using MagentoStore = Athi.Whippet.Adobe.Magento.Store.Store;
 using MagentoGiftCard = Athi.Whippet.Adobe.Magento.GiftCard.GiftCard;
@@ -42,10 +48,25 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the applied rule IDs.
+        /// Gets or sets the applied rules.
         /// </summary>
-        public virtual IEnumerable<ISalesRule> AppliedRuleIDs
+        public virtual IEnumerable<MagentoSalesRule> AppliedRules
         { get; set; }
+
+        /// <summary>
+        /// Gets or sets the applied rules.
+        /// </summary>
+        IEnumerable<ISalesRule> ISalesOrder.AppliedRules
+        {
+            get
+            {
+                return AppliedRules;
+            }
+            set
+            {
+                AppliedRules = (value == null) ? null : AppliedRules.Select(ar => ar.ToSalesRule());
+            }
+        }
 
         /// <summary>
         /// Gets or sets the negative adjustment value in base currency.
@@ -326,6 +347,21 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         }
 
         /// <summary>
+        /// Gets or sets the customer group.
+        /// </summary>
+        ICustomerGroup ISalesOrder.CustomerGroup
+        {
+            get
+            {
+                return CustomerGroup;
+            }
+            set
+            {
+                CustomerGroup = value.ToCustomerGroup();
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the customer associated with the order.
         /// </summary>
         public virtual MagentoCustomer Customer
@@ -342,6 +378,21 @@ namespace Athi.Whippet.Adobe.Magento.Sales
             set
             {
                 _customer = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the customer associated with the order.
+        /// </summary>
+        ICustomer ISalesOrder.Customer
+        {
+            get
+            {
+                return Customer;
+            }
+            set
+            {
+                Customer = value.ToCustomer();
             }
         }
         
@@ -526,6 +577,21 @@ namespace Athi.Whippet.Adobe.Magento.Sales
                 _quoteAddress = value;
             }
         }
+
+        /// <summary>
+        /// Gets or sets the quote address.
+        /// </summary>
+        ISalesOrderAddress ISalesOrder.QuoteAddress
+        {
+            get
+            {
+                return QuoteAddress;
+            }
+            set
+            {
+                QuoteAddress = value.ToSalesOrderAddress();
+            }
+        }
         
         /// <summary>
         /// Gets or sets the quote ID.
@@ -634,6 +700,21 @@ namespace Athi.Whippet.Adobe.Magento.Sales
             set
             {
                 _store = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the store the order is associated with.
+        /// </summary>
+        IStore ISalesOrder.Store
+        {
+            get
+            {
+                return Store;
+            }
+            set
+            {
+                Store = value.ToStore();
             }
         }
         
@@ -782,6 +863,21 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
 
         /// <summary>
+        /// Gets or sets the items associated with the order.
+        /// </summary>
+        IEnumerable<ISalesOrderItem> ISalesOrder.Items
+        {
+            get
+            {
+                return Items;
+            }
+            set
+            {
+                Items = (value == null) ? null : value.Select(i => i.ToSalesOrderItem());
+            }
+        }
+        
+        /// <summary>
         /// Gets or sets the billing address associated with the order.
         /// </summary>
         /// <remarks>An order is a document that a web store issues to a customer. Magento generates a sales order that lists the product items, billing and shipping addresses, and shipping and payment methods. A corresponding external document, known as a purchase order, is emailed to the customer.</remarks>
@@ -799,6 +895,22 @@ namespace Athi.Whippet.Adobe.Magento.Sales
             set
             {
                 _billingAddress = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the billing address associated with the order.
+        /// </summary>
+        /// <remarks>An order is a document that a web store issues to a customer. Magento generates a sales order that lists the product items, billing and shipping addresses, and shipping and payment methods. A corresponding external document, known as a purchase order, is emailed to the customer.</remarks>
+        ISalesOrderAddress ISalesOrder.BillingAddress
+        {
+            get
+            {
+                return BillingAddress;
+            }
+            set
+            {
+                BillingAddress = value.ToSalesOrderAddress();
             }
         }
 
@@ -823,6 +935,22 @@ namespace Athi.Whippet.Adobe.Magento.Sales
             }
         }
 
+        /// <summary>
+        /// Gets or sets the payment information for the order.
+        /// </summary>
+        /// <remarks>An order is a document that a web store issues to a customer. Magento generates a sales order that lists the product items, billing and shipping addresses, and shipping and payment methods. A corresponding external document, known as a purchase order, is emailed to the customer.</remarks>
+        ISalesOrderPayment ISalesOrder.Payment
+        {
+            get
+            {
+                return Payment;
+            }
+            set
+            {
+                Payment = value.ToSalesOrderPayment();
+            }
+        }
+        
         /// <summary>
         /// Gets or sets the status histories of the current order.
         /// </summary>
@@ -914,6 +1042,21 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
 
         /// <summary>
+        /// Gets or sets the gift cards associated with the order.
+        /// </summary>
+        IEnumerable<IGiftCard> ISalesOrder.GiftCards
+        {
+            get
+            {
+                return GiftCards;
+            }
+            set
+            {
+                GiftCards = (value == null) ? null : value.Select(gc => gc.ToGiftCard());
+            }
+        }
+        
+        /// <summary>
         /// Gets or sets the gift cards total amount in base currency.
         /// </summary>
         public virtual decimal BaseGiftCardsAmount
@@ -955,7 +1098,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         public virtual MagentoGiftMessage GiftMessage
         { get; set; }
 
-                /// <summary>
+        /// <summary>
         /// Gets or sets the gift wrap ID.
         /// </summary>
         public virtual string _GiftWrapID
@@ -1117,11 +1260,163 @@ namespace Athi.Whippet.Adobe.Magento.Sales
             if (!equals && (x != null) && (y != null))
             {
                 equals = x.ID == y.ID
-                            && String.Equals(x.Code?.Trim(), y.Code?.Trim(), StringComparison.InvariantCultureIgnoreCase)
-                            && x.Amount == y.Amount
-                            && x.BaseAmount == y.BaseAmount
-                            && (((x.Server == null) && (y.Server == null)) || ((x.Server != null) && x.Server.Equals(y.Server)))
-                            && (((x.RestEndpoint == null) && (y.RestEndpoint == null)) || ((x.RestEndpoint != null) && x.RestEndpoint.Equals(y.RestEndpoint)));
+                         && x.NegativeAdjustment == y.NegativeAdjustment
+                         && x.PositiveAdjustment == y.PositiveAdjustment
+                         && (((x.AppliedRules == null) && (y.AppliedRules == null)) || ((x.AppliedRules != null) && x.AppliedRules.SequenceEqual(y.AppliedRules)))
+                         && x.NegativeAdjustmentBase == y.NegativeAdjustmentBase
+                         && x.PositiveAdjustmentBase == y.PositiveAdjustmentBase
+                         && x.BaseCurrencyCode == y.BaseCurrencyCode
+                         && x.DiscountAmountBase == y.DiscountAmountBase
+                         && x.DiscountCanceledBase == y.DiscountCanceledBase
+                         && x.DiscountInvoicedBase == y.DiscountInvoicedBase
+                         && x.DiscountRefundedBase == y.DiscountRefundedBase
+                         && x.GrandTotalBase == y.GrandTotalBase
+                         && x.DiscountTaxCompensationAmountBase == y.DiscountTaxCompensationAmountBase
+                         && x.DiscountTaxCompensationInvoicedBase == y.DiscountTaxCompensationInvoicedBase
+                         && x.DiscountTaxCompensationRefundedBase == y.DiscountTaxCompensationRefundedBase
+                         && x.ShippingAmountBase == y.ShippingAmountBase
+                         && x.ShippingCanceledBase == y.ShippingCanceledBase
+                         && x.ShippingDiscountAmountBase == y.ShippingDiscountAmountBase
+                         && x.ShippingDiscountTaxCompensationAmountBase == y.ShippingDiscountTaxCompensationAmountBase
+                         && x.ShippingWithTaxBase == y.ShippingWithTaxBase
+                         && x.ShippingInvoicedBase == y.ShippingInvoicedBase
+                         && x.ShippingRefundedBase == y.ShippingRefundedBase
+                         && x.ShippingTaxAmountBase == y.ShippingTaxAmountBase
+                         && x.ShippingTaxRefundedBase == y.ShippingTaxRefundedBase
+                         && x.SubtotalBase == y.SubtotalBase
+                         && x.SubtotalCanceledBase == y.SubtotalCanceledBase
+                         && x.SubtotalWithTaxBase == y.SubtotalWithTaxBase
+                         && x.SubtotalInvoicedBase == y.SubtotalInvoicedBase
+                         && x.SubtotalRefundedBase == y.SubtotalRefundedBase
+                         && x.TaxAmountBase == y.TaxAmountBase
+                         && x.TaxCanceledBase == y.TaxCanceledBase
+                         && x.TaxInvoicedBase == y.TaxInvoicedBase
+                         && x.TaxRefundedBase == y.TaxRefundedBase
+                         && x.TaxCanceledTotalBase == y.TaxCanceledTotalBase
+                         && x.TotalDueBase == y.TotalDueBase
+                         && x.TotalInvoicedBase == y.TotalInvoicedBase
+                         && x.TotalInvoicedCostBase == y.TotalInvoicedCostBase
+                         && x.TotalOfflineRefundedBase == y.TotalOfflineRefundedBase
+                         && x.TotalOnlineRefundedBase == y.TotalOnlineRefundedBase
+                         && x.TotalPaidBase == y.TotalPaidBase
+                         && x.TotalQuantityOrderedBase == y.TotalQuantityOrderedBase
+                         && x.TotalRefundBase == y.TotalRefundBase
+                         && x.BaseToGlobalRate == y.BaseToGlobalRate
+                         && x.CanShipPartially == y.CanShipPartially
+                         && x.CanShipItemPartially == y.CanShipItemPartially
+                         && String.Equals(x.CouponCode?.Trim(), y.CouponCode?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && x.CreatedTimestamp.Equals(y.CreatedTimestamp)
+                         && (((x.CustomerGroup == null) && (y.CustomerGroup == null)) || ((x.CustomerGroup != null) && x.CustomerGroup.Equals(y.CustomerGroup)))
+                         && (((x.Customer == null) && (y.Customer == null)) || ((x.Customer != null) && x.Customer.Equals(y.Customer)))
+                         && x.CustomerIsGuest == y.CustomerIsGuest
+                         && String.Equals(x.Notice?.Trim(), y.Notice?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && x.NotifyNotice == y.NotifyNotice
+                         && x.DiscountAmount == y.DiscountAmount
+                         && x.DiscountCanceled == y.DiscountCanceled
+                         && String.Equals(x.DiscountDescription?.Trim(), y.DiscountDescription?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && x.DiscountInvoiced == y.DiscountInvoiced
+                         && x.DiscountRefunded == y.DiscountRefunded
+                         && x.EditIncrement == y.EditIncrement
+                         && x.EmailSent == y.EmailSent
+                         && String.Equals(x.ExternalCustomerID?.Trim(), y.ExternalCustomerID?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x.ExternalOrderID?.Trim(), y.ExternalOrderID?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && x.ForcedShipmentWithInvoice == y.ForcedShipmentWithInvoice
+                         && String.Equals(x.GlobalCurrencyCode?.Trim(), y.GlobalCurrencyCode?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && x.GrandTotal == y.GrandTotal
+                         && x.DiscountTaxCompensationAmount == y.DiscountTaxCompensationAmount
+                         && x.DiscountTaxCompensationInvoiced == y.DiscountTaxCompensationInvoiced
+                         && x.DiscountTaxCompensationRefunded == y.DiscountTaxCompensationRefunded
+                         && String.Equals(x.HoldBeforeState?.Trim(), y.HoldBeforeState?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x.HoldBeforeStatus?.Trim(), y.HoldBeforeStatus?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x.IncrementID?.Trim(), y.IncrementID?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && x.IsVirtual == y.IsVirtual
+                         && String.Equals(x.OrderCurrencyCode?.Trim(), y.OrderCurrencyCode?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x.OriginalIncrementID?.Trim(), y.OriginalIncrementID?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && x.PaymentAuthorizationAmount == y.PaymentAuthorizationAmount
+                         && x.PaymentAuthorizationExpirationDate == y.PaymentAuthorizationExpirationDate
+                         && String.Equals(x.ProtectCode?.Trim(), y.ProtectCode?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && (((x.QuoteAddress == null) && (y.QuoteAddress == null)) || ((x.QuoteAddress != null) && x.QuoteAddress.Equals(y.QuoteAddress)))
+                         && x.QuoteID == y.QuoteID
+                         && String.Equals(x.RelationChildID?.Trim(), y.RelationChildID?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x.RelationChildRealID?.Trim(), y.RelationChildRealID?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x.RelationParentID?.Trim(), y.RelationParentID?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x.RelationParentRealID?.Trim(), y.RelationParentRealID?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && (((x.RemoteIP == null) && (y.RemoteIP == null)) || ((x.RemoteIP != null) && x.RemoteIP.Equals(y.RemoteIP)))
+                         && x.ShippingAmount == y.ShippingAmount
+                         && x.ShippingCanceled == y.ShippingCanceled
+                         && String.Equals(x.ShippingDescription?.Trim(), y.ShippingDescription?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && x.ShippingDiscountAmount == y.ShippingDiscountAmount
+                         && x.ShippingDiscountTaxCompensationAmount == y.ShippingDiscountTaxCompensationAmount
+                         && x.ShippingWithTax == y.ShippingWithTax
+                         && x.ShippingTaxRefunded == y.ShippingTaxRefunded
+                         && String.Equals(x.Status?.Trim(), y.Status?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x.StoreCurrencyCode?.Trim(), y.StoreCurrencyCode?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && (((x.Store == null) && (y.Store == null)) || ((x.Store != null) && x.Store.Equals(y.Store)))
+                         && x.StoreToBaseRate == y.StoreToBaseRate
+                         && x.StoreToOrderRate == y.StoreToOrderRate
+                         && x.Subtotal == y.Subtotal
+                         && x.SubtotalCanceled == y.SubtotalCanceled
+                         && x.SubtotalWithTax == y.SubtotalWithTax
+                         && x.SubtotalInvoiced == y.SubtotalInvoiced
+                         && x.SubtotalRefunded == y.SubtotalRefunded
+                         && x.TaxAmount == y.TaxAmount
+                         && x.TaxCanceled == y.TaxCanceled
+                         && x.TaxInvoiced == y.TaxInvoiced
+                         && x.TaxRefunded == y.TaxRefunded
+                         && x.TotalCanceled == y.TotalCanceled
+                         && x.TotalDue == y.TotalDue
+                         && x.TotalInvoiced == y.TotalInvoiced
+                         && x.TotalItemCount == y.TotalItemCount
+                         && x.TotalOfflineRefunded == y.TotalOfflineRefunded
+                         && x.TotalOnlineRefunded == y.TotalOnlineRefunded
+                         && x.TotalPaid == y.TotalPaid
+                         && x.TotalQuantityOrdered == y.TotalQuantityOrdered
+                         && x.TotalRefunded == y.TotalRefunded
+                         && x.UpdatedTimestamp.GetValueOrDefault().Equals(y.UpdatedTimestamp.GetValueOrDefault())
+                         && x.Weight == y.Weight
+                         && String.Equals(x.TransactionForwardedFor?.Trim(), y.TransactionForwardedFor?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && (((x.Items == null) && (y.Items == null)) || ((x.Items != null) && x.Items.SequenceEqual(y.Items)))
+                         && (((x.BillingAddress == null) && (y.BillingAddress == null)) || ((x.BillingAddress != null) && x.BillingAddress.Equals(y.BillingAddress)))
+                         && (((x.Payment == null) && (y.Payment == null)) || ((x.Payment != null) && x.Payment.Equals(y.Payment)))
+                         && (((x.StatusHistories == null) && (y.StatusHistories == null)) || ((x.StatusHistories != null) && x.StatusHistories.SequenceEqual(y.StatusHistories)))
+                         && (((x.ShippingAssignments == null) && (y.ShippingAssignments == null)) || ((x.ShippingAssignments != null) && x.ShippingAssignments.SequenceEqual(y.ShippingAssignments)))
+                         && (((x.PaymentAdditionalInformation == null) && (y.PaymentAdditionalInformation == null)) || ((x.PaymentAdditionalInformation != null) && x.PaymentAdditionalInformation.SequenceEqual(y.PaymentAdditionalInformation)))
+                         && (((x.Taxes == null) && (y.Taxes == null)) || ((x.Taxes != null) && x.Taxes.SequenceEqual(y.Taxes)))
+                         && (((x.ItemTaxes == null) && (y.ItemTaxes == null)) || ((x.ItemTaxes != null) && x.ItemTaxes.SequenceEqual(y.ItemTaxes)))
+                         && x.ConvertingFromQuote == y.ConvertingFromQuote
+                         && x.BaseCustomerBalanceAmount == y.BaseCustomerBalanceAmount
+                         && x.CustomerBalanceAmount == y.CustomerBalanceAmount
+                         && x.CustomerBalanceInvoiced == y.CustomerBalanceInvoiced
+                         && x.BaseCustomerBalanceInvoiced == y.BaseCustomerBalanceInvoiced
+                         && x.BaseCustomerBalanceRefunded == y.BaseCustomerBalanceRefunded
+                         && x.CustomerBalanceRefunded == y.CustomerBalanceRefunded
+                         && x.BaseCustomerBalanceTotalRefunded == y.BaseCustomerBalanceTotalRefunded
+                         && x.CustomerBalanceTotalRefunded == y.CustomerBalanceTotalRefunded
+                         && (((x.GiftCards == null) && (y.GiftCards == null)) || ((x.GiftCards != null) && x.GiftCards.SequenceEqual(y.GiftCards)))
+                         && x.BaseGiftCardsAmount == y.BaseGiftCardsAmount
+                         && x.GiftCardsAmount == y.GiftCardsAmount
+                         && x.BaseGiftCardsInvoiced == y.BaseGiftCardsInvoiced
+                         && x.GiftCardsInvoiced == y.GiftCardsInvoiced
+                         && x.BaseGiftCardsRefunded == y.BaseGiftCardsRefunded
+                         && x.GiftCardsRefunded == y.GiftCardsRefunded
+                         && x.GiftMessage.Equals(y.GiftMessage)
+                         && String.Equals(x._GiftWrapID?.Trim(), y._GiftWrapID?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x._GiftWrapPriceBase?.Trim(), y._GiftWrapPriceBase?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x._GiftWrapPrice?.Trim(), y._GiftWrapPrice?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x._GiftWrapTaxAmountBase?.Trim(), y._GiftWrapTaxAmountBase?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x._GiftWrapPriceInvoicedBase?.Trim(), y._GiftWrapPriceInvoicedBase?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x._GiftWrapPriceInvoiced?.Trim(), y._GiftWrapPriceInvoiced?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x._GiftWrapTaxAmountInvoicedBase?.Trim(), y._GiftWrapTaxAmountInvoicedBase?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x._GiftWrapTaxAmountInvoiced?.Trim(), y._GiftWrapTaxAmountInvoiced?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x._GiftWrapPriceRefundedBase?.Trim(), y._GiftWrapPriceRefundedBase?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x._GiftWrapPriceRefunded?.Trim(), y._GiftWrapPriceRefunded?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x._GiftWrapTaxAmountRefundedBase?.Trim(), y._GiftWrapTaxAmountRefundedBase?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && String.Equals(x._GiftWrapTaxAmountRefunded?.Trim(), y._GiftWrapTaxAmount?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                         && x.SendNotification == y.SendNotification
+                         && x.RewardCurrencyAmount == y.RewardCurrencyAmount
+                         && x.RewardCurrencyAmountBase == y.RewardCurrencyAmountBase
+                         && (((x.Server == null) && (y.Server == null)) || ((x.Server != null) && x.Server.Equals(y.Server)))
+                         && (((x.RestEndpoint == null) && (y.RestEndpoint == null)) || ((x.RestEndpoint != null) && x.RestEndpoint.Equals(y.RestEndpoint)));
             }
 
             return equals;

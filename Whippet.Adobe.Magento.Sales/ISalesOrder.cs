@@ -304,9 +304,9 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
         
         /// <summary>
-        /// Flag that indicates whether the customer is a guest and not registered. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>.
+        /// Specifies whether the customer is a guest and not registered.
         /// </summary>
-        int CustomerIsGuest
+        bool CustomerIsGuest
         { get; set; }
 
         /// <summary>
@@ -336,7 +336,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         /// <summary>
         /// Gets or sets the discount description.
         /// </summary>
-        decimal DiscountDescription
+        string DiscountDescription
         { get; set; }
 
         /// <summary>
@@ -376,9 +376,9 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
 
         /// <summary>
-        /// Flag that indicates whether the order is shipped regardless of the status of the invoice. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>.
+        /// Specifies whether the order is shipped regardless of the status of the invoice.
         /// </summary>
-        int ForcedShipmentWithInvoice
+        bool ForcedShipmentWithInvoice
         { get; set; }
 
         /// <summary>
@@ -430,9 +430,9 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
 
         /// <summary>
-        /// Flag that indicates whether the order is virtual. A value greater than zero (0) is <see langword="true"/>; otherwise, <see langword="false"/>. 
+        /// Specifies whether the order is virtual. 
         /// </summary>
-        int IsVirtual
+        bool IsVirtual
         { get; set; }
 
         /// <summary>
@@ -504,7 +504,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         /// <summary>
         /// Gets or sets the customer's remote IP address.
         /// </summary>
-        IPAddress? RemoteIP
+        IPAddress RemoteIP
         { get; set; }
         
         /// <summary>
