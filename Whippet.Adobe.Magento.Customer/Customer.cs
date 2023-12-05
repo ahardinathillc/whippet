@@ -429,7 +429,9 @@ namespace Athi.Whippet.Adobe.Magento.Customer
                          && (((x.CompanyProfile == null) && (y.CompanyProfile == null)) || ((x.CompanyProfile != null) && x.CompanyProfile.Equals(y.CompanyProfile)))
                          && (((x.CustomAttributes == null) && (y.CustomAttributes == null)) || ((x.CustomAttributes != null) && x.CustomAttributes.Equals(y.CustomAttributes)))
                          && (x.AssistanceAllowed == y.AssistanceAllowed)
-                         && (x.IsSubscribed == y.IsSubscribed);
+                         && (x.IsSubscribed == y.IsSubscribed)
+                         && (((x.RestEndpoint == null) && (y.RestEndpoint == null)) || ((x.RestEndpoint != null) && x.RestEndpoint.Equals(y.RestEndpoint)))
+                         && (((x.Server == null) && (y.Server == null)) || ((x.Server != null) && x.Server.Equals(y.Server)));
             }
 
             return equals;

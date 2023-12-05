@@ -15,6 +15,7 @@
     <ProjectReference Include="..\Whippet.Adobe.Magento.Catalog.Inventory\Whippet.Adobe.Magento.Catalog.Inventory.csproj" />
     <ProjectReference Include="..\Whippet.Adobe.Magento.Catalog.Products\Whippet.Adobe.Magento.Catalog.Products.csproj" />
     <ProjectReference Include="..\Whippet.Adobe.Magento.GiftMessage\Whippet.Adobe.Magento.GiftMessage.csproj" />
+    <ProjectReference Include="..\Whippet.Adobe.Magento.Payment\Whippet.Adobe.Magento.Payment.csproj" />
     <ProjectReference Include="..\Whippet.Adobe.Magento.SalesRule\Whippet.Adobe.Magento.SalesRule.csproj" />
     <ProjectReference Include="..\Whippet.Adobe.Magento.Vault\Whippet.Adobe.Magento.Vault.csproj" />
     <ProjectReference Include="..\Whippet\Whippet.csproj" />
