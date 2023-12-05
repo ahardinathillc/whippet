@@ -18,7 +18,6 @@ using Athi.Whippet.Adobe.Magento.Sales.Taxes;
 using Athi.Whippet.Adobe.Magento.SalesRule.Extensions;
 using Athi.Whippet.Adobe.Magento.Store;
 using Athi.Whippet.Adobe.Magento.Store.Extensions;
-using Athi.Whippet.Adobe.Magento.Taxes;
 using MagentoSalesRule = Athi.Whippet.Adobe.Magento.SalesRule.SalesRule;
 using MagentoCustomer = Athi.Whippet.Adobe.Magento.Customer.Customer;
 using MagentoStore = Athi.Whippet.Adobe.Magento.Store.Store;

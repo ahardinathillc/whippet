@@ -28,7 +28,7 @@ namespace Athi.Whippet.Adobe.Magento.Data
         }
         
         /// <summary>
-        /// Initializes a new instance of the <see cref="MagentoEntity"/> class with no arguments.
+        /// Initializes a new instance of the <see cref="MagentoRestEntity{TInterface}"/> class with no arguments.
         /// </summary>
         protected MagentoRestEntity()
             : base()
