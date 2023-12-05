@@ -1,6 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
-using Athi.Whippet.Adobe.Magento.Orders.Taxes;
+using Athi.Whippet.Adobe.Magento.Sales.Taxes;
 
 namespace Athi.Whippet.Adobe.Magento.Carts
 {

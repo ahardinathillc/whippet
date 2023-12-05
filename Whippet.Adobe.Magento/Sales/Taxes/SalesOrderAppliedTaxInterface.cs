@@ -1,12 +1,12 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Athi.Whippet.Adobe.Magento.Orders.Taxes
+namespace Athi.Whippet.Adobe.Magento.Sales.Taxes
 {
     /// <summary>
     /// Interface that provides information about taxes that are applied to an entity in Magento.
     /// </summary>
-    public class SalesOrderAppliedTaxTaxInterface : IExtensionInterface, IExtensionAttributes<SalesOrderAppliedTaxTaxExtensionInterface>
+    public class SalesOrderAppliedTaxInterface : IExtensionInterface, IExtensionAttributes<SalesOrderAppliedTaxExtensionInterface>
     {
         /// <summary>
         /// Gets or sets the tax code.
@@ -47,17 +47,17 @@ namespace Athi.Whippet.Adobe.Magento.Orders.Taxes
         /// Gets or sets the extension attributes of the current instance.
         /// </summary>
         [JsonProperty("extension_attributes")]
-        public SalesOrderAppliedTaxTaxExtensionInterface ExtensionAttributes
+        public SalesOrderAppliedTaxExtensionInterface ExtensionAttributes
         { get; set; }
         
         /// <summary>
-        /// Initializes a new instance of the <see cref="SalesOrderAppliedTaxTaxInterface"/> class with no arguments.
+        /// Initializes a new instance of the <see cref="SalesOrderAppliedTaxInterface"/> class with no arguments.
         /// </summary>
-        public SalesOrderAppliedTaxTaxInterface()
+        public SalesOrderAppliedTaxInterface()
         { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SalesOrderAppliedTaxTaxInterface"/> class with the specified parameters.
+        /// Initializes a new instance of the <see cref="SalesOrderAppliedTaxInterface"/> class with the specified parameters.
         /// </summary>
         /// <param name="code">Tax code.</param>
         /// <param name="title">Tax rate title.</param>
@@ -65,7 +65,7 @@ namespace Athi.Whippet.Adobe.Magento.Orders.Taxes
         /// <param name="amount">Tax amount.</param>
         /// <param name="amountBase">Tax amount in base currency.</param>
         /// <param name="extensionAttributes">Extension attributes.</param>
-        public SalesOrderAppliedTaxTaxInterface(string code, string title, decimal percent, decimal amount, decimal amountBase, SalesOrderAppliedTaxTaxExtensionInterface extensionAttributes)
+        public SalesOrderAppliedTaxInterface(string code, string title, decimal percent, decimal amount, decimal amountBase, SalesOrderAppliedTaxExtensionInterface extensionAttributes)
             : this()
         {
             Code = code;

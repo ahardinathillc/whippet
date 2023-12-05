@@ -10,7 +10,7 @@ namespace Athi.Whippet.Adobe.Magento.Catalog.Inventory.StockItems
     /// <summary>
     /// Represents an inventory stock unit of a Magento product.
     /// </summary>
-    public class StockItem : MagentoRestEntity<StockItemInterface>, IMagentoEntity, IStockItem, IEqualityComparer<IStockItem>, IMagentoRestEntity<StockItemInterface>
+    public class StockItem : MagentoRestEntity<StockItemInterface>, IMagentoEntity, IStockItem, IEqualityComparer<IStockItem>, IMagentoRestEntity<StockItemInterface>, IMagentoRestEntity
     {
         /// <summary>
         /// Gets or sets the item ID.

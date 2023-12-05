@@ -6,10 +6,14 @@ using Athi.Whippet.Adobe.Magento.Data;
 using Athi.Whippet.Adobe.Magento.SalesRule;
 using Athi.Whippet.Adobe.Magento.Customer.Addressing;
 using Athi.Whippet.Adobe.Magento.Customer.Addressing.Extensions;
+using Athi.Whippet.Adobe.Magento.GiftCard;
 using Athi.Whippet.Adobe.Magento.Payment;
 using Athi.Whippet.Adobe.Magento.Sales.Addressing;
+using Athi.Whippet.Adobe.Magento.Sales.Taxes;
 using MagentoCustomer = Athi.Whippet.Adobe.Magento.Customer.Customer;
 using MagentoStore = Athi.Whippet.Adobe.Magento.Store.Store;
+using MagentoGiftCard = Athi.Whippet.Adobe.Magento.GiftCard.GiftCard;
+using MagentoGiftMessage = Athi.Whippet.Adobe.Magento.GiftMessage.GiftMessage;
 
 namespace Athi.Whippet.Adobe.Magento.Sales
 {
@@ -396,7 +400,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { get; set; }
 
         /// <summary>
-        /// Indciates whether an e-mail was sent to the customer.
+        /// Indicates whether an e-mail was sent to the customer.
         /// </summary>
         public virtual bool EmailSent
         { get; set; }
@@ -837,7 +841,353 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         public virtual IEnumerable<PaymentAdditionalInfo> PaymentAdditionalInformation
         { get; set; }
         
+        /// <summary>
+        /// Gets or sets the order's applied taxes.
+        /// </summary>
+        public virtual IEnumerable<SalesOrderItemTaxDetails> Taxes
+        { get; set; }
         
+        /// <summary>
+        /// Gets or sets the order's individual taxes applied to each line item.
+        /// </summary>
+        public virtual IEnumerable<SalesOrderItemTaxDetails> ItemTaxes
+        { get; set; }
+
+        /// <summary>
+        /// Specifies whether the sales order is a conversion from an existing quote.
+        /// </summary>
+        public virtual bool ConvertingFromQuote
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the customer balance amount in the base currency.
+        /// </summary>
+        public virtual decimal BaseCustomerBalanceAmount
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the customer balance amount.
+        /// </summary>
+        public virtual decimal CustomerBalanceAmount
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the customer amount that was invoiced in the base currency.
+        /// </summary>
+        public virtual decimal BaseCustomerBalanceInvoiced
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the customer amount that was invoiced.
+        /// </summary>
+        public virtual decimal CustomerBalanceInvoiced
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the customer balance that was refunded in the base currency.
+        /// </summary>
+        public virtual decimal BaseCustomerBalanceRefunded
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the customer balance that was refunded.
+        /// </summary>
+        public virtual decimal CustomerBalanceRefunded
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the total customer balance that was refunded in base currency.
+        /// </summary>
+        public virtual decimal BaseCustomerBalanceTotalRefunded
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the total customer balance that was refunded.
+        /// </summary>
+        public virtual decimal CustomerBalanceTotalRefunded
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the gift cards associated with the order.
+        /// </summary>
+        public virtual IEnumerable<MagentoGiftCard> GiftCards
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the gift cards total amount in base currency.
+        /// </summary>
+        public virtual decimal BaseGiftCardsAmount
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the gift cards total amount.
+        /// </summary>
+        public virtual decimal GiftCardsAmount
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the total amount invoiced for gift cards in base currency.
+        /// </summary>
+        public virtual decimal BaseGiftCardsInvoiced
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the total amount invoiced for gift cards.
+        /// </summary>
+        public virtual decimal GiftCardsInvoiced
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the total amount refunded for gift cards in base currency.
+        /// </summary>
+        public virtual decimal BaseGiftCardsRefunded
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the total amount refunded for gift cards.
+        /// </summary>
+        public virtual decimal GiftCardsRefunded
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the gift message applied to the order.
+        /// </summary>
+        public virtual MagentoGiftMessage GiftMessage
+        { get; set; }
+
+                /// <summary>
+        /// Gets or sets the gift wrap ID.
+        /// </summary>
+        public virtual string _GiftWrapID
+        { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the gift wrap price in base currency.
+        /// </summary>
+        public virtual string _GiftWrapPriceBase
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the gift wrap price.
+        /// </summary>
+        public virtual string _GiftWrapPrice
+        { get; set; }
+                
+        /// <summary>
+        /// Gets or sets the gift wrap tax amount in base currency.
+        /// </summary>
+        public virtual string _GiftWrapTaxAmountBase
+        { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the gift wrap tax amount.
+        /// </summary>
+        public virtual string _GiftWrapTaxAmount
+        { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the gift wrap price invoiced in base currency.
+        /// </summary>
+        public virtual string _GiftWrapPriceInvoicedBase
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the gift wrap price invoiced.
+        /// </summary>
+        public virtual string _GiftWrapPriceInvoiced
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the gift wrap tax amount invoiced in base currency.
+        /// </summary>
+        public virtual string _GiftWrapTaxAmountInvoicedBase
+        { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the gift wrap tax amount invoiced.
+        /// </summary>
+        public virtual string _GiftWrapTaxAmountInvoiced
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the gift wrap price refunded in base currency.
+        /// </summary>
+        public virtual string _GiftWrapPriceRefundedBase
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the gift wrap price refunded.
+        /// </summary>
+        public virtual string _GiftWrapPriceRefunded
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the gift wrap tax amount refunded in base currency.
+        /// </summary>
+        public virtual string _GiftWrapTaxAmountRefundedBase
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the gift wrap tax amount refunded.
+        /// </summary>
+        public virtual string _GiftWrapTaxAmountRefunded
+        { get; set; }       
+        
+        /// <summary>
+        /// Specifies whether the customer should be notified of any order status changes or updates.
+        /// </summary>
+        public virtual bool SendNotification
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the rewards points balance.
+        /// </summary>
+        public virtual int RewardPointsBalance
+        { get; set; }        
+
+        /// <summary>
+        /// Gets or sets the reward currency amount.
+        /// </summary>
+        public virtual decimal RewardCurrencyAmount
+        { get; set; }        
+
+        /// <summary>
+        /// Gets or sets the reward currency amount in base currency.
+        /// </summary>
+        public virtual decimal RewardCurrencyAmountBase
+        { get; set; }        
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SalesOrder"/> class with no arguments.
+        /// </summary>
+        public SalesOrder()
+            : base()
+        { }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SalesOrder"/> class with the specified ID.
+        /// </summary>
+        /// <param name="entityId">ID to assign the <see cref="MagentoEntity"/> object.</param>
+        /// <param name="server"><see cref="MagentoServer"/> the entity resides on.</param>
+        /// <param name="restEndpoint"><see cref="MagentoRestEndpoint"/> the entity resides on.</param>
+        public SalesOrder(uint entityId, MagentoServer server = null, MagentoRestEndpoint restEndpoint = null)
+            : base(entityId, server, restEndpoint)
+        { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SalesOrder"/> class with the specified <see cref="IExtensionInterface"/> object.
+        /// </summary>
+        /// <param name="model"><see cref="IExtensionInterface"/> object to initialize a new instance of the class with.</param>
+        /// <param name="server"><see cref="MagentoServer"/> the entity resides on.</param>
+        /// <param name="restEndpoint"><see cref="MagentoRestEndpoint"/> the entity resides on.</param>
+        public SalesOrder(SalesOrderInterface model, MagentoServer server = null, MagentoRestEndpoint restEndpoint = null)
+            : base(model, server, restEndpoint)
+        { }
+
+        /// <summary>
+        /// Compares the current instance to the specified object for equality.
+        /// </summary>
+        /// <param name="obj">Object to compare.</param>
+        /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
+        public override bool Equals(object obj)
+        {
+            return ((obj == null) || !(obj is ISalesOrder)) ? false : Equals((ISalesOrder)(obj));
+        }
+
+        /// <summary>
+        /// Compares the current instance to the specified object for equality.
+        /// </summary>
+        /// <param name="obj">Object to compare.</param>
+        /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
+        public virtual bool Equals(ISalesOrder obj)
+        {
+            return (obj == null) ? false : Equals(this, obj);
+        }
+
+        /// <summary>
+        /// Compares the two objects for equality.
+        /// </summary>
+        /// <param name="x">First object to compare.</param>
+        /// <param name="y">Second object to compare.</param>
+        /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
+        public virtual bool Equals(ISalesOrder x, ISalesOrder y)
+        {
+            bool equals = (x == null) && (y == null);
+
+            if (!equals && (x != null) && (y != null))
+            {
+                equals = x.ID == y.ID
+                            && String.Equals(x.Code?.Trim(), y.Code?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                            && x.Amount == y.Amount
+                            && x.BaseAmount == y.BaseAmount
+                            && (((x.Server == null) && (y.Server == null)) || ((x.Server != null) && x.Server.Equals(y.Server)))
+                            && (((x.RestEndpoint == null) && (y.RestEndpoint == null)) || ((x.RestEndpoint != null) && x.RestEndpoint.Equals(y.RestEndpoint)));
+            }
+
+            return equals;
+        }
+
+        /// <summary>
+        /// Converts the current instance to an <see cref="IExtensionInterface"/> of type <see cref="GiftCardInterface"/>.
+        /// </summary>
+        /// <returns><see cref="IExtensionInterface"/> object of type <see cref="GiftCardInterface"/>.</returns>
+        public override SalesOrderInterface ToInterface()
+        {
+            GiftCardInterface gcInterface = new GiftCardInterface();
+
+            gcInterface.ID = ID;
+            gcInterface.Code = Code;
+            gcInterface.Amount = Amount;
+            gcInterface.AmountBase = BaseAmount;
+            
+            return gcInterface;
+        }
+
+        /// <summary>
+        /// Creates a duplicate instance of the current object.
+        /// </summary>
+        /// <returns>Duplicate instance of the current object.</returns>
+        public override object Clone()
+        {
+            SalesOrder order = new SalesOrder();
+            
+            return order;
+        }
+
+        /// <summary>
+        /// Gets the hash code of the current instance.
+        /// </summary>
+        /// <returns>Hash code.</returns>
+        public override int GetHashCode()
+        {
+            HashCode hash = new HashCode();
+
+            return hash.ToHashCode();
+        }
+
+        /// <summary>
+        /// Gets the hash code of the specified object.
+        /// </summary>
+        /// <param name="order"><see cref="ISalesOrder"/> object to get hash code for.</param>
+        /// <returns>Hash code.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public virtual int GetHashCode(ISalesOrder order)
+        {
+            ArgumentNullException.ThrowIfNull(order);
+            return order.GetHashCode();
+        }
+        
+        /// <summary>
+        /// Constructs the current instance with the specified <see cref="IExtensionInterface"/> object.
+        /// </summary>
+        /// <param name="model"><see cref="IExtensionInterface"/> object to construct the current instance from.</param>
+        protected override void ImportFromModel(SalesOrderInterface model)
+        {
+            if (model != null)
+            {
+                ID = model.ID;
+            }
+        }
 
     }
 }

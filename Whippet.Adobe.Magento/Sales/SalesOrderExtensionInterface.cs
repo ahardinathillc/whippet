@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Athi.Whippet.Adobe.Magento.Payment;
 using Athi.Whippet.Adobe.Magento.Company;
-using Athi.Whippet.Adobe.Magento.Orders.Taxes;
+using Athi.Whippet.Adobe.Magento.Sales.Taxes;
 using Athi.Whippet.Adobe.Magento.GiftCard;
 using Athi.Whippet.Adobe.Magento.GiftMessage;
 
@@ -38,7 +38,7 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         /// Gets or sets the taxes that were applied to the order on a per item basis.
         /// </summary>
         [JsonProperty("item_applied_taxes")]
-        public SalesOrderAppliedTaxTaxInterface[] AppliedTaxes
+        public SalesOrderAppliedTaxInterface[] AppliedTaxes
         { get; set; }
 
         /// <summary>
