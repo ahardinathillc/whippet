@@ -1,12 +1,12 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Athi.Whippet.Adobe.Magento.Taxes.Orders
+namespace Athi.Whippet.Adobe.Magento.Orders.Taxes
 {
     /// <summary>
     /// Interface that provides information about tax rates and the subsequent taxed amount for Magento orders.
     /// </summary>
-    public class OrderTaxGrandTotalDetailsInterface : IExtensionInterface
+    public class SalesOrderTaxGrandTotalDetailsInterface : IExtensionInterface
     {
         /// <summary>
         /// Gets or sets the tax amount.
@@ -19,7 +19,7 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.Orders
         /// Gets or sets the tax rates information.
         /// </summary>
         [JsonProperty("rates")]
-        public OrderTaxGrandTotalRatesInterface OrderTax
+        public SalesOrderTaxGrandTotalRatesInterface OrderTax
         { get; set; }
 
         /// <summary>
@@ -30,18 +30,18 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.Orders
         { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OrderTaxGrandTotalDetailsInterface"/> class with no arguments.
+        /// Initializes a new instance of the <see cref="SalesOrderTaxGrandTotalDetailsInterface"/> class with no arguments.
         /// </summary>
-        public OrderTaxGrandTotalDetailsInterface()
+        public SalesOrderTaxGrandTotalDetailsInterface()
         { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OrderTaxGrandTotalDetailsInterface"/> class with the specified parameters.
+        /// Initializes a new instance of the <see cref="SalesOrderTaxGrandTotalDetailsInterface"/> class with the specified parameters.
         /// </summary>
         /// <param name="amount">Tax amount value.</param>
         /// <param name="orderTax">Tax rates information.</param>
         /// <param name="groupId">Group identifier.</param>
-        public OrderTaxGrandTotalDetailsInterface(decimal amount, OrderTaxGrandTotalRatesInterface orderTax, int groupId)
+        public SalesOrderTaxGrandTotalDetailsInterface(decimal amount, SalesOrderTaxGrandTotalRatesInterface orderTax, int groupId)
             : this()
         {
             Amount = amount;

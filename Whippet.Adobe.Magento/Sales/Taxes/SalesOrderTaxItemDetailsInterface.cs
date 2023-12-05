@@ -2,12 +2,12 @@
 using Newtonsoft.Json;
 using Athi.Whippet.Adobe.Magento.Taxes;
 
-namespace Athi.Whippet.Adobe.Magento.Taxes.Orders
+namespace Athi.Whippet.Adobe.Magento.Orders.Taxes
 {
     /// <summary>
     /// Interface that provides tax information about an item on a Magento sales order.
     /// </summary>
-    public class OrderTaxItemDetailsInterface : IExtensionInterface, IExtensionAttributes<OrderTaxItemDetailsExtensionInterface>
+    public class SalesOrderTaxItemDetailsInterface : IExtensionInterface, IExtensionAttributes<SalesOrderTaxItemDetailsExtensionInterface>
     {
         /// <summary>
         /// Gets or sets the type of item being taxed.
@@ -41,24 +41,24 @@ namespace Athi.Whippet.Adobe.Magento.Taxes.Orders
         /// Gets or sets the extension attributes of the current instance.
         /// </summary>
         [JsonProperty("extension_attributes")]
-        public OrderTaxItemDetailsExtensionInterface ExtensionAttributes
+        public SalesOrderTaxItemDetailsExtensionInterface ExtensionAttributes
         { get; set; }
         
         /// <summary>
-        /// Initializes a new instance of the <see cref="OrderTaxItemDetailsInterface"/> with no arguments.
+        /// Initializes a new instance of the <see cref="SalesOrderTaxItemDetailsInterface"/> with no arguments.
         /// </summary>
-        public OrderTaxItemDetailsInterface()
+        public SalesOrderTaxItemDetailsInterface()
         { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OrderTaxItemDetailsInterface"/> with the specified parameters.
+        /// Initializes a new instance of the <see cref="SalesOrderTaxItemDetailsInterface"/> with the specified parameters.
         /// </summary>
         /// <param name="type">Tpe of item being taxed.</param>
         /// <param name="itemId">Item ID.</param>
         /// <param name="associatedItemId">Associated item ID.</param>
         /// <param name="appliedTaxes">Taxes that were applied to the item.</param>
         /// <param name="extensionAttributes">Extension attributes.</param>
-        public OrderTaxItemDetailsInterface(string type, int itemId, int associatedItemId, IEnumerable<TaxRateAppliedRateInterface> appliedTaxes, OrderTaxItemDetailsExtensionInterface extensionAttributes)
+        public SalesOrderTaxItemDetailsInterface(string type, int itemId, int associatedItemId, IEnumerable<TaxRateAppliedRateInterface> appliedTaxes, SalesOrderTaxItemDetailsExtensionInterface extensionAttributes)
             : this()
         {
             Type = type;
