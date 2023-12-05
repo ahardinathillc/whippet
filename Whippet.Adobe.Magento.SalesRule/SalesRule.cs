@@ -14,9 +14,6 @@ namespace Athi.Whippet.Adobe.Magento.SalesRule
     /// </summary>
     public class SalesRule : MagentoRestEntity<SalesRuleInterface>, IMagentoEntity, ISalesRule, IEqualityComparer<ISalesRule>, IMagentoRestEntity, IMagentoRestEntity<SalesRuleInterface>
     {
-        private SalesRuleCondition _condition;
-        private SalesRuleCondition _actionCondition;
-
         /// <summary>
         /// Gets or sets the rule name.
         /// </summary>
@@ -99,41 +96,13 @@ namespace Athi.Whippet.Adobe.Magento.SalesRule
         /// Gets or sets the sales rule condition.
         /// </summary>
         public virtual SalesRuleCondition Condition
-        {
-            get
-            {
-                if (_condition == null)
-                {
-                    _condition = new SalesRuleCondition();
-                }
-
-                return _condition;
-            }
-            set
-            {
-                _condition = value;
-            }
-        }
+        { get; set; }
 
         /// <summary>
         /// Gets or sets the action rule condition.
         /// </summary>
         public virtual SalesRuleCondition ActionCondition
-        {
-            get
-            {
-                if (_actionCondition == null)
-                {
-                    _actionCondition = new SalesRuleCondition();
-                }
-
-                return _actionCondition;
-            }
-            set
-            {
-                _actionCondition = value;
-            }
-        }
+        { get; set; }
         
         /// <summary>
         /// Specifies whether rule processing should stop once the current rule has been processed.
@@ -303,8 +272,8 @@ namespace Athi.Whippet.Adobe.Magento.SalesRule
                         && x.EffectiveDate.GetValueOrDefault().Equals(y.EffectiveDate.GetValueOrDefault())
                         && x.ExpirationDate.GetValueOrDefault().Equals(y.ExpirationDate.GetValueOrDefault())
                         && x.UsesPerCustomer == y.UsesPerCustomer
-                        && (((x.Condition == null) && (y.Condition == null)) || ((x.Condition != null) && x.Condition.Equals(y.Condition)))
-                        && (((x.ActionCondition == null) && (y.ActionCondition == null)) || ((x.Condition != null) && x.ActionCondition.Equals(y.ActionCondition)))
+                        && x.Condition.Equals(y.Condition)
+                        && x.ActionCondition.Equals(y.ActionCondition)
                         && x.StopRulesProcessing == y.StopRulesProcessing
                         && x.IsAdvanced == y.IsAdvanced
                         && (((x.ProductIDs == null) && (y.ProductIDs == null)) || ((x.ProductIDs != null) && x.ProductIDs.Equals(y.ProductIDs)))
@@ -346,8 +315,8 @@ namespace Athi.Whippet.Adobe.Magento.SalesRule
             rule.ExpirationDate = !ExpirationDate.HasValue ? String.Empty : ExpirationDate.Value.ToDateTimeUtc().ToString();
             rule.UsesPerCustomer = UsesPerCustomer;
             rule.Active = Active;
-            rule.Condition = (Condition == null) ? null : Condition.ToInterface();
-            rule.ActionCondition = (ActionCondition == null) ? null : ActionCondition.ToInterface();
+            rule.Condition = Condition.ToInterface();
+            rule.ActionCondition = ActionCondition.ToInterface();
             rule.StopRulesProcessing = StopRulesProcessing;
             rule.IsAdvanced = IsAdvanced;
             rule.ProductIDs = (ProductIDs == null) ? null : ProductIDs.ToArray();
@@ -477,8 +446,8 @@ namespace Athi.Whippet.Adobe.Magento.SalesRule
                 ExpirationDate = String.IsNullOrWhiteSpace(model.ExpirationDate) ? null : Instant.FromDateTimeUtc(DateTime.Parse(model.ExpirationDate).ToUniversalTime(true));
                 UsesPerCustomer = model.UsesPerCustomer;
                 Active = model.Active;
-                Condition = (model.Condition == null) ? null : new SalesRuleCondition(model.Condition);
-                ActionCondition = (model.ActionCondition == null) ? null : new SalesRuleCondition(model.ActionCondition);
+                Condition = new SalesRuleCondition(model.Condition);
+                ActionCondition = new SalesRuleCondition(model.ActionCondition);
                 StopRulesProcessing = model.StopRulesProcessing;
                 IsAdvanced = model.IsAdvanced;
                 ProductIDs = model.ProductIDs;
