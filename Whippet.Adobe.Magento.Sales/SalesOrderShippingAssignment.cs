@@ -2,6 +2,8 @@
 using NodaTime;
 using Athi.Whippet.Extensions;
 using Athi.Whippet.Adobe.Magento.Extensions;
+using Athi.Whippet.Adobe.Magento.Catalog.Inventory;
+using Athi.Whippet.Adobe.Magento.Sales.Extensions;
 
 namespace Athi.Whippet.Adobe.Magento.Sales
 {
@@ -16,7 +18,17 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         public SalesOrderShipping ShippingInformation
         { get; set; }
         
-        public IEnumerable<ISalesOrderItem
+        /// <summary>
+        /// Gets or sets the items to ship.
+        /// </summary>
+        public IEnumerable<ISalesOrderItem> Items
+        { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the stock from which the inventory is drawn. 
+        /// </summary>
+        public IStock Stock
+        { get; set; }
         
         /// <summary>
         /// Initializes a new instance of the <see cref="SalesOrderShippingAssignment"/> struct with no arguments.
@@ -31,10 +43,10 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SalesOrderShippingAssignment"/> struct with the specified <see cref="SalesShippingAssignmentInterface"/>.
+        /// Initializes a new instance of the <see cref="SalesOrderShippingAssignment"/> struct with the specified <see cref="SalesOrderShippingAssignmentInterface"/>.
         /// </summary>
-        /// <param name="model"><see cref="SalesShippingAssignmentInterface"/> object.</param>
-        public SalesOrderShippingAssignment(SalesShippingAssignmentInterface model)
+        /// <param name="model"><see cref="SalesOrderShippingAssignmentInterface"/> object.</param>
+        public SalesOrderShippingAssignment(SalesOrderShippingAssignmentInterface model)
             : this()
         {
             FromModel(model);
@@ -43,63 +55,44 @@ namespace Athi.Whippet.Adobe.Magento.Sales
         /// <summary>
         /// Initializes a new instance of the <see cref="SalesOrderShippingAssignment"/> struct with the specified parameters.
         /// </summary>
-        /// <param name="id">History entry ID.</param>
-        /// <param name="comment">Entry comment.</param>
-        /// <param name="createdTimestamp">Timestamp of when the entry was created.</param>
-        /// <param name="entityName">Entity name.</param>
-        /// <param name="customerNotified">Specifies whether the customer was notified when the entry was created.</param>
-        /// <param name="visibleOnFront">Specifies whether the entry is visible on the storefront.</param>
-        /// <param name="parent">Parent <see cref="ISalesOrder"/> object.</param>
-        /// <param name="status">Status description.</param>
-        public SalesOrderShippingAssignment(int id, string comment, Instant? createdTimestamp, string entityName, bool customerNotified, bool visibleOnFront, ISalesOrder parent, string status)
+        /// <param name="shippingInformation">Shipping information.</param>
+        /// <param name="items">Items associated with the sales order.</param>
+        /// <param name="stock">Stock location from which to draw the inventory.</param>
+        public SalesOrderShippingAssignment(SalesOrderShipping shippingInformation, IEnumerable<ISalesOrderItem> items, IStock stock)
             : this()
         {
-            ID = id;
-            Comment = comment;
-            CreatedTimestamp = createdTimestamp;
-            EntityName = entityName;
-            CustomerNotified = customerNotified;
-            VisibleOnStorefront = visibleOnFront;
-            ParentOrder = parent;
-            Status = status;
+            ShippingInformation = shippingInformation;
+            Items = items;
+            Stock = stock;
         }
         
         /// <summary>
-        /// Converts the current instance to an <see cref="IExtensionInterface"/> of type <see cref="SalesShippingAssignmentInterface"/>.
+        /// Converts the current instance to an <see cref="IExtensionInterface"/> of type <see cref="SalesOrderShippingAssignmentInterface"/>.
         /// </summary>
-        /// <returns><see cref="IExtensionInterface"/> object of type <see cref="SalesShippingAssignmentInterface"/>.</returns>
-        public SalesShippingAssignmentInterface ToInterface()
+        /// <returns><see cref="IExtensionInterface"/> object of type <see cref="SalesOrderShippingAssignmentInterface"/>.</returns>
+        public SalesOrderShippingAssignmentInterface ToInterface()
         {
-            SalesShippingAssignmentInterface sInterface = new SalesShippingAssignmentInterface();
+            SalesOrderShippingAssignmentInterface sInterface = new SalesOrderShippingAssignmentInterface();
 
-            sInterface.ID = ID;
-            sInterface.Comment = Comment;
-            sInterface.CreatedAt = CreatedTimestamp.HasValue ? CreatedTimestamp.Value.ToDateTimeUtc().ToString() : String.Empty;
-            sInterface.EntityName = EntityName;
-            sInterface.CustomerNotified = CustomerNotified.ToMagentoBoolean();
-            sInterface.VisibleOnStorefront = VisibleOnStorefront.ToMagentoBoolean();
-            sInterface.ParentID = ParentOrder.ID;
-            sInterface.Status = Status;
-
+            sInterface.StockID = (Stock == null) ? default(int) : Stock.ID;
+            sInterface.Items = (Items == null) ? null : Items.Select(i => i.ToSalesOrderItem().ToInterface()).ToArray();
+            sInterface.ExtensionAttributes = new SalesOrderShippingAssignmentExtensionInterface();
+            sInterface.Shipping = ShippingInformation.ToInterface();
+            
             return sInterface;
         }
 
         /// <summary>
         /// Populates the current instance based on the specified <see cref="IExtensionInterface"/>.
         /// </summary>
-        /// <param name="model"><see cref="SalesShippingAssignmentInterface"/> object used to populate the object.</param>
-        public void FromModel(SalesShippingAssignmentInterface model)
+        /// <param name="model"><see cref="SalesOrderShippingAssignmentInterface"/> object used to populate the object.</param>
+        public void FromModel(SalesOrderShippingAssignmentInterface model)
         {
             if (model != null)
             {
-                ID = model.ID;
-                Comment = model.Comment;
-                CreatedTimestamp = !String.IsNullOrWhiteSpace(model.CreatedAt) ? null : Instant.FromDateTimeUtc(DateTime.Parse(model.CreatedAt).ToUniversalTime(true));
-                EntityName = model.EntityName;
-                CustomerNotified = model.CustomerNotified.FromMagentoBoolean();
-                VisibleOnStorefront = model.VisibleOnStorefront.FromMagentoBoolean();
-                ParentOrder = new SalesOrder(Convert.ToUInt32(model.ParentID));
-                Status = model.Status;
+                Stock = new Stock(Convert.ToUInt32(model.StockID));
+                Items = (model.Items == null) ? null : model.Items.Select(i => new SalesOrderItem(i));
+                ShippingInformation = new SalesOrderShipping(model.Shipping);
             }
         }
     }
