@@ -20,7 +20,7 @@ namespace Athi.Whippet.ParadoxLabs.Magento.Data
         /// <param name="bearerToken">Authorization bearer token for making requests.</param>
         /// <exception cref="ArgumentNullException" />
         protected ParadoxLabsMagentoEntityRestRepository(IWhippetRestClient restClient, string bearerToken)
-            : base(restClient, bearerToken)
+            : this(restClient, bearerToken, URL_SUBSCRIPTION)
         { }
 
         /// <summary>
@@ -28,10 +28,10 @@ namespace Athi.Whippet.ParadoxLabs.Magento.Data
         /// </summary>
         /// <param name="restClient"><see cref="IWhippetRestClient"/> object used to marshall the REST requests.</param>
         /// <param name="bearerToken">Authorization bearer token for making requests.</param>
-        /// <param name="baseUrl">Base URL of the request (e.g., &quote;orders/&quot;).</param>
+        /// <param name="baseUrl">Base URL of the request (e.g., &quot;orders/&quot;).</param>
         /// <exception cref="ArgumentNullException" />
-        protected ParadoxLabsMagentoEntityRestRepository(IWhippetRestClient restClient, string bearerToken, string baseUrl)
-            : base(restClient, bearerToken, baseUrl)
+        protected ParadoxLabsMagentoEntityRestRepository(IWhippetRestClient restClient, string bearerToken, string baseUrl = null)
+            : base(restClient, bearerToken, String.IsNullOrWhiteSpace(baseUrl) ? URL_SUBSCRIPTION : baseUrl)
         {
             if (String.IsNullOrWhiteSpace(bearerToken))
             {
@@ -54,9 +54,12 @@ namespace Athi.Whippet.ParadoxLabs.Magento.Data
             }
             else
             {
-                if (!endpoint.StartsWith('/'))
+                if (!String.IsNullOrWhiteSpace(endpoint))
                 {
-                    endpoint = '/' + endpoint;
+                    if (!endpoint.StartsWith('/'))
+                    {
+                        endpoint = '/' + endpoint;
+                    }
                 }
 
                 return base.CreateEndpointUrl(URL_SUBSCRIPTION + endpoint, isQuery);

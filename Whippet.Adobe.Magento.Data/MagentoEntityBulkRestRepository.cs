@@ -30,7 +30,7 @@ namespace Athi.Whippet.Adobe.Magento.Data
         /// </summary>
         /// <param name="restClient"><see cref="IWhippetRestClient"/> object used to marshall the REST requests.</param>
         /// <param name="bearerToken">Authorization bearer token for making requests.</param>
-        /// <param name="baseUrl">Base URL of the request (e.g., &quote;orders/&quot;).</param>
+        /// <param name="baseUrl">Base URL of the request (e.g., &quot;orders/&quot;).</param>
         /// <exception cref="ArgumentNullException" />
         protected MagentoEntityBulkRestRepository(IWhippetRestClient restClient, string bearerToken, string baseUrl)
             : base(restClient, bearerToken, baseUrl)

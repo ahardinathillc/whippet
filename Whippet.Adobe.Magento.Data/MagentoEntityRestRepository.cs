@@ -26,7 +26,10 @@ namespace Athi.Whippet.Adobe.Magento.Data
         private const string TOKEN__PAGE_SIZE = "page_size";
         private const string TOKEN__CURRENT_PAGE = "current_page";
 
-        protected const string DEFAULT_BASE_URL = "/rest/V1/";
+        /// <summary>
+        /// Represents the querystring token for Magento's search functionality. 
+        /// </summary>
+        protected const string SEARCH_ENDPOINT = "/search";
         
         private const int DEFAULT_CHUNK_SIZE = 200;
 
@@ -82,7 +85,7 @@ namespace Athi.Whippet.Adobe.Magento.Data
         /// </summary>
         /// <param name="restClient"><see cref="IWhippetRestClient"/> object used to marshall the REST requests.</param>
         /// <param name="bearerToken">Authorization bearer token for making requests.</param>
-        /// <param name="baseUrl">Base URL of the request (e.g., &quote;orders/&quot;).</param>
+        /// <param name="baseUrl">Base URL of the request (e.g., &quot;orders/&quot;).</param>
         /// <exception cref="ArgumentNullException" />
         protected MagentoEntityRestRepository(IWhippetRestClient restClient, string bearerToken, string baseUrl)
             : base(restClient, bearerToken)
@@ -297,7 +300,7 @@ namespace Athi.Whippet.Adobe.Magento.Data
                 return builder.ToString();
             }
         }
-
+        
         /// <summary>
         /// Creates a Magento endpoint URL (i.e., &quot;/rest/V1/&quot;) for bulk operations with the specified <see cref="String"/> collection.
         /// </summary>

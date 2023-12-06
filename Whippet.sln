@@ -286,6 +286,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.ParadoxLabs.Magento
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.ParadoxLabs.Magento.Subscriptions", "Whippet.ParadoxLabs.Magento.Subscriptions\Whippet.ParadoxLabs.Magento.Subscriptions.csproj", "{F8114068-3A33-4FED-AE6D-24178424726F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.ParadoxLabs.Magento.Subscriptions.Repositories", "Whippet.ParadoxLabs.Magento.Subscriptions.Repositories\Whippet.ParadoxLabs.Magento.Subscriptions.Repositories.csproj", "{426499B8-2C3D-4A1B-8CC3-AE6A141BFCE0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -848,5 +850,9 @@ Global
 		{F8114068-3A33-4FED-AE6D-24178424726F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8114068-3A33-4FED-AE6D-24178424726F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8114068-3A33-4FED-AE6D-24178424726F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{426499B8-2C3D-4A1B-8CC3-AE6A141BFCE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{426499B8-2C3D-4A1B-8CC3-AE6A141BFCE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{426499B8-2C3D-4A1B-8CC3-AE6A141BFCE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{426499B8-2C3D-4A1B-8CC3-AE6A141BFCE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
