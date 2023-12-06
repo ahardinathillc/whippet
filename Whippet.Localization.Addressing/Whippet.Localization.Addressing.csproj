@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <AssemblyName>Athi.Whippet.Localization.Addressing</AssemblyName>
     <RootNamespace>Athi.Whippet.Localization.Addressing</RootNamespace>
     <ReleaseVersion>0.1.*.*</ReleaseVersion>
