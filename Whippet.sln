@@ -227,7 +227,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{530D04
 		.gitignore = .gitignore
 		build.cake = build.cake
 		EnableLongFilenames.bat = EnableLongFilenames.bat
-		CleanSolution.ps1 = CleanSolution.ps1
 		Whippet_Publish.ps1 = Whippet_Publish.ps1
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection

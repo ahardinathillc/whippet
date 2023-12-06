@@ -1,2 +1,0 @@
-Get-Childitem -Path ./ -Recurse | Where-Object {$_.Name -ilike "bin"} | Remove-Item -Force -Recursive -Verbose
-Get-Childitem -Path ./ -Recurse | Where-Object {$_.Name -ilike "obj"} | Remove-Item -Force -Recursive -Verbose
