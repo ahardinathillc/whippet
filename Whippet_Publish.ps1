@@ -1,8 +1,10 @@
 $currentDirectory = $PWD.Path
-$destinationDirectory = "/Publish"
+$destinationDirectory = $PWD.Path + "/Publish"
 
 $binToDelete = Get-Childitem ./ -Recurse | Where-Object {$_.Name -ilike "bin"}
 $objToDelete = Get-Childitem ./ -Recurse | Where-Object {$_.Name -ilike "obj"}
+
+Remove-Item -LiteralPath $destinationDirectory -Force -Recurse -Quet 
 
 for($i = 0; $i -lt $binToDelete.Count; $i++){
     # calculate progress percentage
@@ -26,3 +28,15 @@ Write-Progress -Activity "Deleting Files" -Completed
 dotnet new tool-manifest 
 dotnet tool install Cake.Tool --version 4.0.0
 dotnet cake
+
+# Delete all PDB files in publish
+
+$pdb = Get-Childitem -File -Path $destinationDirectory -Filter '*.pdb' -Recurse
+
+for($i = 0; $i -lt $pdb.Count; $i++){
+    # calculate progress percentage
+    $percentage = ($i + 1) / $pdb.Count * 100
+    Write-Progress -Activity "Deleting debug Files" -Status "Deleting File #$($i+1)/$($pdb.Count)" -PercentComplete $percentage
+    # delete file
+    $pdb[$i] | Remove-Item -Force -Recurse
+}
