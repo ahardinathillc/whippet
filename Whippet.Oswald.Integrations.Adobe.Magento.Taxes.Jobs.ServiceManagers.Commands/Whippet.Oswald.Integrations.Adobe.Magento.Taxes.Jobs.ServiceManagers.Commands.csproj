@@ -4,7 +4,9 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RootNamespace>Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.Jobs.ServiceManagers.Commands</RootNamespace>
   </PropertyGroup>
 

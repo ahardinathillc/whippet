@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <AssemblyName>Athi.Whippet.Security</AssemblyName>
     <RootNamespace>Athi.Whippet.Security</RootNamespace>
-    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <UserSecretsId>dc5b65fb-2416-4362-802d-5efab6bb0338</UserSecretsId>
   </PropertyGroup>
 

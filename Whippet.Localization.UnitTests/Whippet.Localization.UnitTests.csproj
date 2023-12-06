@@ -8,7 +8,7 @@
     <AssemblyName>Athi.Whippet.Localization.UnitTests</AssemblyName>
 
     <RootNamespace>Athi.Whippet.Localization.UnitTests</RootNamespace>
-    <ReleaseVersion>0.1.*.*</ReleaseVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

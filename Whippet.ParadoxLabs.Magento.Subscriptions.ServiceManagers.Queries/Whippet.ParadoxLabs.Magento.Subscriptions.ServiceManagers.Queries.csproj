@@ -4,6 +4,8 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
         <AssemblyName>Athi.Whippet.ParadoxLabs.Magento.Subscriptions.ServiceManagers.Queries</AssemblyName>
         <RootNamespace>Athi.Whippet.ParadoxLabs.Magento.Subscriptions.ServiceManagers.Queries</RootNamespace>
     </PropertyGroup>

@@ -4,6 +4,8 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
         <AssemblyName>Athi.Whippet.Adobe.Magento.GiftWrappings</AssemblyName>
         <RootNamespace>Athi.Whippet.Adobe.Magento.GiftWrappings</RootNamespace>
     </PropertyGroup>
