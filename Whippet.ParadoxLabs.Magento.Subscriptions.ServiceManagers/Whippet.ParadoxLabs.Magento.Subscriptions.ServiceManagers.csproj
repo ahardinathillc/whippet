@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyName>Athi.Whippet.ParadoxLabs.Magento.Subscriptions.ServiceManagers</AssemblyName>
+        <RootNamespace>Athi.Whippet.ParadoxLabs.Magento.Subscriptions.ServiceManagers</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Whippet.Adobe.Magento.Data\Whippet.Adobe.Magento.Data.csproj" />
+      <ProjectReference Include="..\Whippet.Adobe.Magento\Whippet.Adobe.Magento.csproj" />
+      <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+      <ProjectReference Include="..\Whippet.ParadoxLabs.Magento.Subscriptions.ServiceManagers.Handlers\Whippet.ParadoxLabs.Magento.Subscriptions.ServiceManagers.Handlers.csproj" />
+      <ProjectReference Include="..\Whippet.ParadoxLabs.Magento.Subscriptions.ServiceManagers.Queries\Whippet.ParadoxLabs.Magento.Subscriptions.ServiceManagers.Queries.csproj" />
+      <ProjectReference Include="..\Whippet.ParadoxLabs.Magento.Subscriptions\Whippet.ParadoxLabs.Magento.Subscriptions.csproj" />
+      <ProjectReference Include="..\Whippet.ParadoxLabs.Magento\Whippet.ParadoxLabs.Magento.csproj" />
+      <ProjectReference Include="..\Whippet.Salesforce.ServiceManagers\Whippet.Salesforce.ServiceManagers.csproj" />
+      <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    </ItemGroup>
+
+</Project>

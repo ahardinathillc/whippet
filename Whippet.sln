@@ -289,7 +289,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.ParadoxLabs.Magento
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.ParadoxLabs.Magento.Subscriptions.Repositories", "Whippet.ParadoxLabs.Magento.Subscriptions.Repositories\Whippet.ParadoxLabs.Magento.Subscriptions.Repositories.csproj", "{426499B8-2C3D-4A1B-8CC3-AE6A141BFCE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.ParadoxLabs.Magento.ServiceManagers", "Whippet.ParadoxLabs.Magento.ServiceManagers\Whippet.ParadoxLabs.Magento.ServiceManagers.csproj", "{99429FC6-90C8-4CAC-96A8-5B304CCC4D82}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.ParadoxLabs.Magento.Subscriptions.ServiceManagers", "Whippet.ParadoxLabs.Magento.Subscriptions.ServiceManagers\Whippet.ParadoxLabs.Magento.Subscriptions.ServiceManagers.csproj", "{99429FC6-90C8-4CAC-96A8-5B304CCC4D82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.ParadoxLabs.Magento.Subscriptions.ServiceManagers.Queries", "Whippet.ParadoxLabs.Magento.Subscriptions.ServiceManagers.Queries\Whippet.ParadoxLabs.Magento.Subscriptions.ServiceManagers.Queries.csproj", "{6F19BD51-902F-4781-AD3F-06E66A50FF8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.ParadoxLabs.Magento.Subscriptions.ServiceManagers.Handlers", "Whippet.ParadoxLabs.Magento.Subscriptions.ServiceManagers.Handlers\Whippet.ParadoxLabs.Magento.Subscriptions.ServiceManagers.Handlers.csproj", "{DFA97746-66F2-42FD-80DA-1C3A3AFECBC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -861,5 +865,13 @@ Global
 		{99429FC6-90C8-4CAC-96A8-5B304CCC4D82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99429FC6-90C8-4CAC-96A8-5B304CCC4D82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99429FC6-90C8-4CAC-96A8-5B304CCC4D82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F19BD51-902F-4781-AD3F-06E66A50FF8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F19BD51-902F-4781-AD3F-06E66A50FF8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F19BD51-902F-4781-AD3F-06E66A50FF8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F19BD51-902F-4781-AD3F-06E66A50FF8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFA97746-66F2-42FD-80DA-1C3A3AFECBC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFA97746-66F2-42FD-80DA-1C3A3AFECBC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFA97746-66F2-42FD-80DA-1C3A3AFECBC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFA97746-66F2-42FD-80DA-1C3A3AFECBC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
