@@ -1,5 +1,6 @@
 ﻿using System;
 using NodaTime;
+using Athi.Whippet.Extensions;
 using Athi.Whippet.Adobe.Magento;
 using Athi.Whippet.Adobe.Magento.Data;
 using Athi.Whippet.ParadoxLabs.Magento.Data;
@@ -67,6 +68,8 @@ namespace Athi.Whippet.ParadoxLabs.Magento.Subscriptions
                 if (_item == null)
                 {
                     _item = new SalesOrderItem();
+                    _item.Store = Store;
+                    _item.OrderID = Order.ID;
                 }
 
                 return _item;
@@ -340,42 +343,25 @@ namespace Athi.Whippet.ParadoxLabs.Magento.Subscriptions
         /// <returns>Duplicate instance of the current object.</returns>
         public override object Clone()
         {
-            Subscription attribute = new Subscription();
+            Subscription subscription = new Subscription();
 
-            attribute.PageBuilderEnabled = PageBuilderEnabled;
-            attribute.WYSIWYG = WYSIWYG;
-            attribute.AllowHTML = AllowHTML;
-            attribute.UsedForSortBy = UsedForSortBy;
-            attribute.Filterable = Filterable;
-            attribute.FilterableInSearch = FilterableInSearch;
-            attribute.FilterableInGrid = FilterableInGrid;
-            attribute.UsedInGrid = UsedInGrid;
-            attribute.Position = Position;
-            attribute.ApplyTo = (ApplyTo == null) ? null : ApplyTo.ToArray();
-            attribute.IsSearchable = IsSearchable;
-            attribute.IsVisibleInAdvancedSearch = IsVisibleInAdvancedSearch;
-            attribute.IsComparable = IsComparable;
-            attribute.UsedForPromoRules = UsedForPromoRules;
-            attribute.VisibleOnFront = VisibleOnFront;
-            attribute.UsedInSalesOrderItemListing = UsedInSalesOrderItemListing;
-            attribute.Scope = Scope;
-            attribute.Code = Code;
-            attribute.FrontendInput = FrontendInput;
-            attribute.EntityTypeID = EntityTypeID;
-            attribute.IsRequired = IsRequired;
-            attribute.Options = (Options == null) ? null : Options.ToArray();
-            attribute.IsUserDefined = IsUserDefined;
-            attribute.DefaultFrontendLabel = DefaultFrontendLabel;
-            attribute.FrontendLabels = (FrontendLabels == null) ? null : FrontendLabels.ToArray();
-            attribute.Note = Note;
-            attribute.BackendType = BackendType;
-            attribute.BackendModel = BackendModel;
-            attribute.SourceModel = SourceModel;
-            attribute.IsUnique = IsUnique;
-            attribute.FrontendClass = FrontendClass;
-            attribute.ValidationRules = (ValidationRules == null) ? null : ValidationRules.ToArray();
+            subscription.ID = ID;
+            subscription.Order = Order.Clone<SalesOrder>();
+            subscription.Item = Item.Clone<SalesOrderItem>();
+            subscription.CreatedTimestamp = CreatedTimestamp;
+            subscription.UpdatedTimestamp = UpdatedTimestamp;
+            subscription.Store = Store.Clone<Store>();
+            subscription.NextRun = NextRun;
+            subscription.LastRun = LastRun;
+            subscription.Subtotal = Subtotal;
+            subscription.IsComplete = IsComplete;
+            subscription.Length = Length;
+            subscription.RunCount = RunCount;
+            subscription.Status = Status;
+            subscription.Frequency = Frequency;
+            subscription.FrequencyInterval = FrequencyInterval;
             
-            return attribute;
+            return subscription;
         }
 
         /// <summary>
@@ -387,38 +373,20 @@ namespace Athi.Whippet.ParadoxLabs.Magento.Subscriptions
             HashCode hash = new HashCode();
 
             hash.Add(ID);
-            hash.Add(PageBuilderEnabled);
-            hash.Add(WYSIWYG);
-            hash.Add(AllowHTML);
-            hash.Add(UsedForSortBy);
-            hash.Add(Filterable);
-            hash.Add(FilterableInSearch);
-            hash.Add(UsedInGrid);
-            hash.Add(FilterableInGrid);
-            hash.Add(Position);
-            hash.Add(ApplyTo);
-            hash.Add(IsSearchable);
-            hash.Add(IsVisibleInAdvancedSearch);
-            hash.Add(IsComparable);
-            hash.Add(UsedForPromoRules);
-            hash.Add(VisibleOnFront);
-            hash.Add(UsedInSalesOrderItemListing);
-            hash.Add(Scope);
-            hash.Add(Code);
-            hash.Add(FrontendInput);
-            hash.Add(EntityTypeID);
-            hash.Add(IsRequired);
-            hash.Add(Options);
-            hash.Add(IsUserDefined);
-            hash.Add(DefaultFrontendLabel);
-            hash.Add(FrontendLabels);
-            hash.Add(Note);
-            hash.Add(BackendType);
-            hash.Add(BackendModel);
-            hash.Add(SourceModel);
-            hash.Add(IsUnique);
-            hash.Add(FrontendClass);
-            hash.Add(ValidationRules);
+            hash.Add(Order);
+            hash.Add(Item);
+            hash.Add(CreatedTimestamp);
+            hash.Add(UpdatedTimestamp);
+            hash.Add(Store);
+            hash.Add(NextRun);
+            hash.Add(LastRun);
+            hash.Add(Subtotal);
+            hash.Add(IsComplete);
+            hash.Add(Length);
+            hash.Add(RunCount);
+            hash.Add(Status);
+            hash.Add(Frequency);
+            hash.Add(FrequencyInterval);
             
             return hash.ToHashCode();
         }
@@ -431,56 +399,44 @@ namespace Athi.Whippet.ParadoxLabs.Magento.Subscriptions
         {
             if (model != null)
             {
-                PageBuilderEnabled = (model.ExtensionAttributes == null) ? default(bool) : model.ExtensionAttributes.PageBuilderEnabled;
-                WYSIWYG = model.WYSIWYG;
-                AllowHTML = model.AllowHTML;
-                UsedForSortBy = model.UsedForSortBy;
-                Filterable = model.Filterable;
-                FilterableInSearch = model.FilterableInSearch;
-                UsedInGrid = model.UsedInGrid;
-                FilterableInGrid = model.FilterableInGrid;
-                Position = model.Position;
-                ApplyTo = model.ApplyTo;
-                IsSearchable = model.IsSearchable.FromMagentoBoolean();
-                IsVisibleInAdvancedSearch = model.IsVisibleInAdvancedSearch.FromMagentoBoolean();
-                IsComparable = model.IsComparable.FromMagentoBoolean();
-                UsedForPromoRules = model.UsedForPromoRules.FromMagentoBoolean();
-                VisibleOnFront = model.VisibleOnFront.FromMagentoBoolean();
-                UsedInSalesOrderItemListing = model.UsedInSalesOrderItemListing.FromMagentoBoolean();
-                Scope = model.Scope;
-                Code = model.Code;
-                FrontendInput = model.FrontendInput;
-                EntityTypeID = model.EntityTypeID;
-                IsRequired = model.IsRequired;
-                Options = (model.Options == null) ? null : model.Options.Select(o => new AttributeOption(o));
-                IsUserDefined = model.IsUserDefined;
-                DefaultFrontendLabel = model.DefaultFrontendLabel;
-                FrontendLabels = (model.FrontendLabels == null) ? null : model.FrontendLabels.Select(l => new AttributeFrontendLabel());
-                Note = model.Note;
-                BackendType = model.BackendType;
-                BackendModel = model.BackendModel;
-                SourceModel = model.SourceModel;
-                IsUnique = model.IsUnique.FromMagentoBoolean();
-                FrontendClass = model.FrontendClass;
-                ValidationRules = (model.ValidationRules == null) ? null : model.ValidationRules.Select(vr => new AttributeValidationRule());
+                ID = model.ID;
+                Order = new SalesOrder(default(uint)) { QuoteID = model.QuoteID };
+                Item = new SalesOrderItem(Convert.ToUInt32(model.ID));
 
-                if (model.CustomAttributes != null)
+                if (!String.IsNullOrWhiteSpace(model.CreatedAt))
                 {
-                    CustomAttributes = new MagentoCustomAttributeCollection(model.CustomAttributes.Select(c => new KeyValuePair<string, string>(c.AttributeCode, c.Value)));
+                    CreatedTimestamp = Instant.FromDateTimeUtc(DateTime.Parse(model.CreatedAt).ToUniversalTime(true));
                 }
+
+                if (!String.IsNullOrWhiteSpace(model.CreatedAt))
+                {
+                    CreatedTimestamp = Instant.FromDateTimeUtc(DateTime.Parse(model.CreatedAt).ToUniversalTime(true));
+                }
+
+                UpdatedTimestamp = !String.IsNullOrWhiteSpace(model.UpdatedAt) ? Instant.FromDateTimeUtc(DateTime.Parse(model.UpdatedAt).ToUniversalTime(true)) : null;
+                Store = new Store(Convert.ToUInt32(model.StoreID));
+                NextRun = !String.IsNullOrWhiteSpace(model.NextRun) ? Instant.FromDateTimeUtc(DateTime.Parse(model.NextRun).ToUniversalTime(true)) : null;
+                LastRun = !String.IsNullOrWhiteSpace(model.LastRun) ? Instant.FromDateTimeUtc(DateTime.Parse(model.LastRun).ToUniversalTime(true)) : null;
+                Subtotal = Convert.ToDecimal(model.Subtotal);
+                IsComplete = Convert.ToBoolean(model.Complete);
+                Length = Convert.ToInt32(model.Length);
+                RunCount = Convert.ToInt32(model.RunCount);
+                Status = model.Status;
+                Frequency = Convert.ToInt32(model.FrequencyCount);
+                FrequencyInterval = model.FrequencyUnit;
             }
         }
 
         /// <summary>
         /// Gets the hash code of the specified object.
         /// </summary>
-        /// <param name="attribute"><see cref="IParadoxLabsSubscription"/> object to get hash code for.</param>
+        /// <param name="subscription"><see cref="ISubscription"/> object to get hash code for.</param>
         /// <returns>Hash code.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual int GetHashCode(IParadoxLabsSubscription attribute)
+        public virtual int GetHashCode(ISubscription subscription)
         {
-            ArgumentNullException.ThrowIfNull(attribute);
-            return attribute.GetHashCode();
+            ArgumentNullException.ThrowIfNull(subscription);
+            return subscription.GetHashCode();
         }
     }
 }
