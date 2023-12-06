@@ -56,7 +56,7 @@ Task("Build")
     .Does(() => {
         Information("Current configuration is " + configuration);
 
-        DotNetBuild("./Athi.WebbDash.sln", new DotNetBuildSettings
+        DotNetBuild("./Whippet.sln", new DotNetBuildSettings
         {
             Configuration = configuration,
         }

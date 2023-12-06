@@ -228,6 +228,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{530D04
 		build.cake = build.cake
 		EnableLongFilenames.bat = EnableLongFilenames.bat
 		CleanSolution.ps1 = CleanSolution.ps1
+		Whippet_Publish.ps1 = Whippet_Publish.ps1
+		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.Taxes", "Whippet.Adobe.Magento.Taxes\Whippet.Adobe.Magento.Taxes.csproj", "{C930809E-CC86-40F3-9390-D36D60B40B46}"
