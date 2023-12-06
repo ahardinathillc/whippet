@@ -25,8 +25,4 @@ Write-Progress -Activity "Deleting Files" -Completed
 
 dotnet new tool-manifest 
 dotnet tool install Cake.Tool --version 4.0.0
-
-$destinationDirectory = $currentDirectory + $destinationDirectory
-
 dotnet cake
-New-Item -ItemType Directory -Force -Path $destinationDirectory
