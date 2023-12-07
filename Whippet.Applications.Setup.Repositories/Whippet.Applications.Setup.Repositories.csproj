@@ -8,6 +8,7 @@
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RootNamespace>Athi.Whippet.Applications.Setup.Repositories</RootNamespace>
+    <AssemblyName>Athi.Whippet.Applications.Setup.Repositories</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

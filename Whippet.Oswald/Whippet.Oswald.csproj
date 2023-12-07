@@ -8,6 +8,7 @@
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RootNamespace>Athi.Whippet.Oswald</RootNamespace>
+    <AssemblyName>Athi.Whippet.Oswald</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

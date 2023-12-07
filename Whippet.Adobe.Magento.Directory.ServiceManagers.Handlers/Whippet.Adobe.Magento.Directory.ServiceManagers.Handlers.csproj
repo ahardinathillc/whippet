@@ -8,6 +8,7 @@
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RootNamespace>Athi.Whippet.Adobe.Magento.Directory.ServiceManagers.Handlers</RootNamespace>
+    <AssemblyName>Athi.Whippet.Adobe.Magento.Directory.ServiceManagers.Handlers</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

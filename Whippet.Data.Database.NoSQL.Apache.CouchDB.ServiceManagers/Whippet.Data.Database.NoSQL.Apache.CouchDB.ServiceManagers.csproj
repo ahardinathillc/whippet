@@ -8,6 +8,7 @@
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RootNamespace>Athi.Whippet.Data.Database.NoSQL.Apache.CouchDB.ServiceManagers</RootNamespace>
+    <AssemblyName>Athi.Whippet.Data.Database.NoSQL.Apache.CouchDB.ServiceManagers</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

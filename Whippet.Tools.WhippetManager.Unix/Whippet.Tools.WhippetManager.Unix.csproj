@@ -8,6 +8,7 @@
 <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
     <RootNamespace>Athi.Whippet.Tools.WhippetManager.Unix</RootNamespace>
+    <AssemblyName>Athi.Whippet.Tools.WhippetManager.Unix</AssemblyName>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 

@@ -3,6 +3,7 @@ var configuration = Argument("configuration", "Release");
 var solutions = GetFiles("./**/*.csproj");
 var solutionPaths = solutions.Select(solution => solution.GetDirectory());
 var publishPath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "Publish");
+var publishNugetPath = System.IO.Path.Combine(publishPath, "NuGet");
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -64,11 +65,23 @@ Task("Build")
         
         foreach (var path in solutionPaths)
         {
+            var nugetDirectory = Directory(path + "/bin/Release");
             var sourceDirectory = GetDirectories(path + "/bin/Release/net**/").OrderByDescending(d => d.FullPath).FirstOrDefault();
+            
+            if (!DirectoryExists(publishNugetPath))
+            {
+                CreateDirectory(publishNugetPath);
+            }
             
             if (sourceDirectory != null)
             {
                 CopyDirectory(sourceDirectory, publishPath);
+            }
+            
+            if (nugetDirectory != null)
+            {
+                // copy all NuGet packages
+                CopyFiles(System.IO.Path.Combine(nugetDirectory, "*.nupkg"), Directory(publishNugetPath), false);  
             }
         }
     });

@@ -8,6 +8,7 @@
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RootNamespace>Athi.Whippet.Jobs.Web</RootNamespace>
+    <AssemblyName>Athi.Whippet.Jobs.Web</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

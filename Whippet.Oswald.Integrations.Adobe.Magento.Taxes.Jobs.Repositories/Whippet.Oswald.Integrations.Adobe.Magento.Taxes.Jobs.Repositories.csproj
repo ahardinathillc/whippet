@@ -8,6 +8,7 @@
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RootNamespace>Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.Jobs.Repositories</RootNamespace>
+    <AssemblyName>Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.Jobs.Repositories</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

@@ -8,6 +8,7 @@
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RootNamespace>Athi.Whippet.Logging.Serilog.ServiceManagers.Queries</RootNamespace>
+    <AssemblyName>Athi.Whippet.Logging.Serilog.ServiceManagers.Queries</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

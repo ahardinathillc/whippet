@@ -8,6 +8,7 @@
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RootNamespace>Athi.Whippet.Adobe.Magento.Directory</RootNamespace>
+    <AssemblyName>Athi.Whippet.Adobe.Magento.Directory</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

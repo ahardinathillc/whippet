@@ -8,6 +8,7 @@
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RootNamespace>Athi.Whippet.Logging.Serilog.Repositories</RootNamespace>
+    <AssemblyName>Athi.Whippet.Logging.Serilog.Repositories</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

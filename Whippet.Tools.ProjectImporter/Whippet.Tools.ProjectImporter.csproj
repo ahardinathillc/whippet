@@ -5,9 +5,9 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 
-        <AssemblyName>Whippet.Tools.ProjectImporter</AssemblyName>
+        <AssemblyName>Athi.Whippet.Tools.ProjectImporter</AssemblyName>
         <RootNamespace>Athi.Whippet</RootNamespace>
         <Company>Athi, LLC</Company>
         <Product>Whippet</Product>

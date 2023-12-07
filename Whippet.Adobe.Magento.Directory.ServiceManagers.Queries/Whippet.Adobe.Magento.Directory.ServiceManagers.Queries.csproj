@@ -8,6 +8,7 @@
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RootNamespace>Athi.Whippet.Adobe.Magento.Directory.ServiceManagers.Queries</RootNamespace>
+    <AssemblyName>Athi.Whippet.Adobe.Magento.Directory.ServiceManagers.Queries</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

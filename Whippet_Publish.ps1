@@ -1,10 +1,11 @@
 $currentDirectory = $PWD.Path
 $destinationDirectory = $PWD.Path + "/Publish"
+$nugetDirectory = $destinationDirectory + "/NuGet"
 
 $binToDelete = Get-Childitem ./ -Recurse | Where-Object {$_.Name -ilike "bin"}
 $objToDelete = Get-Childitem ./ -Recurse | Where-Object {$_.Name -ilike "obj"}
 
-Remove-Item -LiteralPath $destinationDirectory -Force -Recurse -Quet 
+Remove-Item -LiteralPath $destinationDirectory -Force -Recurse 
 
 for($i = 0; $i -lt $binToDelete.Count; $i++){
     # calculate progress percentage

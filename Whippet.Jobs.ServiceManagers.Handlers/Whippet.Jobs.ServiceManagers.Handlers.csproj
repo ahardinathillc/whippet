@@ -8,6 +8,7 @@
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RootNamespace>Athi.Whippet.Jobs.ServiceManagers.Handlers</RootNamespace>
+    <AssemblyName>Athi.Whippet.Jobs.ServiceManagers.Handlers</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

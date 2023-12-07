@@ -8,6 +8,7 @@
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RootNamespace>Athi.Whippet.Applications.Setup.ServiceManagers.Queries</RootNamespace>
+    <AssemblyName>Athi.Whippet.Applications.Setup.ServiceManagers.Queries</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

@@ -5,6 +5,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+<AssemblyName>Athi.Whippet.ParadoxLabs.Magento.Subscriptions.Repositories</AssemblyName>
+<RootNamespace>Athi.Whippet.ParadoxLabs.Magento.Subscriptions.Repositories</RootNamespace>
 
     </PropertyGroup>
 
