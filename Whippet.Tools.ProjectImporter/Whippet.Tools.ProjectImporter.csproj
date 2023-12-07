@@ -1,4 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+ <Project Sdk="Microsoft.NET.Sdk">
+
+ <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+  </PropertyGroup>
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>

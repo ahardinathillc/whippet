@@ -1,4 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+ <Project Sdk="Microsoft.NET.Sdk">
+
+ <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+  </PropertyGroup>
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -9,7 +15,6 @@
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\net8.0\Athi.Whippet.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="SiteManagement\**" />
@@ -141,7 +146,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="ResourceFiles\Athi.Whippet.Exceptions.xml">
+    <None Include="ResourceFiles\Athi.Whippet.Exceptions.xml" Pack="true">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
