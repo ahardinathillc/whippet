@@ -37,7 +37,7 @@ namespace Athi.Whippet.ParadoxLabs.Magento.Subscriptions.ServiceManagers.Handler
             }
             else
             {
-                WhippetResultContainer<Subscription> queryResult = await ((IWhippetRepository<Subscription, uint>)(Repository)).GetAsync(query.ID);
+                WhippetResultContainer<Subscription> queryResult = await ((IWhippetRepository<Subscription, uint>)(Repository)).GetAsync(Convert.ToUInt32(query.ID));
                 return new WhippetResultContainer<IEnumerable<Subscription>>(queryResult.Result, new[] { queryResult.Item });
             }
         }
