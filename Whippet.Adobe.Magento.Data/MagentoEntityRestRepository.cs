@@ -207,7 +207,13 @@ namespace Athi.Whippet.Adobe.Magento.Data
                     {
                         builder.Append('?');
                     }
+                    else if (!isQuery && !builder.ToString().EndsWith('/'))
+                    {
+                        builder.Append('/');
+                    }
                 }
+                
+                builder.Append(endpoint);
 
                 return builder.ToString().Trim();
             }

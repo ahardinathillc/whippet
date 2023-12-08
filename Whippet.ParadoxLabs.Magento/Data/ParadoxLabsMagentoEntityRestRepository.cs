@@ -38,32 +38,5 @@ namespace Athi.Whippet.ParadoxLabs.Magento.Data
                 throw new ArgumentNullException(nameof(bearerToken));
             }
         }
-
-        /// <summary>
-        /// Creates a Magento endpoint URL (i.e., &quot;/rest/V1/subscription/&quot;).
-        /// </summary>
-        /// <param name="endpoint">Endpoint to append to the URL.</param>
-        /// <param name="isQuery">If <see langword="true"/>, the endpoint URL will be formatted as a querystring.</param>
-        /// <returns>Magento endpoint URL.</returns>
-        /// <exception cref="ArgumentNullException" />
-        protected override string CreateEndpointUrl(string endpoint, bool isQuery = false)
-        {
-            if (String.IsNullOrWhiteSpace(endpoint) && String.IsNullOrWhiteSpace(BaseUrl))
-            {
-                throw new ArgumentNullException(nameof(endpoint));
-            }
-            else
-            {
-                if (!String.IsNullOrWhiteSpace(endpoint))
-                {
-                    if (!endpoint.StartsWith('/'))
-                    {
-                        endpoint = '/' + endpoint;
-                    }
-                }
-
-                return base.CreateEndpointUrl(URL_SUBSCRIPTION + endpoint, isQuery);
-            }
-        }
     }
 }
