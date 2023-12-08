@@ -296,6 +296,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.ParadoxLabs.Magento
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.ParadoxLabs.Magento.Subscriptions.ServiceManagers.Handlers", "Whippet.ParadoxLabs.Magento.Subscriptions.ServiceManagers.Handlers\Whippet.ParadoxLabs.Magento.Subscriptions.ServiceManagers.Handlers.csproj", "{DFA97746-66F2-42FD-80DA-1C3A3AFECBC9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.ParadoxLabs.Magento.UnitTests", "Whippet.ParadoxLabs.Magento.UnitTests\Whippet.ParadoxLabs.Magento.UnitTests.csproj", "{1FE157D2-59E0-4BEA-B7C1-27B708BC67DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.UnitTests.Mocks", "Whippet.Adobe.Magento.UnitTests.Mocks\Whippet.Adobe.Magento.UnitTests.Mocks.csproj", "{0537927B-301C-4CD5-9C1E-06B5F3FD4FF0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Testing.Infrastructure", "Whippet.Testing.Infrastructure\Whippet.Testing.Infrastructure.csproj", "{4F41786E-A998-435E-B96F-4C9038691482}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.FreestyleSolutions.MOM.Installer", "Whippet.FreestyleSolutions.MOM.Installer\Whippet.FreestyleSolutions.MOM.Installer.csproj", "{984E22C6-A94F-47D1-AA7D-34BBA26B8136}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -874,5 +882,21 @@ Global
 		{DFA97746-66F2-42FD-80DA-1C3A3AFECBC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFA97746-66F2-42FD-80DA-1C3A3AFECBC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFA97746-66F2-42FD-80DA-1C3A3AFECBC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FE157D2-59E0-4BEA-B7C1-27B708BC67DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FE157D2-59E0-4BEA-B7C1-27B708BC67DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FE157D2-59E0-4BEA-B7C1-27B708BC67DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FE157D2-59E0-4BEA-B7C1-27B708BC67DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0537927B-301C-4CD5-9C1E-06B5F3FD4FF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0537927B-301C-4CD5-9C1E-06B5F3FD4FF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0537927B-301C-4CD5-9C1E-06B5F3FD4FF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0537927B-301C-4CD5-9C1E-06B5F3FD4FF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F41786E-A998-435E-B96F-4C9038691482}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F41786E-A998-435E-B96F-4C9038691482}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F41786E-A998-435E-B96F-4C9038691482}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F41786E-A998-435E-B96F-4C9038691482}.Release|Any CPU.Build.0 = Release|Any CPU
+		{984E22C6-A94F-47D1-AA7D-34BBA26B8136}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{984E22C6-A94F-47D1-AA7D-34BBA26B8136}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{984E22C6-A94F-47D1-AA7D-34BBA26B8136}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{984E22C6-A94F-47D1-AA7D-34BBA26B8136}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

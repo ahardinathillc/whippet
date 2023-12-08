@@ -107,6 +107,8 @@ namespace Athi.Whippet.ParadoxLabs.Magento.Subscriptions.Repositories
 
             WhippetResultContainer<Subscription> result = null;
 
+            ParadoxLabsSubscriptionInterface subscriptionInterface = null;
+            
             RestRequest request = null;
             RestResponse response = null;
 
@@ -119,7 +121,8 @@ namespace Athi.Whippet.ParadoxLabs.Magento.Subscriptions.Repositories
 
                 if (response.IsOkStatus())
                 {
-                    result = new WhippetResultContainer<Subscription>(WhippetResult.Success, JsonConvert.DeserializeObject<Subscription>(response.Content));
+                    subscriptionInterface = JsonConvert.DeserializeObject<ParadoxLabsSubscriptionInterface>(response.Content);
+                    result = new WhippetResultContainer<Subscription>(WhippetResult.Success, new Subscription(subscriptionInterface));
                 }
                 else
                 {
