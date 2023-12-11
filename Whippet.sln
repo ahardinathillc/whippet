@@ -302,8 +302,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Adobe.Magento.UnitT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Testing.Infrastructure", "Whippet.Testing.Infrastructure\Whippet.Testing.Infrastructure.csproj", "{4F41786E-A998-435E-B96F-4C9038691482}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.FreestyleSolutions.MOM.Installer", "Whippet.FreestyleSolutions.MOM.Installer\Whippet.FreestyleSolutions.MOM.Installer.csproj", "{984E22C6-A94F-47D1-AA7D-34BBA26B8136}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -894,9 +892,5 @@ Global
 		{4F41786E-A998-435E-B96F-4C9038691482}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F41786E-A998-435E-B96F-4C9038691482}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F41786E-A998-435E-B96F-4C9038691482}.Release|Any CPU.Build.0 = Release|Any CPU
-		{984E22C6-A94F-47D1-AA7D-34BBA26B8136}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{984E22C6-A94F-47D1-AA7D-34BBA26B8136}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{984E22C6-A94F-47D1-AA7D-34BBA26B8136}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{984E22C6-A94F-47D1-AA7D-34BBA26B8136}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
