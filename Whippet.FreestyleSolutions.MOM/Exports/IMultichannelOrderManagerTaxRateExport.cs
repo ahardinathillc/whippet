@@ -6,7 +6,7 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.Exports
     /// <summary>
     /// Provides a lightweight, data store independent implementation of a tax rate export record from a Multichannel Order Manager server.
     /// </summary>
-    public interface IMultichannelOrderManagerTaxRateExport : IEqualityComparer<IMultichannelOrderManagerTaxRateExport>, IJsonObject
+    public interface IMultichannelOrderManagerTaxRateExport : IEqualityComparer<IMultichannelOrderManagerTaxRateExport>
     {
         /// <summary>
         /// Gets or sets the tax rate.

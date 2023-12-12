@@ -7,7 +7,7 @@ namespace Athi.Whippet.Data.Database.NoSQL.Apache.CouchDB
     /// <summary>
     /// Represents a domain object in Whippet for CouchDB. This class must be inherited.
     /// </summary>
-    public abstract class WhippetCouchDBEntity : CouchDocument, IWhippetEntity, IWhippetNoSQLEntity, IWhippetCouchDocument, IJsonObject
+    public abstract class WhippetCouchDBEntity : CouchDocument, IWhippetEntity, IWhippetNoSQLEntity, IWhippetCouchDocument
     {
         /// <summary>
         /// Unique identifier of the entity.
@@ -82,12 +82,5 @@ namespace Athi.Whippet.Data.Database.NoSQL.Apache.CouchDB
                 return obj.GetHashCode();
             }
         }
-
-        /// <summary>
-        /// Returns a JSON string representing the current object. This method must be overridden.
-        /// </summary>
-        /// <typeparam name="T">Type of object to serialize.</typeparam>
-        /// <returns>JSON string.</returns>
-        public abstract string ToJson<T>() where T : IJsonSerializableObject;
     }
 }

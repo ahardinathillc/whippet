@@ -13,7 +13,7 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.Exports
     /// <summary>
     /// Represents a flattened Multichannel Order Manager (M.O.M.) tax rate export that exports the tax rate for <see cref="MultichannelOrderManagerPostalCode"/>, <see cref="MultichannelOrderManagerStateProvince"/>, and <see cref="MultichannelOrderManagerCountry"/> objects.
     /// </summary>
-    public class MultichannelOrderManagerFlattenedTaxRateExport : MultichannelOrderManagerEntity, IWhippetEntity, IWhippetEntityExternalDataRowImportMapper, IMultichannelOrderManagerEntity, IWhippetEntityDynamicImportMapper, IWhippetCloneable, IMultichannelOrderManagerTaxRateExport, IEqualityComparer<IMultichannelOrderManagerTaxRateExport>, IComparable<MultichannelOrderManagerFlattenedTaxRateExport>, IJsonObject
+    public class MultichannelOrderManagerFlattenedTaxRateExport : MultichannelOrderManagerEntity, IWhippetEntity, IWhippetEntityExternalDataRowImportMapper, IMultichannelOrderManagerEntity, IWhippetEntityDynamicImportMapper, IWhippetCloneable, IMultichannelOrderManagerTaxRateExport, IEqualityComparer<IMultichannelOrderManagerTaxRateExport>, IComparable<MultichannelOrderManagerFlattenedTaxRateExport>
     {
         private string _viewName;
 

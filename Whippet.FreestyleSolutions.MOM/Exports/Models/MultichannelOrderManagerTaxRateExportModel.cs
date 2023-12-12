@@ -9,7 +9,7 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.Exports.Model
     /// <summary>
     /// Model for lightweight, data store independent implementation of a tax rate export record from a Multichannel Order Manager server. This class cannot be inherited.
     /// </summary>
-    public sealed class MultichannelOrderManagerTaxRateExportModel : IMultichannelOrderManagerTaxRateExport, IEqualityComparer<IMultichannelOrderManagerTaxRateExport>, IJsonObject
+    public sealed class MultichannelOrderManagerTaxRateExportModel : IMultichannelOrderManagerTaxRateExport, IEqualityComparer<IMultichannelOrderManagerTaxRateExport>
     {
         private IMultichannelOrderManagerTaxRateExport _export;
 
@@ -227,16 +227,6 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.Exports.Model
         public override string ToString()
         {
             return InternalObject.ToString();
-        }
-
-        /// <summary>
-        /// Returns a JSON string representing the current object. This method must be overridden.
-        /// </summary>
-        /// <typeparam name="T">Type of object to serialize.</typeparam>
-        /// <returns>JSON string.</returns>
-        public string ToJson<T>() where T : IJsonSerializableObject
-        {
-            return DefaultWhippetJsonObjectWriter.Instance.ToJson(this);
         }
     }
 }

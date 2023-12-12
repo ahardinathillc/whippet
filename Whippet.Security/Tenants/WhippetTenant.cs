@@ -16,7 +16,7 @@ namespace Athi.Whippet.Security.Tenants
     /// <summary>
     /// Represents a tenant in the Whippet hosting environment. All child <see cref="WhippetTenant"/> instances are hosted by the <see cref="WhippetTenant.Root"/> instance.
     /// </summary>
-    public class WhippetTenant : WhippetAuditableEntity, IWhippetEntity, IWhippetAuditableEntity, IWhippetActiveEntity, IWhippetSoftDeleteEntity, IWhippetTenant, IJsonObject
+    public class WhippetTenant : WhippetAuditableEntity, IWhippetEntity, IWhippetAuditableEntity, IWhippetActiveEntity, IWhippetSoftDeleteEntity, IWhippetTenant
     {
         private bool _active;
         private bool _deleted;
@@ -289,16 +289,6 @@ namespace Athi.Whippet.Security.Tenants
                 IWhippetUser user = null;
                 Root = new WhippetTenant(rootTenantId, rootTenantName, rootTenantUrl, Instant.FromDateTimeUtc(DateTime.UtcNow), user.CreateNonInteractiveSystemUser().ID, null, null, true, false) { IsRootTenant = true };
             }
-        }
-
-        /// <summary>
-        /// Returns a JSON string representing the current object. This method must be overridden.
-        /// </summary>
-        /// <typeparam name="T">Type of object to serialize.</typeparam>
-        /// <returns>JSON string.</returns>
-        public override string ToJson<T>()
-        {
-            return this.SerializeJson(this);
         }
     }
 }

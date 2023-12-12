@@ -10,7 +10,7 @@ namespace Athi.Whippet.Data
     /// <summary>
     /// Represents a domain object in Whippet.
     /// </summary>
-    public interface IWhippetEntity : IJsonObject
+    public interface IWhippetEntity
     {
         /// <summary>
         /// Unique identifier of the entity.

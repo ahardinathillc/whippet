@@ -9,7 +9,7 @@ namespace Athi.Whippet.Data.Database.NoSQL.Apache.CouchDB.Models
     /// <summary>
     /// Base class for all <see cref="IWhippetCouchDocument"/> models and view models. This class must be inherited.
     /// </summary>
-    public abstract class WhippetCouchDocumentModel<T> : IWhippetCouchDocument, IWhippetEntity, IJsonObject, IJsonSerializableObject
+    public abstract class WhippetCouchDocumentModel<T> : IWhippetCouchDocument, IWhippetEntity
         where T : CouchDocument
     {
         /// <summary>
