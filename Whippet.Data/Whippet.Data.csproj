@@ -58,6 +58,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Database\Extensions\" />
     <Folder Include="NHibernate\Extensions\" />
     <Folder Include="ResourceFiles\" />
     <Folder Include="Database\Oracle\" />

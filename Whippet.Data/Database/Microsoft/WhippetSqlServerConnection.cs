@@ -27,6 +27,11 @@ namespace Athi.Whippet.Data.Database.Microsoft
         public const string DefaultSchemaName = "whippet";
 
         /// <summary>
+        /// Default packet size for Microsoft SQL Server instances.
+        /// </summary>
+        public const short DefaultPacketSize = 4096;
+        
+        /// <summary>
         /// Gets or sets the access token for the connection.
         /// </summary>
         [Browsable(false)]

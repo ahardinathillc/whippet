@@ -554,7 +554,7 @@ namespace Athi.Whippet.Data.Database.Microsoft
             }
             set
             {
-                InternalBuilder.PacketSize = value;
+                InternalBuilder.PacketSize = (value <= 0) ? WhippetSqlServerConnection.DefaultPacketSize : value;
             }
         }
 

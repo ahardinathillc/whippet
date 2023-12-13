@@ -10,7 +10,7 @@ namespace Athi.Whippet.SuperDuper
     /// <summary>
     /// Base class for servers for connecting to Super Duper applications (database or application). This class must be inherited.
     /// </summary>
-    public abstract class SuperDuperServer : WhippetAuditableEntity, IWhippetSoftDeleteEntity, IWhippetActiveEntity, IWhippetEntity, IWhippetAuditableEntity, ISuperDuperServer, IEqualityComparer<ISuperDuperServer>
+    public abstract class SuperDuperServer : WhippetAuditableEntity, IWhippetSoftDeleteEntity, IWhippetActiveEntity, IWhippetEntity, IWhippetAuditableEntity, ISuperDuperServer, IEqualityComparer<ISuperDuperServer>, IDataServer
     {
         private bool _active;
 
@@ -18,6 +18,12 @@ namespace Athi.Whippet.SuperDuper
 
         private WhippetTenant _tenant;
 
+        /// <summary>
+        /// Gets or sets the server address (URL, host name, IP address, or network share).
+        /// </summary>
+        public virtual string DataSource
+        { get; set; }
+        
         /// <summary>
         /// Gets or sets the unique name of the server profile.
         /// </summary>
@@ -110,10 +116,10 @@ namespace Athi.Whippet.SuperDuper
         }
 
         /// <summary>
-        /// Indicates the type of the current <see cref="ISuperDuperServer"/>. This property must be overridden. This property is read-only.
+        /// Indicates the type of the current <see cref="ISuperDuperServer"/>. This property is read-only.
         /// </summary>
-        public abstract ExternalDataSourceType ServerType
-        { get; }
+        public virtual ExternalDataSourceType ServerType
+        { get; protected set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SuperDuperServer"/> class with no arguments.
@@ -136,7 +142,8 @@ namespace Athi.Whippet.SuperDuper
         /// <param name="createdBy"><see cref="Guid"/> representing the <see cref="SuperDuperServer"/> who created the account.</param>
         /// <param name="lastModifiedDateTime">Date and time of when the object was last modified.</param>
         /// <param name="lastModifiedBy"><see cref="Guid"/> representing the <see cref="SuperDuperServer"/> who last modified the account.</param>
-        protected SuperDuperServer(Guid id, string name, string username, string password, WhippetTenant tenant, bool active, bool deleted, Instant? createdDateTime, Guid? createdBy, Instant? lastModifiedDateTime, Guid? lastModifiedBy)
+        /// <param name="serverType"><see cref="ExternalDataSourceType"/> of the server.</param>
+        protected SuperDuperServer(Guid id, string name, string username, string password, WhippetTenant tenant, bool active, bool deleted, Instant? createdDateTime, Guid? createdBy, Instant? lastModifiedDateTime, Guid? lastModifiedBy, ExternalDataSourceType serverType = ExternalDataSourceType.Database)
             : base(id, createdDateTime, createdBy, lastModifiedDateTime, lastModifiedBy)
         {
             Name = name;
@@ -145,6 +152,7 @@ namespace Athi.Whippet.SuperDuper
             Active = active;
             Deleted = deleted;
             Tenant = tenant;
+            ServerType = serverType;
         }
 
         /// <summary>
