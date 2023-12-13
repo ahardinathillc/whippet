@@ -10,7 +10,7 @@ namespace Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.Cache
     /// <summary>
     /// Represents an entry in an <see cref="IMagentoTaxSynchronizationMultichannelOrderManagerTaxRateCache"/>.
     /// </summary>
-    public interface IMagentoTaxSynchronizationMultichannelOrderManagerTaxRateCacheEntry : IWhippetEntity, IMultichannelOrderManagerTaxRateExport, IEqualityComparer<IMagentoTaxSynchronizationMultichannelOrderManagerTaxRateCacheEntry>, IJsonObject
+    public interface IMagentoTaxSynchronizationMultichannelOrderManagerTaxRateCacheEntry : IWhippetEntity, IMultichannelOrderManagerTaxRateExport, IEqualityComparer<IMagentoTaxSynchronizationMultichannelOrderManagerTaxRateCacheEntry>
     {
         /// <summary>
         /// Gets or sets the row number of the entry.

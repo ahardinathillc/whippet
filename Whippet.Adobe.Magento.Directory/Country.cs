@@ -8,7 +8,7 @@ namespace Athi.Whippet.Adobe.Magento.Directory
     /// <summary>
     /// Represents a country in Magento.
     /// </summary>
-    public class Country : MagentoRestEntity<CountryInterface>, IMagentoEntity, IEqualityComparer<ICountry>, ICloneable, IWhippetCloneable, IJsonObject, IMagentoRestEntity, ICountry
+    public class Country : MagentoRestEntity<CountryInterface>, IMagentoEntity, IEqualityComparer<ICountry>, ICloneable, IWhippetCloneable, IMagentoRestEntity, ICountry
     {
         /// <summary>
         /// Gets or sets the country ID. The country ID is the country's ISO-2 code.

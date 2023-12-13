@@ -10,7 +10,7 @@ namespace Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.Cache
     /// <summary>
     /// Represents an entry in an Apache CouchDB <see cref="IMagentoTaxSynchronizationMultichannelOrderManagerTaxRateCache"/> data store.
     /// </summary>
-    public interface IMagentoTaxSynchronizationMultichannelOrderManagerTaxRateCacheCouchDBEntry : IWhippetCouchDocument, IWhippetEntity, IWhippetNoSQLEntity, IJsonObject, IWhippetCloneable, ICloneable
+    public interface IMagentoTaxSynchronizationMultichannelOrderManagerTaxRateCacheCouchDBEntry : IWhippetCouchDocument, IWhippetEntity, IWhippetNoSQLEntity, IWhippetCloneable, ICloneable
     {
         /// <summary>
         /// Gets or sets the database row number for the entry.

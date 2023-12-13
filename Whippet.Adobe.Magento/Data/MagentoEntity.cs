@@ -9,7 +9,7 @@ namespace Athi.Whippet.Adobe.Magento.Data
     /// <summary>
     /// Base class for all Magento domain objects in Whippet. This class must be inherited.
     /// </summary>
-    public abstract class MagentoEntity : WhippetEntity, IWhippetEntity, IMagentoEntity, IJsonObject, ICloneable, IWhippetCloneable
+    public abstract class MagentoEntity : WhippetEntity, IWhippetEntity, IMagentoEntity, ICloneable, IWhippetCloneable
     {
         private MagentoServer _server;
         private MagentoRestEndpoint _restEndpoint;

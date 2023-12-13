@@ -17,7 +17,7 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager
     /// <summary>
     /// Represents a profile of a Microsoft SQL Server database server that hosts the Multichannel Order Manager (M.O.M.). 
     /// </summary>
-    public class MultichannelOrderManagerServer : WhippetAuditableEntity, IWhippetAuditableEntity, IWhippetActiveEntity, IWhippetSoftDeleteEntity, IMultichannelOrderManagerServer, IEqualityComparer<IMultichannelOrderManagerServer>, IJsonObject
+    public class MultichannelOrderManagerServer : WhippetAuditableEntity, IWhippetAuditableEntity, IWhippetActiveEntity, IWhippetSoftDeleteEntity, IMultichannelOrderManagerServer, IEqualityComparer<IMultichannelOrderManagerServer>
     {
         private const string DEFAULT_SCHEMA = "dbo";
 
@@ -374,14 +374,5 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager
             return builder.ToString();
         }
 
-        /// <summary>
-        /// Returns a JSON string representing the current object. This method must be overridden.
-        /// </summary>
-        /// <typeparam name="T">Type of object to serialize.</typeparam>
-        /// <returns>JSON string.</returns>
-        public override string ToJson<T>()
-        {
-            return this.SerializeJson(this);
-        }
     }
 }

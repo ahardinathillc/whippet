@@ -15,7 +15,7 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager
     /// <summary>
     /// Represents a single instance of the Multichannel Order Manager product that is locally or remotely hosted.
     /// </summary>
-    public class MultichannelOrderManagerRestEndpoint : WhippetAuditableEntity, IWhippetAuditableEntity, IWhippetActiveEntity, IWhippetSoftDeleteEntity, IMultichannelOrderManagerRestEndpoint, IEqualityComparer<IMultichannelOrderManagerRestEndpoint>, IRestEndpoint, IMultichannelOrderManagerServer, IJsonObject
+    public class MultichannelOrderManagerRestEndpoint : WhippetAuditableEntity, IWhippetAuditableEntity, IWhippetActiveEntity, IWhippetSoftDeleteEntity, IMultichannelOrderManagerRestEndpoint, IEqualityComparer<IMultichannelOrderManagerRestEndpoint>, IRestEndpoint, IMultichannelOrderManagerServer
     {
         private bool _active;
 
@@ -420,14 +420,5 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager
             return builder.ToString();
         }
 
-        /// <summary>
-        /// Returns a JSON string representing the current object. This method must be overridden.
-        /// </summary>
-        /// <typeparam name="T">Type of object to serialize.</typeparam>
-        /// <returns>JSON string.</returns>
-        public override string ToJson<T>()
-        {
-            return this.SerializeJson(this);
-        }
     }
 }

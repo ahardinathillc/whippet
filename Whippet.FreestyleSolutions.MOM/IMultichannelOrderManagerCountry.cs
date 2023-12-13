@@ -7,7 +7,7 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager
     /// <summary>
     /// Represents a country in the Multichannel Order Manager database.
     /// </summary>
-    public interface IMultichannelOrderManagerCountry : IWhippetEntity, IMultichannelOrderManagerEntity, IWhippetEntityExternalDataRowImportMapper, IEqualityComparer<IMultichannelOrderManagerCountry>, IWhippetCloneable, IComparable<IMultichannelOrderManagerCountry>, IJsonObject
+    public interface IMultichannelOrderManagerCountry : IWhippetEntity, IMultichannelOrderManagerEntity, IWhippetEntityExternalDataRowImportMapper, IEqualityComparer<IMultichannelOrderManagerCountry>, IWhippetCloneable, IComparable<IMultichannelOrderManagerCountry>
     {
         /// <summary>
         /// Represents the unique country ID that is assigned to each entry.

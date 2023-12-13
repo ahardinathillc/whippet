@@ -13,7 +13,7 @@ namespace Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.Cache
     /// <summary>
     /// Represents an entry in a <see cref="MagentoTaxSynchronizationMultichannelOrderManagerTaxRateCache"/>.
     /// </summary>
-    public class MagentoTaxSynchronizationMultichannelOrderManagerTaxRateCacheEntry : WhippetEntity, IMagentoTaxSynchronizationMultichannelOrderManagerTaxRateCacheEntry, IEqualityComparer<IMagentoTaxSynchronizationMultichannelOrderManagerTaxRateCacheEntry>, IMultichannelOrderManagerTaxRateExport, IJsonObject
+    public class MagentoTaxSynchronizationMultichannelOrderManagerTaxRateCacheEntry : WhippetEntity, IMagentoTaxSynchronizationMultichannelOrderManagerTaxRateCacheEntry, IEqualityComparer<IMagentoTaxSynchronizationMultichannelOrderManagerTaxRateCacheEntry>, IMultichannelOrderManagerTaxRateExport
     {
         private MagentoTaxSynchronizationMultichannelOrderManagerTaxRateCache _cache;
         private MultichannelOrderManagerFlattenedTaxRateExport _export;
@@ -445,14 +445,5 @@ namespace Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.Cache
             return TaxRate + String.Format("[{0} {1}]", PostalCode.ToString(), Country.ToString());
         }
 
-        /// <summary>
-        /// Returns a JSON string representing the current object. This method must be inherited.
-        /// </summary>
-        /// <typeparam name="T">Type of object to serialize.</typeparam>
-        /// <returns>JSON string.</returns>
-        public override string ToJson<T>()
-        {
-            return this.SerializeJson(this);
-        }
     }
 }

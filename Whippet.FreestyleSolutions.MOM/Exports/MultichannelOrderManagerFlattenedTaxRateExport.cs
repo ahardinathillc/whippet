@@ -453,15 +453,6 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.Exports
             return IMultichannelOrderManagerPostalCodeComparer.Instance.Compare(PostalCode, (obj == null) ? null : obj.PostalCode);
         }
 
-        /// <summary>
-        /// Returns a JSON string representing the current object. This method must be overridden.
-        /// </summary>
-        /// <typeparam name="T">Type of object to serialize.</typeparam>
-        /// <returns>JSON string.</returns>
-        public override string ToJson<T>()
-        {
-            return this.SerializeJson(this);
-        }
 
         /// <summary>
         /// Provides an <see cref="IComparer{T}"/> for <see cref="MultichannelOrderManagerFlattenedTaxRateExport"/> objects. This class cannot be inherited.

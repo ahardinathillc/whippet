@@ -248,13 +248,6 @@ namespace Athi.Whippet.Jobs
             return InternalObject.ToString();
         }
 
-        /// <summary>
-        /// Returns a JSON string representing the current object. This method must be overridden.
-        /// </summary>
-        /// <typeparam name="T">Type of object to serialize.</typeparam>
-        /// <returns>JSON string.</returns>
-        public abstract string ToJson<T>() where T : IJsonSerializableObject;
-
         public static implicit operator JobCategory(JobCategoryWrapper obj)
         {
             return (obj == null) ? null : obj.InternalObject.ToJobCategory();
