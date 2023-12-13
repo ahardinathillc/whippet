@@ -195,15 +195,5 @@ namespace Athi.Whippet.Jobs
                 return Name + " (" + (String.IsNullOrWhiteSpace(Description) ? "No Description" : Description) + ") [" + (IsRoot ? "Root" : "Leaf") + "]";
             }
         }
-
-        /// <summary>
-        /// Returns a JSON string representing the current object.\
-        /// </summary>
-        /// <typeparam name="T">Type of object to serialize.</typeparam>
-        /// <returns>JSON string.</returns>
-        public override string ToJson<T>()
-        {
-            return this.SerializeJson(this);
-        }
     }
 }

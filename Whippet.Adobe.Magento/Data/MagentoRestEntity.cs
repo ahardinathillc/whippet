@@ -9,7 +9,7 @@ namespace Athi.Whippet.Adobe.Magento.Data
     /// Base class for all <see cref="MagentoEntity"/> objects that have a corresponding REST API model. This class must be inherited.
     /// </summary>
     /// <typeparam name="TInterface"><see cref="IExtensionInterface"/> of the corresponding REST model.</typeparam>
-    public abstract class MagentoRestEntity<TInterface> : MagentoEntity, IWhippetEntity, IMagentoEntity, IJsonObject, IMagentoRestEntity, IMagentoRestEntity<TInterface>, IEqualityComparer<IMagentoRestEntity>, IExtensionInterfaceMap<TInterface>
+    public abstract class MagentoRestEntity<TInterface> : MagentoEntity, IWhippetEntity, IMagentoEntity, IMagentoRestEntity, IMagentoRestEntity<TInterface>, IEqualityComparer<IMagentoRestEntity>, IExtensionInterfaceMap<TInterface>
         where TInterface : IExtensionInterface, new()
     {
         /// <summary>
@@ -122,16 +122,6 @@ namespace Athi.Whippet.Adobe.Magento.Data
         /// </summary>
         /// <returns><see cref="IExtensionInterface"/> object of type <typeparamref name="TInterface"/>.</returns>
         public abstract TInterface ToInterface();
-
-        /// <summary>
-        /// Serializes the current object and returns the generated JSON.
-        /// </summary>
-        /// <typeparam name="T">Type of object to serialize.</typeparam>
-        /// <returns>JSON representing the serialized object.</returns>
-        public override string ToJson<T>()
-        {
-            return JsonConvert.SerializeObject(ToInterface(), Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
-        }
 
         /// <summary>
         /// Gets the hash code for the current instance.

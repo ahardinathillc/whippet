@@ -11,7 +11,7 @@ namespace Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.Models
     /// <summary>
     /// Represents a data transfer object (DTO) for synchronizing Magento tax rates.
     /// </summary>
-    public class MagentoSalesTaxRateSynchronizationRecordDataModel : IMagentoSalesTaxRateSynchronizationRecordModel, IWhippetCloneable, IJsonObject, IJsonSerializableObject
+    public class MagentoSalesTaxRateSynchronizationRecordDataModel : IMagentoSalesTaxRateSynchronizationRecordModel, IWhippetCloneable, IJsonSerializableObject
     {
         private bool _skipRate;
 

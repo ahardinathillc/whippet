@@ -11,7 +11,7 @@ namespace Athi.Whippet.ParadoxLabs.Magento.Data
     /// Base class for all <see cref="MagentoEntity"/> objects that have a corresponding REST API model and are part of the Paradox Labs plug-in. This class must be inherited.
     /// </summary>
     /// <typeparam name="TInterface"><see cref="IParadoxLabsSubscriptionInterface"/> of the corresponding REST model.</typeparam>
-    public abstract class ParadoxLabsMagentoRestEntity<TInterface> : MagentoRestEntity<TInterface>, IWhippetEntity, IMagentoEntity, IJsonObject, IMagentoRestEntity, IMagentoRestEntity<TInterface>, IEqualityComparer<IMagentoRestEntity>, IExtensionInterfaceMap<TInterface>
+    public abstract class ParadoxLabsMagentoRestEntity<TInterface> : MagentoRestEntity<TInterface>, IWhippetEntity, IMagentoEntity, IMagentoRestEntity, IMagentoRestEntity<TInterface>, IEqualityComparer<IMagentoRestEntity>, IExtensionInterfaceMap<TInterface>
         where TInterface : IParadoxLabsExtensionInterface, new()
     {
         /// <summary>

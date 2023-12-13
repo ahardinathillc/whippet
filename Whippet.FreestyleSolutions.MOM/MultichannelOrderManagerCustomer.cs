@@ -2060,14 +2060,5 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager
             return String.IsNullOrWhiteSpace(builder.ToString()) ? base.ToString() : builder.ToString().Trim();
         }
 
-        /// <summary>
-        /// Returns a JSON string representing the current object. This method must be overridden.
-        /// </summary>
-        /// <typeparam name="T">Type of object to serialize.</typeparam>
-        /// <returns>JSON string.</returns>
-        public override string ToJson<T>()
-        {
-            return this.SerializeJson(this);
-        }
     }
 }

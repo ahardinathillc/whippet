@@ -9,7 +9,7 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager
     /// <summary>
     /// Represents a database entity within the Freestyle Multichannel Order Manager (M.O.M.) database.
     /// </summary>
-    public interface IMultichannelOrderManagerEntity : IWhippetEntity, IJsonObject
+    public interface IMultichannelOrderManagerEntity : IWhippetEntity
     {
         /// <summary>
         /// Gets or sets the parent <see cref="IMultichannelOrderManagerServer"/> object that the <see cref="IMultichannelOrderManagerEntity"/> is registered with.

@@ -16,7 +16,7 @@ namespace Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.Cache.Models
     /// <summary>
     /// Provides a data model for entries in a <see cref="MagentoTaxSynchronizationMultichannelOrderManagerTaxRateCache"/>. This class cannot be inherited.
     /// </summary>
-    public sealed class MagentoTaxSynchronizationMultichannelOrderManagerTaxRateCacheEntryModel : IMagentoTaxSynchronizationMultichannelOrderManagerTaxRateCacheEntry, IEqualityComparer<IMagentoTaxSynchronizationMultichannelOrderManagerTaxRateCacheEntry>, IMultichannelOrderManagerTaxRateExport, IJsonObject
+    public sealed class MagentoTaxSynchronizationMultichannelOrderManagerTaxRateCacheEntryModel : IMagentoTaxSynchronizationMultichannelOrderManagerTaxRateCacheEntry, IEqualityComparer<IMagentoTaxSynchronizationMultichannelOrderManagerTaxRateCacheEntry>, IMultichannelOrderManagerTaxRateExport
     {
         private IMagentoTaxSynchronizationMultichannelOrderManagerTaxRateCacheEntry _internalEntry;
         private MultichannelOrderManagerTaxRateExportModel _internalRateModel;
@@ -395,16 +395,6 @@ namespace Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.Cache.Models
         public int GetHashCode(IMultichannelOrderManagerTaxRateExport obj)
         {
             return InternalEntry.GetHashCode(obj);
-        }
-
-        /// <summary>
-        /// Returns a JSON string representing the current object. This method must be inherited.
-        /// </summary>
-        /// <typeparam name="T">Type of object to serialize.</typeparam>
-        /// <returns>JSON string.</returns>
-        public string ToJson<T>() where T : IJsonSerializableObject
-        {
-            return this.SerializeJson(this);
         }
 
         public static implicit operator MagentoTaxSynchronizationMultichannelOrderManagerTaxRateCacheEntryModel(MagentoTaxSynchronizationMultichannelOrderManagerTaxRateCacheEntry obj)

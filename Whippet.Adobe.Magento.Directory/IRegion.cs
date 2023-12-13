@@ -7,7 +7,7 @@ namespace Athi.Whippet.Adobe.Magento.Directory
     /// <summary>
     /// Represents a country region in Magento.
     /// </summary>
-    public interface IRegion : IMagentoEntity, IEqualityComparer<IRegion>, ICloneable, IWhippetCloneable, IJsonObject, IMagentoRestEntity
+    public interface IRegion : IMagentoEntity, IEqualityComparer<IRegion>, ICloneable, IWhippetCloneable, IMagentoRestEntity
     {
         /// <summary>
         /// Gets or sets the region code.
