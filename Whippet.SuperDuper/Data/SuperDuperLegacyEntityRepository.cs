@@ -1,19 +1,15 @@
 using System;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Data;
 using NHibernate;
 using Athi.Whippet.Data;
 
 namespace Athi.Whippet.SuperDuper.Data
 {
-    public class SuperDuperLegacyEntityRepository<TEntity, TKey> : WhippetRepository<TEntity, int>, IWhippetEntityRepository<TEntity, int>, IWhippetRepository<TEntity, int>, IDisposable
+    /// <summary>
+    /// Represents a generic repository that is independent of the backing data store for <see cref="SuperDuperLegacyEntity"/> objects. This class must be inherited.
+    /// </summary>
+    /// <typeparam name="TEntity">Type of <see cref="SuperDuperLegacyEntity"/> object to store in the repository.</typeparam>
+    public class SuperDuperLegacyEntityRepository<TEntity> : WhippetRepository<TEntity, int>, IWhippetEntityRepository<TEntity, int>, IWhippetRepository<TEntity, int>, IDisposable
         where TEntity : SuperDuperLegacyEntity
     {
         /// <summary>
@@ -317,7 +313,7 @@ namespace Athi.Whippet.SuperDuper.Data
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns><see cref="Task"/> object.</returns>
         /// <remarks>See <a href="https://stackoverflow.com/questions/9676486/nhibernate-a-different-object-with-the-same-identifier-value-was-already-associ">NHibernate, a different object with the same identifier value was already associated with the session</a> for more information.</remarks>
-        public async override Task RefreshEntityContextAsync(TEntity entity, CancellationToken? cancellationToken = null)
+        public override async Task RefreshEntityContextAsync(TEntity entity, CancellationToken? cancellationToken = null)
         {
             await Context.EvictAsync(entity, cancellationToken.GetValueOrDefault());
         }

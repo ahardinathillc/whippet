@@ -89,18 +89,18 @@ namespace Athi.Whippet.Data
         WhippetResultContainer<TEntity> Get(TKey key);
 
         /// <summary>
-        /// Retrieves all items of <typeparamref name="TEntity"/> type in the data store.
-        /// </summary>
-        /// <returns><see cref="WhippetResultContainer{TEntity}"/> containing the result of the domain object operation and the corresponding items (if any).</returns>
-        new WhippetResultContainer<IEnumerable<TEntity>> GetAll();
-
-        /// <summary>
         /// Asynchronously gets the specified item based on the query provided by the implementation.
         /// </summary>
         /// <param name="key">Unique identifier of the item to retrieve.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns><see cref="Task{TResult}"/> object which encapsulates a <see cref="WhippetResultContainer{TEntity}"/> containing the result of the domain object operation and the corresponding item if found.</returns>
         Task<WhippetResultContainer<TEntity>> GetAsync(TKey key, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Retrieves all items of <typeparamref name="TEntity"/> type in the data store.
+        /// </summary>
+        /// <returns><see cref="WhippetResultContainer{TEntity}"/> containing the result of the domain object operation and the corresponding items (if any).</returns>
+        new WhippetResultContainer<IEnumerable<TEntity>> GetAll();
 
         /// <summary>
         /// Asynchronously retrieves all items of <typeparamref name="TEntity"/> type in the data store.

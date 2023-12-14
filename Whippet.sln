@@ -308,6 +308,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.SuperDuper.DigitalL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.SuperDuper", "Whippet.SuperDuper\Whippet.SuperDuper.csproj", "{36045F11-F95F-42DA-BA44-1913C4AF941F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.SuperDuper.DigitalLibrary.Legacy.Repositories", "Whippet.SuperDuper.DigitalLibrary.Legacy.Repositories\Whippet.SuperDuper.DigitalLibrary.Legacy.Repositories.csproj", "{0D59F15C-8DF7-4DD7-9252-A9FC9B9CF30D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.SuperDuper.DigitalLibrary.Legacy.ServiceManagers", "Whippet.SuperDuper.DigitalLibrary.Legacy.ServiceManagers\Whippet.SuperDuper.DigitalLibrary.Legacy.ServiceManagers.csproj", "{C8970241-D58C-49ED-B2F8-812106FC7E1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.SuperDuper.DigitalLibrary.Legacy.ServiceManagers.Queries", "Whippet.SuperDuper.DigitalLibrary.Legacy.ServiceManagers.Queries\Whippet.SuperDuper.DigitalLibrary.Legacy.ServiceManagers.Queries.csproj", "{EEB7C9E7-753B-48EC-A941-A002F7B65D8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.SuperDuper.DigitalLibrary.Legacy.ServiceManagers.Commands", "Whippet.SuperDuper.DigitalLibrary.Legacy.ServiceManagers.Commands\Whippet.SuperDuper.DigitalLibrary.Legacy.ServiceManagers.Commands.csproj", "{2E475A7E-50BF-4D7F-9D7C-8290089557CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.SuperDuper.DigitalLibrary.Legacy.ServiceManagers.Handlers", "Whippet.SuperDuper.DigitalLibrary.Legacy.ServiceManagers.Handlers\Whippet.SuperDuper.DigitalLibrary.Legacy.ServiceManagers.Handlers.csproj", "{9144EDE8-BBE0-41D3-AB54-1B58E1B1D218}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -910,5 +920,25 @@ Global
 		{36045F11-F95F-42DA-BA44-1913C4AF941F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36045F11-F95F-42DA-BA44-1913C4AF941F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36045F11-F95F-42DA-BA44-1913C4AF941F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D59F15C-8DF7-4DD7-9252-A9FC9B9CF30D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D59F15C-8DF7-4DD7-9252-A9FC9B9CF30D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D59F15C-8DF7-4DD7-9252-A9FC9B9CF30D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D59F15C-8DF7-4DD7-9252-A9FC9B9CF30D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8970241-D58C-49ED-B2F8-812106FC7E1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8970241-D58C-49ED-B2F8-812106FC7E1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8970241-D58C-49ED-B2F8-812106FC7E1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8970241-D58C-49ED-B2F8-812106FC7E1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEB7C9E7-753B-48EC-A941-A002F7B65D8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEB7C9E7-753B-48EC-A941-A002F7B65D8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEB7C9E7-753B-48EC-A941-A002F7B65D8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEB7C9E7-753B-48EC-A941-A002F7B65D8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E475A7E-50BF-4D7F-9D7C-8290089557CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E475A7E-50BF-4D7F-9D7C-8290089557CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E475A7E-50BF-4D7F-9D7C-8290089557CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E475A7E-50BF-4D7F-9D7C-8290089557CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9144EDE8-BBE0-41D3-AB54-1B58E1B1D218}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9144EDE8-BBE0-41D3-AB54-1B58E1B1D218}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9144EDE8-BBE0-41D3-AB54-1B58E1B1D218}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9144EDE8-BBE0-41D3-AB54-1B58E1B1D218}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

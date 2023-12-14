@@ -30,7 +30,7 @@ namespace Athi.Whippet.ServiceManagers.NoSQL.Apache.CouchDB
         }
 
         /// <summary>
-        /// Initializes a new instance of hte <see cref="ServiceManager"/> class with the specified <see cref="IWhippetServiceContext"/> object.
+        /// Initializes a new instance of the <see cref="ServiceManager"/> class with the specified <see cref="IWhippetServiceContext"/> object.
         /// </summary>
         /// <param name="serviceLocator"><see cref="IWhippetServiceContext"/> object to initialize with.</param>
         /// <param name="options"><see cref="CouchOptions"/> determine how the <see cref="CouchContext"/> is configured.</param>
@@ -42,7 +42,7 @@ namespace Athi.Whippet.ServiceManagers.NoSQL.Apache.CouchDB
         }
 
         /// <summary>
-        /// Initializes a new instance of hte <see cref="ServiceManager"/> class with the specified <see cref="IWhippetServiceContext"/> object.
+        /// Initializes a new instance of the <see cref="ServiceManager"/> class with the specified <see cref="IWhippetServiceContext"/> object.
         /// </summary>
         /// <param name="serviceLocator"><see cref="IWhippetServiceContext"/> object to initialize with.</param>
         /// <param name="throwOnNullServiceLocator">If <see langword="true"/>, will throw an <see cref="ArgumentNullException"/> exception if <paramref name="serviceLocator"/> is <see langword="null"/>.</param>
@@ -80,4 +80,3 @@ namespace Athi.Whippet.ServiceManagers.NoSQL.Apache.CouchDB
         }
     }
 }
-

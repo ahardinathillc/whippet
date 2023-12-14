@@ -1,22 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net;
-using NodaTime;
-using Athi.Whippet.Data;
 using Athi.Whippet.Services;
 using Athi.Whippet.ServiceManagers;
-using Athi.Whippet.Data.CQRS;
 using Athi.Whippet.Security.ServiceManagers.Queries;
-using Athi.Whippet.Security.ServiceManagers.Commands;
-using Athi.Whippet.Security.ServiceManagers.Handlers.Commands;
 using Athi.Whippet.Security.ServiceManagers.Handlers.Queries;
-using Athi.Whippet.Security.Cryptography;
-using Athi.Whippet.Security.Extensions;
 using Athi.Whippet.Security.Tenants;
-using Athi.Whippet.Security.Tenants.Extensions;
 using Athi.Whippet.Security.Repositories;
 
 namespace Athi.Whippet.Security.ServiceManagers

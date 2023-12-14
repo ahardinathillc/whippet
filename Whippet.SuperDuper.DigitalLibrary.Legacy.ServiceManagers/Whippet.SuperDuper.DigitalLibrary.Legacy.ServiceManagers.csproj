@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyName>Athi.Whippet.SuperDuper.DigitalLibrary.Legacy.ServiceManagers</AssemblyName>
+        <RootNamespace>Athi.Whippet.SuperDuper.DigitalLibrary.Legacy.ServiceManagers</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+      <ProjectReference Include="..\Whippet.ServiceManagers\Whippet.ServiceManagers.csproj" />
+      <ProjectReference Include="..\Whippet.SuperDuper.DigitalLibrary.Legacy.ServiceManagers.Commands\Whippet.SuperDuper.DigitalLibrary.Legacy.ServiceManagers.Commands.csproj" />
+      <ProjectReference Include="..\Whippet.SuperDuper.DigitalLibrary.Legacy.ServiceManagers.Handlers\Whippet.SuperDuper.DigitalLibrary.Legacy.ServiceManagers.Handlers.csproj" />
+      <ProjectReference Include="..\Whippet.SuperDuper.DigitalLibrary.Legacy.ServiceManagers.Queries\Whippet.SuperDuper.DigitalLibrary.Legacy.ServiceManagers.Queries.csproj" />
+      <ProjectReference Include="..\Whippet.SuperDuper.DigitalLibrary.Legacy\Whippet.SuperDuper.DigitalLibrary.Legacy.csproj" />
+      <ProjectReference Include="..\Whippet.SuperDuper.DigitalLibrary\Whippet.SuperDuper.DigitalLibrary.csproj" />
+      <ProjectReference Include="..\Whippet.SuperDuper\Whippet.SuperDuper.csproj" />
+      <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    </ItemGroup>
+
+</Project>

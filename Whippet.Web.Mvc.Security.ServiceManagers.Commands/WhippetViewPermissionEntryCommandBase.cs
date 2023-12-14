@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Athi.Whippet.Data.CQRS;
-using Athi.Whippet.Security;
 
 namespace Athi.Whippet.Web.Mvc.Security.ServiceManagers.Commands
 {

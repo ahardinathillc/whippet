@@ -118,7 +118,7 @@ namespace Athi.Whippet
 
                 foreach (Type type in types)
                 {
-                    if (type == typeof(IEnumerable))
+                    if ((type == typeof(IEnumerable)) || (type == typeof(IEnumerable<T>)))
                     {
                         isEnumerable = true;
                     }
@@ -199,6 +199,25 @@ namespace Athi.Whippet
             {
                 cancellationToken.ThrowIfCancellationRequested();
             }
+        }
+
+        /// <summary>
+        /// If <see cref="Item"/> is an <see cref="IEnumerable{T}"/> object, returns the first element in the collection. Otherwise, returns the value of <see cref="Item"/>. 
+        /// </summary>
+        /// <returns>The first element in the collection if <see cref="Item"/> is an <see cref="IEnumerable{T}"/>; otherwise, the value of <see cref="Item"/>.</returns>
+        public T EnumerableSingleResult()
+        {
+            return EnumerableSingleResult<T>();
+        }
+        
+        /// <summary>
+        /// If <see cref="Item"/> is an <see cref="IEnumerable{T}"/> object, returns the first element in the collection. Otherwise, returns the value of <see cref="Item"/>. 
+        /// </summary>
+        /// <returns>The first element in the collection if <see cref="Item"/> is an <see cref="IEnumerable{T}"/>; otherwise, the value of <see cref="Item"/>.</returns>
+        /// <typeparam name="TValue">Type of value to cast the return value to.</typeparam>
+        public TValue EnumerableSingleResult<TValue>()
+        {
+            return (TValue)((object)((ItemIsEnumerable && (Item != null)) ? ((IEnumerable<T>)(Item)).FirstOrDefault() : Item));
         }
 
         /// <summary>

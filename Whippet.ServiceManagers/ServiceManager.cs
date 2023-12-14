@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Athi.Whippet.Services;
 
 namespace Athi.Whippet.ServiceManagers
@@ -26,7 +22,7 @@ namespace Athi.Whippet.ServiceManagers
         { }
 
         /// <summary>
-        /// Initializes a new instance of hte <see cref="ServiceManager"/> class with the specified <see cref="IWhippetServiceContext"/> object.
+        /// Initializes a new instance of the <see cref="ServiceManager"/> class with the specified <see cref="IWhippetServiceContext"/> object.
         /// </summary>
         /// <param name="serviceLocator"><see cref="IWhippetServiceContext"/> object to initialize with.</param>
         /// <exception cref="ArgumentNullException" />
@@ -35,7 +31,7 @@ namespace Athi.Whippet.ServiceManagers
         { }
 
         /// <summary>
-        /// Initializes a new instance of hte <see cref="ServiceManager"/> class with the specified <see cref="IWhippetServiceContext"/> object.
+        /// Initializes a new instance of the <see cref="ServiceManager"/> class with the specified <see cref="IWhippetServiceContext"/> object.
         /// </summary>
         /// <param name="serviceLocator"><see cref="IWhippetServiceContext"/> object to initialize with.</param>
         /// <param name="throwOnNullServiceLocator">If <see langword="true"/>, will throw an <see cref="ArgumentNullException"/> exception if <paramref name="serviceLocator"/> is <see langword="null"/>.</param>

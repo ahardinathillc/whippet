@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Athi.Whippet.Data
 {
     /// <summary>
-    /// Represents a repository with no backing context. Typically serves as a wrapper around an existing repository as <typeparamref name="TEntity"/> is not restricted to concerete class implementations.
+    /// Represents a repository with no backing context. Typically serves as a wrapper around an existing repository as <typeparamref name="TEntity"/> is not restricted to concrete class implementations.
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     public interface IWhippetDetachedRepository<TEntity>
@@ -116,4 +116,3 @@ namespace Athi.Whippet.Data
         Task CommitAsync(CancellationToken cancellationToken = default);
     }
 }
-
