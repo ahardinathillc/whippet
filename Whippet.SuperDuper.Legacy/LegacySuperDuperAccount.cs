@@ -4,14 +4,14 @@ using System.Text;
 using NodaTime;
 using Athi.Whippet.Data;
 using Athi.Whippet.SuperDuper.Data;
-using Athi.Whippet.FreestyleSolutions.MultichannelOrderManager;
+using Athi.Whippet.SuperDuper.Legacy.Extensions;
 
 namespace Athi.Whippet.SuperDuper.Legacy
 {
     /// <summary>
-    /// Represents a user account in Super Duper legacy applications. User accounts define both administrators and customers inside of an application.
+    /// Represents a user account in Super Duper legacy applications. User accounts define both administrators and customers inside of an application. Other Super Duper applications may implement their own account mechanisms that are independent of the core framework.
     /// </summary>
-    public class SuperDuperAccount : SuperDuperLegacyEntity, IWhippetEntity, ISuperDuperLegacyEntity, ISuperDuperAccount, IEqualityComparer<ISuperDuperAccount>
+    public class LegacySuperDuperAccount : SuperDuperLegacyEntity, IWhippetEntity, ISuperDuperLegacyEntity, ILegacySuperDuperAccount, IEqualityComparer<ILegacySuperDuperAccount>
     {
         /// <summary>
         /// Gets or sets the customer number of the account.
@@ -64,8 +64,23 @@ namespace Athi.Whippet.SuperDuper.Legacy
         /// <summary>
         /// Gets or sets the account's occupation.
         /// </summary>
-        public virtual SuperDuperAccountOccupation Occupation
+        public virtual LegacySuperDuperAccountOccupation SuperDuperAccountOccupation
         { get; set; }
+
+        /// <summary>
+        /// Gets or sets the account's occupation.
+        /// </summary>
+        ILegacySuperDuperAccountOccupation ILegacySuperDuperAccount.SuperDuperAccountOccupation
+        {
+            get
+            {
+                return SuperDuperAccountOccupation;
+            }
+            set
+            {
+                SuperDuperAccountOccupation = value.ToLegacySuperDuperAccountOccupation();
+            }
+        }
         
         /// <summary>
         /// Gets or sets the password reset ID.
@@ -141,17 +156,17 @@ namespace Athi.Whippet.SuperDuper.Legacy
         { get; set; }
         
         /// <summary>
-        /// Initializes a new instance of the <see cref="SuperDuperAccount"/> class with no arguments.
+        /// Initializes a new instance of the <see cref="LegacySuperDuperAccount"/> class with no arguments.
         /// </summary>
-        public SuperDuperAccount()
+        public LegacySuperDuperAccount()
             : base()
         { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SuperDuperAccount"/> class with the specified account ID.
+        /// Initializes a new instance of the <see cref="LegacySuperDuperAccount"/> class with the specified account ID.
         /// </summary>
         /// <param name="id">Account ID.</param>
-        public SuperDuperAccount(int id)
+        public LegacySuperDuperAccount(int id)
             : base(id)
         { }
         
@@ -162,7 +177,7 @@ namespace Athi.Whippet.SuperDuper.Legacy
         /// <returns><see langword="true"/> if the specified object is equal to the current object; otherwise, <see langword="false"/>.</returns>
         public override bool Equals(object obj)
         {
-            return Equals(obj as ISuperDuperAccount);
+            return Equals(obj as ILegacySuperDuperAccount);
         }
 
         /// <summary>
@@ -170,7 +185,7 @@ namespace Athi.Whippet.SuperDuper.Legacy
         /// </summary>
         /// <param name="obj">The object to compare with the current object.</param>
         /// <returns><see langword="true"/> if the specified object is equal to the current object; otherwise, <see langword="false"/>.</returns>
-        public virtual bool Equals(ISuperDuperAccount obj)
+        public virtual bool Equals(ILegacySuperDuperAccount obj)
         {
             return Equals(this, obj);
         }
@@ -178,10 +193,10 @@ namespace Athi.Whippet.SuperDuper.Legacy
         /// <summary>
         /// Determines whether the specified objects are equal.
         /// </summary>
-        /// <param name="a">The first object of type <see cref="ISuperDuperAccount"/> to compare.</param>
-        /// <param name="b">The second object of type <see cref="ISuperDuperAccount"/> to compare.</param>
+        /// <param name="a">The first object of type <see cref="ILegacySuperDuperAccount"/> to compare.</param>
+        /// <param name="b">The second object of type <see cref="ILegacySuperDuperAccount"/> to compare.</param>
         /// <returns><see langword="true"/> if the specified objects are equal; otherwise, <see langword="false"/>.</returns>
-        public virtual bool Equals(ISuperDuperAccount a, ISuperDuperAccount b)
+        public virtual bool Equals(ILegacySuperDuperAccount a, ILegacySuperDuperAccount b)
         {
             bool equals = (a == null && b == null);
 
@@ -195,7 +210,7 @@ namespace Athi.Whippet.SuperDuper.Legacy
                          && (((a.Password == null) && (b.Password == null)) || ((a.Password != null) && a.Password.SequenceEqual(b.Password)))
                          && String.Equals(a.LastName?.Trim(), b.LastName?.Trim(), StringComparison.InvariantCultureIgnoreCase)
                          && String.Equals(a.FirstName?.Trim(), b.FirstName?.Trim(), StringComparison.InvariantCultureIgnoreCase)
-                         && (((a.Occupation == null) && (b.Occupation == null)) || ((a.Occupation != null) && a.Occupation.Equals(b.Occupation)))
+                         && (((a.SuperDuperAccountOccupation == null) && (b.SuperDuperAccountOccupation == null)) || ((a.SuperDuperAccountOccupation != null) && a.SuperDuperAccountOccupation.Equals(b.SuperDuperAccountOccupation)))
                          && a.PasswordResetID.GetValueOrDefault().Equals(b.PasswordResetID.GetValueOrDefault())
                          && a.TaxExempt == b.TaxExempt
                          && a.MultichannelOrderManagerAccountID == b.MultichannelOrderManagerAccountID
@@ -221,7 +236,7 @@ namespace Athi.Whippet.SuperDuper.Legacy
             hash.Add(Password);
             hash.Add(LastName);
             hash.Add(FirstName);
-            hash.Add(Occupation);
+            hash.Add(SuperDuperAccountOccupation);
             hash.Add(PasswordResetID);
             hash.Add(TaxExempt);
             hash.Add(MultichannelOrderManagerAccountID);
@@ -236,7 +251,7 @@ namespace Athi.Whippet.SuperDuper.Legacy
         /// <param name="obj">The <see cref="object"/> for which a hash code is to be returned.</param>
         /// <returns>A hash code for the specified object.</returns>
         /// <exception cref="ArgumentNullException" />
-        public virtual int GetHashCode(ISuperDuperAccount obj)
+        public virtual int GetHashCode(ILegacySuperDuperAccount obj)
         {
             if (obj == null)
             {
@@ -249,9 +264,9 @@ namespace Athi.Whippet.SuperDuper.Legacy
         }
 
         /// <summary>
-        /// Gets the name of the of the <see cref="ISuperDuperAccount"/> object.
+        /// Gets the name of the of the <see cref="ILegacySuperDuperAccount"/> object.
         /// </summary>
-        /// <returns>String description of the <see cref="ISuperDuperAccount"/> object.</returns>
+        /// <returns>String description of the <see cref="ILegacySuperDuperAccount"/> object.</returns>
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();

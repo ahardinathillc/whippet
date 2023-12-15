@@ -318,6 +318,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.SuperDuper.DigitalL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.SuperDuper.DigitalLibrary.Legacy.ServiceManagers.Handlers", "Whippet.SuperDuper.DigitalLibrary.Legacy.ServiceManagers.Handlers\Whippet.SuperDuper.DigitalLibrary.Legacy.ServiceManagers.Handlers.csproj", "{9144EDE8-BBE0-41D3-AB54-1B58E1B1D218}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.SuperDuper.Legacy", "Whippet.SuperDuper.Legacy\Whippet.SuperDuper.Legacy.csproj", "{9FBD89C6-FA71-4A44-8F03-B92D5A2D140F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.FreestyleSolutions.MultichannelOrderManager", "Whippet.FreestyleSolutions.MultichannelOrderManager\Whippet.FreestyleSolutions.MultichannelOrderManager.csproj", "{3235BAFF-AD7F-42A5-9CD2-406D7F628C24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.FreestyleSolutions.MultichannelOrderManager.CRM", "Whippet.FreestyleSolutions.MultichannelOrderManager.CRM\Whippet.FreestyleSolutions.MultichannelOrderManager.CRM.csproj", "{D816889B-2792-4C25-BAEA-EA24E5856290}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.FreestyleSolutions.MultichannelOrderManager.Inventory", "Whippet.FreestyleSolutions.MultichannelOrderManager.Inventory\Whippet.FreestyleSolutions.MultichannelOrderManager.Inventory.csproj", "{3DEC94BB-3D52-4787-B46A-253EF8E16D5C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -940,5 +948,21 @@ Global
 		{9144EDE8-BBE0-41D3-AB54-1B58E1B1D218}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9144EDE8-BBE0-41D3-AB54-1B58E1B1D218}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9144EDE8-BBE0-41D3-AB54-1B58E1B1D218}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FBD89C6-FA71-4A44-8F03-B92D5A2D140F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FBD89C6-FA71-4A44-8F03-B92D5A2D140F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FBD89C6-FA71-4A44-8F03-B92D5A2D140F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FBD89C6-FA71-4A44-8F03-B92D5A2D140F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3235BAFF-AD7F-42A5-9CD2-406D7F628C24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3235BAFF-AD7F-42A5-9CD2-406D7F628C24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3235BAFF-AD7F-42A5-9CD2-406D7F628C24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3235BAFF-AD7F-42A5-9CD2-406D7F628C24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D816889B-2792-4C25-BAEA-EA24E5856290}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D816889B-2792-4C25-BAEA-EA24E5856290}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D816889B-2792-4C25-BAEA-EA24E5856290}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D816889B-2792-4C25-BAEA-EA24E5856290}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DEC94BB-3D52-4787-B46A-253EF8E16D5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DEC94BB-3D52-4787-B46A-253EF8E16D5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DEC94BB-3D52-4787-B46A-253EF8E16D5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DEC94BB-3D52-4787-B46A-253EF8E16D5C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

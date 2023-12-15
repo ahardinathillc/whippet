@@ -9,7 +9,7 @@ namespace Athi.Whippet.SuperDuper.Legacy
     /// <summary>
     /// Represents a user account in Super Duper legacy applications. User accounts define both administrators and customers inside of an application.
     /// </summary>
-    public interface ISuperDuperAccount : IWhippetEntity, ISuperDuperLegacyEntity, IEqualityComparer<ISuperDuperAccount>
+    public interface ILegacySuperDuperAccount : IWhippetEntity, ISuperDuperLegacyEntity, IEqualityComparer<ILegacySuperDuperAccount>
     {
         /// <summary>
         /// Gets or sets the customer number of the account.
@@ -62,7 +62,7 @@ namespace Athi.Whippet.SuperDuper.Legacy
         /// <summary>
         /// Gets or sets the account's occupation.
         /// </summary>
-        SuperDuperAccountOccupation Occupation
+        ILegacySuperDuperAccountOccupation SuperDuperAccountOccupation
         { get; set; }
         
         /// <summary>

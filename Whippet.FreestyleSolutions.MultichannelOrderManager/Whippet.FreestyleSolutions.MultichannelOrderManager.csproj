@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyName>Athi.Whippet.FreestyleSolutions.MultichannelOrderManager</AssemblyName>
+        <RootNamespace>Athi.Whippet.FreestyleSolutions.MultichannelOrderManager</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+      <ProjectReference Include="..\Whippet.Security\Whippet.Security.csproj" />
+      <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Dynamitey" Version="3.0.3" />
+      <PackageReference Include="FluentNHibernate" Version="3.3.0" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+      <PackageReference Include="NHibernate" Version="5.4.7" />
+      <PackageReference Include="NodaTime" Version="3.1.9" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Data\NHibernate\UserTypes\" />
+    </ItemGroup>
+
+</Project>

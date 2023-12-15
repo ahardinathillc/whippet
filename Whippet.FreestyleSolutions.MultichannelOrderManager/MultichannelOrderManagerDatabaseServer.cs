@@ -7,14 +7,14 @@ using Athi.Whippet.Data.Database;
 using Athi.Whippet.Data.Database.Microsoft;
 using Athi.Whippet.Data.Database.Microsoft.Extensions;
 using Athi.Whippet.Security.Tenants;
-using Athi.Whippet.SuperDuper.DigitalLibrary.Legacy.Extensions;
+using Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.Extensions;
 
-namespace Athi.Whippet.SuperDuper.DigitalLibrary.Legacy
+namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager
 {
     /// <summary>
-    /// Represents the database server for the legacy Super Duper Digital Library (SDDL) application.
+    /// Represents a database server for a Multichannel Order Manager application instance.
     /// </summary>
-    public class LegacyDigitalLibraryServer : SuperDuperServer, ILegacyDigitalLibraryServer, ISuperDuperServer, IWhippetSqlServerDatabaseServer, IDatabaseServer<WhippetSqlServerConnection>
+    public class MultichannelOrderManagerDatabaseServer : MultichannelOrderManagerServer, IMultichannelOrderManagerServer, IWhippetSqlServerDatabaseServer, IDatabaseServer<WhippetSqlServerConnection>, IMultichannelOrderManagerDatabaseServer
     {
         private DatabaseConnectionPropertyVisibilityMask _mask;
         
@@ -63,13 +63,20 @@ namespace Athi.Whippet.SuperDuper.DigitalLibrary.Legacy
             }
             set
             {
-                if (value != null && !(value is LegacyDigitalLibraryServer))
+                if (value != null && !(value is MultichannelOrderManagerDatabaseServer) && !(value is IMultichannelOrderManagerDatabaseServer))
                 {
                     throw new InvalidCastException();
                 }
                 else
                 {
-                    Mirror = (LegacyDigitalLibraryServer)(value);
+                    if (value is IMultichannelOrderManagerDatabaseServer)
+                    {
+                        Mirror = ((IMultichannelOrderManagerDatabaseServer)(value)).ToMultichannelOrderManagerDatabaseServer();
+                    }
+                    else
+                    {
+                        Mirror = (MultichannelOrderManagerDatabaseServer)(value);
+                    }
                 }
             }
         }
@@ -255,28 +262,13 @@ namespace Athi.Whippet.SuperDuper.DigitalLibrary.Legacy
         /// <summary>
         /// Gets or sets the mirror database server or <see langword="null"/> if no mirror is used.
         /// </summary>
-        public virtual LegacyDigitalLibraryServer Mirror
+        public virtual MultichannelOrderManagerDatabaseServer Mirror
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the mirror database server or <see langword="null"/> if no mirror is used.
+        /// Creates a new instance of the <see cref="MultichannelOrderManagerServer"/> class.
         /// </summary>
-        ILegacyDigitalLibraryServer ILegacyDigitalLibraryServer.Mirror
-        {
-            get
-            {
-                return Mirror;
-            }
-            set
-            {
-                Mirror = value.ToLegacyDigitalLibraryServer();
-            }
-        }
-        
-        /// <summary>
-        /// Creates a new instance of the <see cref="SuperDuperServer"/> class.
-        /// </summary>
-        /// <param name="id">Unique ID to assign to the <see cref="SuperDuperServer"/>.</param>
+        /// <param name="id">Unique ID to assign to the <see cref="MultichannelOrderManagerServer"/>.</param>
         /// <param name="name">Unique name of the server profile.</param>
         /// <param name="username">Username used to connect to the database.</param>
         /// <param name="password">Password used to connect to the database.</param>
@@ -284,10 +276,10 @@ namespace Athi.Whippet.SuperDuper.DigitalLibrary.Legacy
         /// <param name="active">Specifies whether the profile is currently active.</param>
         /// <param name="deleted">Specifies whether the profile has been deleted.</param>
         /// <param name="createdDateTime">Date and time the object was created.</param>
-        /// <param name="createdBy"><see cref="Guid"/> representing the <see cref="SuperDuperServer"/> who created the account.</param>
+        /// <param name="createdBy"><see cref="Guid"/> representing the <see cref="MultichannelOrderManagerServer"/> who created the account.</param>
         /// <param name="lastModifiedDateTime">Date and time of when the object was last modified.</param>
-        /// <param name="lastModifiedBy"><see cref="Guid"/> representing the <see cref="SuperDuperServer"/> who last modified the account.</param>
-        public LegacyDigitalLibraryServer(Guid id, string name, string username, string password, WhippetTenant tenant, bool active, bool deleted, Instant? createdDateTime, Guid? createdBy, Instant? lastModifiedDateTime, Guid? lastModifiedBy)
+        /// <param name="lastModifiedBy"><see cref="Guid"/> representing the <see cref="MultichannelOrderManagerServer"/> who last modified the account.</param>
+        public MultichannelOrderManagerDatabaseServer(Guid id, string name, string username, string password, WhippetTenant tenant, bool active, bool deleted, Instant? createdDateTime, Guid? createdBy, Instant? lastModifiedDateTime, Guid? lastModifiedBy)
             : base(id, name, username, password, tenant, active, deleted, createdDateTime, createdBy, lastModifiedDateTime, lastModifiedBy, ExternalDataSourceType.Database)
         { }
 
@@ -317,7 +309,6 @@ namespace Athi.Whippet.SuperDuper.DigitalLibrary.Legacy
         public override int GetHashCode()
         {
             HashCode hash = this.GenerateDefaultHashCode();
-            
             hash.Add(base.GetHashCode());
 
             return hash.ToHashCode();

@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+      <ProjectReference Include="..\Whippet.FreestyleSolutions.MultichannelOrderManager\Whippet.FreestyleSolutions.MultichannelOrderManager.csproj" />
+      <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    </ItemGroup>
+
+</Project>

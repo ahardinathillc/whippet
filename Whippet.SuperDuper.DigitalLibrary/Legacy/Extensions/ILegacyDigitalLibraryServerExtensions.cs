@@ -1,5 +1,6 @@
 ﻿using System;
 using Athi.Whippet.Security.Tenants.Extensions;
+using Athi.Whippet.Data.Database.Microsoft.Extensions;
 
 namespace Athi.Whippet.SuperDuper.DigitalLibrary.Legacy.Extensions
 {
@@ -37,39 +38,8 @@ namespace Athi.Whippet.SuperDuper.DigitalLibrary.Legacy.Extensions
                     server.LastModifiedBy
                 );
 
-                sddlServer.IntegratedSecurity = server.IntegratedSecurity;
-                sddlServer.Database = server.Database;
-                sddlServer.MultipleActiveResultSets = server.MultipleActiveResultSets;
+                sddlServer.ImportWhippetSqlServerDatabaseServer(server);
                 sddlServer.Mirror = (server.Mirror == null ? null : server.Mirror.ToLegacyDigitalLibraryServer());
-                sddlServer.AttachDBFilename = server.AttachDBFilename;
-                sddlServer.PacketSize = server.PacketSize;
-                sddlServer.Authentication = server.Authentication;
-                sddlServer.ApplicationName = server.ApplicationName;
-                sddlServer.ApplicationIntent = server.ApplicationIntent;
-                sddlServer.ColumnEncryptionSetting = server.ColumnEncryptionSetting;
-                sddlServer.CommandTimeout = server.CommandTimeout;
-                sddlServer.ConnectRetryCount = server.ConnectRetryCount;
-                sddlServer.ConnectRetryInterval = server.ConnectRetryInterval;
-                sddlServer.ConnectTimeout = server.ConnectTimeout;
-                sddlServer.CurrentLanguage = server.CurrentLanguage;
-                sddlServer.AttestationProtocol = server.AttestationProtocol;
-                sddlServer.EnclaveAttestationUrl = server.EnclaveAttestationUrl;
-                sddlServer.IPAddressPreference = server.IPAddressPreference;
-                sddlServer.Encrypt = server.Encrypt;
-                sddlServer.Enlist = server.Enlist;
-                sddlServer.LoadBalanceTimeout = server.LoadBalanceTimeout;
-                sddlServer.MaxPoolSize = server.MaxPoolSize;
-                sddlServer.MinPoolSize = server.MinPoolSize;
-                sddlServer.MultiSubnetFailover = server.MultiSubnetFailover;
-                sddlServer.PersistSecurityInfo = server.PersistSecurityInfo;
-                sddlServer.PoolBlockingPeriod = server.PoolBlockingPeriod;
-                sddlServer.Pooling = server.Pooling;
-                sddlServer.Replication = server.Replication;
-                sddlServer.TransactionBinding = server.TransactionBinding;
-                sddlServer.TrustServerCertificate = server.TrustServerCertificate;
-                sddlServer.TypeSystemVersion = server.TypeSystemVersion;
-                sddlServer.UserInstance = server.UserInstance;
-                sddlServer.WorkstationID = server.WorkstationID;
             }
 
             return sddlServer;

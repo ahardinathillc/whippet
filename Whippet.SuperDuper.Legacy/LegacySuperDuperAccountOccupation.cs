@@ -6,9 +6,9 @@ using Athi.Whippet.SuperDuper.Data;
 namespace Athi.Whippet.SuperDuper.Legacy
 {
     /// <summary>
-    /// Represents an occupation of a <see cref="SuperDuperAccount"/> in Super Duper legacy applications.
+    /// Represents an occupation of a <see cref="LegacySuperDuperAccount"/> in Super Duper legacy applications.
     /// </summary>
-    public class SuperDuperAccountOccupation : SuperDuperLegacyEntity, IWhippetEntity, ISuperDuperLegacyEntity, IOccupation, IEqualityComparer<IOccupation>
+    public class LegacySuperDuperAccountOccupation : SuperDuperLegacyEntity, IWhippetEntity, ISuperDuperLegacyEntity, ILegacySuperDuperAccountOccupation, IEqualityComparer<ILegacySuperDuperAccountOccupation>
     {
         /// <summary>
         /// Gets or sets the occupation title.
@@ -35,19 +35,36 @@ namespace Athi.Whippet.SuperDuper.Legacy
         { get; set; }
         
         /// <summary>
-        /// Initializes a new instance of the <see cref="SuperDuperAccountOccupation"/> class with no arguments.
+        /// Initializes a new instance of the <see cref="LegacySuperDuperAccountOccupation"/> class with no arguments.
         /// </summary>
-        public SuperDuperAccountOccupation()
+        public LegacySuperDuperAccountOccupation()
             : base()
         { }
         
         /// <summary>
-        /// Initializes a new instance of the <see cref="SuperDuperAccountOccupation"/> class with the specified ID.
+        /// Initializes a new instance of the <see cref="LegacySuperDuperAccountOccupation"/> class with the specified ID.
         /// </summary>
-        /// <param name="id">ID </param>
-        public SuperDuperAccountOccupation(int id)
+        /// <param name="id">ID of the occupation.</param>
+        public LegacySuperDuperAccountOccupation(int id)
             : base(id)
         { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LegacySuperDuperAccountOccupation"/> class with the specified parameters.
+        /// </summary>
+        /// <param name="id">ID of the occupation.</param>
+        /// <param name="title">Occupation title.</param>
+        /// <param name="display">Specifies whether the occupation is displayed.</param>
+        /// <param name="displayOrder">Display order.</param>
+        /// <param name="categorization">Categorization type.</param>
+        public LegacySuperDuperAccountOccupation(int id, string title, bool display, int displayOrder, string categorization)
+            : this(id)
+        {
+            Title = title;
+            Display = display;
+            DisplayOrder = displayOrder;
+            Categorization = categorization;
+        }
 
         /// <summary>
         /// Compares the current instance to the specified object for equality.
@@ -56,7 +73,7 @@ namespace Athi.Whippet.SuperDuper.Legacy
         /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
         public virtual bool Equals(object obj)
         {
-            return (obj == null) || !(obj is IOccupation) ? false : Equals((IOccupation)(obj));
+            return (obj == null) || !(obj is ILegacySuperDuperAccountOccupation) ? false : Equals((ILegacySuperDuperAccountOccupation)(obj));
         }
         
         /// <summary>
@@ -64,7 +81,7 @@ namespace Athi.Whippet.SuperDuper.Legacy
         /// </summary>
         /// <param name="obj">Object to compare against.</param>
         /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
-        public virtual bool Equals(IOccupation obj)
+        public virtual bool Equals(ILegacySuperDuperAccountOccupation obj)
         {
             return (obj == null) ? false : Equals(this, obj);
         }
@@ -75,7 +92,7 @@ namespace Athi.Whippet.SuperDuper.Legacy
         /// <param name="x">First object to compare.</param>
         /// <param name="y">Second object to compare.</param>
         /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
-        public virtual bool Equals(IOccupation x, IOccupation y)
+        public virtual bool Equals(ILegacySuperDuperAccountOccupation x, ILegacySuperDuperAccountOccupation y)
         {
             bool equals = (x == null) && (y == null);
 
@@ -104,7 +121,7 @@ namespace Athi.Whippet.SuperDuper.Legacy
         /// </summary>
         /// <param name="obj">Object to get the hash code for.</param>
         /// <returns>Hash code for the specified object.</returns>
-        public virtual int GetHashCode(IOccupation obj)
+        public virtual int GetHashCode(ILegacySuperDuperAccountOccupation obj)
         {
             ArgumentNullException.ThrowIfNull(obj);
             return obj.GetHashCode();

@@ -4,9 +4,9 @@ using Athi.Whippet.SuperDuper.Json;
 namespace Athi.Whippet.SuperDuper.Legacy.Models
 {
     /// <summary>
-    /// Lightweight data model that allows for JSON serialization of a <see cref="SuperDuperAccountOccupation"/> object. This class cannot be inherited.
+    /// Lightweight data model that allows for JSON serialization of a <see cref="LegacySuperDuperAccountOccupation"/> object. This class cannot be inherited.
     /// </summary>
-    public sealed class SuperDuperAccountOccupationEntityModel : SuperDuperLegacyJsonEntityModel<SuperDuperAccountOccupation>, IOccupation
+    public sealed class SuperDuperAccountLegacySuperDuperAccountOccupationEntityModel : SuperDuperLegacyJsonEntityModel<LegacySuperDuperAccountOccupation>, ILegacySuperDuperAccountOccupation
     {
         /// <summary>
         /// Gets or sets the occupation title.
@@ -69,11 +69,11 @@ namespace Athi.Whippet.SuperDuper.Legacy.Models
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SuperDuperAccountOccupationEntityModel"/> class with the specified <see name="SuperDuperAccountOccupation"/> object.
+        /// Initializes a new instance of the <see cref="SuperDuperAccountLegacySuperDuperAccountOccupationEntityModel"/> class with the specified <see name="SuperDuperAccountOccupation"/> object.
         /// </summary>
         /// <param name="baseModel"><see name="SuperDuperAccountOccupation"/> object that serves as the base model.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public SuperDuperAccountOccupationEntityModel(SuperDuperAccountOccupation baseModel)
+        public SuperDuperAccountLegacySuperDuperAccountOccupationEntityModel(LegacySuperDuperAccountOccupation baseModel)
             : base(baseModel)
         { }
         
@@ -82,7 +82,7 @@ namespace Athi.Whippet.SuperDuper.Legacy.Models
         /// </summary>
         /// <param name="obj">Object to compare against.</param>
         /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
-        public bool Equals(IOccupation obj)
+        public bool Equals(ILegacySuperDuperAccountOccupation obj)
         {
             return Entity.Equals(obj);
         }
@@ -93,7 +93,7 @@ namespace Athi.Whippet.SuperDuper.Legacy.Models
         /// <param name="x">First object to compare.</param>
         /// <param name="y">Second object to compare.</param>
         /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
-        public bool Equals(IOccupation x, IOccupation y)
+        public bool Equals(ILegacySuperDuperAccountOccupation x, ILegacySuperDuperAccountOccupation y)
         {
             return Entity.Equals(x, y);
         }
@@ -104,7 +104,7 @@ namespace Athi.Whippet.SuperDuper.Legacy.Models
         /// <param name="obj">Object to get the hash code for.</param>
         /// <returns>Hash code.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public int GetHashCode(IOccupation obj)
+        public int GetHashCode(ILegacySuperDuperAccountOccupation obj)
         {
             return Entity.GetHashCode(obj);
         }

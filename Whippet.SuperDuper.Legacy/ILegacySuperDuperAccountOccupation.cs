@@ -7,7 +7,7 @@ namespace Athi.Whippet.SuperDuper.Legacy
     /// <summary>
     /// Represents a customer or user's occupation.
     /// </summary>
-    public interface IOccupation : ISuperDuperLegacyEntity, IWhippetEntity, IEqualityComparer<IOccupation>
+    public interface ILegacySuperDuperAccountOccupation : ISuperDuperLegacyEntity, IWhippetEntity, IEqualityComparer<ILegacySuperDuperAccountOccupation>
     {
         /// <summary>
         /// Gets or sets the occupation title.

@@ -8,9 +8,9 @@ using Athi.Whippet.SuperDuper.Data.NHibernate.FluentNHibernate;
 namespace Athi.Whippet.SuperDuper.Legacy.EntityMappings
 {
     /// <summary>
-    /// Provides a Fluent mapping for <see cref="SuperDuperAccount"/> objects.
+    /// Provides a Fluent mapping for <see cref="LegacySuperDuperAccount"/> objects.
     /// </summary>
-    public class SuperDuperAccountMap : SuperDuperLegacyFluentMap<SuperDuperAccount>
+    public class SuperDuperAccountMap : SuperDuperLegacyFluentMap<LegacySuperDuperAccount>
     {
         private const string TABLE_NAME = "account";
 
@@ -62,7 +62,7 @@ namespace Athi.Whippet.SuperDuper.Legacy.EntityMappings
             Map(a => a.MultichannelOrderManagerAccountID).Column(COL_MOM_ACCOUNT_ID).Nullable();
             Map(a => a.SessionID).Column(COL_CURRENT_SESSION_ID).Nullable();
 
-            References<SuperDuperAccountOccupation>(a => a.Occupation).Column(COL_OCCUPATION).Nullable();
+            References<LegacySuperDuperAccountOccupation>(a => a.SuperDuperAccountOccupation).Column(COL_OCCUPATION).Nullable();
         }
     }
 }
