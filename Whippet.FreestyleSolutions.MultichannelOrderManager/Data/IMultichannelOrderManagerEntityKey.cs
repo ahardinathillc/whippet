@@ -5,7 +5,7 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.Data
     /// <summary>
     /// Represents an individual database table key (primary or foreign) within a Multichannel Order Manager database.  
     /// </summary>
-    public interface IMultichannelOrderManagerEntityKey : IEqualityComparer<IMultichannelOrderManagerEntityKey>
+    public interface IMultichannelOrderManagerEntityKey : IEqualityComparer<IMultichannelOrderManagerEntityKey>, IConvertible
     {
         /// <summary>
         /// Gets the <see cref="Type"/> of the underlying value. This property is read-only.

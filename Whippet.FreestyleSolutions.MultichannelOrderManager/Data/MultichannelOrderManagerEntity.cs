@@ -38,6 +38,12 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.Data
         protected MultichannelOrderManagerEntity(IMultichannelOrderManagerEntityKey id)
             : base()
         {
+            if (id == null)
+            {
+                // default to int
+                id = new MultichannelOrderManagerEntityKey<int>(default(int));
+            }
+            
             ID = id;
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using NodaTime;
 using Athi.Whippet.Collections.Comparers;
 using Athi.Whippet.Data;
 using Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.Data;
@@ -103,6 +104,31 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.Inventory
         /// </summary>
         public virtual bool IsPickup
         { get; set; }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Warehouse"/> class with no arguments.
+        /// </summary>
+        public Warehouse()
+            : this(new MultichannelOrderManagerEntityKey<int>(default(int)))
+        { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Warehouse"/> class with the specified key.
+        /// </summary>
+        /// <param name="id">ID of the entity to initialize with.</param>
+        public Warehouse(IMultichannelOrderManagerEntityKey id)
+            : base(id)
+        { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Warehouse"/> class with the specified key.
+        /// </summary>
+        /// <param name="id">ID of the entity to initialize with.</param>
+        /// <param name="lastAccessed">Date and time the entity was last accessed.</param>
+        /// <param name="lastAccessedBy">Username who last accessed the entity.</param>
+        public Warehouse(IMultichannelOrderManagerEntityKey id, Instant? lastAccessed, string lastAccessedBy)
+            : base(id, lastAccessed, lastAccessedBy)
+        { }
         
         /// <summary>
         /// Compares the current instance to the specified object for equality.
