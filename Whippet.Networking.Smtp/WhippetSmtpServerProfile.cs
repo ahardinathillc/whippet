@@ -68,7 +68,7 @@ namespace Athi.Whippet.Networking.Smtp
             }
             set
             {
-                ArgumentNullException.ThrowIfNullOrEmpty(value);
+                ArgumentNullException.ThrowIfNullOrWhiteSpace(value);
                 _serverName = value;
             }
         }
@@ -85,7 +85,7 @@ namespace Athi.Whippet.Networking.Smtp
             }
             set
             {
-                ArgumentNullException.ThrowIfNullOrEmpty(value);
+                ArgumentNullException.ThrowIfNullOrWhiteSpace(value);
                 _serverAddress = value;
             }
         }

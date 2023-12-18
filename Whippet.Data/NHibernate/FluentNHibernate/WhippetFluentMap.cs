@@ -194,5 +194,76 @@ namespace Athi.Whippet.Data.NHibernate.FluentNHibernate
             TableSchema = schema;
             TableName = table;
         }
+
+        /// <summary>
+        /// Assigns the specified prefix to the given table name.
+        /// </summary>
+        /// <param name="tableName">Name of the table to assign the prefix to.</param>
+        /// <param name="prefix">Prefix to assign to the table name.</param>
+        /// <returns>Table name decorated with the specified prefix.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        protected static string PrefixTableName(string prefix, string tableName)
+        {
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+            return PrefixTableName(new[] { prefix }, tableName);
+        }
+        
+        /// <summary>
+        /// Assigns the specified prefixes to the given table name.
+        /// </summary>
+        /// <param name="prefixes">Prefixes to assign to the table name.</param>
+        /// <param name="tableName">Name of the table to assign the prefixes to.</param>
+        /// <returns>Table name decorated with the specified prefixes.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        protected static string PrefixTableName(IEnumerable<string> prefixes, string tableName)
+        {
+            if (String.IsNullOrWhiteSpace(tableName))
+            {
+                throw new ArgumentNullException(nameof(tableName));
+            }
+            else
+            {
+                StringBuilder builder = new StringBuilder();
+                
+                if (prefixes != null)
+                {
+                    foreach (string prefix in prefixes)
+                    {
+                        if (!String.IsNullOrWhiteSpace(prefix))
+                        {
+                            builder.Append(prefix);
+
+                            if (!prefix.EndsWith('.') || !prefix.EndsWith(".."))
+                            {
+                                if (prefix.EndsWith('.'))
+                                {
+                                    builder.Append('.');
+                                }
+                                else
+                                {
+                                    builder.Append("..");
+                                }
+                            }
+                        }
+                    }
+                }
+
+                builder.Append(tableName);
+
+                return builder.ToString();
+            }
+        }
+
+        /// <summary>
+        /// Decorates the specified column name to ensure that it does not clash with a reserved keyword.
+        /// </summary>
+        /// <param name="columnName">Column name to decorate.</param>
+        /// <returns>Decorated column name.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        protected static string MakeReservedWordColumnName(string columnName)
+        {
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(columnName);
+            return "__" + columnName + "__";
+        }
     }
 }

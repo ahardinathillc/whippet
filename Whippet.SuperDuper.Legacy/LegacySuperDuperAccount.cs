@@ -5,6 +5,8 @@ using NodaTime;
 using Athi.Whippet.Data;
 using Athi.Whippet.SuperDuper.Data;
 using Athi.Whippet.SuperDuper.Legacy.Extensions;
+using Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.CRM;
+using Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.CRM.Extensions;
 
 namespace Athi.Whippet.SuperDuper.Legacy
 {
@@ -154,6 +156,49 @@ namespace Athi.Whippet.SuperDuper.Legacy
         /// </summary>
         public virtual string SessionID
         { get; set; }
+
+        /// <summary>
+        /// Gets or sets the corresponding <see cref="Customer"/> object in Multichannel Order Manager.
+        /// </summary>
+        public virtual Customer MultichannelOrderManagerAccount
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets the corresponding <see cref="ICustomer"/> object in Multichannel Order Manager.
+        /// </summary>
+        ICustomer ILegacySuperDuperAccount.MultichannelOrderManagerAccount
+        {
+            get
+            {
+                return MultichannelOrderManagerAccount;
+            }
+            set
+            {
+                MultichannelOrderManagerAccount = value.ToCustomer();
+            }
+        }
+        
+        /// <summary>
+        /// Gets or sets the ID of <see cref="MultichannelOrderManagerAccount"/>.
+        /// </summary>
+        protected internal virtual int? _MultichannelOrderManagerAccountID
+        {
+            get
+            {
+                return MultichannelOrderManagerAccount.ID <= 0 ? null : MultichannelOrderManagerAccount.ID;
+            }
+            set
+            {
+                if (!value.HasValue)
+                {
+                    MultichannelOrderManagerAccount = null;
+                }
+                else
+                {
+                    MultichannelOrderManagerAccount = new Customer(value.Value);
+                }
+            }
+        }
         
         /// <summary>
         /// Initializes a new instance of the <see cref="LegacySuperDuperAccount"/> class with no arguments.

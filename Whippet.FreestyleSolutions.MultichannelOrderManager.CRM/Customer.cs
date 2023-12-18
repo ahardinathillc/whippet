@@ -22,6 +22,21 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.CRM
         private CustomerType_3 _type3;
         
         /// <summary>
+        /// Gets or sets the unique ID of the entity.
+        /// </summary>
+        public new virtual MultichannelOrderManagerEntityKey<int> ID
+        {
+            get
+            {
+                return base.ID.ToValue<int>();
+            }
+            set
+            {
+                base.ID = value;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the alternate customer identification number.
         /// </summary>
         public virtual string AlternateCustomerNumber
@@ -652,6 +667,35 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.CRM
         /// </summary>
         public virtual int CustomerReference
         { get; set; }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Customer"/> class with no arguments.
+        /// </summary>
+        public Customer()
+            : base()
+        { }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Customer"/> class with the specified ID.
+        /// </summary>
+        /// <param name="id">Unique identifier of the entity.</param>
+        /// <param name="lastAccessed">Date and time the entity was last accessed.</param>
+        /// <param name="lastAccessedBy">Username who last accessed the entity.</param>
+        public Customer(int id, Instant? lastAccessed = null, string lastAccessedBy = null)
+            : base(new MultichannelOrderManagerEntityKey<int>(id), lastAccessed, lastAccessedBy)
+        { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Customer"/> class with the specified ID.
+        /// </summary>
+        /// <param name="id">Unique identifier of the entity.</param>
+        /// <param name="lastAccessed">Date and time the entity was last accessed.</param>
+        /// <param name="lastAccessedBy">Username who last accessed the entity.</param>
+        /// <param name="lastModified">Date and time the entity was last modified.</param>
+        /// <param name="lastModifiedBy">Username who last modified the entity.</param>
+        public Customer(int id, Instant? lastAccessed, string lastAccessedBy, Instant? lastModified, string lastModifiedBy)
+            : base(new MultichannelOrderManagerEntityKey<int>(id), lastAccessed, lastAccessedBy, lastModified, lastModifiedBy)
+        { }
         
         /// <summary>
         /// Compares the current instance to the specified object for equality.

@@ -105,7 +105,7 @@ namespace Athi.Whippet.Data
         /// <exception cref="ArgumentNullException" />
         protected virtual RestRequest CreateRequest(string endpoint, Method method)
         {
-            ArgumentNullException.ThrowIfNullOrEmpty(endpoint);
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(endpoint);
             return CreateRequest(endpoint, method, BearerToken);
         }
 

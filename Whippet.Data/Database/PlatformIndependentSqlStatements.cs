@@ -22,8 +22,8 @@ namespace Athi.Whippet.Data.Database
         /// <exception cref="ArgumentNullException" />
         public static string GenerateSingleDeleteStatement(string tableName, string columnName, string value, bool isStringLiteral = false)
         {
-            ArgumentNullException.ThrowIfNullOrEmpty(tableName);
-            ArgumentNullException.ThrowIfNullOrEmpty(columnName);
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(columnName);
 
             if (isStringLiteral)
             {

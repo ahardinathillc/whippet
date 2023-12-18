@@ -15,7 +15,7 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.CRM
         {
             get
             {
-                return String.IsNullOrWhiteSpace(base.Code) ? '\0' : Convert.ToChar(base.Code);
+                return String.IsNullOrWhiteSpace(base.Code) ? ' ' : Convert.ToChar(base.Code);
             }
             set
             {

@@ -21,8 +21,8 @@ namespace Athi.Whippet.Data.Extensions.SqlKata
         /// <exception cref="ArgumentNullException" />
         public static string CreateAlias(this QueryFactory factory, string sqlObject, string aliasName, bool includeAs)
         {
-            ArgumentNullException.ThrowIfNullOrEmpty(sqlObject);
-            ArgumentNullException.ThrowIfNullOrEmpty(aliasName);
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(sqlObject);
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(aliasName);
 
             return sqlObject + " " + (includeAs ? "AS " : "") + aliasName;
         }
@@ -40,8 +40,8 @@ namespace Athi.Whippet.Data.Extensions.SqlKata
         {
             StringBuilder builder = null;
 
-            ArgumentNullException.ThrowIfNullOrEmpty(table);
-            ArgumentNullException.ThrowIfNullOrEmpty(column);
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(table);
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(column);
 
             builder = new StringBuilder();
 
@@ -81,4 +81,3 @@ namespace Athi.Whippet.Data.Extensions.SqlKata
         }
     }
 }
-

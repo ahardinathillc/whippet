@@ -227,7 +227,7 @@ namespace Athi.Whippet.Adobe.Magento.Data
         /// <exception cref="ArgumentNullException" />
         protected virtual string CreateBulkEndpointUrl(string endpoint)
         {
-            ArgumentNullException.ThrowIfNullOrEmpty(endpoint);
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(endpoint);
             return "/rest/async/bulk/V1/" + endpoint;
         }
 
@@ -239,7 +239,7 @@ namespace Athi.Whippet.Adobe.Magento.Data
         /// <exception cref="ArgumentNullException" />
         protected virtual string CreateBulkStatusUrl(string storeCode)
         {
-            ArgumentNullException.ThrowIfNullOrEmpty(storeCode);
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(storeCode);
             return "/rest/" + storeCode + "/V1/bulk/";
         }
 

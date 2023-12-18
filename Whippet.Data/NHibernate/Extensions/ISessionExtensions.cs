@@ -68,7 +68,7 @@ namespace Athi.Whippet.Data.NHibernate.Extensions
         public static int ExecuteRawUpdate(this ISession session, string query, IDictionary<string, object> parameters = null)
         {
             ArgumentNullException.ThrowIfNull(session);
-            ArgumentNullException.ThrowIfNullOrEmpty(query);
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(query);
 
             return Task.Run(() => ExecuteRawUpdateAsync(session, query, parameters)).Result;
         }

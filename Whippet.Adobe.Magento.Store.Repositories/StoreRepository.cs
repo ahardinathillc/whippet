@@ -209,7 +209,7 @@ namespace Athi.Whippet.Adobe.Magento.Store.Repositories
         /// <exception cref="ArgumentNullException"></exception>
         public virtual WhippetResultContainer<Store> GetByCode(string code)
         {
-            ArgumentNullException.ThrowIfNullOrEmpty(code);
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(code);
             return Task.Run(() => GetByCodeAsync(code)).Result;
         }
 
@@ -311,7 +311,7 @@ namespace Athi.Whippet.Adobe.Magento.Store.Repositories
         /// <exception cref="ArgumentNullException"></exception>
         public virtual WhippetResultContainer<Store> Get(string name)
         {
-            ArgumentNullException.ThrowIfNullOrEmpty(name);
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(name);
             return Task.Run(() => GetAsync(name)).Result;
         }
 

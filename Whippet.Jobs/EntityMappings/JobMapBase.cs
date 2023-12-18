@@ -54,7 +54,7 @@ namespace Athi.Whippet.Jobs.EntityMappings
         /// <exception cref="ArgumentNullException" />
         protected static string CreateTableName(string tableName)
         {
-            ArgumentNullException.ThrowIfNullOrEmpty(tableName);
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
             return String.Format(TABLE_NAME, tableName);
         }
     }

@@ -7,6 +7,7 @@ using Athi.Whippet.Data.Database;
 using Athi.Whippet.Data.Database.Microsoft;
 using Athi.Whippet.Data.Database.Microsoft.Extensions;
 using Athi.Whippet.Security.Tenants;
+using Athi.Whippet.Security.Tenants.Extensions;
 using Athi.Whippet.SuperDuper.DigitalLibrary.Legacy.Extensions;
 
 namespace Athi.Whippet.SuperDuper.DigitalLibrary.Legacy
@@ -272,6 +273,21 @@ namespace Athi.Whippet.SuperDuper.DigitalLibrary.Legacy
                 Mirror = value.ToLegacyDigitalLibraryServer();
             }
         }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LegacyDigitalLibraryServer"/> class with no arguments.
+        /// </summary>
+        public LegacyDigitalLibraryServer()
+            : base()
+        { }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LegacyDigitalLibraryServer"/> class with the specified ID.
+        /// </summary>
+        /// <param name="id">ID of the <see cref="LegacyDigitalLibraryServer"/> to initialize with.</param>
+        public LegacyDigitalLibraryServer(Guid id)
+            : this(id, String.Empty, String.Empty, String.Empty, WhippetTenant.Root.ToWhippetTenant(), false, false, null, null, null, null)
+        { }
         
         /// <summary>
         /// Creates a new instance of the <see cref="SuperDuperServer"/> class.

@@ -183,7 +183,7 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.ServiceManage
         /// <exception cref="ArgumentNullException" />
         public virtual async Task<WhippetResultContainer<IEnumerable<IMultichannelOrderManagerPostalCode>>> GetPostalCodes(string postalCode)
         {
-            ArgumentNullException.ThrowIfNullOrEmpty(postalCode);
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(postalCode);
 
             IMultichannelOrderManagerPostalCodeQueryHandler<GetMultichannelOrderManagerPostalCodesByPostalCodeQuery> handler = new GetMultichannelOrderManagerPostalCodesByPostalCodeQueryHandler(PostalCodeRepository);
             WhippetResultContainer<IEnumerable<MultichannelOrderManagerPostalCode>> result = await handler.HandleAsync(new GetMultichannelOrderManagerPostalCodesByPostalCodeQuery(postalCode));

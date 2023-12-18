@@ -10,7 +10,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
-      <ProjectReference Include="..\Whippet.FreestyleSolutions.MOM\Whippet.FreestyleSolutions.MOM.csproj" />
       <ProjectReference Include="..\Whippet.Security\Whippet.Security.csproj" />
       <ProjectReference Include="..\Whippet\Whippet.csproj" />
     </ItemGroup>

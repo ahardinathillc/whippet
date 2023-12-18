@@ -1,5 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Data.SqlClient;
+using FluentNHibernate.Mapping;
+using Athi.Whippet.Data.NHibernate.FluentNHibernate;
+using Athi.Whippet.Extensions.Primitives;
+using Athi.Whippet.Data.NHibernate.UserTypes;
 
 namespace Athi.Whippet.Data.Database.Microsoft.Extensions
 {
@@ -153,6 +158,66 @@ namespace Athi.Whippet.Data.Database.Microsoft.Extensions
             }
 
             return hash;
+        }
+
+        /// <summary>
+        /// Creates a mapping for an <see cref="IWhippetSqlServerDatabaseServer"/> entity.
+        /// </summary>
+        /// <param name="map"><see cref="WhippetFluentMap{T}"/> object.</param>
+        /// <param name="nameDecorator"><see cref="Func{TResult}"/> that decorates the column names to prevent reserved word clashing.</param>
+        /// <typeparam name="TEntity"><see cref="IWhippetSqlServerDatabaseServer"/> object that is being mapped.</typeparam>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static void MapNHibernateColumns<TEntity>(this WhippetFluentMap<TEntity> map, Func<string, string> nameDecorator) where TEntity : WhippetEntity, IWhippetSqlServerDatabaseServer, new()
+        {
+            if (map == null)
+            {
+                throw new ArgumentNullException(nameof(map));
+            }
+            else if (nameDecorator == null)
+            {
+                throw new ArgumentNullException(nameof(nameDecorator));
+            }
+            else
+            {
+                object objectExtension = null;
+
+                map.Map(sdt => sdt.Password).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.Password))).Length(objectExtension.GetMaximumStringLength()).Nullable();
+                map.Map(sdt => sdt.Username).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.Username))).Length(objectExtension.GetDefaultStringLength()).Nullable();
+                map.Map(ldls => ldls.IntegratedSecurity).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.IntegratedSecurity))).Not.Nullable();
+                map.Map(ldls => ldls.Database).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.Database))).Length(objectExtension.GetDefaultEntityNameMaxLength()).Nullable();
+                map.Map(ldls => ldls.MultipleActiveResultSets).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.MultipleActiveResultSets))).Not.Nullable();
+                map.Map(ldls => ldls.AttachDBFilename).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.AttachDBFilename))).Length(objectExtension.GetMaximumStringLength()).Nullable();
+                map.Map(ldls => ldls.PacketSize).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.PacketSize))).Not.Nullable();
+                map.Map(ldls => ldls.Authentication).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.Authentication))).CustomType<EnumUserType<SqlAuthenticationMethod>>().Not.Nullable();
+                map.Map(ldls => ldls.ApplicationName).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.ApplicationName))).Length(objectExtension.GetMaximumStringLength()).Nullable();
+                map.Map(ldls => ldls.ApplicationIntent).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.ApplicationIntent))).CustomType<EnumUserType<ApplicationIntent>>().Not.Nullable();
+                map.Map(ldls => ldls.ColumnEncryptionSetting).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.ColumnEncryptionSetting))).CustomType<EnumUserType<SqlConnectionColumnEncryptionSetting>>().Not.Nullable();
+                map.Map(ldls => ldls.CommandTimeout).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.CommandTimeout))).Not.Nullable();
+                map.Map(ldls => ldls.ConnectRetryCount).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.ConnectRetryCount))).Not.Nullable();
+                map.Map(ldls => ldls.ConnectRetryInterval).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.ConnectRetryInterval))).Not.Nullable();
+                map.Map(ldls => ldls.ConnectTimeout).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.ConnectTimeout))).Not.Nullable();
+                map.Map(ldls => ldls.CurrentLanguage).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.CurrentLanguage))).Nullable();
+                map.Map(ldls => ldls.AttestationProtocol).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.AttestationProtocol))).CustomType<EnumUserType<SqlConnectionAttestationProtocol>>().Not.Nullable();
+                map.Map(ldls => ldls.EnclaveAttestationUrl).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.EnclaveAttestationUrl))).Length(objectExtension.GetMaximumGoogleUrlLength()).Nullable();
+                map.Map(ldls => ldls.IPAddressPreference).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.IPAddressPreference))).CustomType<EnumUserType<SqlConnectionIPAddressPreference>>().Not.Nullable();
+                map.Map(ldls => ldls.Encrypt).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.Encrypt))).Not.Nullable();
+                map.Map(ldls => ldls.Enlist).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.Enlist))).Not.Nullable();
+                map.Map(ldls => ldls.LoadBalanceTimeout).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.LoadBalanceTimeout))).Not.Nullable();
+                map.Map(ldls => ldls.MaxPoolSize).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.MaxPoolSize))).Not.Nullable();
+                map.Map(ldls => ldls.MinPoolSize).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.MinPoolSize))).Not.Nullable();
+                map.Map(ldls => ldls.MultiSubnetFailover).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.MultiSubnetFailover))).Not.Nullable();
+                map.Map(ldls => ldls.PersistSecurityInfo).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.PersistSecurityInfo))).Not.Nullable();
+                map.Map(ldls => ldls.PoolBlockingPeriod).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.PoolBlockingPeriod))).CustomType<EnumUserType<PoolBlockingPeriod>>().Not.Nullable();
+                map.Map(ldls => ldls.Pooling).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.Pooling))).Not.Nullable();
+                map.Map(ldls => ldls.Replication).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.Replication))).Not.Nullable();
+                map.Map(ldls => ldls.TransactionBinding).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.TransactionBinding))).Length(objectExtension.GetDefaultStringLength()).Not.Nullable();
+                map.Map(ldls => ldls.TrustServerCertificate).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.TrustServerCertificate))).Not.Nullable();
+                map.Map(ldls => ldls.TypeSystemVersion).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.TypeSystemVersion))).Length(objectExtension.GetDefaultStringLength()).Nullable();
+                map.Map(ldls => ldls.UserInstance).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.UserInstance))).Nullable();
+                map.Map(ldls => ldls.WorkstationID).Column(nameDecorator(nameof(IWhippetSqlServerDatabaseServer.WorkstationID))).Length(objectExtension.GetDefaultStringLength()).Nullable();
+
+                map.References<TEntity>(entity => entity.Mirror).Nullable().LazyLoad(Laziness.False);
+            }
         }
     }
 }

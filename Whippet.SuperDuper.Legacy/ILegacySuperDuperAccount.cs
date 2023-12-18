@@ -1,8 +1,8 @@
 using System;
 using NodaTime;
 using Athi.Whippet.Data;
-using Athi.Whippet.FreestyleSolutions.MultichannelOrderManager;
 using Athi.Whippet.SuperDuper.Data;
+using Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.CRM;
 
 namespace Athi.Whippet.SuperDuper.Legacy
 {
@@ -78,9 +78,9 @@ namespace Athi.Whippet.SuperDuper.Legacy
         { get; set; }
         
         /// <summary>
-        /// Gets or sets the account's corresponding Freestyle Solutions Multichannel Order Manager account.
+        /// Gets or sets the corresponding <see cref="ICustomer"/> object in Multichannel Order Manager.
         /// </summary>
-        int? MultichannelOrderManagerAccountID
+        ICustomer MultichannelOrderManagerAccount
         { get; set; }
         
         /// <summary>

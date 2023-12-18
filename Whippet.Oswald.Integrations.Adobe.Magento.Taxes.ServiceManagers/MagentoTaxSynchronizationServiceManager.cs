@@ -237,7 +237,7 @@ namespace Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.ServiceManagers
             const string EVENT_UPDATE = "Magento tax rate {Country}-{State}-{PostalCode} does not match corresponding Multichannel Order Manager rate. Marked for update by {User}.";
 
             ArgumentNullException.ThrowIfNull(magentoServer);
-            ArgumentNullException.ThrowIfNullOrEmpty(magentoExemptTaxRateCode);
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(magentoExemptTaxRateCode);
             ArgumentNullException.ThrowIfNull(momTaxRateSM);
             ArgumentNullException.ThrowIfNull(momCountrySM);
             ArgumentNullException.ThrowIfNull(momStateProvinceSM);
@@ -250,7 +250,7 @@ namespace Athi.Whippet.Oswald.Integrations.Adobe.Magento.Taxes.ServiceManagers
             ArgumentNullException.ThrowIfNull(primaryMomServer);
             ArgumentNullException.ThrowIfNull(momExportServer);
             ArgumentNullException.ThrowIfNull(tenant);
-            ArgumentNullException.ThrowIfNullOrEmpty(missingCountryIdentifier);
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(missingCountryIdentifier);
             ArgumentNullException.ThrowIfNull(cacheCouchDBEntrySM);
 
             int _EventID = Int32.MaxValue;

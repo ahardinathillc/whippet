@@ -1,5 +1,4 @@
 using System;
-using FluentNHibernate.Mapping;
 using Athi.Whippet.Data;
 using Athi.Whippet.Data.NHibernate.FluentNHibernate;
 using Athi.Whippet.Data.NHibernate.FluentNHibernate.Extensions;
@@ -27,14 +26,11 @@ namespace Athi.Whippet.SuperDuper.EntityMappings
 
             Map(sdt => sdt.ServerType).CustomType<EnumUserType<ExternalDataSourceType>>().Not.Nullable();
             Map(sdt => sdt.Name).Length(ObjectExtensionMethods.GetDefaultEntityNameMaxLength()).Nullable();
-            Map(sdt => sdt.Password).Length(ObjectExtensionMethods.GetMaximumStringLength()).Nullable();
-            Map(sdt => sdt.Username).Length(ObjectExtensionMethods.GetDefaultStringLength()).Nullable();
 
             References<WhippetTenant>(sdt => sdt.Tenant).Not.Nullable();
             
             this.MapActiveEntity();
             this.MapDeletedEntity();
         }
-        
     }
 }

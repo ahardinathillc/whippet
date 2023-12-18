@@ -164,7 +164,7 @@ namespace Athi.Whippet.Adobe.Magento.Store.Repositories
         /// <exception cref="ArgumentNullException"></exception>
         public virtual WhippetResultContainer<StoreConfiguration> Get(string code)
         {
-            ArgumentNullException.ThrowIfNullOrEmpty(code);
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(code);
             return Task.Run(() => GetAsync(code)).Result;
         }
 

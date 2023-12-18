@@ -166,7 +166,7 @@ namespace Athi.Whippet.Adobe.Magento.Categories.Repositories
         /// <exception cref="ArgumentNullException"></exception>
         public virtual WhippetResultContainer<Category> Get(string name)
         {
-            ArgumentNullException.ThrowIfNullOrEmpty(name);
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(name);
             return Task.Run(() => GetAsync(name)).Result;
         }
 
