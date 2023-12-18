@@ -72,19 +72,19 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.CRM
         /// <summary>
         /// Gets or sets the first customer categorization type.
         /// </summary>
-        CustomerType CustomerType_1
+        CustomerType_1 CustomerType_1
         { get; set; }
 
         /// <summary>
         /// Gets or sets the second customer categorization type.
         /// </summary>
-        CustomerType CustomerType_2
+        CustomerType_2 CustomerType_2
         { get; set; }
         
         /// <summary>
         /// Gets or sets the third customer categorization type.
         /// </summary>
-        CustomerType CustomerType_3
+        CustomerType_3 CustomerType_3
         { get; set; }
         
         /// <summary>
@@ -403,12 +403,6 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.CRM
         /// Indicates whether the shipping address is the same as the billing address.
         /// </summary>
         bool ShippingAddressMatchesBillingAddress
-        { get; set; }
-
-        /// <summary>
-        /// Gets or sets the last user to access the customer's record.
-        /// </summary>
-        string LastUser
         { get; set; }
 
         /// <summary>

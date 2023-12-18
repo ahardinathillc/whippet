@@ -45,7 +45,6 @@
     <Folder Include="Exports\" />
     <Folder Include="Exports\Repositories\" />
     <Folder Include="EntityMappings\Components\" />
-    <Folder Include="Models\" />
     <Folder Include="Exports\Models\" />
     <Folder Include="Json\" />
   </ItemGroup>

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Text;
 using NodaTime;
 using Athi.Whippet.Data;
+using Athi.Whippet.Extensions.Text;
 using Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.Taxes;
 using Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.Data;
 using Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.Inventory;
@@ -15,9 +17,9 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.CRM
     {
         private Warehouse _warehouse;
 
-        private CustomerType _type1;
-        private CustomerType _type2;
-        private CustomerType _type3;
+        private CustomerType_1 _type1;
+        private CustomerType_2 _type2;
+        private CustomerType_3 _type3;
         
         /// <summary>
         /// Gets or sets the alternate customer identification number.
@@ -79,17 +81,15 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.CRM
         /// <summary>
         /// Gets or sets the first customer categorization type.
         /// </summary>
-        public virtual CustomerType CustomerType_1
+        public virtual CustomerType_1 CustomerType_1
         {
             get
             {
                 if (_type1 == null)
                 {
-                    _type1 = new CustomerType();
+                    _type1 = new CustomerType_1();
                 }
 
-                _type1.CodeLength = 1;
-                
                 return _type1;
             }
             set
@@ -101,17 +101,15 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.CRM
         /// <summary>
         /// Gets or sets the second customer categorization type.
         /// </summary>
-        public virtual CustomerType CustomerType_2
+        public virtual CustomerType_2 CustomerType_2
         {
             get
             {
                 if (_type2 == null)
                 {
-                    _type2 = new CustomerType();
+                    _type2 = new CustomerType_2();
                 }
 
-                _type2.CodeLength = 2;
-                
                 return _type2;
             }
             set
@@ -123,17 +121,15 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.CRM
         /// <summary>
         /// Gets or sets the third customer categorization type.
         /// </summary>
-        public virtual CustomerType CustomerType_3
+        public virtual CustomerType_3 CustomerType_3
         {
             get
             {
                 if (_type3 == null)
                 {
-                    _type3 = new CustomerType();
+                    _type3 = new CustomerType_3();
                 }
 
-                _type3.CodeLength = 4;
-                
                 return _type3;
             }
             set
@@ -461,12 +457,6 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.CRM
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the last user to access the customer's record.
-        /// </summary>
-        public virtual string LastUser
-        { get; set; }
-
-        /// <summary>
         /// Reserved for use by M.O.M. internally.
         /// </summary>
         public virtual bool NoPoints
@@ -662,5 +652,292 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.CRM
         /// </summary>
         public virtual int CustomerReference
         { get; set; }
+        
+        /// <summary>
+        /// Compares the current instance to the specified object for equality.
+        /// </summary>
+        /// <param name="obj">Object to compare against.</param>
+        /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as ICustomer);
+        }
+
+        /// <summary>
+        /// Compares the current instance to the specified object for equality.
+        /// </summary>
+        /// <param name="obj">Object to compare against.</param>
+        /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
+        public virtual bool Equals(ICustomer obj)
+        {
+            return (obj != null) && Equals(this, obj);
+        }
+
+        /// <summary>
+        /// Compares the two objects for equality.
+        /// </summary>
+        /// <param name="x">First object to compare.</param>
+        /// <param name="y">Second object to compare.</param>
+        /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
+        public virtual bool Equals(ICustomer x, ICustomer y)
+        {
+            bool equals = (x == null && y == null);
+
+            if (!equals && (x != null) && (y != null) && base.Equals(x, y))
+            {
+                equals =
+                    String.Equals(x.AlternateCustomerNumber?.Trim(), y.AlternateCustomerNumber?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && String.Equals(x.LastName?.Trim(), y.LastName?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && String.Equals(x.FirstName?.Trim(), y.FirstName?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && String.Equals(x.Company?.Trim(), y.Company?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && x.Address.Equals(y.Address)
+                    && x.Phone.Equals(y.Phone)
+                    && String.Equals(x.OriginAdCampaign?.Trim(), y.OriginAdCampaign?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && String.Equals(x.LastAdCampaign?.Trim(), y.LastAdCampaign?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && x.CatCount == y.CatCount
+                    && String.Equals(x.CustomerType?.Trim(), y.CustomerType?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && (((x.CustomerType_1 == null) && (y.CustomerType_1 == null)) || ((x.CustomerType_1 != null) && x.CustomerType_1.Equals(y.CustomerType_1)))
+                    && (((x.CustomerType_2 == null) && (y.CustomerType_2 == null)) || ((x.CustomerType_2 != null) && x.CustomerType_2.Equals(y.CustomerType_2)))
+                    && (((x.CustomerType_3 == null) && (y.CustomerType_3 == null)) || ((x.CustomerType_3 != null) && x.CustomerType_3.Equals(y.CustomerType_3)))
+                    && x.OrderDate.GetValueOrDefault().Equals(y.OrderDate.GetValueOrDefault())
+                    && String.Equals(x.PaymentMethod?.Trim(), y.PaymentMethod?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && String.Equals(x.CardNumber?.Trim(), y.CardNumber?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && String.Equals(x.CardType?.Trim(), y.CardType?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && String.Equals(x.CardExpiration?.Trim(), y.CardExpiration?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && String.Equals(x.ShippingList?.Trim(), y.ShippingList?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && x.Expired == y.Expired
+                    && x.BadCheck == y.BadCheck
+                    && x.OrderRecord == y.OrderRecord
+                    && x.NetTotal == y.NetTotal
+                    && x.GrossTotal == y.GrossTotal
+                    && x.OrderFrequency == y.OrderFrequency
+                    && String.Equals(x.Comment?.Trim(), y.Comment?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && x.Balance == y.Balance
+                    && x.Discount == y.Discount
+                    && x.Exempt == y.Exempt
+                    && x.AccountsReceivableBalance == y.AccountsReceivableBalance
+                    && x.CreditLimit == y.CreditLimit
+                    && x.DiscountDays == y.DiscountDays
+                    && x.DueDays == y.DueDays
+                    && x.DiscountPercent == y.DiscountPercent
+                    && x.PromotionalBalance == y.PromotionalBalance
+                    && String.Equals(x.OtherComment?.Trim(), y.OtherComment?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && String.Equals(x.SalesID?.Trim(), y.SalesID?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && x.NoMail == y.NoMail
+                    && x.BelongNumber == y.BelongNumber
+                    && String.Equals(x.CarrierRoute?.Trim(), y.CarrierRoute?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && String.Equals(x.DeliveryPoint?.Trim(), y.DeliveryPoint?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && x.NCOACHANGE == y.NCOACHANGE
+                    && x.EntryDate.GetValueOrDefault().Equals(y.EntryDate.GetValueOrDefault())
+                    && String.Equals(x.Company_Search?.Trim(), y.Company_Search?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && String.Equals(x.Email?.Trim(), y.Email?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && x.TaxExempt == y.TaxExempt
+                    && String.Equals(x.TaxID?.Trim(), y.TaxID?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && x.CashOnly == y.CashOnly
+                    && String.Equals(x.Salutation?.Trim(), y.Salutation?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && String.Equals(x.Honor?.Trim(), y.Honor?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && String.Equals(x.Title?.Trim(), y.Title?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && x.NoEmail == y.NoEmail
+                    && String.Equals(x.Password?.Trim(), y.Password?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && x.RFM == y.RFM
+                    && x.Points == y.Points
+                    && x.NoRenting == y.NoRenting
+                    && x.AddressType == y.AddressType
+                    && x.WebAddress == y.WebAddress
+                    && x.DateLimit == y.DateLimit
+                    && x.StartDate.GetValueOrDefault().Equals(y.StartDate.GetValueOrDefault())
+                    && x.EndDate.GetValueOrDefault().Equals(y.EndDate.GetValueOrDefault())
+                    && x.StartMonth == y.StartMonth
+                    && x.StartDay == y.StartDay
+                    && x.EndMonth == y.EndMonth
+                    && x.EndDay == y.EndDay
+                    && x.ShippingAddressMatchesBillingAddress == y.ShippingAddressMatchesBillingAddress
+                    && x.NoPoints == y.NoPoints
+                    && x.UPSCommercialDelivery == y.UPSCommercialDelivery
+                    && String.Equals(x.PreferredShippingMethod?.Trim(), y.PreferredShippingMethod?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && String.Equals(x.PreferredPaymentMethod?.Trim(), y.PreferredPaymentMethod?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && String.Equals(x.ValidatedAddressCode?.Trim(), y.ValidatedAddressCode?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && x.ValidatedDate.GetValueOrDefault().Equals(y.ValidatedDate.GetValueOrDefault())
+                    && String.Equals(x.SoundsLikeName?.Trim(), y.SoundsLikeName?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && x.AddressExpirationDate.GetValueOrDefault().Equals(y.AddressExpirationDate.GetValueOrDefault())
+                    && x.ACVMEDate.GetValueOrDefault().Equals(y.ACVMEDate.GetValueOrDefault())
+                    && x.AccountDate.GetValueOrDefault().Equals(y.AccountDate.GetValueOrDefault())
+                    && x.DiscountStartDate.GetValueOrDefault().Equals(y.DiscountStartDate.GetValueOrDefault())
+                    && x.DiscountEndDate.GetValueOrDefault().Equals(y.DiscountEndDate.GetValueOrDefault())
+                    && (((x.PreferredWarehouse == null) && (y.PreferredWarehouse == null)) || ((x.PreferredWarehouse != null) && x.PreferredWarehouse.Equals(y.PreferredWarehouse)))
+                    && String.Equals(x.BestTimeToCall?.Trim(), y.BestTimeToCall?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && x.Fraud == y.Fraud
+                    && x.NoCalling == y.NoCalling
+                    && x.NoFax == y.NoFax
+                    && String.Equals(x.SecondTaxID?.Trim(), y.SecondTaxID?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && String.Equals(x.EMAILDEF?.Trim(), y.EMAILDEF?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && String.Equals(x.EmailPreference?.Trim(), y.EmailPreference?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && String.Equals(x.Server?.Trim(), y.Server?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && String.Equals(x.Root?.Trim(), y.Root?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && String.Equals(x.Stores?.Trim(), y.Stores?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                    && x.TaxExemptions.Equals(y.TaxExemptions)
+                    && x.CustomerTerms == y.CustomerTerms
+                    && x.AutoSupport == y.AutoSupport
+                    && x.TariffExempt == y.TariffExempt
+                    && x.CustomerReference == y.CustomerReference;
+            }
+
+            return equals;
+        }
+
+        /// <summary>
+        /// Gets the hash code for the current object.
+        /// </summary>
+        /// <returns>Hash code for the current object.</returns>
+        public override int GetHashCode()
+        {
+            HashCode hash = new HashCode();
+            hash.Add(base.GetHashCode());
+            hash.Add(AlternateCustomerNumber);
+            hash.Add(LastName);
+            hash.Add(FirstName);
+            hash.Add(Company);
+            hash.Add(Address);
+            hash.Add(Phone);
+            hash.Add(OriginAdCampaign);
+            hash.Add(LastAdCampaign);
+            hash.Add(CatCount);
+            hash.Add(CustomerType);
+            hash.Add(CustomerType_1);
+            hash.Add(CustomerType_2);
+            hash.Add(CustomerType_3);
+            hash.Add(OrderDate);
+            hash.Add(PaymentMethod);
+            hash.Add(CardNumber);
+            hash.Add(CardType);
+            hash.Add(CardExpiration);
+            hash.Add(ShippingList);
+            hash.Add(Expired);
+            hash.Add(BadCheck);
+            hash.Add(OrderRecord);
+            hash.Add(NetTotal);
+            hash.Add(GrossTotal);
+            hash.Add(OrderFrequency);
+            hash.Add(Comment);
+            hash.Add(Balance);
+            hash.Add(Discount);
+            hash.Add(Exempt);
+            hash.Add(AccountsReceivableBalance);
+            hash.Add(CreditLimit);
+            hash.Add(DiscountDays);
+            hash.Add(DueDays);
+            hash.Add(DiscountPercent);
+            hash.Add(PromotionalBalance);
+            hash.Add(OtherComment);
+            hash.Add(SalesID);
+            hash.Add(NoMail);
+            hash.Add(BelongNumber);
+            hash.Add(CarrierRoute);
+            hash.Add(DeliveryPoint);
+            hash.Add(NCOACHANGE);
+            hash.Add(EntryDate);
+            hash.Add(Company_Search);
+            hash.Add(Email);
+            hash.Add(TaxExempt);
+            hash.Add(TaxID);
+            hash.Add(CashOnly);
+            hash.Add(Salutation);
+            hash.Add(Honor);
+            hash.Add(Title);
+            hash.Add(NoEmail);
+            hash.Add(Password);
+            hash.Add(RFM);
+            hash.Add(Points);
+            hash.Add(NoRenting);
+            hash.Add(AddressType);
+            hash.Add(WebAddress);
+            hash.Add(DateLimit);
+            hash.Add(StartDate);
+            hash.Add(EndDate);
+            hash.Add(StartMonth);
+            hash.Add(StartDay);
+            hash.Add(EndMonth);
+            hash.Add(EndDay);
+            hash.Add(ShippingAddressMatchesBillingAddress);
+            hash.Add(NoPoints);
+            hash.Add(UPSCommercialDelivery);
+            hash.Add(PreferredShippingMethod);
+            hash.Add(PreferredPaymentMethod);
+            hash.Add(ValidatedAddressCode);
+            hash.Add(ValidatedDate);
+            hash.Add(SoundsLikeName);
+            hash.Add(AddressExpirationDate);
+            hash.Add(ACVMEDate);
+            hash.Add(AccountDate);
+            hash.Add(DiscountStartDate);
+            hash.Add(DiscountEndDate);
+            hash.Add(PreferredWarehouse);
+            hash.Add(BestTimeToCall);
+            hash.Add(Fraud);
+            hash.Add(NoCalling);
+            hash.Add(NoFax);
+            hash.Add(SecondTaxID);
+            hash.Add(EMAILDEF);
+            hash.Add(EmailPreference);
+            hash.Add(Server);
+            hash.Add(Root);
+            hash.Add(Stores);
+            hash.Add(TaxExemptions);
+            hash.Add(CustomerTerms);
+            hash.Add(AutoSupport);
+            hash.Add(TariffExempt);
+            hash.Add(CustomerReference);
+
+            return hash.ToHashCode();
+        }
+
+        /// <summary>
+        /// Gets the hash code for the specified object.
+        /// </summary>
+        /// <param name="obj"><see cref="ICustomer"/> object ot get hash code for.</param>
+        /// <returns>Hash code for the specified object.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public int GetHashCode(ICustomer obj)
+        {
+            if (obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj));
+            }
+            else
+            {
+                return obj.GetHashCode();
+            }
+        }
+
+        /// <summary>
+        /// Gets the string representation of the current object.
+        /// </summary>
+        /// <returns>String representation of the current object.</returns>
+        public override string ToString()
+        {
+            StringBuilder builder = new StringBuilder();
+
+            if (!String.IsNullOrWhiteSpace(FirstName) && !String.IsNullOrWhiteSpace(LastName))
+            {
+                builder.Append('[');
+                builder.Append(FirstName.Trim());
+                builder.AppendSpace();
+                builder.Append(LastName.Trim());
+
+                if (!String.IsNullOrWhiteSpace(Email))
+                {
+                    builder.Append(" | ");
+                    builder.Append(Email.Trim());
+                }
+
+                builder.Append(']');
+            }
+            else
+            {
+                builder.Append(base.ToString());
+            }
+
+            return builder.ToString();
+        }
     }
 }

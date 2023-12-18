@@ -5,9 +5,9 @@ using Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.Data;
 namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.CRM
 {
     /// <summary>
-    /// Represents a customer type.
+    /// Base class for all customer types. This class must be inherited.
     /// </summary>
-    public class CustomerType : MultichannelOrderManagerEntity, IMultichannelOrderManagerEntity, IWhippetEntity, IEqualityComparer<CustomerType>
+    public abstract class CustomerType : MultichannelOrderManagerEntity, IMultichannelOrderManagerEntity, IWhippetEntity, IEqualityComparer<CustomerType>
     {
         private string _code;
         
@@ -27,12 +27,6 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.CRM
         }
 
         /// <summary>
-        /// Gets or sets the maximum length of <see cref="Code"/>.
-        /// </summary>
-        protected internal virtual int CodeLength
-        { get; set; }
-        
-        /// <summary>
         /// Gets or sets the type description.
         /// </summary>
         public virtual string Description
@@ -41,7 +35,6 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.CRM
         /// <summary>
         /// Gets or sets the customer type code.
         /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public virtual string Code
         {
             get
@@ -50,11 +43,6 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.CRM
             }
             set
             {
-                if (!String.IsNullOrWhiteSpace(value) && (CodeLength > 0) && (value.Length > CodeLength))
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
-
                 _code = value;
             }
         }
@@ -87,7 +75,7 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.CRM
             Code = type;
         }
         
-                /// <summary>
+        /// <summary>
         /// Compares the current instance to the specified object for equality.
         /// </summary>
         /// <param name="obj">Object to compare against.</param>

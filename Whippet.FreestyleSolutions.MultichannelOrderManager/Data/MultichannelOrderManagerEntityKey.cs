@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using NHibernate.SqlTypes;
 
 namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.Data
 {
@@ -31,6 +33,78 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.Data
         };
 
         /// <summary>
+        /// Gets the <see cref="SqlType"/> for the current instance.
+        /// </summary>
+        /// <returns><see cref="SqlType"/> object.</returns>
+        public SqlType GetNHibernateSqlType()
+        {
+            SqlType type = null;
+            
+            if (typeof(T) == typeof(byte))
+            {
+                type = SqlTypeFactory.Byte;
+            }
+            else if (typeof(T) == typeof(sbyte))
+            {
+                type = SqlTypeFactory.SByte;
+            }
+            else if (typeof(T) == typeof(short))
+            {
+                type = SqlTypeFactory.Int16;
+            }
+            else if (typeof(T) == typeof(ushort))
+            {
+                type = SqlTypeFactory.UInt16;
+            }
+            else if (typeof(T) == typeof(int))
+            {
+                type = SqlTypeFactory.Int32;
+            }
+            else if (typeof(T) == typeof(uint))
+            {
+                type = SqlTypeFactory.UInt32;
+            }
+            else if (typeof(T) == typeof(long))
+            {
+                type = SqlTypeFactory.Int64;
+            }
+            else if (typeof(T) == typeof(ulong))
+            {
+                type = SqlTypeFactory.UInt64;
+            }
+            else if (typeof(T) == typeof(float))
+            {
+                type = SqlTypeFactory.Single;
+            }
+            else if (typeof(T) == typeof(double))
+            {
+                type = SqlTypeFactory.Double;
+            }
+            else if (typeof(T) == typeof(bool))
+            {
+                type = SqlTypeFactory.Boolean;
+            }
+            else if (typeof(T) == typeof(char))
+            {
+                type = SqlTypeFactory.GetString(1);
+            }
+            else if (typeof(T) == typeof(decimal))
+            {
+                type = SqlTypeFactory.Decimal;
+            }
+            else if (typeof(T) == typeof(WhippetNonNullableString))
+            {
+                type = SqlTypeFactory.GetString(MaxLength);
+            }
+            else if (typeof(T) == typeof(Guid))
+            {
+                type = SqlTypeFactory.Guid;
+            }
+
+            return type;
+        }
+        
+        /// <summary>
         /// Gets the <see cref="Type"/> of the underlying value. This property is read-only.
         /// </summary>
         Type IMultichannelOrderManagerEntityKey.ValueType
@@ -41,6 +115,12 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.Data
             }
         }
 
+        /// <summary>
+        /// Gets the max length of the value if the value is a <see cref="string"/> or <see cref="WhippetNonNullableString"/>. If the type is numeric, the value will be zero (0). This property is read-only.
+        /// </summary>
+        public int MaxLength
+        { get; private set; }
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="MultichannelOrderManagerEntityKey{T}"/> struct with no arguments.
         /// </summary>
@@ -59,6 +139,7 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.Data
         /// </summary>
         /// <param name="keyValue">Key value to initialize with.</param>
         /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
         public MultichannelOrderManagerEntityKey(T keyValue)
         {
             if (!_AllowedTypes.Contains(typeof(T)))
@@ -68,9 +149,33 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.Data
             else
             {
                 _KeyValue = keyValue;
+
+                if (typeof(T).Equals(typeof(WhippetNonNullableString)))
+                {
+                    MaxLength = 255;    // default to default NVARCHAR max length
+                }
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MultichannelOrderManagerEntityKey{T}"/> struct with the specified key value.
+        /// </summary>
+        /// <param name="keyValue">Key value to initialize with.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public MultichannelOrderManagerEntityKey(T keyValue, int length)
+        {
+            if (!typeof(T).Equals(typeof(WhippetNonNullableString)))
+            {
+                throw new InvalidOperationException();
+            }
+            else
+            {
+                ArgumentOutOfRangeException.ThrowIfLessThan(length, 1, nameof(length));
+                _KeyValue = keyValue;
+                MaxLength = length;
+            }
+        }
+        
         /// <summary>
         /// Compares the current instance to the specified object for equality.
         /// </summary>
@@ -215,6 +320,15 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.Data
             return _KeyValue.ToString();
         }
 
+        /// <summary>
+        /// Gets the type of the current value.
+        /// </summary>
+        /// <returns><see cref="Type"/> of the current value.</returns>
+        public new Type GetType()
+        {
+            return _KeyValue.GetType();
+        }
+        
         public static implicit operator T(MultichannelOrderManagerEntityKey<T> value)
         {
             return value.ToValue();

@@ -13,7 +13,7 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.Data.NHiberna
     /// <remarks>See https://github.com/nhibernate/fluent-nhibernate/wiki/Fluent-mapping for more information.</remarks>
     public abstract class MultichannelOrderManagerFluentMap<T> : WhippetFluentMap<T>, IMappingProvider where T : IMultichannelOrderManagerEntity, new() 
     {
-        private new const string DEFAULT_SCHEMA = "dbo";
+        protected new const string DEFAULT_SCHEMA = "dbo";
     
         /// <summary>
         /// Gets the default primary key column name for the entity for mapping. Override this property to change the primary key column name that will be mapped in the data source. This property is read-only.

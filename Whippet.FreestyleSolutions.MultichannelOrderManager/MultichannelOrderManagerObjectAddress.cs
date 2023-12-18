@@ -51,7 +51,7 @@ namespace Athi.Whippet.FreestyleSolutions.MultichannelOrderManager
         /// </summary>
         public MultichannelOrderManagerEntityKey<WhippetNonNullableString> CountryCode
         { get; set; } = WhippetNonNullableString.Empty;
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MultichannelOrderManagerObjectAddress"/> struct with no arguments.
         /// </summary>
