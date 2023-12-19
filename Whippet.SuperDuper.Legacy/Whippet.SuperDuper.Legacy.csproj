@@ -9,6 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Whippet.Data.CQRS\Whippet.Data.CQRS.csproj" />
       <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
       <ProjectReference Include="..\Whippet.FreestyleSolutions.MultichannelOrderManager.Addressing\Whippet.FreestyleSolutions.MultichannelOrderManager.Addressing.csproj" />
       <ProjectReference Include="..\Whippet.FreestyleSolutions.MultichannelOrderManager.CRM\Whippet.FreestyleSolutions.MultichannelOrderManager.CRM.csproj" />
