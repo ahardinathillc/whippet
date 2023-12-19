@@ -30,12 +30,6 @@ namespace Athi.Whippet.SuperDuper.Legacy
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the date and time the account was created. 
-        /// </summary>
-        Instant CreatedDTTM
-        { get; set; }
-        
-        /// <summary>
         /// Specifies whether the account is registered.
         /// </summary>
         bool Registered

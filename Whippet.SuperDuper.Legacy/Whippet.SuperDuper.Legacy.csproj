@@ -10,6 +10,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+      <ProjectReference Include="..\Whippet.FreestyleSolutions.MultichannelOrderManager.Addressing\Whippet.FreestyleSolutions.MultichannelOrderManager.Addressing.csproj" />
       <ProjectReference Include="..\Whippet.FreestyleSolutions.MultichannelOrderManager.CRM\Whippet.FreestyleSolutions.MultichannelOrderManager.CRM.csproj" />
       <ProjectReference Include="..\Whippet.FreestyleSolutions.MultichannelOrderManager\Whippet.FreestyleSolutions.MultichannelOrderManager.csproj" />
       <ProjectReference Include="..\Whippet.SuperDuper\Whippet.SuperDuper.csproj" />

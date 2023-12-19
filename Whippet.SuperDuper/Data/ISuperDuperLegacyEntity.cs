@@ -1,5 +1,6 @@
 using System;
 using Newtonsoft.Json;
+using NodaTime;
 using Athi.Whippet.Data;
 
 namespace Athi.Whippet.SuperDuper.Data
@@ -14,6 +15,12 @@ namespace Athi.Whippet.SuperDuper.Data
         /// </summary>
         [JsonRequired]
         new int ID
+        { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the date and time the entity was created. This property may or may not be used by the backing entity.
+        /// </summary>
+        Instant CreatedDTTM
         { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace Athi.Whippet.SuperDuper.Legacy.EntityMappings
     /// <summary>
     /// Provides a Fluent mapping for <see cref="LegacySuperDuperAccount"/> objects.
     /// </summary>
-    public class SuperDuperAccountMap : SuperDuperLegacyFluentMap<LegacySuperDuperAccount>
+    public class LegacySuperDuperAccountMap : SuperDuperLegacyFluentMap<LegacySuperDuperAccount>
     {
         private const string TABLE_NAME = "account";
 
@@ -37,9 +37,9 @@ namespace Athi.Whippet.SuperDuper.Legacy.EntityMappings
         
         
         /// <summary>
-        /// Initializes a new instance of the <see cref="SuperDuperAccountMap"/> class with no arguments.
+        /// Initializes a new instance of the <see cref="LegacySuperDuperAccountMap"/> class with no arguments.
         /// </summary>
-        public SuperDuperAccountMap()
+        public LegacySuperDuperAccountMap()
             : base(TABLE_NAME)
         {
             Map(a => a.CustomerNumber).Column(COL_CUSTNUM).Not.Nullable();
@@ -59,7 +59,7 @@ namespace Athi.Whippet.SuperDuper.Legacy.EntityMappings
             Map(a => a.TesterProjects).Column(COL_TESTER).Length(100).Nullable();
             Map(a => a.ShoppingCart_Abandonment_Email_Sent).Column(COL_SHOPPING_CART_EMAIL).Nullable().CustomType<NullableInstantUserType>();
             Map(a => a.TaxExempt).Column(COL_TAX_EXEMPT).Not.Nullable();
-            Map(a => a.MultichannelOrderManagerAccountID).Column(COL_MOM_ACCOUNT_ID).Nullable();
+            Map(a => a._MultichannelOrderManagerAccountID).Column(COL_MOM_ACCOUNT_ID).Nullable();
             Map(a => a.SessionID).Column(COL_CURRENT_SESSION_ID).Nullable();
 
             References<LegacySuperDuperAccountOccupation>(a => a.SuperDuperAccountOccupation).Column(COL_OCCUPATION).Nullable();

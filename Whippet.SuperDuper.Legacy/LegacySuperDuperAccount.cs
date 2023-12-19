@@ -34,12 +34,6 @@ namespace Athi.Whippet.SuperDuper.Legacy
         { get; set; }
 
         /// <summary>
-        /// Gets or sets the date and time the account was created. 
-        /// </summary>
-        public virtual Instant CreatedDTTM
-        { get; set; }
-        
-        /// <summary>
         /// Specifies whether the account is registered.
         /// </summary>
         public virtual bool Registered
@@ -143,12 +137,6 @@ namespace Athi.Whippet.SuperDuper.Legacy
         /// Specifies whether the account is tax-exempt.
         /// </summary>
         public virtual bool TaxExempt
-        { get; set; }
-        
-        /// <summary>
-        /// Gets or sets the account's corresponding Freestyle Solutions Multichannel Order Manager account.
-        /// </summary>
-        public virtual int? MultichannelOrderManagerAccountID
         { get; set; }
         
         /// <summary>
@@ -258,7 +246,7 @@ namespace Athi.Whippet.SuperDuper.Legacy
                          && (((a.SuperDuperAccountOccupation == null) && (b.SuperDuperAccountOccupation == null)) || ((a.SuperDuperAccountOccupation != null) && a.SuperDuperAccountOccupation.Equals(b.SuperDuperAccountOccupation)))
                          && a.PasswordResetID.GetValueOrDefault().Equals(b.PasswordResetID.GetValueOrDefault())
                          && a.TaxExempt == b.TaxExempt
-                         && a.MultichannelOrderManagerAccountID == b.MultichannelOrderManagerAccountID
+                         && (((a.MultichannelOrderManagerAccount == null) && (b.MultichannelOrderManagerAccount == null)) || ((a.MultichannelOrderManagerAccount != null) && a.SuperDuperAccountOccupation.Equals(b.SuperDuperAccountOccupation)))
                          && String.Equals(a.SessionID?.Trim(), b.SessionID?.Trim(), StringComparison.InvariantCultureIgnoreCase);
             }
 
@@ -284,7 +272,7 @@ namespace Athi.Whippet.SuperDuper.Legacy
             hash.Add(SuperDuperAccountOccupation);
             hash.Add(PasswordResetID);
             hash.Add(TaxExempt);
-            hash.Add(MultichannelOrderManagerAccountID);
+            hash.Add(_MultichannelOrderManagerAccountID);
             hash.Add(SessionID);
 
             return hash.ToHashCode();

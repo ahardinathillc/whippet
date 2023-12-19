@@ -326,6 +326,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.FreestyleSolutions.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.FreestyleSolutions.MultichannelOrderManager.Inventory", "Whippet.FreestyleSolutions.MultichannelOrderManager.Inventory\Whippet.FreestyleSolutions.MultichannelOrderManager.Inventory.csproj", "{3DEC94BB-3D52-4787-B46A-253EF8E16D5C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.FreestyleSolutions.MultichannelOrderManager.Addressing", "Whippet.FreestyleSolutions.MultichannelOrderManager.Addressing\Whippet.FreestyleSolutions.MultichannelOrderManager.Addressing.csproj", "{BB4C2760-A5F4-4A2B-92A5-2A49657581A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -964,5 +966,9 @@ Global
 		{3DEC94BB-3D52-4787-B46A-253EF8E16D5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DEC94BB-3D52-4787-B46A-253EF8E16D5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DEC94BB-3D52-4787-B46A-253EF8E16D5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB4C2760-A5F4-4A2B-92A5-2A49657581A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB4C2760-A5F4-4A2B-92A5-2A49657581A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB4C2760-A5F4-4A2B-92A5-2A49657581A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB4C2760-A5F4-4A2B-92A5-2A49657581A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

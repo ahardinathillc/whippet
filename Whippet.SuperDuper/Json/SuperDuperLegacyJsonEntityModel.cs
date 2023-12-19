@@ -1,4 +1,5 @@
 using System;
+using NodaTime;
 using Athi.Whippet.Json;
 using Athi.Whippet.Data;
 using Athi.Whippet.SuperDuper.Data;
@@ -26,7 +27,22 @@ namespace Athi.Whippet.SuperDuper.Json
                 Entity.ID = value;
             }
         }
-        
+
+        /// <summary>
+        /// Gets or sets the date and time the entity was created. This property may or may not be used by the backing entity.
+        /// </summary>
+        public virtual Instant CreatedDTTM
+        {
+            get
+            {
+                return Entity.CreatedDTTM;
+            }
+            set
+            {
+                Entity.CreatedDTTM = value;
+            }
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SuperDuperLegacyJsonEntityModel{TEntity}"/> class with the specified <typeparamref name="TEntity"/> object.
         /// </summary>

@@ -11,6 +11,9 @@
     <ItemGroup>
       <ProjectReference Include="..\Whippet.Data.NHibernate\Whippet.Data.NHibernate.csproj" />
       <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+      <ProjectReference Include="..\Whippet.ParadoxLabs.Magento.Subscriptions\Whippet.ParadoxLabs.Magento.Subscriptions.csproj" />
+      <ProjectReference Include="..\Whippet.SuperDuper.Legacy\Whippet.SuperDuper.Legacy.csproj" />
+      <ProjectReference Include="..\Whippet.SuperDuper\Whippet.SuperDuper.csproj" />
       <ProjectReference Include="..\Whippet\Whippet.csproj" />
     </ItemGroup>
 

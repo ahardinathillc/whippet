@@ -87,7 +87,7 @@ namespace Athi.Whippet.ParadoxLabs.Magento.Subscriptions
         { get; set; }
 
         /// <summary>
-        /// This property is reserved for internal use by Paradox Labs.
+        /// Gets or sets the total number of runs the subscription should execute. 
         /// </summary>
         [JsonProperty("length")]
         public int Length

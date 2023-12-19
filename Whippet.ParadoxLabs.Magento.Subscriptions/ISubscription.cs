@@ -85,5 +85,11 @@ namespace Athi.Whippet.ParadoxLabs.Magento.Subscriptions
         /// </summary>
         string FrequencyInterval
         { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the total number of runs the subscription should execute. 
+        /// </summary>
+        int Length
+        { get; set; }
     }
 }

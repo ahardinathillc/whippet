@@ -202,9 +202,9 @@ namespace Athi.Whippet.ParadoxLabs.Magento.Subscriptions
         { get; set; }
         
         /// <summary>
-        /// This property is reserved for internal use by Paradox Labs.
+        /// Gets or sets the total number of runs the subscription should execute. 
         /// </summary>
-        protected internal virtual int Length
+        public virtual int Length
         { get; set; }
         
         /// <summary>
@@ -290,7 +290,7 @@ namespace Athi.Whippet.ParadoxLabs.Magento.Subscriptions
 
             if (!equals && (x != null) && (y != null))
             {
-                equals = (((x.Order == null) && (y.Order == null)) || ((x.Order != null) && x.Order.Equals(y.Order))) 
+                equals = (((x.Order == null) && (y.Order == null)) || ((x.Order != null) && x.Order.Equals(y.Order)))
                          && (((x.Item == null) && (y.Item == null)) || ((x.Item != null) && x.Item.Equals(y.Item)))
                          && (((x.Subscriber == null) && (y.Subscriber == null)) || ((x.Subscriber != null) && x.Subscriber.Equals(y.Subscriber)))
                          && (((x.Store == null) && (y.Store == null)) || ((x.Store != null) && x.Store.Equals(y.Store)))
@@ -303,7 +303,8 @@ namespace Athi.Whippet.ParadoxLabs.Magento.Subscriptions
                          && x.Frequency == y.Frequency
                          && String.Equals(x.FrequencyInterval?.Trim(), y.FrequencyInterval?.Trim(), StringComparison.InvariantCultureIgnoreCase)
                          && (((x.Server == null) && (y.Server == null)) || ((x.Server != null) && x.Server.Equals(y.Server)))
-                         && (((x.RestEndpoint == null) && (y.RestEndpoint == null)) || ((x.RestEndpoint != null) && x.RestEndpoint.Equals(y.RestEndpoint)));
+                         && (((x.RestEndpoint == null) && (y.RestEndpoint == null)) || ((x.RestEndpoint != null) && x.RestEndpoint.Equals(y.RestEndpoint)))
+                         && x.Length == y.Length;
             }
 
             return equals;
