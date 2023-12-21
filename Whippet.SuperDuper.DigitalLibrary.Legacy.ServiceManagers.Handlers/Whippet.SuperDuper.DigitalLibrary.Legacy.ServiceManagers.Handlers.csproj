@@ -14,6 +14,8 @@
       <ProjectReference Include="..\Whippet.SuperDuper.DigitalLibrary.Legacy.ServiceManagers.Queries\Whippet.SuperDuper.DigitalLibrary.Legacy.ServiceManagers.Queries.csproj" />
       <ProjectReference Include="..\Whippet.SuperDuper.DigitalLibrary.Legacy\Whippet.SuperDuper.DigitalLibrary.Legacy.csproj" />
       <ProjectReference Include="..\Whippet.SuperDuper.DigitalLibrary\Whippet.SuperDuper.DigitalLibrary.csproj" />
+      <ProjectReference Include="..\Whippet.SuperDuper.Legacy.Repositories\Whippet.SuperDuper.Legacy.Repositories.csproj" />
+      <ProjectReference Include="..\Whippet.SuperDuper.Legacy.ServiceManagers.Queries\Whippet.SuperDuper.Legacy.ServiceManagers.Queries.csproj" />
       <ProjectReference Include="..\Whippet.SuperDuper\Whippet.SuperDuper.csproj" />
       <ProjectReference Include="..\Whippet\Whippet.csproj" />
     </ItemGroup>
