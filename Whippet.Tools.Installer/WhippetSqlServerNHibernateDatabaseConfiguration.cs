@@ -13,6 +13,7 @@ namespace Athi.Whippet.Tools.Installer
     /// <summary>
     /// Configures NHibernate for use with a Microsoft SQL Server database. This class cannot be inherited.
     /// </summary>
+    [Obsolete("This component is deprecated and will be removed in a future version.")]
     internal sealed class WhippetSqlServerNHibernateDatabaseConfiguration
     {
         /// <summary>

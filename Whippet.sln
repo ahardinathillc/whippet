@@ -338,6 +338,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.SuperDuper.Legacy.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.SuperDuper.Legacy.ServiceManagers.Handlers", "Whippet.SuperDuper.Legacy.ServiceManagers.Handlers\Whippet.SuperDuper.Legacy.ServiceManagers.Handlers.csproj", "{153E2636-DA65-4357-87FD-C1A2AF05B50E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Installer", "Whippet.Installer\Whippet.Installer.csproj", "{3023B3C9-56AF-4588-BA9A-5F5A0E55522C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1000,5 +1002,9 @@ Global
 		{153E2636-DA65-4357-87FD-C1A2AF05B50E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{153E2636-DA65-4357-87FD-C1A2AF05B50E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{153E2636-DA65-4357-87FD-C1A2AF05B50E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3023B3C9-56AF-4588-BA9A-5F5A0E55522C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3023B3C9-56AF-4588-BA9A-5F5A0E55522C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3023B3C9-56AF-4588-BA9A-5F5A0E55522C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3023B3C9-56AF-4588-BA9A-5F5A0E55522C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

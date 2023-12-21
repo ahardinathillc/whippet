@@ -12,6 +12,9 @@
       <ProjectReference Include="..\Whippet.Data.CQRS\Whippet.Data.CQRS.csproj" />
       <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
       <ProjectReference Include="..\Whippet.ServiceManagers\Whippet.ServiceManagers.csproj" />
+      <ProjectReference Include="..\Whippet.SuperDuper.Legacy.ServiceManagers.Commands\Whippet.SuperDuper.Legacy.ServiceManagers.Commands.csproj" />
+      <ProjectReference Include="..\Whippet.SuperDuper.Legacy.ServiceManagers.Handlers\Whippet.SuperDuper.Legacy.ServiceManagers.Handlers.csproj" />
+      <ProjectReference Include="..\Whippet.SuperDuper.Legacy.ServiceManagers.Queries\Whippet.SuperDuper.Legacy.ServiceManagers.Queries.csproj" />
       <ProjectReference Include="..\Whippet.SuperDuper.Legacy\Whippet.SuperDuper.Legacy.csproj" />
       <ProjectReference Include="..\Whippet.SuperDuper\Whippet.SuperDuper.csproj" />
       <ProjectReference Include="..\Whippet\Whippet.csproj" />

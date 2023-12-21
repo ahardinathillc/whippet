@@ -9,6 +9,7 @@ namespace Athi.Whippet.Tools.Installer.ResourceFiles
     /// <summary>
     /// Provides an index of all resource messages available in the <see cref="Athi.Whippet.Tools.Installer"/> assembly. This class cannot be inherited.
     /// </summary>
+    [Obsolete("This component is deprecated and will be removed in a future version.")]
     internal static class ResourceIndex
     {
         public const string InstallAction_Database_Name = nameof(InstallAction_Database_Name);

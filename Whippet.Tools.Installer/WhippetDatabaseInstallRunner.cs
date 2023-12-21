@@ -19,6 +19,7 @@ namespace Athi.Whippet.Tools.Installer
     /// <summary>
     /// Handles the installation and configuration of the Whippet database.
     /// </summary>
+    [Obsolete("This component is deprecated and will be removed in a future version.")]
     public class WhippetDatabaseInstallRunner : WhippetInstallRunner
     {
         /// <summary>

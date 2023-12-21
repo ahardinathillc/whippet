@@ -20,6 +20,7 @@ namespace Athi.Whippet.Tools.Installer
     /// <summary>
     /// Install runner that installs and seeds Whippet entities.
     /// </summary>
+    [Obsolete("This component is deprecated and will be removed in a future version.")]
     public class WhippetEntityInstallRunner : WhippetInstallRunner
     {
         /// <summary>

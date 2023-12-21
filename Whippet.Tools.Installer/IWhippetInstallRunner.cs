@@ -10,6 +10,7 @@ namespace Athi.Whippet.Tools.Installer
     /// <summary>
     /// Install runner for the core Whippet application framework.
     /// </summary>
+    [Obsolete("This component is deprecated and will be removed in a future version.")]
     public interface IWhippetInstallRunner : IDisposable, IInstallAction
     {
         /// <summary>

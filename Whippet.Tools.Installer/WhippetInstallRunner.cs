@@ -10,6 +10,7 @@ namespace Athi.Whippet.Tools.Installer
     /// <summary>
     /// Install runner for the core Whippet application framework. This class must be inherited.
     /// </summary>
+    [Obsolete("This component is deprecated and will be removed in a future version.")]
     public abstract class WhippetInstallRunner : InstallRunner, IDisposable, IWhippetInstallRunner
     {
         internal const string DEFAULT_DB_NAME = "Whippet";
