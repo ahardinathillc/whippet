@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyName>Athi.Whippet.Installer.Database.ORM.NHibernate</AssemblyName>
+        <RootNamespace>Athi.Whippet.Installer.Database.ORM.NHibernate</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Whippet.Data.NHibernate\Whippet.Data.NHibernate.csproj" />
+      <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+      <ProjectReference Include="..\Whippet.Installer.Database\Whippet.Installer.Database.csproj" />
+      <ProjectReference Include="..\Whippet.Installer\Whippet.Installer.csproj" />
+      <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="FluentNHibernate" Version="3.3.0" />
+      <PackageReference Include="NHibernate" Version="5.4.7" />
+      <PackageReference Include="NHibernate.Extensions.Sqlite" Version="8.0.0" />
+      <PackageReference Include="SQLite" Version="3.13.0" />
+      <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
+      <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.7" />
+      <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.7" />
+      <PackageReference Include="SQLitePCLRaw.core" Version="2.1.7" />
+      <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="2.1.7" />
+      <PackageReference Include="SQLitePCLRaw.provider.dynamic_cdecl" Version="2.1.7" />
+      <PackageReference Include="SQLitePCLRaw.provider.e_sqlite3" Version="2.1.7" />
+    </ItemGroup>
+
+</Project>

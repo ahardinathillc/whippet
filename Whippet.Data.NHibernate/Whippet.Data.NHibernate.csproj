@@ -26,7 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Whippet.Installer.Database.NHibernate\Whippet.Installer.Database.NHibernate.csproj" />
     <ProjectReference Include="..\Whippet\Whippet.csproj" />
   </ItemGroup>
 

@@ -43,8 +43,9 @@ namespace Athi.Whippet.Installer
         /// <summary>
         /// Executes each <see cref="InstallerAction"/> entry in the current collection.
         /// </summary>
+        /// <param name="reportCurrentAction"><see cref="Action{T}"/> that reports the current installation action that's being performed.</param>
         /// <returns><see cref="WhippetResult"/> object containing the result of the operation.</returns>
-        public WhippetResult PerformInstall()
+        public WhippetResult PerformInstall(Action<string> reportCurrentAction = null)
         {
             WhippetResult result = WhippetResult.Success;
             int completedStep = 0;
@@ -53,6 +54,11 @@ namespace Athi.Whippet.Installer
             {
                 foreach (KeyValuePair<int, InstallerAction> action in this)
                 {
+                    if (reportCurrentAction != null)
+                    {
+                        reportCurrentAction(action.Value.ActionTitle);
+                    }
+                    
                     result = action.Value.DoAction();
 
                     if (!result.IsSuccess)

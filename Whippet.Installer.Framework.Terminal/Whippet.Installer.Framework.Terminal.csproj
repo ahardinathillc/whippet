@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyName>WhippetSetup</AssemblyName>
+        <RootNamespace>Athi.Whippet.Installer.Framework.Terminal</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Spectre.Console" Version="0.48.0" />
+      <PackageReference Include="Spectre.Console.Extensions.Progress" Version="1.0.0" />
+    </ItemGroup>
+
+</Project>

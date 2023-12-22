@@ -63,7 +63,7 @@ namespace Athi.Whippet.Installer
         /// <summary>
         /// Starts the installation process.
         /// </summary>
-        /// <returns></returns>
+        /// <returns><see cref="WhippetResult"/> object.</returns>
         public WhippetResult Install()
         {
             WhippetResult result = WhippetResult.Success;
@@ -72,8 +72,24 @@ namespace Athi.Whippet.Installer
             
             foreach (KeyValuePair<int, InstallerActionCollection> entry in Actions)
             {
-                entry.Value.PerformInstall()
+                result = entry.Value.PerformInstall(ReportCurrentAction);
+
+                if (!result.IsSuccess)
+                {
+                    break;
+                }
+                else
+                {
+                    actionGroupsCompleted++;
+
+                    if (PercentCompleteReporter != null)
+                    {
+                        PercentCompleteReporter(Convert.ToDouble(actionGroupsCompleted) / Convert.ToDouble(totalActionGroups));
+                    }
+                }
             }
+
+            return result;
         }
     }
 }

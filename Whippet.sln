@@ -84,8 +84,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.FreestyleSolutions.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.FreestyleSolutions.MOM.ServiceManagers.Queries", "Whippet.FreestyleSolutions.MOM.ServiceManagers.Queries\Whippet.FreestyleSolutions.MOM.ServiceManagers.Queries.csproj", "{60FCACB0-9C36-4F31-878F-8ACE6561442B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Installer.Database.NHibernate", "Whippet.Installer.Database.NHibernate\Whippet.Installer.Database.NHibernate.csproj", "{342EFD38-23C1-456F-A21C-75DB4D613FD0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Jobs", "Whippet.Jobs\Whippet.Jobs.csproj", "{8B68DF86-0BA7-4B01-9DA4-0A1FB4EEEE2B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Jobs.Repositories", "Whippet.Jobs.Repositories\Whippet.Jobs.Repositories.csproj", "{78C7CCA2-CAFD-4152-BD80-BE61CD3CB0CE}"
@@ -340,6 +338,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.SuperDuper.Legacy.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Installer", "Whippet.Installer\Whippet.Installer.csproj", "{3023B3C9-56AF-4588-BA9A-5F5A0E55522C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Installer.Database", "Whippet.Installer.Database\Whippet.Installer.Database.csproj", "{80294016-38A1-40D1-B008-6CAF16182589}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Installer.Database.ORM.NHibernate", "Whippet.Installer.Database.ORM.NHibernate\Whippet.Installer.Database.ORM.NHibernate.csproj", "{7C318B60-ED8D-404B-8F9C-D86B2493E693}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Installer.Framework.Terminal", "Whippet.Installer.Framework.Terminal\Whippet.Installer.Framework.Terminal.csproj", "{9407C92D-9E35-451A-8AC8-FAF15A9E009F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -514,10 +518,6 @@ Global
 		{60FCACB0-9C36-4F31-878F-8ACE6561442B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60FCACB0-9C36-4F31-878F-8ACE6561442B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60FCACB0-9C36-4F31-878F-8ACE6561442B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{342EFD38-23C1-456F-A21C-75DB4D613FD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{342EFD38-23C1-456F-A21C-75DB4D613FD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{342EFD38-23C1-456F-A21C-75DB4D613FD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{342EFD38-23C1-456F-A21C-75DB4D613FD0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8B68DF86-0BA7-4B01-9DA4-0A1FB4EEEE2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8B68DF86-0BA7-4B01-9DA4-0A1FB4EEEE2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B68DF86-0BA7-4B01-9DA4-0A1FB4EEEE2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -1006,5 +1006,17 @@ Global
 		{3023B3C9-56AF-4588-BA9A-5F5A0E55522C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3023B3C9-56AF-4588-BA9A-5F5A0E55522C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3023B3C9-56AF-4588-BA9A-5F5A0E55522C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80294016-38A1-40D1-B008-6CAF16182589}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80294016-38A1-40D1-B008-6CAF16182589}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80294016-38A1-40D1-B008-6CAF16182589}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80294016-38A1-40D1-B008-6CAF16182589}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C318B60-ED8D-404B-8F9C-D86B2493E693}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C318B60-ED8D-404B-8F9C-D86B2493E693}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C318B60-ED8D-404B-8F9C-D86B2493E693}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C318B60-ED8D-404B-8F9C-D86B2493E693}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9407C92D-9E35-451A-8AC8-FAF15A9E009F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9407C92D-9E35-451A-8AC8-FAF15A9E009F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9407C92D-9E35-451A-8AC8-FAF15A9E009F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9407C92D-9E35-451A-8AC8-FAF15A9E009F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
