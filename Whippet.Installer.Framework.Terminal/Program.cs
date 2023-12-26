@@ -66,37 +66,39 @@ namespace Athi.Whippet.Installer.Framework.Terminal
             string selectedOption = String.Empty;
 
             WhippetResultContainer<WhippetDatabaseConnection> connectionResult = null;
+
+            DatabaseInstaller installer = null;
             
-            menuRule = new Rule(String.Format("[bold red]Whippet[/] Framework Installer - Version {0}", Assembly.GetExecutingAssembly().GetName().Version.ToString()));
-            menuRule.Style = new Style(Color.White);
-            
-            menu = new SelectionPrompt<string>()
-                .Title("Select Install Action")
-                .PageSize(10)
-                .MoreChoicesText("[grey](Move up and down to reveal more options)[/]")
-                .HighlightStyle(new Style(Color.Red, null, Decoration.Bold))
-                .AddChoices(new[]
-                {
-                    ACTION_INSTALL_DATABASE,
-                    ACTION_QUIT
-                });
-
-            AnsiConsole.Clear();
-            AnsiConsole.Write(menuRule);
-            selectedOption = AnsiConsole.Prompt(menu);
-
-            if (String.Equals(ACTION_INSTALL_DATABASE, selectedOption, StringComparison.InvariantCultureIgnoreCase))
+            while (true)
             {
-                connectionResult = GetDatabaseConnection();
+                menuRule = new Rule(String.Format("[bold red]Whippet[/] Framework Installer - Version {0}", Assembly.GetExecutingAssembly().GetName().Version.ToString()));
+                menuRule.Style = new Style(Color.White);
 
-                if (connectionResult.IsSuccess)
-                {
-                    // install the database
-                }
-            }
-            else    // default exit
-            {
+                menu = new SelectionPrompt<string>()
+                    .Title("Select Install Action")
+                    .PageSize(10)
+                    .MoreChoicesText("[grey](Move up and down to reveal more options)[/]")
+                    .HighlightStyle(new Style(Color.Red, null, Decoration.Bold))
+                    .AddChoices(new[] { ACTION_INSTALL_DATABASE, ACTION_QUIT });
+
                 AnsiConsole.Clear();
+                AnsiConsole.Write(menuRule);
+                selectedOption = AnsiConsole.Prompt(menu);
+
+                if (String.Equals(ACTION_INSTALL_DATABASE, selectedOption, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    connectionResult = GetDatabaseConnection();
+
+                    if (connectionResult.IsSuccess)
+                    {
+                        installer = DatabaseInstaller.CreateInstaller(connectionResult.Item);
+                    }
+                }
+                else // default exit
+                {
+                    AnsiConsole.Clear();
+                    return;
+                }
             }
         }
         
