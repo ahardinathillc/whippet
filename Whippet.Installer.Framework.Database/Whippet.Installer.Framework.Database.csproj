@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyName>Athi.Whippet.Installer.Framework.Database</AssemblyName>
+        <RootNamespace>Athi.Whippet.Installer.Framework.Database</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+      <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Scripts.MSSQL.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Scripts.MSSQL.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Scripts.MySQL.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Scripts.MySQL.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Scripts.MSSQL.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Scripts.MSSQL.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Scripts.MySQL.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Scripts.MySQL.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" Version="170.21.0" />
+    </ItemGroup>
+
+</Project>
