@@ -9,6 +9,7 @@ namespace Athi.Whippet.Tools.Installer
     /// <summary>
     /// Represents an installer action. Installer actions configure databases, set up file paths, and perform other configuration actions.
     /// </summary>
+    [Obsolete("This class is obsolete and will be removed in a future version.", false)]
     public interface IInstallAction
     {
         /// <summary>

@@ -8,6 +8,8 @@ using System.Data;
 using System.Security;
 using System.Configuration;
 using Microsoft.Data.SqlClient;
+using Microsoft.SqlServer.Management.Smo;
+using Microsoft.SqlServer.Management.Common;
 
 namespace Athi.Whippet.Data.Database.Microsoft
 {
@@ -508,6 +510,15 @@ namespace Athi.Whippet.Data.Database.Microsoft
 
                 return rawBuilder.ToString();
             }
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="Server"/> instance using the current <see cref="WhippetSqlServerConnection"/> instance.
+        /// </summary>
+        /// <returns><see cref="Server"/> object with the current <see cref="WhippetSqlServerConnection"/> instance set as the server connection.</returns>
+        public Server CreateServerInstance()
+        {
+            return new Server(new ServerConnection(this));
         }
 
         /// <summary>

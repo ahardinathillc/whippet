@@ -336,13 +336,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.SuperDuper.Legacy.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.SuperDuper.Legacy.ServiceManagers.Handlers", "Whippet.SuperDuper.Legacy.ServiceManagers.Handlers\Whippet.SuperDuper.Legacy.ServiceManagers.Handlers.csproj", "{153E2636-DA65-4357-87FD-C1A2AF05B50E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Installer", "Whippet.Installer\Whippet.Installer.csproj", "{3023B3C9-56AF-4588-BA9A-5F5A0E55522C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Installer.Database", "Whippet.Installer.Database\Whippet.Installer.Database.csproj", "{80294016-38A1-40D1-B008-6CAF16182589}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Installer.Database.ORM.NHibernate", "Whippet.Installer.Database.ORM.NHibernate\Whippet.Installer.Database.ORM.NHibernate.csproj", "{7C318B60-ED8D-404B-8F9C-D86B2493E693}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Installer.Framework.Terminal", "Whippet.Installer.Framework.Terminal\Whippet.Installer.Framework.Terminal.csproj", "{9407C92D-9E35-451A-8AC8-FAF15A9E009F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Installer.Framework.Database", "Whippet.Installer.Framework.Database\Whippet.Installer.Framework.Database.csproj", "{D3AA8ECD-62FF-444C-AE1C-F701ACFB23C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1002,14 +1000,6 @@ Global
 		{153E2636-DA65-4357-87FD-C1A2AF05B50E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{153E2636-DA65-4357-87FD-C1A2AF05B50E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{153E2636-DA65-4357-87FD-C1A2AF05B50E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3023B3C9-56AF-4588-BA9A-5F5A0E55522C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3023B3C9-56AF-4588-BA9A-5F5A0E55522C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3023B3C9-56AF-4588-BA9A-5F5A0E55522C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3023B3C9-56AF-4588-BA9A-5F5A0E55522C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{80294016-38A1-40D1-B008-6CAF16182589}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{80294016-38A1-40D1-B008-6CAF16182589}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{80294016-38A1-40D1-B008-6CAF16182589}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{80294016-38A1-40D1-B008-6CAF16182589}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7C318B60-ED8D-404B-8F9C-D86B2493E693}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7C318B60-ED8D-404B-8F9C-D86B2493E693}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C318B60-ED8D-404B-8F9C-D86B2493E693}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -1018,5 +1008,9 @@ Global
 		{9407C92D-9E35-451A-8AC8-FAF15A9E009F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9407C92D-9E35-451A-8AC8-FAF15A9E009F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9407C92D-9E35-451A-8AC8-FAF15A9E009F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3AA8ECD-62FF-444C-AE1C-F701ACFB23C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3AA8ECD-62FF-444C-AE1C-F701ACFB23C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3AA8ECD-62FF-444C-AE1C-F701ACFB23C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3AA8ECD-62FF-444C-AE1C-F701ACFB23C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

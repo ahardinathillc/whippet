@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Reflection;
 using Spectre.Console;
-using Spectre.Console.Rendering;
+using Athi.Whippet.Data.Database;
+using Athi.Whippet.Installer.Framework.Database;
 
 namespace Athi.Whippet.Installer.Framework.Terminal
 {
@@ -14,6 +15,9 @@ namespace Athi.Whippet.Installer.Framework.Terminal
         private const string LAYOUT_ROOT = "Root";
         private const string LAYOUT_BAR_TITLE = "_Bar_Title";
         private const string LAYOUT_CONTENT = "_Content";
+
+        private const string ACTION_INSTALL_DATABASE = "Install Database";
+        private const string ACTION_QUIT = "Quit";
         
         /// <summary>
         /// Main entry point of the application.
@@ -23,10 +27,10 @@ namespace Athi.Whippet.Installer.Framework.Terminal
         public static void Main(params string[] args)
         {
             Layout layout = null;
-
+            
             Panel titlePanel = null;
             Panel contentPanel = null;
-            
+
             layout = new Layout(LAYOUT_ROOT);
             layout = layout.SplitRows(new Layout(LAYOUT_BAR_TITLE), new Layout(LAYOUT_CONTENT));
 
@@ -46,21 +50,115 @@ namespace Athi.Whippet.Installer.Framework.Terminal
             // Render the layout
             AnsiConsole.Write(layout);
             AnsiConsole.Console.Input.ReadKey(true);
-            
+
+            RenderMenu();
         }
 
-        // private static Label[] CreateSplashLabels()
-        // {
-        //     Label programTitle = new Label("Whippet Framework Installer");
-        //     Label programVersion = new Label("Version " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
-        //
-        //     programTitle.X = Pos.Center();
-        //     programVersion.X = Pos.Center();
-        //
-        //     programTitle.Y = Pos.Center();
-        //     programVersion.Y = programTitle.Y + 1;
-        //
-        //     return new[] { programTitle, programVersion };
-        // }
+        /// <summary>
+        /// Renders the installation menu.
+        /// </summary>
+        private static void RenderMenu()
+        {
+            SelectionPrompt<string> menu = null;
+
+            Rule menuRule = null;
+
+            string selectedOption = String.Empty;
+
+            WhippetResultContainer<WhippetDatabaseConnection> connectionResult = null;
+            
+            menuRule = new Rule(String.Format("[bold red]Whippet[/] Framework Installer - Version {0}", Assembly.GetExecutingAssembly().GetName().Version.ToString()));
+            menuRule.Style = new Style(Color.White);
+            
+            menu = new SelectionPrompt<string>()
+                .Title("Select Install Action")
+                .PageSize(10)
+                .MoreChoicesText("[grey](Move up and down to reveal more options)[/]")
+                .HighlightStyle(new Style(Color.Red, null, Decoration.Bold))
+                .AddChoices(new[]
+                {
+                    ACTION_INSTALL_DATABASE,
+                    ACTION_QUIT
+                });
+
+            AnsiConsole.Clear();
+            AnsiConsole.Write(menuRule);
+            selectedOption = AnsiConsole.Prompt(menu);
+
+            if (String.Equals(ACTION_INSTALL_DATABASE, selectedOption, StringComparison.InvariantCultureIgnoreCase))
+            {
+                connectionResult = GetDatabaseConnection();
+
+                if (connectionResult.IsSuccess)
+                {
+                    // install the database
+                }
+            }
+            else    // default exit
+            {
+                AnsiConsole.Clear();
+            }
+        }
+        
+        /// <summary>
+        /// Creates a <see cref="WhippetDatabaseConnection"/> based on a selected user option.
+        /// </summary>
+        /// <returns><see cref="WhippetResultContainer{T}"/> containing the result of the operation.</returns>
+        private static WhippetResultContainer<WhippetDatabaseConnection> GetDatabaseConnection()
+        {
+            WhippetResultContainer<WhippetDatabaseConnection> connectionResult = null;
+
+            SelectionPrompt<string> menu = null;
+            TextPrompt<string> prompt = null;
+            
+            string connectionString = String.Empty;
+            string selectedOption = String.Empty;
+
+            Type connectionType = null;
+
+            WhippetDatabaseConnection connectionInstance = null;
+
+            MethodInfo factoryMethod = null;
+            
+            menu = new SelectionPrompt<string>()
+                .Title("Select database type")
+                .PageSize(10)
+                .MoreChoicesText("[grey](Move up and down to reveal more options)[/]")
+                .HighlightStyle(new Style(Color.Red, null, Decoration.Bold))
+                .AddChoices(DatabaseConnectionFactory.AvailableConnectionTypes.Select(db => db.Value));
+
+            selectedOption = AnsiConsole.Prompt(menu);
+
+            connectionType = DatabaseConnectionFactory.AvailableConnectionTypes.Where(db => String.Equals(db.Value, selectedOption, StringComparison.InvariantCultureIgnoreCase)).First().Key;
+            connectionString = AnsiConsole.Prompt((new TextPrompt<string>("Enter database connection string:")));
+            
+            // now create the connection
+
+            try
+            {
+                factoryMethod = typeof(DatabaseConnectionFactory).GetMethod(nameof(DatabaseConnectionFactory.CreateConnection));
+                factoryMethod = factoryMethod.MakeGenericMethod(connectionType);
+
+                connectionInstance = (WhippetDatabaseConnection)(factoryMethod.Invoke(null, new object[] { connectionString }));
+
+                if (connectionInstance == null)
+                {
+                    throw new Exception("Failed to create database instance for type " + connectionType.FullName);
+                }
+                else
+                {
+                    connectionResult = new WhippetResultContainer<WhippetDatabaseConnection>(WhippetResult.Success, connectionInstance);
+                }
+            }
+            catch (Exception e)
+            {
+                connectionResult = new WhippetResultContainer<WhippetDatabaseConnection>(e);
+                
+                AnsiConsole.WriteException(e, ExceptionFormats.ShortenEverything);
+                AnsiConsole.Console.Input.ReadKey(true);
+            }
+            
+            return connectionResult;
+        }
     }
 }

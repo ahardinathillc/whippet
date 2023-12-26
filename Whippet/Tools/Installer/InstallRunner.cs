@@ -9,6 +9,7 @@ namespace Athi.Whippet.Tools.Installer
     /// <summary>
     /// Represents a Whippet <see cref="InstallRunner"/>, which handles an installation activity.
     /// </summary>
+    [Obsolete("This class is obsolete and will be removed in a future version.", false)]
     public class InstallRunner : IInstallAction
     {
         private Queue<IInstallAction> _actions;

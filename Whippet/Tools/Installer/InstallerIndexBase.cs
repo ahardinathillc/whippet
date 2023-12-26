@@ -8,6 +8,7 @@ namespace Athi.Whippet.Tools.Installer
     /// <summary>
     /// Base class for all entity and seed data installer classes. This class must be inherited.
     /// </summary>
+    [Obsolete("This class is obsolete and will be removed in a future version.", false)]
     public abstract class InstallerIndexBase : IInstallerIndex
     {
         /// <summary>
@@ -47,4 +48,3 @@ namespace Athi.Whippet.Tools.Installer
         public abstract SortedList<int, IWhippetEntitySeed> GetObjects();
     }
 }
-

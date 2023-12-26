@@ -14,4 +14,10 @@
       <PackageReference Include="Spectre.Console.Extensions.Progress" Version="1.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+      <ProjectReference Include="..\Whippet.Installer.Framework.Database\Whippet.Installer.Framework.Database.csproj" />
+      <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    </ItemGroup>
+
 </Project>

@@ -11,8 +11,6 @@
     <ItemGroup>
       <ProjectReference Include="..\Whippet.Data.NHibernate\Whippet.Data.NHibernate.csproj" />
       <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
-      <ProjectReference Include="..\Whippet.Installer.Database\Whippet.Installer.Database.csproj" />
-      <ProjectReference Include="..\Whippet.Installer\Whippet.Installer.csproj" />
       <ProjectReference Include="..\Whippet\Whippet.csproj" />
     </ItemGroup>
 

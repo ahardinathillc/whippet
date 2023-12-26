@@ -7,6 +7,7 @@ namespace Athi.Whippet.Tools.Installer
     /// <summary>
     /// Provides support to objects who are consumed by Whippet installers for creating and populating entities in the data store.
     /// </summary>
+    [Obsolete("This interface is obsolete and will be removed in a future version.", false)]
     public interface IInstallerIndex
     {
         /// <summary>
@@ -16,4 +17,3 @@ namespace Athi.Whippet.Tools.Installer
         SortedList<int, IWhippetEntitySeed> GetObjects();
     }
 }
-

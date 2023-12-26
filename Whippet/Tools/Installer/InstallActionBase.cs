@@ -9,6 +9,7 @@ namespace Athi.Whippet.Tools.Installer
     /// <summary>
     /// Base class for all installer actions. Installer actions configure databases, set up file paths, and perform other configuration actions. This class must be inherited.
     /// </summary>
+    [Obsolete("This class is obsolete and will be removed in a future version.", false)]
     public abstract class InstallActionBase : IInstallAction
     {
         /// <summary>
