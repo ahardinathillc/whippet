@@ -18,8 +18,8 @@
       <PackageReference Include="Dynamitey" Version="3.0.3" />
       <PackageReference Include="FluentNHibernate" Version="3.3.0" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-      <PackageReference Include="NHibernate" Version="5.4.7" />
-      <PackageReference Include="NodaTime" Version="3.1.9" />
+      <PackageReference Include="NHibernate" Version="5.5.0" />
+      <PackageReference Include="NodaTime" Version="3.1.10" />
     </ItemGroup>
 
     <ItemGroup>

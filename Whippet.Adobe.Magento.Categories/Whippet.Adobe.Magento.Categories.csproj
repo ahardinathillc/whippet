@@ -26,7 +26,7 @@
     <ItemGroup>
       <PackageReference Include="FluentNHibernate" Version="3.3.0" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-      <PackageReference Include="NHibernate" Version="5.4.6" />
+      <PackageReference Include="NHibernate" Version="5.5.0" />
     </ItemGroup>
 
     <ItemGroup>

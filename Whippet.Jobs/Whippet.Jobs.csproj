@@ -25,13 +25,13 @@
     <ProjectReference Include="..\Whippet.ServiceManagers\Whippet.ServiceManagers.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NHibernate" Version="5.4.6" />
+    <PackageReference Include="NHibernate" Version="5.5.0" />
     <PackageReference Include="FluentNHibernate" Version="3.3.0" />
     <PackageReference Include="VisualOn.NCrontab.Advanced" Version="6.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Dynamitey" Version="2.0.10.189" />
+    <PackageReference Include="Dynamitey" Version="3.0.3" />
     <PackageReference Include="Nito.AsyncEx" Version="5.1.2" />
   </ItemGroup>
   <ItemGroup>

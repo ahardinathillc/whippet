@@ -26,6 +26,6 @@
     <ProjectReference Include="..\Whippet.Adobe.Magento.Sales\Whippet.Adobe.Magento.Sales.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NodaTime" Version="3.1.9" />
+    <PackageReference Include="NodaTime" Version="3.1.10" />
   </ItemGroup>
 </Project>

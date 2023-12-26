@@ -23,8 +23,8 @@
     <ProjectReference Include="..\Whippet.Applications.Setup\Whippet.Applications.Setup.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NHibernate" Version="5.4.6" />
-    <PackageReference Include="NodaTime" Version="3.1.9" />
+    <PackageReference Include="NHibernate" Version="5.5.0" />
+    <PackageReference Include="NodaTime" Version="3.1.10" />
     <PackageReference Include="FluentNHibernate" Version="3.3.0" />
   </ItemGroup>
 </Project>

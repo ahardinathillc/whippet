@@ -29,7 +29,7 @@
     <None Remove="Exports\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Dynamitey" Version="2.0.10.189" />
+    <PackageReference Include="Dynamitey" Version="3.0.3" />
     <PackageReference Include="SqlKata" Version="2.4.0" />
     <PackageReference Include="SqlKata.Execution" Version="2.4.0" />
     <PackageReference Include="Nito.AsyncEx" Version="5.1.2" />

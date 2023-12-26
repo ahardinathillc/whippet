@@ -22,7 +22,7 @@
     <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NHibernate" Version="5.4.6" />
+    <PackageReference Include="NHibernate" Version="5.5.0" />
     <PackageReference Include="FluentNHibernate" Version="3.3.0" />
   </ItemGroup>
   <ItemGroup>

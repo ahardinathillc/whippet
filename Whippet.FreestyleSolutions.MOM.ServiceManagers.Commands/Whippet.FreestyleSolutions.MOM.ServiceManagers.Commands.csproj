@@ -26,6 +26,6 @@
     <None Remove="NodaTime" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NodaTime" Version="3.1.9" />
+    <PackageReference Include="NodaTime" Version="3.1.10" />
   </ItemGroup>
 </Project>

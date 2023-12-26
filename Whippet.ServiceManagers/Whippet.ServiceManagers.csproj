@@ -23,7 +23,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="FluentNHibernate" Version="3.3.0" />
-    <PackageReference Include="NHibernate" Version="5.4.6" />
+    <PackageReference Include="NHibernate" Version="5.5.0" />
     <PackageReference Include="CouchDB.NET" Version="3.4.0" />
     <PackageReference Include="CouchDB.Client" Version="1.0.13" />
   </ItemGroup>

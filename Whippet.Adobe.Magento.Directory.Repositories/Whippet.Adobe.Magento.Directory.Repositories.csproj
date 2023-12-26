@@ -25,6 +25,6 @@
     <ProjectReference Include="..\Whippet.Adobe.Magento.Directory\Whippet.Adobe.Magento.Directory.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NHibernate" Version="5.4.6" />
+    <PackageReference Include="NHibernate" Version="5.5.0" />
   </ItemGroup>
 </Project>

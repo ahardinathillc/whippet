@@ -32,8 +32,8 @@
     <None Remove="Repositories\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MimeKit" Version="4.2.0" />
-    <PackageReference Include="MailKit" Version="4.2.0" />
+    <PackageReference Include="MimeKit" Version="4.3.0" />
+    <PackageReference Include="MailKit" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extensions\" />

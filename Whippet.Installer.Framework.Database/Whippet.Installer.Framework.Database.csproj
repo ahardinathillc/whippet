@@ -39,6 +39,7 @@
 
     <ItemGroup>
       <PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" Version="170.21.0" />
+      <PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
     </ItemGroup>
 
 </Project>

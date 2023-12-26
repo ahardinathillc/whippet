@@ -31,8 +31,8 @@
   <ItemGroup>
     <PackageReference Include="DeveloperForce.Force" Version="2.1.0" />
     <PackageReference Include="DeveloperForce.Chatter" Version="2.1.0" />
-    <PackageReference Include="Dynamitey" Version="2.0.10.189" />
-    <PackageReference Include="NodaTime" Version="3.1.9" />
+    <PackageReference Include="Dynamitey" Version="3.0.3" />
+    <PackageReference Include="NodaTime" Version="3.1.10" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Whippet\Whippet.csproj" />
