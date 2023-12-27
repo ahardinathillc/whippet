@@ -1,20 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net;
-using NodaTime;
-using Athi.Whippet;
 using Athi.Whippet.Services;
 using Athi.Whippet.ServiceManagers;
 using Athi.Whippet.Data.CQRS;
+using Athi.Whippet.Localization.Addressing.EntityMappings;
 using Athi.Whippet.Localization.Addressing.Extensions;
 using Athi.Whippet.Localization.Addressing.Repositories;
 using Athi.Whippet.Localization.Addressing.ServiceManagers.Queries;
 using Athi.Whippet.Localization.Addressing.ServiceManagers.Commands;
 using Athi.Whippet.Localization.Addressing.ServiceManagers.Handlers.Queries;
 using Athi.Whippet.Localization.Addressing.ServiceManagers.Handlers.Commands;
+using Athi.Whippet.Localization.Addressing.ServiceManagers.ResourceFiles;
+using Athi.Whippet.Localization.Addressing.ServiceManagers.Seed;
 
 namespace Athi.Whippet.Localization.Addressing.ServiceManagers
 {
@@ -202,6 +199,18 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
         /// Updates an existing country.
         /// </summary>
         /// <param name="country"><see cref="ICountry"/> object to update in the data store.</param>
+        /// <param name="newId">New ID to assign to <paramref name="country"/>.</param>
+        /// <returns><see cref="WhippetResultContainer{T}"/> containing the <see cref="ICountry"/> object.</returns>
+        /// <exception cref="ArgumentNullException" />
+        public virtual WhippetResultContainer<ICountry> UpdateCountry(ICountry country, Guid newId)
+        {
+            return Task<WhippetResultContainer<ICountry>>.Run(() => UpdateCountryAsync(country, newId)).Result;
+        }
+        
+        /// <summary>
+        /// Updates an existing country.
+        /// </summary>
+        /// <param name="country"><see cref="ICountry"/> object to update in the data store.</param>
         /// <returns><see cref="WhippetResultContainer{T}"/> containing the <see cref="ICountry"/> object.</returns>
         /// <exception cref="ArgumentNullException" />
         public virtual async Task<WhippetResultContainer<ICountry>> UpdateCountryAsync(ICountry country)
@@ -234,6 +243,44 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
             }
         }
 
+        /// <summary>
+        /// Updates an existing country.
+        /// </summary>
+        /// <param name="country"><see cref="ICountry"/> object to update in the data store.</param>
+        /// <param name="newId">New ID to assign to <paramref name="country"/>.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns><see cref="WhippetResultContainer{T}"/> containing the <see cref="ICountry"/> object.</returns>
+        /// <exception cref="ArgumentNullException" />
+        public virtual async Task<WhippetResultContainer<ICountry>> UpdateCountryAsync(ICountry country, Guid newId, CancellationToken cancellationToken = default)
+        {
+            if (country == null)
+            {
+                throw new ArgumentNullException(nameof(country));
+            }
+            else
+            {
+                WhippetResult result = WhippetResult.Success;
+
+                IWhippetCommandHandler<UpdateCountryIdCommand> handler = new UpdateCountryIdCommandHandler(CountryRepository);
+
+                try
+                {
+                    result = await handler.HandleAsync(new UpdateCountryIdCommand(country.ToCountry(), newId));
+
+                    if (result.IsSuccess)
+                    {
+                        await CountryRepository.CommitAsync();
+                    }
+                }
+                catch (Exception e)
+                {
+                    result = new WhippetResultContainer<ICountry>(new WhippetResult(e), null);
+                }
+
+                return new WhippetResultContainer<ICountry>(result, country);
+            }
+        }
+        
         /// <summary>
         /// Deletes an existing country.
         /// </summary>
@@ -293,6 +340,164 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
             }
 
             base.Dispose();
+        }
+
+        /// <summary>
+        /// Service manager that seeds <see cref="Country"/> objects. This class cannot be inherited.
+        /// </summary>
+        public sealed class CountrySeedServiceManager : CountryServiceManager, IServiceManager, ISeedServiceManager, IDisposable
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="CountryServiceManager.CountrySeedServiceManager"/> class with the specified <see cref="ICountryRepository"/> object.
+            /// </summary>
+            /// <param name="countryRepository"><see cref="ICountryRepository"/> to initialize with.</param>
+            /// <exception cref="ArgumentNullException"></exception>
+            public CountrySeedServiceManager(ICountryRepository countryRepository)
+                : base(countryRepository)
+            { }
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="CountryServiceManager.CountrySeedServiceManager"/> class with the specified <see cref="ICountryRepository"/> object.
+            /// </summary>
+            /// <param name="serviceLocator"><see cref="IWhippetServiceContext"/> object that serves as a service locator.</param>
+            /// <param name="countryRepository"><see cref="ICountryRepository"/> object to initialize with.</param>
+            /// <exception cref="ArgumentNullException"></exception>
+            public CountrySeedServiceManager(IWhippetServiceContext serviceLocator, ICountryRepository countryRepository)
+                : base(serviceLocator, countryRepository)
+            { }
+
+            /// <summary>
+            /// Seeds the backing data store for one or more entities.
+            /// </summary>
+            /// <param name="reportProgress"><see cref="ProgressDelegate"/> that reports the current status to an external caller.</param>
+            /// <returns><see cref="WhippetResult"/> containing the result of the operation.</returns>
+            public WhippetResult Seed(ProgressDelegate reportProgress = null)
+            {
+                const string MSG_READING_COUNTRY = "Reading country {0}";
+                const string MSG_CREATING_COUNTRY = "Creating country {0}";
+                
+                //5a2da7c2-4338-4e17-98f5-49b54f13f6d3,Afghanistan,AF,AFG,4
+                // Country entires are ID, NAME, 2-LETTER ISO ABBR, 3-LETTER ISO ABBR, ISO-3166 NUMERIC CODE
+
+                int index_guid = 0;
+                int index_name = 1;
+                int index_twoLetterISOAbbreviation = 2;
+                int index_threeLetterISOAbbreviation = 3;
+                int index_iso3166NumericCode = 4;
+
+                string[] countryEntries = null;
+                string[] countryPieces = null;
+
+                ProgressDelegateManager rawCountryStatusManager = null;
+                ProgressDelegateManager existingCountryStatusManager = null;
+
+                List<WhippetResultContainer<Country>> results = null;
+                List<Country> countries = null;
+                
+                IEnumerable<ICountry> missingCountries = null;
+                
+                WhippetResult result = WhippetResult.Success;
+                WhippetResultContainer<IEnumerable<ICountry>> existingCountries = null;
+                WhippetResultContainer<ICountry> newCountry = null;
+
+                ICountry updateCountry = null;
+                Country country = null;
+                
+                CountryMap countryMap = null;
+
+                Dictionary<string, object> parameters = null;
+
+                int counter = 0;
+                
+                try
+                {
+                    countryEntries = Countries.CountriesIndex.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+                    if (countryEntries != null && countryEntries.Length > 0)
+                    {
+                        countries = new List<Country>(countryEntries.Length);
+                        rawCountryStatusManager = new ProgressDelegateManager(0, countryEntries.Length, reportProgress);
+
+                        foreach (string entry in countryEntries)
+                        {
+                            countryPieces = entry.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+                            country = new Country(new Guid(countryPieces[index_guid]), countryPieces[index_name], countryPieces[index_twoLetterISOAbbreviation]);
+
+                            countries.Add(country);
+
+                            rawCountryStatusManager.Advance(String.Format(MSG_READING_COUNTRY, country.Name), WhippetResultSeverity.Info);
+                        }
+                    }
+
+                    existingCountries = Task.Run(() => GetCountries()).Result;
+                    existingCountries.ThrowIfFailed();
+
+                    if (existingCountries.HasItem && existingCountries.Item.Any())
+                    {
+                        existingCountryStatusManager = new ProgressDelegateManager(0, existingCountries.Item.Count(), reportProgress);
+
+                        if (countries != null)
+                        {
+                            missingCountries = countries.Where(c => !existingCountries.Item.Contains(c));
+
+                            if (missingCountries != null && missingCountries.Any())
+                            {
+                                foreach (ICountry missingCountry in missingCountries)
+                                {
+                                    newCountry = CreateCountry(missingCountry);
+                                    newCountry.ThrowIfFailed();
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // no existing countries, so create new ones
+                        
+                        countries.ForEach(c =>
+                        {
+                            newCountry = CreateCountry(c);
+                            newCountry.ThrowIfFailed();
+
+                            counter++;
+
+                            reportProgress(Convert.ToInt32(Convert.ToDouble(counter) / Convert.ToDouble(countries.Count)), String.Format(MSG_CREATING_COUNTRY, c.Name), result.Severity);
+                        });
+                    }
+                    
+                    if (!String.IsNullOrWhiteSpace(Countries.CountriesIndex))
+                    {
+                        existingCountries = Task.Run(() => GetCountries()).Result;
+                        existingCountries.ThrowIfFailed();
+                        
+                        countryEntries = Countries.CountriesIndex.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+                        for (int i = 0; i < countryEntries.Length; i++)
+                        {
+                            countryPieces = countryEntries[i].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                            updateCountry = (from c in existingCountries.Item where String.Equals(c.Name?.Trim(), countryPieces[index_name]?.Trim(), StringComparison.InvariantCultureIgnoreCase) select c).FirstOrDefault();
+
+                            if (updateCountry != null)
+                            {
+                                newCountry = UpdateCountry(updateCountry, new Guid(countryPieces[index_guid]));
+                                newCountry.ThrowIfFailed();
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    result = new WhippetResult(e);
+                }
+
+                if (result == null)
+                {
+                    result = WhippetResult.Success;
+                }
+
+                return result;
+            }
         }
     }
 }

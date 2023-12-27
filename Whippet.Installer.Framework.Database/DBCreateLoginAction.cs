@@ -1,6 +1,7 @@
 ﻿using System;
 using SqlServer = Microsoft.SqlServer.Management.Smo.Server;
 using Athi.Whippet.Data.Database.Microsoft;
+using Athi.Whippet.Installer.Framework.Database.ResourceFiles;
 
 namespace Athi.Whippet.Installer.Framework.Database
 {
@@ -81,6 +82,8 @@ namespace Athi.Whippet.Installer.Framework.Database
                             .Replace(InstallerTokens.TOKEN_DBNAME, databaseName, StringComparison.InvariantCultureIgnoreCase)
                             .Replace(InstallerTokens.TOKEN_PASSWORD, password, StringComparison.InvariantCultureIgnoreCase)
                         );
+
+                    result = new WhippetResultContainer<object>(WhippetResult.Success, null);
                 }
                 catch (Exception e)
                 {

@@ -29,4 +29,25 @@
     <ProjectReference Include="..\Whippet.Localization.Addressing.ServiceManagers.Commands\Whippet.Localization.Addressing.ServiceManagers.Commands.csproj" />
     <ProjectReference Include="..\Whippet.Localization.Addressing.ServiceManagers.Queries\Whippet.Localization.Addressing.ServiceManagers.Queries.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="ResourceFiles\Cities_PostalCodes.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Cities_PostalCodes.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ResourceFiles\StateProvinces.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>StateProvinces.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ResourceFiles\Countries.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Countries.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="ResourceFiles\Countries.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Countries.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

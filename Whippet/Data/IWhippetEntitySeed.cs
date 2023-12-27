@@ -6,6 +6,7 @@ namespace Athi.Whippet.Data
     /// <summary>
     /// Provides seed functionality for any <see cref="IWhippetEntity"/> type. Seed data is used to insert default data when instantiating a new, empty data store or adding a new feature.
     /// </summary>
+    [Obsolete("This interface is obsolete and will be removed in a future version.", false)]
     public interface IWhippetEntitySeed
     {
         /// <summary>
@@ -33,4 +34,3 @@ namespace Athi.Whippet.Data
         WhippetResult Seed(ISession context, ProgressDelegate statusUpdater = null);
     }
 }
-

@@ -14,31 +14,33 @@
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Update="Scripts.MSSQL.resx">
+      <EmbeddedResource Update="ResourceFiles\Scripts_MSSQL.resx">
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>Scripts.MSSQL.Designer.cs</LastGenOutput>
       </EmbeddedResource>
-      <EmbeddedResource Update="Scripts.MySQL.resx">
+      <EmbeddedResource Update="ResourceFiles\Scripts_MySQL.resx">
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>Scripts.MySQL.Designer.cs</LastGenOutput>
       </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Scripts.MSSQL.Designer.cs">
+      <Compile Update="ResourceFiles\Scripts_MSSQL.Designer.cs">
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
-        <DependentUpon>Scripts.MSSQL.resx</DependentUpon>
+        <DependentUpon>Scripts_MSSQL.resx</DependentUpon>
       </Compile>
-      <Compile Update="Scripts.MySQL.Designer.cs">
+      <Compile Update="ResourceFiles\Scripts_MySQL.Designer.cs">
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
-        <DependentUpon>Scripts.MySQL.resx</DependentUpon>
+        <DependentUpon>Scripts_MySQL.resx</DependentUpon>
       </Compile>
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="FluentNHibernate" Version="3.3.0" />
       <PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" Version="170.21.0" />
+      <PackageReference Include="NHibernate" Version="5.5.0" />
       <PackageReference Include="PasswordGenerator" Version="2.1.0" />
       <PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
     </ItemGroup>

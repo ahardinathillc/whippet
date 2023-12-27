@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NHibernate;
 using FluentNHibernate.Cfg;
-using FluentNHibernate.Diagnostics;
-using Athi.Whippet.Data.NHibernate.Extensions;
 
 namespace Athi.Whippet.Data.NHibernate
 {

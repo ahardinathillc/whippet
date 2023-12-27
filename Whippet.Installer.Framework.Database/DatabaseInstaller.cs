@@ -1,10 +1,8 @@
 ﻿using System;
-using Microsoft.AspNetCore.Identity;
-using Athi.Whippet.Installer;
+using Athi.Whippet.Data.NHibernate;
 using Athi.Whippet.Data.Database;
 using Athi.Whippet.Data.Database.Microsoft;
 using Athi.Whippet.Data.Database.Oracle.MySQL;
-using Athi.Whippet.Security;
 using PasswordGenerator;
 
 namespace Athi.Whippet.Installer.Framework.Database
@@ -103,13 +101,14 @@ namespace Athi.Whippet.Installer.Framework.Database
         }
 
         /// <summary>
-        /// 
+        /// Creates a new instance of the <see cref="DatabaseInstaller"/> class with the specified parameters.
         /// </summary>
-        /// <param name="databaseConnection"></param>
-        /// <param name="databaseName"></param>
-        /// <param name="updateProgressPercentage"></param>
-        /// <param name="errorHandler"></param>
-        /// <returns></returns>
+        /// <param name="databaseConnection"><see cref="WhippetDatabaseConnection"/> object used to connect to the database.</param>
+        /// <param name="databaseName">Database name.</param>
+        /// <param name="updateProgressPercentage"><see cref="Action{T}"/> that updates the progress percentage of the installer.</param>
+        /// <param name="errorHandler"><see cref="Action{T}"/> that reports exceptions to an external caller.</param>
+        /// <returns><see cref="DatabaseInstaller"/> object.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public static DatabaseInstaller CreateInstaller(WhippetDatabaseConnection databaseConnection, string databaseName = null, Action<double> updateProgressPercentage = null, Action<Exception> errorHandler = null)
         {
             if (databaseConnection == null)
@@ -123,6 +122,7 @@ namespace Athi.Whippet.Installer.Framework.Database
                 DatabaseInstaller installer = null;
                 
                 IInstallerAction dbCreateAction = null;
+                IInstallerAction dbCreateSchemaAction = null;
                 IInstallerAction dbLoginAction = null;
                 IInstallerAction dbPrincipalAction = null;
 
@@ -133,6 +133,7 @@ namespace Athi.Whippet.Installer.Framework.Database
                 if (databaseConnection is WhippetSqlServerConnection)
                 {
                     dbCreateAction = new DBCreateAction.MSSQL();
+                    dbCreateSchemaAction = new DBCreateLoginAction.MSSQL();
                     dbLoginAction = new DBCreateLoginAction.MSSQL();
                     dbPrincipalAction = new DBCreatePrincipalAction.MSSQL();
                 }
@@ -147,8 +148,9 @@ namespace Athi.Whippet.Installer.Framework.Database
                 }
 
                 actions.Add(0, dbCreateAction);
-                actions.Add(1, dbLoginAction);
-                actions.Add(2, dbPrincipalAction);
+                actions.Add(1, dbCreateSchemaAction);
+                actions.Add(2, dbLoginAction);
+                actions.Add(3, dbPrincipalAction);
 
                 password = new Password().IncludeLowercase().IncludeNumeric().IncludeUppercase().IncludeSpecial("~!@^&_").LengthRequired(64);
                 

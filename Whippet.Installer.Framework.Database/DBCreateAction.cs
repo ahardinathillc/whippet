@@ -1,6 +1,7 @@
 ﻿using System;
 using SqlServer = Microsoft.SqlServer.Management.Smo.Server;
 using Athi.Whippet.Data.Database.Microsoft;
+using Athi.Whippet.Installer.Framework.Database.ResourceFiles;
 
 namespace Athi.Whippet.Installer.Framework.Database
 {
@@ -74,6 +75,8 @@ namespace Athi.Whippet.Installer.Framework.Database
                     
                     server = connection.CreateServerInstance();
                     server.ConnectionContext.ExecuteNonQuery(Scripts_MSSQL.DB_CREATE.Replace(InstallerTokens.TOKEN_DBNAME, databaseName, StringComparison.InvariantCultureIgnoreCase));
+
+                    result = new WhippetResultContainer<object>(WhippetResult.Success, null);
                 }
                 catch (Exception e)
                 {

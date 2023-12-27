@@ -34,6 +34,21 @@ namespace Athi.Whippet.Data.Database.Microsoft
         public const short DefaultPacketSize = 4096;
         
         /// <summary>
+        /// Gets or sets the string used to open a database.
+        /// </summary>
+        public override string ConnectionString
+        {
+            get
+            {
+                return base.ConnectionString;
+            }
+            set
+            {
+                base.ConnectionString = WhippetSqlServerConnectionStringBuilder.StripDockerToken(value);
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the access token for the connection.
         /// </summary>
         [Browsable(false)]
@@ -228,7 +243,7 @@ namespace Athi.Whippet.Data.Database.Microsoft
         /// <param name="connectionString">The connection used to open the SQL Server database.</param>
         /// <exception cref="ArgumentException" />
         public WhippetSqlServerConnection(string connectionString)
-            : this(new SqlConnection(connectionString))
+            : this(new SqlConnection(WhippetSqlServerConnectionStringBuilder.StripDockerToken(connectionString)))
         { }
 
         /// <summary>
@@ -238,7 +253,7 @@ namespace Athi.Whippet.Data.Database.Microsoft
         /// <param name="credential">A <see cref="SqlCredential"/> object.</param>
         /// <exception cref="ArgumentNullException" />
         public WhippetSqlServerConnection(string connectionString, SqlCredential credential)
-            : this(new SqlConnection(connectionString, credential))
+            : this(new SqlConnection(WhippetSqlServerConnectionStringBuilder.StripDockerToken(connectionString), credential))
         { }
 
         /// <summary>

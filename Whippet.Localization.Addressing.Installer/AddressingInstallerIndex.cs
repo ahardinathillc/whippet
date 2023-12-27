@@ -9,6 +9,7 @@ namespace Athi.Whippet.Localization.Addressing.Installer
     /// <summary>
     /// Retrieves a sorted list of all addressing installation objects to be loaded into the Whippet database. This class cannot be inherited.
     /// </summary>
+    [Obsolete("This class is obsolete and will be removed in a future version.", false)]
     public sealed class AddressingInstallerIndex : InstallerIndexBase
     {
         /// <summary>
@@ -60,4 +61,3 @@ namespace Athi.Whippet.Localization.Addressing.Installer
         }
     }
 }
-

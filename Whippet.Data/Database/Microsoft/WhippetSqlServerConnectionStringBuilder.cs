@@ -18,8 +18,21 @@ namespace Athi.Whippet.Data.Database.Microsoft
     [DefaultProperty("DataSource")]
     public sealed class WhippetSqlServerConnectionStringBuilder : DbConnectionStringBuilder
     {
+        private const string TOKEN_DOCKER_CONTAINER = "docker_container";
+        
         private SqlConnectionStringBuilder _builder;
 
+        /// <summary>
+        /// Gets tokens that are not supported by NHibernate when connecting to a Linux container. This property is read-only.
+        /// </summary>
+        private static IEnumerable<string> InvalidDockerTokens
+        {
+            get
+            {
+                return new string[] { "MultipleActiveResultSets", "TrustServerCertificate" };
+            }
+        }
+        
         /// <summary>
         /// Gets or sets the internal <see cref="SqlConnectionStringBuilder"/> object.
         /// </summary>
@@ -889,6 +902,188 @@ namespace Athi.Whippet.Data.Database.Microsoft
         {
             MethodInfo mInfo = typeof(DbConnectionStringBuilder).GetMethod(nameof(GetProperties), BindingFlags.Instance | BindingFlags.NonPublic, Type.DefaultBinder, new[] { typeof(Hashtable) }, null);
             mInfo.Invoke(InternalBuilder, new object[] { propertyDescriptors });
+        }
+
+        /// <summary>
+        /// Strips the Docker container flag from the connection string.
+        /// </summary>
+        /// <param name="connectionString">Connection string to sanitize.</param>
+        /// <returns>Sanitized connection string.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static string StripDockerToken(string connectionString)
+        {
+            if (String.IsNullOrWhiteSpace(connectionString))
+            {
+                throw new ArgumentNullException(nameof(connectionString));
+            }
+            else
+            {
+                StringBuilder csBuilder = null;
+                Dictionary<string, string> tokens = null;
+
+                string[] tokenPieces = null;
+                string keyValuePair = String.Empty;
+                string key = String.Empty;
+                string value = String.Empty;
+
+                bool hasDockerContainerToken = false;
+                bool isDockerContainerInstance = false;
+                
+                if (connectionString.Contains(TOKEN_DOCKER_CONTAINER + "=true;", StringComparison.InvariantCultureIgnoreCase)
+                    || connectionString.Contains(TOKEN_DOCKER_CONTAINER + "=false;", StringComparison.InvariantCultureIgnoreCase)
+                    || connectionString.Contains(';' + TOKEN_DOCKER_CONTAINER + "=true", StringComparison.InvariantCultureIgnoreCase)
+                    || connectionString.Contains(';' + TOKEN_DOCKER_CONTAINER + "=false", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    hasDockerContainerToken = true;
+                }
+
+                if (hasDockerContainerToken)
+                {
+                    tokenPieces = connectionString.Split(new char[] { ';' }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+
+                    csBuilder = new StringBuilder();
+                    tokens = new Dictionary<string, string>();
+
+                    if (tokenPieces != null && tokenPieces.Length > 0)
+                    {
+                        for (int i = 0; i < tokenPieces.Length; i++)
+                        {
+                            keyValuePair = tokenPieces[i].Trim();
+                            key = keyValuePair.Substring(0, keyValuePair.IndexOf('='));
+                            value = keyValuePair.Substring(keyValuePair.IndexOf('='));
+
+                            if (!String.IsNullOrWhiteSpace(value) && value.StartsWith('='))
+                            {
+                                if (value.Length > 1)
+                                {
+                                    value = value.Substring(1);
+                                }
+                                else
+                                {
+                                    value = String.Empty;
+                                }
+                            }
+
+                            if (!String.IsNullOrWhiteSpace(key))
+                            {
+                                tokens.Add(key, value);
+                            }
+                        }
+                    }
+
+                    foreach (KeyValuePair<string, string> entry in tokens)
+                    {
+                        if (!String.Equals(entry.Key?.Trim(), TOKEN_DOCKER_CONTAINER, StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            csBuilder.Append(entry.Key);
+                            csBuilder.Append('=');
+                            csBuilder.Append(entry.Value);
+                            csBuilder.Append(';');
+                        }
+                    }
+                }
+                else
+                {
+                    csBuilder = new StringBuilder(connectionString);
+                }
+
+                return csBuilder.ToString();                
+            }
+        }
+        
+        /// <summary>
+        /// Sanitizes the specified connection string for use with NHibernate when connecting to a Docker SQL Server instance.
+        /// </summary>
+        /// <param name="connectionString">Connection string to sanitize.</param>
+        /// <returns>Sanitized connection string.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static string EnsureDockerCompatibility(string connectionString)
+        {
+            if (String.IsNullOrWhiteSpace(connectionString))
+            {
+                throw new ArgumentNullException(nameof(connectionString));
+            }
+            else
+            {
+                StringBuilder csBuilder = null;
+                Dictionary<string, string> tokens = null;
+
+                string[] tokenPieces = null;
+                string keyValuePair = String.Empty;
+                string key = String.Empty;
+                string value = String.Empty;
+
+                bool hasDockerContainerToken = false;
+                bool isDockerContainerInstance = false;
+                
+                if (connectionString.Contains(TOKEN_DOCKER_CONTAINER + "=true;", StringComparison.InvariantCultureIgnoreCase)
+                    || connectionString.Contains(TOKEN_DOCKER_CONTAINER + "=false;", StringComparison.InvariantCultureIgnoreCase)
+                    || connectionString.Contains(';' + TOKEN_DOCKER_CONTAINER + "=true", StringComparison.InvariantCultureIgnoreCase)
+                    || connectionString.Contains(';' + TOKEN_DOCKER_CONTAINER + "=false", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    hasDockerContainerToken = true;
+                    isDockerContainerInstance = connectionString.Contains(TOKEN_DOCKER_CONTAINER + "=true", StringComparison.InvariantCultureIgnoreCase) || connectionString.Contains(';' + TOKEN_DOCKER_CONTAINER + "=true", StringComparison.InvariantCultureIgnoreCase);
+                }
+
+                if (hasDockerContainerToken)
+                {
+                    tokenPieces = connectionString.Split(new char[] { ';' }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+
+                    csBuilder = new StringBuilder();
+                    tokens = new Dictionary<string, string>();
+
+                    if (tokenPieces != null && tokenPieces.Length > 0)
+                    {
+                        for (int i = 0; i < tokenPieces.Length; i++)
+                        {
+                            keyValuePair = tokenPieces[i].Trim();
+                            key = keyValuePair.Substring(0, keyValuePair.IndexOf('='));
+                            value = keyValuePair.Substring(keyValuePair.IndexOf('='));
+
+                            if (!String.IsNullOrWhiteSpace(value) && value.StartsWith('='))
+                            {
+                                if (value.Length > 1)
+                                {
+                                    value = value.Substring(1);
+                                }
+                                else
+                                {
+                                    value = String.Empty;
+                                }
+                            }
+
+                            if (!String.IsNullOrWhiteSpace(key))
+                            {
+                                tokens.Add(key, value);
+                            }
+                        }
+                    }
+
+                    foreach (KeyValuePair<string, string> entry in tokens)
+                    {
+                        if (isDockerContainerInstance && InvalidDockerTokens.Where(t => String.Equals(t?.Trim(), entry.Key?.Trim(), StringComparison.InvariantCultureIgnoreCase)).Any())
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            if (!String.Equals(entry.Key?.Trim(), TOKEN_DOCKER_CONTAINER, StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                csBuilder.Append(entry.Key);
+                                csBuilder.Append('=');
+                                csBuilder.Append(entry.Value);
+                                csBuilder.Append(';');
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    csBuilder = new StringBuilder(connectionString);
+                }
+
+                return csBuilder.ToString();
+            }
         }
     }
 }

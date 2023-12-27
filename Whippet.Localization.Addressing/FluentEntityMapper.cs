@@ -8,7 +8,7 @@ using Athi.Whippet.Data.NHibernate.FluentNHibernate;
 namespace Athi.Whippet.Localization.Addressing
 {
     /// <summary>
-    /// Provides mapping support for Fluent NHibernate entities by being invoked by <see cref="FluentNHibernate.Cfg.FluentMappingsContainer.AddFromAssembly(System.Reflection.Assembly)"/>. This class must be inherited.
+    /// Provides mapping support for Fluent NHibernate entities by being invoked by <see cref="FluentNHibernate.Cfg.FluentMappingsContainer.AddFromAssembly(System.Reflection.Assembly)"/>. This class cannot be inherited.
     /// </summary>
     public sealed class FluentEntityMapper : FluentEntityMapperBase
     {

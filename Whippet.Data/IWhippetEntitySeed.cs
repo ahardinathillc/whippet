@@ -11,6 +11,7 @@ namespace Athi.Whippet.Data
     /// Provides seed functionality for the specified <see cref="IWhippetEntity"/> type. Seed data is used to insert default data when instantiating a new, empty data store or adding a new feature.
     /// </summary>
     /// <typeparam name="T"><see cref="WhippetEntity"/> type that is being seeded.</typeparam>
+    [Obsolete("This interface is obsolete and will be removed in a future version.", false)]
     public interface IWhippetEntitySeed<T> : IWhippetEntitySeed
         where T : WhippetEntity, IWhippetEntity
     {
