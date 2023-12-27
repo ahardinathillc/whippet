@@ -5,6 +5,7 @@ using Athi.Whippet.Data.Database;
 using Athi.Whippet.Data.Database.Microsoft;
 using Athi.Whippet.Data.Database.Oracle.MySQL;
 using Athi.Whippet.Security;
+using PasswordGenerator;
 
 namespace Athi.Whippet.Installer.Framework.Database
 {
@@ -124,6 +125,8 @@ namespace Athi.Whippet.Installer.Framework.Database
                 IInstallerAction dbCreateAction = null;
                 IInstallerAction dbLoginAction = null;
                 IInstallerAction dbPrincipalAction = null;
+
+                IPassword password = null;
                 
                 // determine the type of install action to get
 
@@ -146,10 +149,12 @@ namespace Athi.Whippet.Installer.Framework.Database
                 actions.Add(0, dbCreateAction);
                 actions.Add(1, dbLoginAction);
                 actions.Add(2, dbPrincipalAction);
+
+                password = new Password().IncludeLowercase().IncludeNumeric().IncludeUppercase().IncludeSpecial("~!@^&_").LengthRequired(64);
                 
                 installer = new DatabaseInstaller(actions, updateProgressPercentage, errorHandler);
                 installer.DatabaseName = String.IsNullOrWhiteSpace(databaseName) ? InstallerTokens.TOKEN_DBNAME__DEFAULT : databaseName?.Trim();
-                installer.DatabaseUserPassword = SecurePasswordGenerator.GenerateRandomPassword(new PasswordOptions() { RequiredLength = 72 });
+                installer.DatabaseUserPassword = password.Next();
                 installer.Connection = databaseConnection;
 
                 return installer;
