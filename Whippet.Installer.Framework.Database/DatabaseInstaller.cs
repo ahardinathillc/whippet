@@ -133,7 +133,7 @@ namespace Athi.Whippet.Installer.Framework.Database
                 if (databaseConnection is WhippetSqlServerConnection)
                 {
                     dbCreateAction = new DBCreateAction.MSSQL();
-                    dbCreateSchemaAction = new DBCreateLoginAction.MSSQL();
+                    dbCreateSchemaAction = new DBCreateSchemaAction.MSSQL();
                     dbLoginAction = new DBCreateLoginAction.MSSQL();
                     dbPrincipalAction = new DBCreatePrincipalAction.MSSQL();
                 }

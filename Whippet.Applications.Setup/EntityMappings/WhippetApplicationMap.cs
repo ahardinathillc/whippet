@@ -10,7 +10,7 @@ namespace Athi.Whippet.Applications.Setup.EntityMappings
     /// </summary>
     public class WhippetApplicationMap : WhippetFluentMap<WhippetApplication>
     {
-        private const string TABLE_NAME = "Applications";
+        private const string TABLE_NAME = "[System.Applications]";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WhippetApplicationMap"/> class with no arguments.

@@ -9,7 +9,7 @@ namespace Athi.Whippet.Applications.Setup.EntityMappings
     /// </summary>
     public class WhippetSettingGroupMap : WhippetFluentMap<WhippetSettingGroup>
     {
-        private const string TABLE_NAME = "SettingGroups";
+        private const string TABLE_NAME = "[System.Configuration.ConfigGroups]";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WhippetSettingGroupMap"/> class with no arguments.

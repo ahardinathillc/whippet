@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Athi.Whippet.Collections.Extensions;
+//using Athi.Whippet.Collections.Extensions;
 
 namespace Athi.Whippet.Installer
 {

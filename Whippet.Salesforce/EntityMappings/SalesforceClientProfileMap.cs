@@ -17,7 +17,7 @@ namespace Athi.Whippet.Salesforce.EntityMappings
     /// </summary>
     public class SalesforceClientProfileMap : WhippetAuditableFluentMap<SalesforceClientProfile>
     {
-        private const string TABLE_NAME = "Salesforce_Profile";
+        private const string TABLE_NAME = "[Salesforce.Servers]";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SalesforceClientProfileMap"/> class with no arguments.

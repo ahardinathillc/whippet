@@ -2,7 +2,8 @@
 using System.Reflection;
 using Spectre.Console;
 using NHibernate;
-using FluentNHibernate.Cfg.Db;
+using NHibernate.Cfg;
+using NHibernate.Tool.hbm2ddl;
 using Athi.Whippet.Data.Database;
 using Athi.Whippet.Data.Database.Microsoft;
 using Athi.Whippet.Data.Database.Oracle.MySQL;
@@ -28,6 +29,8 @@ namespace Athi.Whippet.Installer.Framework.Terminal
 
         private const string ACTION_INSTALL_DATABASE = "Install Database";
         private const string ACTION_QUIT = "Quit";
+
+        private const string DEFAULT_DB_NAME = "Whippet";
         
         /// <summary>
         /// Main entry point of the application.
@@ -74,7 +77,8 @@ namespace Athi.Whippet.Installer.Framework.Terminal
             Rule menuRule = null;
 
             string selectedOption = String.Empty;
-
+            string databaseName = String.Empty;
+            
             WhippetResultContainer<object> installResult = null;
             WhippetResultContainer<WhippetDatabaseConnection> connectionResult = null;
             
@@ -96,7 +100,7 @@ namespace Athi.Whippet.Installer.Framework.Terminal
 
                 if (String.Equals(ACTION_INSTALL_DATABASE, selectedOption, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    connectionResult = GetDatabaseConnection();
+                    connectionResult = GetDatabaseConnection(out databaseName);
                     
                     if (!connectionResult.IsSuccess)
                     {
@@ -105,9 +109,8 @@ namespace Athi.Whippet.Installer.Framework.Terminal
                     }
                     else
                     {
-                        installResult = InstallDatabase(connectionResult.Item);
+                        installResult = InstallDatabase(connectionResult.Item, databaseName);
                     }
-
                 }
                 else // default exit
                 {
@@ -121,9 +124,10 @@ namespace Athi.Whippet.Installer.Framework.Terminal
         /// Installs the database and any seed data.
         /// </summary>
         /// <param name="connection"><see cref="WhippetDatabaseConnection"/> object.</param>
+        /// <param name="databaseName">Whippet database to execute updates on.</param>
         /// <returns><see cref="WhippetResultContainer{T}"/> object.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        private static WhippetResultContainer<object> InstallDatabase(WhippetDatabaseConnection connection)
+        private static WhippetResultContainer<object> InstallDatabase(WhippetDatabaseConnection connection, string databaseName = DEFAULT_DB_NAME)
         {
             if (connection == null)
             {
@@ -136,25 +140,56 @@ namespace Athi.Whippet.Installer.Framework.Terminal
                 DatabaseInstaller dbInstaller = null;
                 EntityInstaller entityInstaller = null;
                 
-                NHibernateConfigurationOptions configOptions = default;
+                NHibernateConfigurationOptions configOptions = null;
 
-                dbInstaller = DatabaseInstaller.CreateInstaller(connection);
+                dbInstaller = DatabaseInstaller.CreateInstaller(connection, databaseName);
                 installResult = dbInstaller.Install();
 
                 if (installResult.IsSuccess)
                 {
-                    CreateNHibernateConfiguration(connection.ConnectionString, connection.GetType(), out configOptions);
-                    WhippetNHibernateMappingIndex.ConfigureMappings(ref configOptions);
-                    
-                    entityInstaller = EntityInstaller.CreateInstaller(configOptions, GetSeeds(ref configOptions));
+                    try
+                    {
+                        connection.ChangeDatabase(databaseName, true);
+                        
+                        configOptions = CreateNHibernateConfiguration(connection.DockerConnectionString, connection.GetType());
+                        WhippetNHibernateMappingIndex.ConfigureMappings(configOptions);
+
+                        configOptions.NHibernateConfiguration = new Action<Configuration>(config =>
+                        {
+                            SchemaUpdate schema = new SchemaUpdate(config);
+                            AggregateException exceptionTree = null;
+
+                            schema.Execute(true, true);
+
+                            if (schema.Exceptions != null && schema.Exceptions.Count > 0)
+                            {
+                                exceptionTree = new AggregateException(schema.Exceptions.Distinct());
+                                throw exceptionTree;
+                            }
+                        });
+
+                        entityInstaller = EntityInstaller.CreateInstaller(configOptions, GetSeeds(configOptions));
+                    }
+                    catch (Exception e)
+                    {
+                        installResult = new WhippetResultContainer<object>(e);
+                    }
                 }
                 
                 return installResult;
             }
         }
 
-        private static SortedList<int, ISeedServiceManager> GetSeeds(ref NHibernateConfigurationOptions options)
+        /// <summary>
+        /// Gets all entities that are to be seeded in the data store.
+        /// </summary>
+        /// <param name="options"><see cref="NHibernateConfigurationOptions"/> options.</param>
+        /// <returns><see cref="SortedList{TKey,TValue}"/> of all entities to be seeded in the order to be executed.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        private static SortedList<int, ISeedServiceManager> GetSeeds(NHibernateConfigurationOptions options)
         {
+            ArgumentNullException.ThrowIfNull(options);
+            
             SortedList<int, ISeedServiceManager> seeds = new SortedList<int, ISeedServiceManager>();
             ISessionFactory factory = DefaultNHibernateSessionFactory.Create(options);
             ISession session = factory.OpenSession();
@@ -167,8 +202,9 @@ namespace Athi.Whippet.Installer.Framework.Terminal
         /// <summary>
         /// Creates a <see cref="WhippetDatabaseConnection"/> based on a selected user option.
         /// </summary>
+        /// <param name="databaseName">Database name that was chosen. Default is <b>Whippet</b>.</param>
         /// <returns><see cref="WhippetResultContainer{T}"/> containing the result of the operation.</returns>
-        private static WhippetResultContainer<WhippetDatabaseConnection> GetDatabaseConnection()
+        private static WhippetResultContainer<WhippetDatabaseConnection> GetDatabaseConnection(out string databaseName)
         {
             WhippetResultContainer<WhippetDatabaseConnection> connectionResult = null;
 
@@ -177,12 +213,16 @@ namespace Athi.Whippet.Installer.Framework.Terminal
             
             string connectionString = String.Empty;
             string selectedOption = String.Empty;
-
+            
             Type connectionType = null;
 
             WhippetDatabaseConnection connectionInstance = null;
 
             MethodInfo factoryMethod = null;
+
+            TextPrompt<string> dbNamePrompt = null;
+            
+            databaseName = DEFAULT_DB_NAME;
             
             menu = new SelectionPrompt<string>()
                 .Title("Select database type")
@@ -221,6 +261,15 @@ namespace Athi.Whippet.Installer.Framework.Terminal
                 AnsiConsole.WriteException(e, ExceptionFormats.ShortenEverything);
                 AnsiConsole.Console.Input.ReadKey(true);
             }
+
+            if (connectionResult.IsSuccess)
+            {
+                dbNamePrompt = new TextPrompt<string>("Enter database name:");
+                dbNamePrompt.DefaultValue(DEFAULT_DB_NAME);
+                dbNamePrompt.ShowDefaultValue = true;
+
+                databaseName = AnsiConsole.Prompt(dbNamePrompt);
+            }
             
             return connectionResult;
         }
@@ -230,9 +279,9 @@ namespace Athi.Whippet.Installer.Framework.Terminal
         /// </summary>
         /// <param name="connectionString">Connection string used to connect to the data store.</param>
         /// <param name="dbType"><see cref="Type"/> that describes which vendor to use.</param>
-        /// <param name="options"><see cref="NHibernateConfigurationOptions"/> object that was created.</param>
+        /// <returns><see cref="NHibernateConfigurationOptions"/> object that was created.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static void CreateNHibernateConfiguration(string connectionString, Type dbType, out NHibernateConfigurationOptions options)
+        public static NHibernateConfigurationOptions CreateNHibernateConfiguration(string connectionString, Type dbType)
         {
             if (connectionString == null)
             {
@@ -244,20 +293,22 @@ namespace Athi.Whippet.Installer.Framework.Terminal
             }
             else
             {
-                options = default;
+                NHibernateConfigurationOptions options = new NHibernateConfigurationOptions();
                 
                 if (dbType.Equals(typeof(WhippetSqlServerConnection)))
                 {
-                    NHibernateConfigurationHelper.ConfigureForSqlServerWithConnectionString(ref options, WhippetSqlServerConnectionStringBuilder.EnsureDockerCompatibility(connectionString));
+                    NHibernateConfigurationHelper.ConfigureForSqlServerWithConnectionString(options, WhippetSqlServerConnectionStringBuilder.EnsureDockerCompatibility(connectionString));
                 }
                 else if (dbType.Equals(typeof(WhippetMySqlConnection)))
                 {
-                    NHibernateConfigurationHelper.ConfigureForMySqlWithConnectionString(ref options, connectionString);
+                    NHibernateConfigurationHelper.ConfigureForMySqlWithConnectionString(options, connectionString);
                 }
                 else
                 {
                     throw new ArgumentException("Database connection of type " + dbType.FullName + " is not supported.");
                 }
+                
+                return options;
             }
         }
     }

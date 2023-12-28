@@ -15,9 +15,9 @@ namespace Athi.Whippet.Adobe.Magento.Data.NHibernate.MappingIndex
         /// </summary>
         /// <param name="options"><see cref="NHibernateConfigurationOptions"/> struct.</param>
         /// <param name="externalMappings">External mappings to add to the mapping index.</param>
-        public static void ConfigureMappings(ref NHibernateConfigurationOptions options, Action<MappingConfiguration> externalMappings = null)
+        public static void ConfigureMappings(NHibernateConfigurationOptions options, Action<MappingConfiguration> externalMappings = null)
         {
-            ConfigureMagentoMappings(ref options, externalMappings);
+            ConfigureMagentoMappings(options, externalMappings);
         }
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace Athi.Whippet.Adobe.Magento.Data.NHibernate.MappingIndex
         /// </summary>
         /// <param name="options"><see cref="NHibernateConfigurationOptions"/> struct.</param>
         /// <param name="externalMappings">External mappings to add to the mapping index.</param>
-        public static void ConfigureMagentoMappings(ref NHibernateConfigurationOptions options, Action<MappingConfiguration> externalMappings = null)
+        public static void ConfigureMagentoMappings(NHibernateConfigurationOptions options, Action<MappingConfiguration> externalMappings = null)
         {
             options.MappingConfiguration = new Action<MappingConfiguration>(m =>
             {

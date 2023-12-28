@@ -18,7 +18,7 @@ namespace Athi.Whippet.Security.EntityMappings.AccessControl
     /// </summary>
     public class WhippetGroupMap : WhippetAuditableFluentMap<WhippetGroup>
     {
-        private const string TABLE_NAME = "Groups";
+        private const string TABLE_NAME = "[Security.Groups]";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WhippetGroupMap"/> class with no arguments.

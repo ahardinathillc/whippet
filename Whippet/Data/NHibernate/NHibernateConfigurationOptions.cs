@@ -13,9 +13,9 @@ using FluentNHibernate.Diagnostics;
 namespace Athi.Whippet.Data.NHibernate
 {
     /// <summary>
-    /// Provides configuraiton options to set up an <see cref="ISessionFactory"/> instance in a session factory.
+    /// Provides configuration options to set up an <see cref="ISessionFactory"/> instance in a session factory.
     /// </summary>
-    public struct NHibernateConfigurationOptions
+    public sealed class NHibernateConfigurationOptions
     {
         private NHibernatePropertyCollection _props;
 
@@ -84,7 +84,7 @@ namespace Athi.Whippet.Data.NHibernate
         /// <summary>
         /// Initializes a new instance of the <see cref="NHibernateConfigurationOptions"/> structure with no arguments.
         /// </summary>
-        static NHibernateConfigurationOptions()
+        public NHibernateConfigurationOptions()
         { }
 
         /// <summary>

@@ -21,6 +21,6 @@ namespace Athi.Whippet.Data.NHibernate.FluentNHibernate
         /// Configures Fluent mappings and applies them to the specified <see cref="NHibernateConfigurationOptions"/>. This method must be overridden.
         /// </summary>
         /// <param name="options"><see cref="NHibernateConfigurationOptions"/> to apply the mappings to.</param>
-        public abstract void ConfigureMappings(ref NHibernateConfigurationOptions options);
+        public abstract void ConfigureMappings(NHibernateConfigurationOptions options);
     }
 }

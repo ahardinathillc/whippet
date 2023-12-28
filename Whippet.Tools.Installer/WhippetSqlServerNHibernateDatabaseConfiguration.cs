@@ -21,7 +21,7 @@ namespace Athi.Whippet.Tools.Installer
         /// </summary>
         /// <param name="options"><see cref="NHibernateConfigurationOptions"/> struct.</param>
         /// <param name="sqlConnectionString">SQL Server connection string.</param>
-        public static void ConfigureForSqlServer(ref NHibernateConfigurationOptions options, string sqlConnectionString)
+        public static void ConfigureForSqlServer(NHibernateConfigurationOptions options, string sqlConnectionString)
         {
             options.DatabaseConfiguration = new Func<IPersistenceConfigurer>(() => MsSqlConfiguration.MsSql2012.ConnectionString(sqlConnectionString));
         }

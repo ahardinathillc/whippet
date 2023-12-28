@@ -16,6 +16,7 @@ namespace Athi.Whippet.Collections.Extensions
         /// <param name="baseCollection">Base <see cref="ICollection{T}"/> in which elements are added to.</param>
         /// <param name="collection"><see cref="IEnumerable{T}"/> collection of elements to add.</param>
         /// <exception cref="ArgumentNullException" />
+        [Obsolete("This method is obsolete. Use nuget package BetterStringExtensions instead.", false)]
         public static void AddRange<T>(this ICollection<T> baseCollection, IEnumerable<T> collection)
         {
             ArgumentNullException.ThrowIfNull(baseCollection);
@@ -28,4 +29,3 @@ namespace Athi.Whippet.Collections.Extensions
         }
     }
 }
-

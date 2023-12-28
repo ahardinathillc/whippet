@@ -12,7 +12,7 @@ namespace Athi.Whippet.Adobe.Magento.EntityMappings
     /// </summary>
     public class MagentoServerMap : WhippetAuditableFluentMap<MagentoServer>
     {
-        private const string TABLE_NAME = "Adobe__Magento__Server";
+        private const string TABLE_NAME = "[Adobe.Magento.Server]";
 
         private const string COL_DBUSERNAME = "MySql__Username";
         private const string COL_DBPASSWORD = "MySql__Password";

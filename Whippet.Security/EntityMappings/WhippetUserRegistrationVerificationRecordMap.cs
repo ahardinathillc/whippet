@@ -17,7 +17,7 @@ namespace Athi.Whippet.Security.EntityMappings
     /// </summary>
     public class WhippetUserRegistrationVerificationRecordMap : WhippetAuditableFluentMap<WhippetUserRegistrationVerificationRecord>
     {
-        private const string TABLE_NAME = "Users__RegistrationVerification";
+        private const string TABLE_NAME = "[Security.Users.Verification]";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WhippetUserRegistrationVerificationRecordMap"/> class with no arguments.

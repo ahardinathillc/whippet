@@ -16,7 +16,7 @@ namespace Athi.Whippet.Security.EntityMappings
     /// </summary>
     public class WhippetUserMap : WhippetAuditableFluentMap<WhippetUser>
     {
-        private const string TABLE_NAME = "Users";
+        private const string TABLE_NAME = "[Security.Users]";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WhippetUserMap"/> class with no arguments.

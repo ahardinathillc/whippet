@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Security;
 using System.Configuration;
+using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer.Management.Common;
@@ -32,6 +33,18 @@ namespace Athi.Whippet.Data.Database.Microsoft
         /// Default packet size for Microsoft SQL Server instances.
         /// </summary>
         public const short DefaultPacketSize = 4096;
+
+        /// <summary>
+        /// Gets or sets the connection string password.
+        /// </summary>
+        private SecureString Password
+        { get; set; }
+
+        /// <summary>
+        /// Indicates whether the connection is pointed to a Docker container.
+        /// </summary>
+        private bool IsDockerContainer
+        { get; set; }
         
         /// <summary>
         /// Gets or sets the string used to open a database.
@@ -40,11 +53,36 @@ namespace Athi.Whippet.Data.Database.Microsoft
         {
             get
             {
-                return base.ConnectionString;
+                string cs = base.ConnectionString;
+                WhippetSqlServerConnectionStringBuilder csBuilder = null;
+                
+                if (!String.IsNullOrWhiteSpace(cs))
+                {
+                    if (Password != null)
+                    {
+                        csBuilder = new WhippetSqlServerConnectionStringBuilder(cs);
+                        csBuilder.Password = Password.ToInsecureString();
+                        cs = csBuilder.ToString();
+                    }
+                }
+
+                return cs;
             }
             set
             {
-                base.ConnectionString = WhippetSqlServerConnectionStringBuilder.StripDockerToken(value);
+                WhippetSqlServerConnectionStringBuilder csBuilder = null;
+
+                Password = !String.IsNullOrWhiteSpace(value) ? WhippetSqlServerConnectionStringBuilder.EncryptPassword(value) : null;
+                DockerConnectionString = !String.IsNullOrWhiteSpace(value) ? WhippetSqlServerConnectionStringBuilder.EnsureDockerCompatibility(value, IsDockerContainer) : String.Empty;
+                base.ConnectionString = !String.IsNullOrWhiteSpace(value) ? WhippetSqlServerConnectionStringBuilder.StripDockerToken(value) : String.Empty;
+
+                if (!String.IsNullOrWhiteSpace(value) && (Password != null))
+                {
+                    // add the password back to the docker connection string
+                    csBuilder = new WhippetSqlServerConnectionStringBuilder(DockerConnectionString);
+                    csBuilder.Password = Password.ToInsecureString();
+                    DockerConnectionString = csBuilder.ToString();
+                }
             }
         }
 
@@ -244,7 +282,11 @@ namespace Athi.Whippet.Data.Database.Microsoft
         /// <exception cref="ArgumentException" />
         public WhippetSqlServerConnection(string connectionString)
             : this(new SqlConnection(WhippetSqlServerConnectionStringBuilder.StripDockerToken(connectionString)))
-        { }
+        {
+            IsDockerContainer = WhippetSqlServerConnectionStringBuilder.IsDockerConnectionString(connectionString);
+            Password = WhippetSqlServerConnectionStringBuilder.EncryptPassword(WhippetSqlServerConnectionStringBuilder.StripDockerToken(connectionString));
+            DockerConnectionString = WhippetSqlServerConnectionStringBuilder.EnsureDockerCompatibility(connectionString);
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WhippetSqlServerConnection"/> class with the specified connection string and credential.
@@ -254,7 +296,11 @@ namespace Athi.Whippet.Data.Database.Microsoft
         /// <exception cref="ArgumentNullException" />
         public WhippetSqlServerConnection(string connectionString, SqlCredential credential)
             : this(new SqlConnection(WhippetSqlServerConnectionStringBuilder.StripDockerToken(connectionString), credential))
-        { }
+        {
+            IsDockerContainer = WhippetSqlServerConnectionStringBuilder.IsDockerConnectionString(connectionString);
+            Password = WhippetSqlServerConnectionStringBuilder.EncryptPassword(WhippetSqlServerConnectionStringBuilder.StripDockerToken(connectionString));
+            DockerConnectionString = WhippetSqlServerConnectionStringBuilder.EnsureDockerCompatibility(connectionString);
+        }
 
         /// <summary>
         /// Starts a database transaction.
@@ -536,6 +582,52 @@ namespace Athi.Whippet.Data.Database.Microsoft
             return new Server(new ServerConnection(this));
         }
 
+        /// <summary>
+        /// Changes the value specified in <see cref="System.Data.Common.DbConnection.Database"/> in <see cref="ConnectionString"/>. This method must be overridden.
+        /// </summary>
+        /// <param name="databaseName">Name of the database to change to in <see cref="System.Data.Common.DbConnection.ConnectionString"/>.</param>
+        protected override void ChangeConnectionStringDatabase(string databaseName)
+        {
+            WhippetSqlServerConnectionStringBuilder csBuilder = null;
+            
+            if (!String.IsNullOrWhiteSpace(ConnectionString))
+            {
+                csBuilder = new WhippetSqlServerConnectionStringBuilder(ConnectionString);
+                csBuilder.InitialCatalog = databaseName;
+                ConnectionString = csBuilder.ToString();
+            }
+        }
+
+        /// <summary>
+        /// Disposes of the current connection and releases its resources from memory.
+        /// </summary>
+        public new void Dispose()
+        {
+            if (Password != null)
+            {
+                Password.Dispose();
+                Password = null;
+            }
+
+            base.Dispose();
+        }
+
+        /// <summary>
+        /// Asynchronously disposes the connection object.
+        /// </summary>
+        /// <returns>A <see cref="ValueTask"/> representing the asynchronous operation.</returns>
+        /// <exception cref="NotSupportedException"></exception>
+        public override ValueTask DisposeAsync()
+        {
+            if (Password != null)
+            {
+                Password.Dispose();
+                Password = null;
+            }
+
+            return base.DisposeAsync();
+        }
+        
         /// <summary>
         /// Converts the specified <see cref="SqlConnection"/> object to a <see cref="WhippetSqlServerConnection"/> object.
         /// </summary>

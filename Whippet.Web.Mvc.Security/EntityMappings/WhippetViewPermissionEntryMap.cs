@@ -17,7 +17,7 @@ namespace Athi.Whippet.Web.Mvc.Security.EntityMappings
     /// </summary>
     public class WhippetViewPermissionEntryMap : WhippetAuditableFluentMap<WhippetViewPermissionEntry>
     {
-        private const string TABLE_NAME = "Permissions__WhippetView";
+        private const string TABLE_NAME = "[Security.Permissions.WhippetView]";
         private const string COL_RO_PERMISSION_ID = "ReadOnly__PermissionID";
 
         /// <summary>

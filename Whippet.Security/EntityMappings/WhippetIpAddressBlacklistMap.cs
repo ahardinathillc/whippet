@@ -17,7 +17,7 @@ namespace Athi.Whippet.Security.EntityMappings
     /// </summary>
     public class WhippetIpAddressBlacklistMap : WhippetAuditableFluentMap<WhippetIpAddressBlacklist>
     {
-        private const string TABLE_NAME = "IpAddressBlacklist";
+        private const string TABLE_NAME = "[Security.IpAddressBlacklist]";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WhippetIpAddressBlacklistMap"/> class with no arguments.

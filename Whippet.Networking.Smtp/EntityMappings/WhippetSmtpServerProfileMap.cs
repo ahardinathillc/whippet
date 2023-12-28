@@ -19,7 +19,7 @@ namespace Athi.Whippet.Networking.Smtp.EntityMappings
     /// </summary>
     public class WhippetSmtpServerProfileMap : WhippetAuditableFluentMap<WhippetSmtpServerProfile>
     {
-        private const string TABLE_NAME = "Configuration__Smtp_Servers";
+        private const string TABLE_NAME = "[System.SMTP]";
 
         private const string COL_SMTP_NAME = "SMTP__ServerName";
         private const string COL_SMTP_ADDR = "SMTP__ServerAddress";

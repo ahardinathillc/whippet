@@ -17,7 +17,7 @@ namespace Athi.Whippet.Data.NHibernate.MappingIndex
         /// </summary>
         /// <param name="options"><see cref="NHibernateConfigurationOptions"/> struct.</param>
         /// <param name="externalMappings">External mappings to add to the mapping index.</param>
-        public static void ConfigureMappings(ref NHibernateConfigurationOptions options, Action<MappingConfiguration> externalMappings = null)
+        public static void ConfigureMappings(NHibernateConfigurationOptions options, Action<MappingConfiguration> externalMappings = null)
         {
             IEnumerable<Assembly> externalAssemblies = null;
 
@@ -64,9 +64,9 @@ namespace Athi.Whippet.Data.NHibernate.MappingIndex
         /// <param name="options"><see cref="NHibernateConfigurationOptions"/> struct.</param>
         /// <param name="externalMappings">External mappings to add to the mapping index.</param>
         [Obsolete("This method is obsolete and will be removed in a future version. Use " + nameof(ConfigureMappings) + " instead.", false)]
-        public static void ConfigureMicrosoftSqlServerMappings(ref NHibernateConfigurationOptions options, Action<MappingConfiguration> externalMappings = null)
+        public static void ConfigureMicrosoftSqlServerMappings(NHibernateConfigurationOptions options, Action<MappingConfiguration> externalMappings = null)
         {
-            ConfigureMappings(ref options, externalMappings);
+            ConfigureMappings(options, externalMappings);
         }
     }
 }

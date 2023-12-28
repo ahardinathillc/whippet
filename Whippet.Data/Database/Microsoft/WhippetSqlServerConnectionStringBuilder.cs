@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Reflection;
 using Microsoft.Data.SqlClient;
 using System.Diagnostics.CodeAnalysis;
+using System.Security;
 
 namespace Athi.Whippet.Data.Database.Microsoft
 {
@@ -29,7 +30,7 @@ namespace Athi.Whippet.Data.Database.Microsoft
         {
             get
             {
-                return new string[] { "MultipleActiveResultSets", "TrustServerCertificate" };
+                return new string[] { "MultipleActiveResultSets", "TrustServerCertificate", "Multiple Active Result Sets", "Trust Server Certificate" };
             }
         }
         
@@ -990,14 +991,25 @@ namespace Athi.Whippet.Data.Database.Microsoft
                 return csBuilder.ToString();                
             }
         }
+
+        /// <summary>
+        /// Determines if the specified connection string is marked with a Docker option token.
+        /// </summary>
+        /// <param name="connectionString">Connection string to check.</param>
+        /// <returns><see langword="true"/> if a Docker option token was found; otherwise, <see langword="false"/>.</returns>
+        public static bool IsDockerConnectionString(string connectionString)
+        {
+            return String.IsNullOrWhiteSpace(connectionString) ? false : (connectionString.Contains(TOKEN_DOCKER_CONTAINER + "=true", StringComparison.InvariantCultureIgnoreCase) || connectionString.Contains(';' + TOKEN_DOCKER_CONTAINER + "=true", StringComparison.InvariantCultureIgnoreCase));
+        }
         
         /// <summary>
         /// Sanitizes the specified connection string for use with NHibernate when connecting to a Docker SQL Server instance.
         /// </summary>
         /// <param name="connectionString">Connection string to sanitize.</param>
+        /// <param name="force">If <see langword="true"/>, will assume that the connection string is for a Docker container and will be sanitized accordingly.</param>
         /// <returns>Sanitized connection string.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static string EnsureDockerCompatibility(string connectionString)
+        public static string EnsureDockerCompatibility(string connectionString, bool force = false)
         {
             if (String.IsNullOrWhiteSpace(connectionString))
             {
@@ -1016,14 +1028,14 @@ namespace Athi.Whippet.Data.Database.Microsoft
                 bool hasDockerContainerToken = false;
                 bool isDockerContainerInstance = false;
                 
-                if (connectionString.Contains(TOKEN_DOCKER_CONTAINER + "=true;", StringComparison.InvariantCultureIgnoreCase)
+                if (force 
+                    || connectionString.Contains(TOKEN_DOCKER_CONTAINER + "=true;", StringComparison.InvariantCultureIgnoreCase)
                     || connectionString.Contains(TOKEN_DOCKER_CONTAINER + "=false;", StringComparison.InvariantCultureIgnoreCase)
                     || connectionString.Contains(';' + TOKEN_DOCKER_CONTAINER + "=true", StringComparison.InvariantCultureIgnoreCase)
                     || connectionString.Contains(';' + TOKEN_DOCKER_CONTAINER + "=false", StringComparison.InvariantCultureIgnoreCase))
                 {
                     hasDockerContainerToken = true;
-                    isDockerContainerInstance = connectionString.Contains(TOKEN_DOCKER_CONTAINER + "=true", StringComparison.InvariantCultureIgnoreCase) || connectionString.Contains(';' + TOKEN_DOCKER_CONTAINER + "=true", StringComparison.InvariantCultureIgnoreCase);
-                }
+                    isDockerContainerInstance = force || (connectionString.Contains(TOKEN_DOCKER_CONTAINER + "=true", StringComparison.InvariantCultureIgnoreCase) || connectionString.Contains(';' + TOKEN_DOCKER_CONTAINER + "=true", StringComparison.InvariantCultureIgnoreCase)); }
 
                 if (hasDockerContainerToken)
                 {
@@ -1082,8 +1094,20 @@ namespace Athi.Whippet.Data.Database.Microsoft
                     csBuilder = new StringBuilder(connectionString);
                 }
 
-                return csBuilder.ToString();
+                return StripDockerToken(csBuilder.ToString());
             }
+        }
+
+        /// <summary>
+        /// Extracts and encrypts the password portion of the specified connection string.
+        /// </summary>
+        /// <param name="connectionString">Connection string to retrieve password from.</param>
+        /// <returns><see cref="SecureString"/> object representing the password.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static SecureString EncryptPassword(string connectionString)
+        {
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(connectionString);
+            return new WhippetSqlServerConnectionStringBuilder(connectionString).Password.ToSecureString();
         }
     }
 }

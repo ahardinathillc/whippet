@@ -15,7 +15,7 @@ namespace Athi.Whippet.Security.EntityMappings.AccessControl
     /// </summary>
     public class WhippetGroupUserAssignmentMap : WhippetAuditableFluentMap<WhippetGroupUserAssignment>
     {
-        private const string TABLE_NAME = "Groups__Users__Assignments";
+        private const string TABLE_NAME = "[Security.Groups.Assignments]";
 
         private const string COL_USERID = "ReadOnly__UserID";
         private const string COL_GROUPID = "ReadOnly__GroupID";

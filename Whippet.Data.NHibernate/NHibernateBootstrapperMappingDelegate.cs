@@ -12,6 +12,5 @@ namespace Athi.Whippet.Data.NHibernate
     /// </summary>
     /// <param name="options"><see cref="NHibernateConfigurationOptions"/> to load configuration for.</param>
     /// <param name="externalMappings">External mappings to assign to the <see cref="NHibernateConfigurationOptions"/>.</param>
-    public delegate void NHibernateBootstrapperMappingDelegate(ref NHibernateConfigurationOptions options, Action<MappingConfiguration> externalMappings = null);
+    public delegate void NHibernateBootstrapperMappingDelegate(NHibernateConfigurationOptions options, Action<MappingConfiguration> externalMappings = null);
 }
-

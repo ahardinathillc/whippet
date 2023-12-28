@@ -15,7 +15,7 @@ namespace Athi.Whippet.Localization.Addressing.EntityMappings
     /// </summary>
     public class InvariantAddressMap : WhippetFluentMap<InvariantAddress>
     {
-        private const string TABLE_NAME = "Addresses";
+        private const string TABLE_NAME = "[Localization.Addresses]";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InvariantAddressMap"/> class with no arguments.

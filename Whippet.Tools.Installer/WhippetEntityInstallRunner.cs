@@ -144,9 +144,9 @@ namespace Athi.Whippet.Tools.Installer
 
                     connectionString = builder.ToString();
 
-                    NHibernateConfigurationHelper.ConfigureForSqlServerWithConnectionString(ref options, connectionString);
+                    NHibernateConfigurationHelper.ConfigureForSqlServerWithConnectionString(options, connectionString);
 
-                    WhippetNHibernateMappingIndex.ConfigureMicrosoftSqlServerMappings(ref options, externalMappings);
+                    WhippetNHibernateMappingIndex.ConfigureMicrosoftSqlServerMappings(options, externalMappings);
 
                     options.NHibernateConfiguration = new Action<NHibernateConfiguration>(config =>
                     {

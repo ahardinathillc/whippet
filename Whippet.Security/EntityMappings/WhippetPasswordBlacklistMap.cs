@@ -17,7 +17,7 @@ namespace Athi.Whippet.Security.EntityMappings
     /// </summary>
     public class WhippetPasswordBlacklistMap : WhippetFluentMap<WhippetPasswordBlacklist>
     {
-        private const string TABLE_NAME = "PasswordBlacklist";
+        private const string TABLE_NAME = "[Security.PasswordBlacklist]";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WhippetPasswordBlacklistMap"/> class with no arguments.

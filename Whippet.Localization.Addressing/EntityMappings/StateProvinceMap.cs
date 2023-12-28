@@ -15,7 +15,7 @@ namespace Athi.Whippet.Localization.Addressing.EntityMappings
     /// </summary>
     public class StateProvinceMap : WhippetFluentMap<StateProvince>
     {
-        private const string TABLE_NAME = "StateProvinces";
+        private const string TABLE_NAME = "[Localization.StateProvinces]";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StateProvinceMap"/> class with no arguments.

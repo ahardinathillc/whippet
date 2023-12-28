@@ -190,6 +190,23 @@ namespace Athi.Whippet.Data.Database.Oracle.MySQL
             return InternalConnection.ChangeDatabaseAsync(databaseName);
         }
 
+        /// <summary>
+        /// Changes the value specified in <see cref="System.Data.Common.DbConnection.Database"/> in <see cref="System.Data.Common.DbConnection.ConnectionString"/>. This method must be overridden.
+        /// </summary>
+        /// <param name="databaseName">Name of the database to change to in <see cref="System.Data.Common.DbConnection.ConnectionString"/>.</param>
+        protected override void ChangeConnectionStringDatabase(string databaseName)
+        {
+            WhippetMySqlConnectionStringBuilder csBuilder = null;
+            
+            if (!String.IsNullOrWhiteSpace(ConnectionString))
+            {
+                csBuilder = new WhippetMySqlConnectionStringBuilder(ConnectionString);
+                csBuilder.Database = databaseName;
+
+                ConnectionString = csBuilder.ToString();
+            }
+        }
+
         public static implicit operator MySqlConnection(WhippetMySqlConnection connection)
         {
             return (connection == null) ? null : connection.InternalConnection;

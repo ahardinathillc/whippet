@@ -18,7 +18,7 @@ namespace Athi.Whippet.Security.EntityMappings.AccessControl
     /// </summary>
     public class WhippetRoleMap : WhippetAuditableFluentMap<WhippetRole>
     {
-        private const string TABLE_NAME = "Roles";
+        private const string TABLE_NAME = "[Security.Roles]";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WhippetRoleMap"/> class with no arguments.

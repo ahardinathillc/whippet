@@ -23,17 +23,17 @@ namespace Athi.Whippet.Data.NHibernate
             }
             else
             {
-                NHibernateConfigurationOptions options;
+                NHibernateConfigurationOptions options = new NHibernateConfigurationOptions();
 
                 if (mappings != null && mappings.Any())
                 {
                     foreach (NHibernateBootstrapperMappingDelegate bmd in mappings)
                     {
-                        bmd(ref options);
+                        bmd(options);
                     }
                 }
 
-                NHibernateConfigurationHelper.ConfigureForMySqlWithConnectionString(ref options, connectionString);
+                NHibernateConfigurationHelper.ConfigureForMySqlWithConnectionString(options, connectionString);
 
                 return DefaultNHibernateSessionFactory.Create(options);
             }

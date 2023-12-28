@@ -14,7 +14,7 @@ namespace Athi.Whippet.Jobs.EntityMappings
     /// </summary>
     public class JobCategoryMap : WhippetFluentMap<JobCategory>
     {
-        private const string TABLE_NAME = "JobCategory";
+        private const string TABLE_NAME = "[System.JobCategory]";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JobCategoryMap"/> class with no arguments.

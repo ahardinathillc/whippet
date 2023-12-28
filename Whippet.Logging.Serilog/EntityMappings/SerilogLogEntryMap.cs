@@ -14,7 +14,7 @@ namespace Athi.Whippet.Logging.Serilog.EntityMappings
     /// </summary>
     public class SerilogLogEntryMap : WhippetFluentMap<SerilogLogEntry>
     {
-        private const string TABLE_NAME = "Serilog_Log";
+        private const string TABLE_NAME = "[System.Serilog.Logs]";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SerilogLogEntryMap"/> class with no arguments.

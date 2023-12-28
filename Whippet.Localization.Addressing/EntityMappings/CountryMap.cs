@@ -16,8 +16,8 @@ namespace Athi.Whippet.Localization.Addressing.EntityMappings
     /// </summary>
     public class CountryMap : WhippetFluentMap<Country>
     {
-        private const string TABLE_NAME = "Countries";
-
+        private const string TABLE_NAME = "[Localization.Countries]";
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="CountryMap"/> class with no arguments.
         /// </summary>

@@ -15,7 +15,7 @@ namespace Athi.Whippet.Localization.Addressing.EntityMappings
     /// </summary>
     public class CityMap : WhippetFluentMap<City>
     {
-        private const string TABLE_NAME = "Cities";
+        private const string TABLE_NAME = "[Localization.Cities]";
 
         private const string COL_LAT = "Latitude";
         private const string COL_LON = "Longitude";

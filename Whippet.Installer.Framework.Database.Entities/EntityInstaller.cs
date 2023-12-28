@@ -115,11 +115,9 @@ namespace Athi.Whippet.Installer.Framework.Database.Entities
                 seeds = new SortedList<int, ISeedServiceManager>();
             }
 
-            schemaAction = new SchemaAction();
             seedAction = new SeedAction();
 
-            actions.Add(0, schemaAction);
-            actions.Add(1, seedAction);
+            actions.Add(0, seedAction);
             
             installer = new EntityInstaller(actions, updateProgressPercentage, errorHandler);
             installer.NHibernateOptions = configuration;

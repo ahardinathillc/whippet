@@ -127,10 +127,10 @@ namespace Athi.Whippet.Tools.Installer
 
                     options = new NHibernateConfigurationOptions();
 
-                    WhippetNHibernateMappingIndex.ConfigureMicrosoftSqlServerMappings(ref options, ExternalMappings);
-                    WhippetSqlServerNHibernateDatabaseConfiguration.ConfigureForSqlServer(ref options, builder.ToString());
+                    WhippetNHibernateMappingIndex.ConfigureMicrosoftSqlServerMappings(options, ExternalMappings);
+                    WhippetSqlServerNHibernateDatabaseConfiguration.ConfigureForSqlServer(options, builder.ToString());
 
-                    WhippetNHibernateMappingIndex.ConfigureMicrosoftSqlServerMappings(ref options, ExternalMappings);
+                    WhippetNHibernateMappingIndex.ConfigureMicrosoftSqlServerMappings(options, ExternalMappings);
 
                     ReportProgress(pDelegate, 50, StringResourceLoader.GetResource(GetType(), ResourceIndex.InstallAction_Schema__SchemaSetup1));
 

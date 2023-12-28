@@ -45,7 +45,7 @@ namespace Athi.Whippet.Data.NHibernate
         /// </summary>
         /// <param name="options"><see cref="NHibernateConfigurationOptions"/> object to configure.</param>
         /// <param name="assemblies"><see cref="Assembly"/> objects containing the mappings to load.</param>
-        public virtual void ConfigureMappings(ref NHibernateConfigurationOptions options, IEnumerable<Assembly> assemblies)
+        public virtual void ConfigureMappings(NHibernateConfigurationOptions options, IEnumerable<Assembly> assemblies)
         {
             ArgumentNullException.ThrowIfNull(assemblies);
 
@@ -67,13 +67,13 @@ namespace Athi.Whippet.Data.NHibernate
         /// </summary>
         /// <param name="options"><see cref="NHibernateConfigurationOptions"/> object to configure.</param>
         /// <param name="types"><see cref="Type"/> objects containing the mappings to load.</param>
-        public virtual void ConfigureMappings(ref NHibernateConfigurationOptions options, IEnumerable<Type> types)
+        public virtual void ConfigureMappings(NHibernateConfigurationOptions options, IEnumerable<Type> types)
         {
             ArgumentNullException.ThrowIfNull(types);
 
             if (types.Any())
             {
-                ConfigureMappings(ref options, types.Select(t => t.Assembly));
+                ConfigureMappings(options, types.Select(t => t.Assembly));
             }
         }
         
@@ -83,7 +83,7 @@ namespace Athi.Whippet.Data.NHibernate
         /// <param name="options"><see cref="NHibernateConfigurationOptions"/> object to configure.</param>
         /// <param name="databaseDialect">Specifies the type of database to configure NHibernate for.</param>
         /// <param name="connectionString">Connection string of the database.</param>
-        public static void ConfigureDatabaseServer(ref NHibernateConfigurationOptions options, SupportedWhippetDatabaseTypes databaseDialect, string connectionString)
+        public static void ConfigureDatabaseServer(NHibernateConfigurationOptions options, SupportedWhippetDatabaseTypes databaseDialect, string connectionString)
         {
             options.DatabaseConfiguration = new Func<IPersistenceConfigurer>(() =>
             {

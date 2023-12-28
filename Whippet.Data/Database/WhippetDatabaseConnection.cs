@@ -17,12 +17,71 @@ namespace Athi.Whippet.Data.Database
     /// </summary>
     public abstract class WhippetDatabaseConnection : DbConnection
     {
+        private string _dockerCs;
+        
+        /// <summary>
+        /// Gets the <see cref="DbConnection.ConnectionString"/> to use for Docker containers. The connection string must contain the key &quot;docker_container=true&quot; in order to be sanitized correctly; otherwise, the original value for <see cref="DbConnection.ConnectionString"/> is used. This property is read-only. 
+        /// </summary>
+        /// <remarks>This property is typically used for NHibernate as it uses the original <see cref="System.Data.SqlClient"/> instead of the new version provided by Microsoft.</remarks>
+        public virtual string DockerConnectionString
+        {
+            get
+            {
+                return String.IsNullOrWhiteSpace(_dockerCs) ? ConnectionString : _dockerCs;
+            }
+            protected set
+            {
+                _dockerCs = value;
+            }
+        }
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="WhippetDatabaseConnection"/> class with no arguments.
         /// </summary>
         protected WhippetDatabaseConnection()
             : base()
         { }
+
+        /// <summary>
+        /// Changes the current database for an open connection or, alternatively, the database specified in the connection string.
+        /// </summary>
+        /// <param name="databaseName">Name of the database to change to.</param>
+        /// <param name="connectionStringOnly">If <see langword="true"/>, will change the database specified in <see cref="DbConnection.Database"/> to the value represented by <paramref name="databaseName"/> irrespective of connection state.</param>
+        public virtual void ChangeDatabase(string databaseName, bool connectionStringOnly)
+        {
+            if (connectionStringOnly)
+            {
+                ChangeConnectionStringDatabase(databaseName);
+            }
+            else
+            {
+                ChangeDatabase(databaseName);
+            }
+        }
+
+        /// <summary>
+        /// Asynchronously changes the current database for an open connection or, alternatively, the database specified in the connection string.
+        /// </summary>
+        /// <param name="databaseName">Name of the database to change to.</param>
+        /// <param name="connectionStringOnly">If <see langword="true"/>, will change the database specified in <see cref="DbConnection.Database"/> to the value represented by <paramref name="databaseName"/> irrespective of connection state.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public virtual async Task ChangeDatabaseAsync(string databaseName, bool connectionStringOnly, CancellationToken cancellationToken = default)
+        {
+            if (connectionStringOnly)
+            {
+                ChangeConnectionStringDatabase(databaseName);
+            }
+            else
+            {
+                await ChangeDatabaseAsync(databaseName, cancellationToken);
+            }
+        }
+
+        /// <summary>
+        /// Changes the value specified in <see cref="DbConnection.Database"/> in <see cref="DbConnection.ConnectionString"/>. This method must be overridden.
+        /// </summary>
+        /// <param name="databaseName">Name of the database to change to in <see cref="DbConnection.ConnectionString"/>.</param>
+        protected abstract void ChangeConnectionStringDatabase(string databaseName);
     }
 
     /// <summary>

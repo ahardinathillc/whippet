@@ -16,7 +16,7 @@ namespace Athi.Whippet.Security.EntityMappings.Tenants
     /// </summary>
     public class WhippetTenantMap : WhippetAuditableFluentMap<WhippetTenant>
     {
-        private const string TABLE_NAME = "Tenants";
+        private const string TABLE_NAME = "[System.Tenants]";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WhippetTenantMap"/> class with no arguments.

@@ -15,7 +15,7 @@ namespace Athi.Whippet.Localization.Addressing.EntityMappings
     /// </summary>
     public class PostalCodeMap : WhippetFluentMap<PostalCode>
     {
-        private const string TABLE_NAME = "PostalCodes";
+        private const string TABLE_NAME = "[Localization.PostalCodes]";
 
         private const string COL_LAT = "Latitude";
         private const string COL_LON = "Longitude";

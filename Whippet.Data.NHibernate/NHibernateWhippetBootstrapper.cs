@@ -28,17 +28,17 @@ namespace Athi.Whippet.Data.NHibernate
             }
             else
             {
-                NHibernateConfigurationOptions options;
+                NHibernateConfigurationOptions options = new NHibernateConfigurationOptions();
 
                 if (mappings != null && mappings.Any())
                 {
                     foreach (NHibernateBootstrapperMappingDelegate bmd in mappings)
                     {
-                        bmd(ref options);
+                        bmd(options);
                     }
                 }
 
-                NHibernateConfigurationHelper.ConfigureForSqlServerWithConnectionString(ref options, connectionString);
+                NHibernateConfigurationHelper.ConfigureForSqlServerWithConnectionString(options, connectionString);
 
                 if (options.Properties == null)
                 {

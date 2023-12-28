@@ -12,7 +12,7 @@ namespace Athi.Whippet.Adobe.Magento.EntityMappings
     /// </summary>
     public class MagentoRestEndpointMap : WhippetAuditableFluentMap<MagentoRestEndpoint>
     {
-        private const string TABLE_NAME = "Adobe__Magento__RestEndpoint";
+        private const string TABLE_NAME = "[Adobe.Magento.RestEndpoint]";
 
         private const string COL_USERNAME = "RestUsername";
         private const string COL_PASSWORD = "RestPassword";
