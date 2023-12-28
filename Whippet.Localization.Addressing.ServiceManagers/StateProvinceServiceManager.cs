@@ -64,6 +64,17 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
         }
 
         /// <summary>
+        /// Retrieves all <see cref="IStateProvince"/> objects in the system.
+        /// </summary>
+        /// <returns><see cref="WhippetResultContainer{T}"/> containing the return value of the query, if any.</returns>
+        public virtual async Task<WhippetResultContainer<IEnumerable<IStateProvince>>> GetAllStateProvinces()
+        {
+            IStateProvinceQueryHandler<GetAllStateProvincesQuery> handler = new GetAllStateProvincesQueryHandler(StateRepository);
+            WhippetResultContainer<IEnumerable<StateProvince>> result = await handler.HandleAsync(new GetAllStateProvincesQuery());
+            return new WhippetResultContainer<IEnumerable<IStateProvince>>(result.Result, result.Item);
+        }
+
+        /// <summary>
         /// Retrieves the <see cref="IStateProvince"/> object with the specified ID.
         /// </summary>
         /// <param name="id">ID of the <see cref="IStateProvince"/> object to retrieve.</param>

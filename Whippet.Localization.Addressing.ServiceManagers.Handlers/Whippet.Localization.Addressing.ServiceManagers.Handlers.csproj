@@ -30,7 +30,4 @@
     <None Remove="Queries\" />
     <None Remove="Commands\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Queries\" />
-  </ItemGroup>
 </Project>

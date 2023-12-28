@@ -238,6 +238,27 @@ namespace Athi.Whippet.Installer.Framework.Terminal
 
                 return countryResult.Item;
             }));
+            seeds.Add(2, new CityServiceManager.CitySeedServiceManager(new CityRepository(factory.OpenSession()), () =>
+            {
+                WhippetResultContainer<IEnumerable<IStateProvince>> stateResult = new WhippetResultContainer<IEnumerable<IStateProvince>>(WhippetResult.Success, null);
+                StateProvinceServiceManager spm = new StateProvinceServiceManager(new StateProvinceRepository(factory.OpenSession()));
+
+                try
+                {
+                    stateResult = Task.Run(() => spm.GetAllStateProvinces()).Result;
+                    stateResult.ThrowIfFailed();
+                }
+                finally 
+                {
+                    if (spm != null)
+                    {
+                        spm.Dispose();
+                        spm = null;
+                    }
+                }
+
+                return stateResult.Item;
+            }));
             
             return seeds;
         }
