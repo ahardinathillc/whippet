@@ -4,7 +4,6 @@
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:element name="root" msdata:IsDataSet="true">
       <data name="CA_StateProvinces" xml:space="preserve">
-{
   "AB": "Alberta",
   "BC": "British Columbia",
   "MB": "Manitoba",
@@ -18,10 +17,8 @@
   "QC": "Quebec",
   "SK": "Saskatchewan",
   "YT": "Yukon Territory"
-}        
       </data>
       <data name="US_StateProvinces" xml:space="preserve">
-{
   "AL": "Alabama",
   "AK": "Alaska",
   "AZ": "Arizona",
@@ -78,7 +75,6 @@
   "MP": "Northern Mariana Islands",
   "PR": "Puerto Rico",
   "VI": "U.S. Virgin Islands"
-}        
       </data>
     </xsd:element>
   </xsd:schema>

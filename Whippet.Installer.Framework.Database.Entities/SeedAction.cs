@@ -2,6 +2,7 @@
 using Athi.Whippet.Data;
 using NHibernate;
 using Athi.Whippet.Data.NHibernate;
+using Athi.Whippet.ServiceManagers;
 
 namespace Athi.Whippet.Installer.Framework.Database.Entities
 {
@@ -35,58 +36,34 @@ namespace Athi.Whippet.Installer.Framework.Database.Entities
         /// <returns><see cref="WhippetResultContainer{T}"/> containing the result of the operation.</returns>
         public override WhippetResultContainer<object> Execute(params object[] args)
         {
-            ISession session = null;
-            ISessionFactory factory = null;
-            
-            SortedList<int, IWhippetEntitySeed> seeds = null;
+            SortedList<int, ISeedServiceManager> seeds = null;
 
             NHibernateConfigurationOptions options = default(NHibernateConfigurationOptions);
             
             WhippetResultContainer<object> result = null;
             
             VerifyParameters(typeof(NHibernateConfigurationOptions), args);
-            VerifyParameters(typeof(IEnumerable<KeyValuePair<int, IWhippetEntitySeed>>), args);
+            VerifyParameters(typeof(SortedList<int, ISeedServiceManager>), args);
 
             options = (NHibernateConfigurationOptions)(args.First(a => a is NHibernateConfigurationOptions));
-            seeds = new SortedList<int, IWhippetEntitySeed>(
-                new Dictionary<int, IWhippetEntitySeed>(
-                    (IEnumerable<KeyValuePair<int, IWhippetEntitySeed>>)(args.First(a => a is IEnumerable<KeyValuePair<int, IWhippetEntitySeed>>))
-                    )
-                );
+            seeds = (SortedList<int, ISeedServiceManager>)(args.First(a => a is SortedList<int, ISeedServiceManager>));
             
             try
             {
-                factory = DefaultNHibernateSessionFactory.Create(options);
-                session = factory.OpenSession();
-
-                foreach (KeyValuePair<int, IWhippetEntitySeed> seedEntry in seeds)
+                foreach (KeyValuePair<int, ISeedServiceManager> seedEntry in seeds)
                 {
-                    result = new WhippetResultContainer<object>(seedEntry.Value.Seed(session), options);
+                    result = new WhippetResultContainer<object>(seedEntry.Value.Seed(), seedEntry);
                     result.ThrowIfFailed();
                 }
 
                 if (result == null)
                 {
-                    result = new WhippetResultContainer<object>(WhippetResult.Success, options);
+                    result = new WhippetResultContainer<object>(WhippetResult.Success, null);
                 }
             }
             catch (Exception e)
             {
                 result = new WhippetResultContainer<object>(e);
-            }
-            finally
-            {
-                if (session != null)
-                {
-                    session.Dispose();
-                    session = null;
-                }
-                
-                if (factory != null)
-                {
-                    factory.Dispose();
-                    factory = null;
-                }
             }
 
             return result;

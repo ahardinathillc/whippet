@@ -11,6 +11,7 @@ using Athi.Whippet.Data.NHibernate;
 using Athi.Whippet.Data.NHibernate.MappingIndex;
 using Athi.Whippet.Installer.Framework.Database;
 using Athi.Whippet.Installer.Framework.Database.Entities;
+using Athi.Whippet.Localization.Addressing;
 using Athi.Whippet.Localization.Addressing.Repositories;
 using Athi.Whippet.Localization.Addressing.ServiceManagers;
 using Athi.Whippet.ServiceManagers;
@@ -158,17 +159,26 @@ namespace Athi.Whippet.Installer.Framework.Terminal
                         {
                             SchemaUpdate schema = new SchemaUpdate(config);
                             AggregateException exceptionTree = null;
-
-                            schema.Execute(true, true);
-
+                            IEnumerable<Exception> errors = null;
+                            
+                            schema.Execute(false, true);
+                            
                             if (schema.Exceptions != null && schema.Exceptions.Count > 0)
                             {
-                                exceptionTree = new AggregateException(schema.Exceptions.Distinct());
-                                throw exceptionTree;
+                                // filter out all exceptions that just report the object exists...
+                                errors = schema.Exceptions.Distinct().Where(e => !e.ToString().Contains("there is already an object named", StringComparison.InvariantCultureIgnoreCase));
+
+                                if (errors != null && errors.Any())
+                                {
+                                    exceptionTree = new AggregateException(errors);
+                                    throw exceptionTree;
+                                }
                             }
                         });
 
-                        entityInstaller = EntityInstaller.CreateInstaller(configOptions, GetSeeds(configOptions));
+                        entityInstaller = EntityInstaller.CreateInstaller(configOptions, GetSeeds(configOptions), errorHandler: DisplayException);
+                        
+                        entityInstaller.Install();
                     }
                     catch (Exception e)
                     {
@@ -181,6 +191,19 @@ namespace Athi.Whippet.Installer.Framework.Terminal
         }
 
         /// <summary>
+        /// Displays an exception that was caught.
+        /// </summary>
+        /// <param name="e"><see cref="Exception"/> that was caught.</param>
+        private static void DisplayException(Exception e)
+        {
+            if (e != null)
+            {
+                AnsiConsole.WriteException(e);
+                AnsiConsole.Console.Input.ReadKey(true);
+            }
+        }
+        
+        /// <summary>
         /// Gets all entities that are to be seeded in the data store.
         /// </summary>
         /// <param name="options"><see cref="NHibernateConfigurationOptions"/> options.</param>
@@ -192,9 +215,29 @@ namespace Athi.Whippet.Installer.Framework.Terminal
             
             SortedList<int, ISeedServiceManager> seeds = new SortedList<int, ISeedServiceManager>();
             ISessionFactory factory = DefaultNHibernateSessionFactory.Create(options);
-            ISession session = factory.OpenSession();
-            
-            seeds.Add(0, new CountryServiceManager.CountrySeedServiceManager(new CountryRepository(session)));
+
+            seeds.Add(0, new CountryServiceManager.CountrySeedServiceManager(new CountryRepository(factory.OpenSession())));
+            seeds.Add(1, new StateProvinceServiceManager.StateProvinceSeedServiceManager(new StateProvinceRepository(factory.OpenSession()), () =>
+            {
+                WhippetResultContainer<IEnumerable<ICountry>> countryResult = new WhippetResultContainer<IEnumerable<ICountry>>(WhippetResult.Success, null);
+                CountryServiceManager csm = new CountryServiceManager(new CountryRepository(factory.OpenSession()));
+
+                try
+                {
+                    countryResult = Task.Run(() => csm.GetCountries()).Result;
+                    countryResult.ThrowIfFailed();
+                }
+                finally 
+                {
+                    if (csm != null)
+                    {
+                        csm.Dispose();
+                        csm = null;
+                    }
+                }
+
+                return countryResult.Item;
+            }));
             
             return seeds;
         }

@@ -1,5 +1,10 @@
 ﻿using System;
-using System.Linq;
+using System.Collections;
+using System.Globalization;
+using System.Reflection;
+using System.Resources;
+using System.Resources.NetStandard;
+using Athi.Whippet.Collections.Extensions;
 using Athi.Whippet.Services;
 using Athi.Whippet.ServiceManagers;
 using Athi.Whippet.Data.CQRS;
@@ -10,8 +15,6 @@ using Athi.Whippet.Localization.Addressing.ServiceManagers.Queries;
 using Athi.Whippet.Localization.Addressing.ServiceManagers.Commands;
 using Athi.Whippet.Localization.Addressing.ServiceManagers.Handlers.Queries;
 using Athi.Whippet.Localization.Addressing.ServiceManagers.Handlers.Commands;
-using Athi.Whippet.Localization.Addressing.ServiceManagers.ResourceFiles;
-using Athi.Whippet.Localization.Addressing.ServiceManagers.Seed;
 
 namespace Athi.Whippet.Localization.Addressing.ServiceManagers
 {
@@ -347,6 +350,8 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
         /// </summary>
         public sealed class CountrySeedServiceManager : CountryServiceManager, IServiceManager, ISeedServiceManager, IDisposable
         {
+            private const string RESOURCE_COUNTRIES = "CountriesIndex";
+            
             /// <summary>
             /// Initializes a new instance of the <see cref="CountryServiceManager.CountrySeedServiceManager"/> class with the specified <see cref="ICountryRepository"/> object.
             /// </summary>
@@ -388,10 +393,11 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
                 string[] countryEntries = null;
                 string[] countryPieces = null;
 
+                string rawResource = null;
+                
                 ProgressDelegateManager rawCountryStatusManager = null;
                 ProgressDelegateManager existingCountryStatusManager = null;
 
-                List<WhippetResultContainer<Country>> results = null;
                 List<Country> countries = null;
                 
                 IEnumerable<ICountry> missingCountries = null;
@@ -403,85 +409,103 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
                 ICountry updateCountry = null;
                 Country country = null;
                 
-                CountryMap countryMap = null;
-
-                Dictionary<string, object> parameters = null;
-
                 int counter = 0;
+
+                ResXResourceReader resxReader = null;
                 
                 try
                 {
-                    countryEntries = Countries.CountriesIndex.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-
-                    if (countryEntries != null && countryEntries.Length > 0)
+                    resxReader = new ResXResourceReader(ResourceFileIndex.Addressing_Countries);
+                    
+                    foreach (DictionaryEntry d in resxReader)
                     {
-                        countries = new List<Country>(countryEntries.Length);
-                        rawCountryStatusManager = new ProgressDelegateManager(0, countryEntries.Length, reportProgress);
-
-                        foreach (string entry in countryEntries)
+                        if (d.Key.ToString().Equals(RESOURCE_COUNTRIES, StringComparison.InvariantCultureIgnoreCase))
                         {
-                            countryPieces = entry.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-
-                            country = new Country(new Guid(countryPieces[index_guid]), countryPieces[index_name], countryPieces[index_twoLetterISOAbbreviation]);
-
-                            countries.Add(country);
-
-                            rawCountryStatusManager.Advance(String.Format(MSG_READING_COUNTRY, country.Name), WhippetResultSeverity.Info);
+                            rawResource = d.Value.ToString();
                         }
                     }
 
-                    existingCountries = Task.Run(() => GetCountries()).Result;
-                    existingCountries.ThrowIfFailed();
-
-                    if (existingCountries.HasItem && existingCountries.Item.Any())
+                    if (String.IsNullOrWhiteSpace(rawResource))
                     {
-                        existingCountryStatusManager = new ProgressDelegateManager(0, existingCountries.Item.Count(), reportProgress);
-
-                        if (countries != null)
-                        {
-                            missingCountries = countries.Where(c => !existingCountries.Item.Contains(c));
-
-                            if (missingCountries != null && missingCountries.Any())
-                            {
-                                foreach (ICountry missingCountry in missingCountries)
-                                {
-                                    newCountry = CreateCountry(missingCountry);
-                                    newCountry.ThrowIfFailed();
-                                }
-                            }
-                        }
+                        throw new Exception("No countries were found in the resource file " + ResourceFileIndex.Addressing_Countries);
                     }
                     else
                     {
-                        // no existing countries, so create new ones
-                        
-                        countries.ForEach(c =>
+                        countryEntries = rawResource.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries); 
+
+                        if (countryEntries != null && countryEntries.Length > 0)
                         {
-                            newCountry = CreateCountry(c);
-                            newCountry.ThrowIfFailed();
+                            countries = new List<Country>(countryEntries.Length);
+                            rawCountryStatusManager = new ProgressDelegateManager(0, countryEntries.Length, reportProgress);
 
-                            counter++;
+                            foreach (string entry in countryEntries)
+                            {
+                                countryPieces = entry.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
-                            reportProgress(Convert.ToInt32(Convert.ToDouble(counter) / Convert.ToDouble(countries.Count)), String.Format(MSG_CREATING_COUNTRY, c.Name), result.Severity);
-                        });
-                    }
-                    
-                    if (!String.IsNullOrWhiteSpace(Countries.CountriesIndex))
-                    {
+                                country = new Country(new Guid(countryPieces[index_guid]), countryPieces[index_name], countryPieces[index_twoLetterISOAbbreviation]);
+
+                                countries.Add(country);
+
+                                rawCountryStatusManager.Advance(String.Format(MSG_READING_COUNTRY, country.Name), WhippetResultSeverity.Info);
+                            }
+                        }
+
                         existingCountries = Task.Run(() => GetCountries()).Result;
                         existingCountries.ThrowIfFailed();
-                        
-                        countryEntries = Countries.CountriesIndex.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
-                        for (int i = 0; i < countryEntries.Length; i++)
+                        if (existingCountries.HasItem && existingCountries.Item.Any())
                         {
-                            countryPieces = countryEntries[i].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-                            updateCountry = (from c in existingCountries.Item where String.Equals(c.Name?.Trim(), countryPieces[index_name]?.Trim(), StringComparison.InvariantCultureIgnoreCase) select c).FirstOrDefault();
+                            existingCountryStatusManager = new ProgressDelegateManager(0, existingCountries.Item.Count(), reportProgress);
 
-                            if (updateCountry != null)
+                            if (countries != null)
                             {
-                                newCountry = UpdateCountry(updateCountry, new Guid(countryPieces[index_guid]));
+                                missingCountries = countries.Where(c => !existingCountries.Item.Contains(c));
+
+                                if (missingCountries != null && missingCountries.Any())
+                                {
+                                    foreach (ICountry missingCountry in missingCountries)
+                                    {
+                                        newCountry = CreateCountry(missingCountry);
+                                        newCountry.ThrowIfFailed();
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            // no existing countries, so create new ones
+
+                            foreach (ICountry c in countries)
+                            {
+                                newCountry = CreateCountry(c);
                                 newCountry.ThrowIfFailed();
+
+                                counter++;
+
+                                if (reportProgress != null)
+                                {
+                                    reportProgress(Convert.ToInt32(Convert.ToDouble(counter) / Convert.ToDouble(countries.Count)), String.Format(MSG_CREATING_COUNTRY, c.Name), result.Severity);
+                                }
+                            }
+                        }
+
+                        if (!String.IsNullOrWhiteSpace(rawResource))
+                        {
+                            existingCountries = Task.Run(() => GetCountries()).Result;
+                            existingCountries.ThrowIfFailed();
+
+                            countryEntries = rawResource.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+                            for (int i = 0; i < countryEntries.Length; i++)
+                            {
+                                countryPieces = countryEntries[i].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                                updateCountry = (from c in existingCountries.Item where String.Equals(c.Name?.Trim(), countryPieces[index_name]?.Trim(), StringComparison.InvariantCultureIgnoreCase) select c).FirstOrDefault();
+
+                                if (updateCountry != null)
+                                {
+                                    newCountry = UpdateCountry(updateCountry, new Guid(countryPieces[index_guid]));
+                                    newCountry.ThrowIfFailed();
+                                }
                             }
                         }
                     }
@@ -489,6 +513,14 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
                 catch (Exception e)
                 {
                     result = new WhippetResult(e);
+                }
+                finally
+                {
+                    if (resxReader != null)
+                    {
+                        resxReader.Close();
+                        resxReader = null;
+                    }
                 }
 
                 if (result == null)
