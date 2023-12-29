@@ -182,7 +182,7 @@ namespace Athi.Whippet.Localization.Addressing.Installer
 
                                                 if (filteredAddresses != null && filteredAddresses.Any())
                                                 {
-                                                    readCities = new List<City>(filteredAddresses.Select(a => new City(null, a.city?.Trim().ToUpper(), stateProvince, new LatitudeLongitudeCoordinate(Convert.ToDecimal(a.latitude.GetValueOrDefault()), Convert.ToDecimal(a.longitude.GetValueOrDefault())))).ToList());
+                                                    readCities = new List<City>(filteredAddresses.Select(a => new City(null, a.city?.Trim().ToUpper(), stateProvince, new LatitudeLongitudeCoordinate(a.latitude.GetValueOrDefault(), a.longitude.GetValueOrDefault()))).ToList());
 
                                                     if (readCities != null && readCities.Any())
                                                     {

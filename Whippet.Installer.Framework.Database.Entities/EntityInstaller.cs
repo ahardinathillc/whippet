@@ -38,9 +38,10 @@ namespace Athi.Whippet.Installer.Framework.Database.Entities
         /// </summary>
         /// <param name="actions">Collection of <see cref="IInstallerAction"/> actions to perform sorted by their execution order.</param>
         /// <param name="updateProgressPercentage"><see cref="Action{T}"/> that updates the current progress percentage of the task execution.</param>
+        /// <param name="updateStatusAndProgressPercentage"><see cref="Action{T1, T2}"/> that updates the current progress percentage of the task execution.</param>
         /// <param name="errorHandler"><see cref="Action{T}"/> that handles caught exceptions and processes them, such as logging.</param>
-        private EntityInstaller(IEnumerable<KeyValuePair<int, IInstallerAction>> actions, Action<double> updateProgressPercentage = null, Action<Exception> errorHandler = null)
-            : base(actions, updateProgressPercentage, errorHandler)
+        private EntityInstaller(IEnumerable<KeyValuePair<int, IInstallerAction>> actions, Action<double> updateProgressPercentage = null, Action<string, double> updateStatusAndProgressPercentage = null, Action<Exception> errorHandler = null)
+            : base(actions, updateProgressPercentage, updateStatusAndProgressPercentage, errorHandler)
         { }
 
         /// <summary>
@@ -59,9 +60,9 @@ namespace Athi.Whippet.Installer.Framework.Database.Entities
                 {
                     if (action.Value != null)
                     {
+                        UpdateProgress(complete, action.Value.Action);
                         result = action.Value.Execute(NHibernateOptions, Seeds);
                         complete++;
-                        UpdateProgress(complete);
                     }
 
                     if (!result.IsSuccess)
@@ -98,10 +99,11 @@ namespace Athi.Whippet.Installer.Framework.Database.Entities
         /// <param name="configuration"><see cref="NHibernateConfigurationOptions"/> object that contains the database information for creating the entities.</param>
         /// <param name="seeds"><see cref="IEnumerable{T}"/> collection of <see cref="IWhippetEntity"/> objects that are to be seeded in the data store indexed by their execution order.</param>
         /// <param name="updateProgressPercentage"><see cref="Action{T}"/> that updates the progress percentage of the installer.</param>
+        /// <param name="updateStatusAndProgressPercentage"><see cref="Action{T1, T2}"/> that updates the current progress percentage of the task execution.</param>
         /// <param name="errorHandler"><see cref="Action{T}"/> that reports exceptions to an external caller.</param>
         /// <returns><see cref="EntityInstaller"/> object.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static EntityInstaller CreateInstaller(NHibernateConfigurationOptions configuration, IEnumerable<KeyValuePair<int, ISeedServiceManager>> seeds = null, Action<double> updateProgressPercentage = null, Action<Exception> errorHandler = null)
+        public static EntityInstaller CreateInstaller(NHibernateConfigurationOptions configuration, IEnumerable<KeyValuePair<int, ISeedServiceManager>> seeds = null, Action<double> updateProgressPercentage = null, Action<string, double> updateStatusAndProgressPercentage = null, Action<Exception> errorHandler = null)
         {
             SortedList<int, IInstallerAction> actions = new SortedList<int, IInstallerAction>();
 
@@ -119,7 +121,7 @@ namespace Athi.Whippet.Installer.Framework.Database.Entities
 
             actions.Add(0, seedAction);
             
-            installer = new EntityInstaller(actions, updateProgressPercentage, errorHandler);
+            installer = new EntityInstaller(actions, updateProgressPercentage, updateStatusAndProgressPercentage, errorHandler);
             installer.NHibernateOptions = configuration;
             installer.Seeds = (seeds is SortedList<int, ISeedServiceManager>) ? (SortedList<int, ISeedServiceManager>)(seeds) : new SortedList<int, ISeedServiceManager>(new Dictionary<int, ISeedServiceManager>(seeds));
 

@@ -34,6 +34,12 @@ namespace Athi.Whippet.Installer
         /// </summary>
         public abstract bool SupportsAsync
         { get; }
+        
+        /// <summary>
+        /// Gets an <see cref="Action{T1, T2}"/> that updates the current progress percentage of the task execution. 
+        /// </summary>
+        protected virtual Action<string, double> UpdateStatusAndProgressPercentage
+        { get; private set; }
 
         /// <summary>
         /// Gets an <see cref="Action{T}"/> that updates the current progress percentage of the task execution. 
@@ -58,8 +64,9 @@ namespace Athi.Whippet.Installer
         /// </summary>
         /// <param name="actions">Collection of <see cref="IInstallerAction"/> actions to perform sorted by their execution order.</param>
         /// <param name="updateProgressPercentage"><see cref="Action{T}"/> that updates the current progress percentage of the task execution.</param>
+        /// <param name="updateStatusAndProgressPercentage"><see cref="Action{T1, T2}"/> that updates the current progress percentage of the task execution.</param>
         /// <param name="errorHandler"><see cref="Action{T}"/> that handles caught exceptions and processes them, such as logging.</param>
-        protected InstallerBase(IEnumerable<KeyValuePair<int, IInstallerAction>> actions, Action<double> updateProgressPercentage = null, Action<Exception> errorHandler = null)
+        protected InstallerBase(IEnumerable<KeyValuePair<int, IInstallerAction>> actions, Action<double> updateProgressPercentage = null, Action<string, double> updateStatusAndProgressPercentage = null, Action<Exception> errorHandler = null)
             : this()
         {
             ArgumentNullException.ThrowIfNull(actions);
@@ -67,17 +74,25 @@ namespace Athi.Whippet.Installer
             Actions.AddRange(actions);
             UpdateProgressPercentage = updateProgressPercentage;
             ErrorHandler = errorHandler;
+            UpdateStatusAndProgressPercentage = updateStatusAndProgressPercentage;
         }
 
         /// <summary>
         /// Updates the progress percentage reporter. The default implementation used is <see cref="UpdateProgressPercentage"/>.
         /// </summary>
         /// <param name="actionsCompletedCount">Total number of completed actions so far.</param>
-        protected virtual void UpdateProgress(int actionsCompletedCount)
+        /// <param name="status">Optional status message to display.</param>
+        protected virtual void UpdateProgress(int actionsCompletedCount, string status = null)
         {
-            if ((UpdateProgressPercentage != null) && (Actions.Count > 0))
+            double percentComplete = (Actions.Count > 0) ? Convert.ToDouble(actionsCompletedCount) / Convert.ToDouble(Actions.Count) : 0;
+            
+            if (!String.IsNullOrWhiteSpace(status) && (UpdateStatusAndProgressPercentage != null))
             {
-                UpdateProgressPercentage(Convert.ToDouble(actionsCompletedCount) / Convert.ToDouble(Actions.Count));
+                UpdateStatusAndProgressPercentage(status, percentComplete);
+            }
+            else if ((UpdateProgressPercentage != null) && (Actions.Count > 0))
+            {
+                UpdateProgressPercentage(percentComplete);
             }
         }
 

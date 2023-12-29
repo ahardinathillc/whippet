@@ -41,12 +41,20 @@ namespace Athi.Whippet.Installer.Framework.Database.Entities
             NHibernateConfigurationOptions options = default(NHibernateConfigurationOptions);
             
             WhippetResultContainer<object> result = null;
+
+            List<Exception> errors = null;
+
+            AggregateException aggregateErrors = null;
+            
+            bool primaryException = false;
             
             VerifyParameters(typeof(NHibernateConfigurationOptions), args);
             VerifyParameters(typeof(SortedList<int, ISeedServiceManager>), args);
 
             options = (NHibernateConfigurationOptions)(args.First(a => a is NHibernateConfigurationOptions));
             seeds = (SortedList<int, ISeedServiceManager>)(args.First(a => a is SortedList<int, ISeedServiceManager>));
+
+            errors = new List<Exception>();
             
             try
             {
@@ -63,7 +71,35 @@ namespace Athi.Whippet.Installer.Framework.Database.Entities
             }
             catch (Exception e)
             {
+                errors.Add(e);
+                primaryException = true;
                 result = new WhippetResultContainer<object>(e);
+            }
+            finally
+            {
+                if (seeds != null)
+                {
+                    foreach (KeyValuePair<int, ISeedServiceManager> seedEntry in seeds)
+                    {
+                        try
+                        {
+                            seedEntry.Value.Dispose();
+                        }
+                        catch (Exception disposeException)
+                        {
+                            errors.Add(disposeException);
+                        }
+                    }
+                }
+            }
+
+            if (!result.IsSuccess || errors.Count > 1)
+            {
+                if ((primaryException && errors.Count > 1) || !primaryException)
+                {
+                    aggregateErrors = new AggregateException(errors);
+                    result = new WhippetResultContainer<object>(aggregateErrors);
+                }
             }
 
             return result;

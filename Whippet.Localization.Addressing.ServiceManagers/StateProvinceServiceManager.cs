@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
+using System.Collections.ObjectModel;
 using System.Resources.NetStandard;
 using Athi.Whippet.Services;
 using Athi.Whippet.ServiceManagers;
@@ -323,12 +323,26 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
         public sealed class StateProvinceSeedServiceManager : StateProvinceServiceManager, IServiceManager, ISeedServiceManager, IDisposable
         {
             private const string RESOURCE_STATEPROVINCE = "_StateProvinces";
+
+            private IReadOnlyList<ICountry> _countries;
+            
+            private readonly Func<IEnumerable<ICountry>> _LoadCountries;
             
             /// <summary>
-            /// Gets or sets all <see cref="ICountry"/> objects in the system.
+            /// Represents all <see cref="ICountry"/> objects in the system. This property is read-only.
             /// </summary>
             private IEnumerable<ICountry> Countries
-            { get; set; }
+            {
+                get
+                {
+                    if (_countries == null || ((_countries != null) && (_countries.Count == 0)))
+                    {
+                        _countries = new ReadOnlyCollection<ICountry>(_LoadCountries().ToList());
+                    }
+
+                    return _countries;
+                }
+            }
 
             /// <summary>
             /// Initializes a new instance of the <see cref="StateProvinceServiceManager.StateProvinceSeedServiceManager"/> class with the specified <see cref="IStateProvinceRepository"/> object.
@@ -340,7 +354,7 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
                 : base(stateRepository)
             {
                 ArgumentNullException.ThrowIfNull(countries);
-                Countries = countries();
+                _LoadCountries = countries;
             }
 
             /// <summary>
@@ -354,7 +368,7 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
                 : base(serviceLocator, stateRepository)
             {
                 ArgumentNullException.ThrowIfNull(countries);
-                Countries = countries();
+                _LoadCountries = countries;
             }
 
             /// <summary>
@@ -402,7 +416,7 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
 
                         foreach (KeyValuePair<string, string> entry in availableStateProvinces)
                         {
-                            currentCountry = (from c in Countries where String.Equals(c.Abbreviation, entry.Key.Substring(0, 2), StringComparison.InvariantCultureIgnoreCase) select c).FirstOrDefault();
+                            currentCountry = (from c in Countries where String.Equals(c.Abbreviation, entry.Key, StringComparison.InvariantCultureIgnoreCase) select c).FirstOrDefault();
 
                             if (currentCountry != null)
                             {

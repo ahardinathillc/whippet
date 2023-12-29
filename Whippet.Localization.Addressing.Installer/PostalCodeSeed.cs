@@ -233,7 +233,7 @@ namespace Athi.Whippet.Localization.Addressing.Installer
                                                 postalCodeStatusManager.Advance(LocalizedStringResourceLoader.GetResource(GetType(), ResourceIndex.ReadPostalCodesForCity, new object[] { currentCity.ToString() }));
 
                                                 // now load the postal codes
-                                                cityPostalCodes[currentCity].AddRange(filteredPostalCodes.Select(a => new PostalCode(null, a.postal_code, currentCity, new LatitudeLongitudeCoordinate(Convert.ToDecimal(a.latitude.GetValueOrDefault()), Convert.ToDecimal(a.longitude.GetValueOrDefault())))).ToList());
+                                                cityPostalCodes[currentCity].AddRange(filteredPostalCodes.Select(a => new PostalCode(null, a.postal_code, currentCity, new LatitudeLongitudeCoordinate(a.latitude.GetValueOrDefault(), a.longitude.GetValueOrDefault()))).ToList());
                                             }
                                         }
                                     }

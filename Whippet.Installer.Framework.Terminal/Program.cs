@@ -15,6 +15,7 @@ using Athi.Whippet.Localization.Addressing;
 using Athi.Whippet.Localization.Addressing.Repositories;
 using Athi.Whippet.Localization.Addressing.ServiceManagers;
 using Athi.Whippet.ServiceManagers;
+using SecurityDriven.Inferno.Cipher;
 
 namespace Athi.Whippet.Installer.Framework.Terminal
 {
@@ -24,6 +25,8 @@ namespace Athi.Whippet.Installer.Framework.Terminal
     /// <remarks>https://spectreconsole.net/markup</remarks>
     public static class Program
     {
+        private const string STATUS_MESSAGE = "{0} ({1}%)";
+        
         private const string LAYOUT_ROOT = "Root";
         private const string LAYOUT_BAR_TITLE = "_Bar_Title";
         private const string LAYOUT_CONTENT = "_Content";
@@ -143,8 +146,21 @@ namespace Athi.Whippet.Installer.Framework.Terminal
                 
                 NHibernateConfigurationOptions configOptions = null;
 
-                dbInstaller = DatabaseInstaller.CreateInstaller(connection, databaseName);
-                installResult = dbInstaller.Install();
+                AnsiConsole.Status()
+                    .Start("Installing Database...", ctx =>
+                    {
+                        dbInstaller = DatabaseInstaller.CreateInstaller(
+                            connection, 
+                            databaseName,
+                            updateStatusAndProgressPercentage: (action, percentage) =>
+                            {
+                                ctx.Status(String.Format(STATUS_MESSAGE, action, Convert.ToInt32(percentage * Convert.ToDouble(100.0))));
+                            },
+                            errorHandler: DisplayException
+                        );
+                        
+                        installResult = dbInstaller.Install();
+                    });
 
                 if (installResult.IsSuccess)
                 {
@@ -160,7 +176,7 @@ namespace Athi.Whippet.Installer.Framework.Terminal
                             SchemaUpdate schema = new SchemaUpdate(config);
                             AggregateException exceptionTree = null;
                             IEnumerable<Exception> errors = null;
-                            
+
                             schema.Execute(false, true);
                             
                             if (schema.Exceptions != null && schema.Exceptions.Count > 0)
@@ -176,9 +192,18 @@ namespace Athi.Whippet.Installer.Framework.Terminal
                             }
                         });
 
-                        entityInstaller = EntityInstaller.CreateInstaller(configOptions, GetSeeds(configOptions), errorHandler: DisplayException);
-                        
-                        entityInstaller.Install();
+                        AnsiConsole.Status().Start("Seeding Tables", ctx =>
+                        {
+                            entityInstaller = EntityInstaller.CreateInstaller(
+                                configOptions, 
+                                GetSeeds(configOptions),
+                                updateStatusAndProgressPercentage: (action, percentage) =>
+                                {
+                                    ctx.Status(String.Format(STATUS_MESSAGE, action, Convert.ToInt32(percentage * Convert.ToDouble(100.0))));
+                                },
+                                errorHandler: DisplayException);
+                            installResult = entityInstaller.Install();
+                        });
                     }
                     catch (Exception e)
                     {
@@ -217,6 +242,7 @@ namespace Athi.Whippet.Installer.Framework.Terminal
             ISessionFactory factory = DefaultNHibernateSessionFactory.Create(options);
 
             seeds.Add(0, new CountryServiceManager.CountrySeedServiceManager(new CountryRepository(factory.OpenSession())));
+            
             seeds.Add(1, new StateProvinceServiceManager.StateProvinceSeedServiceManager(new StateProvinceRepository(factory.OpenSession()), () =>
             {
                 WhippetResultContainer<IEnumerable<ICountry>> countryResult = new WhippetResultContainer<IEnumerable<ICountry>>(WhippetResult.Success, null);
@@ -238,6 +264,7 @@ namespace Athi.Whippet.Installer.Framework.Terminal
 
                 return countryResult.Item;
             }));
+            
             seeds.Add(2, new CityServiceManager.CitySeedServiceManager(new CityRepository(factory.OpenSession()), () =>
             {
                 WhippetResultContainer<IEnumerable<IStateProvince>> stateResult = new WhippetResultContainer<IEnumerable<IStateProvince>>(WhippetResult.Success, null);
@@ -258,6 +285,28 @@ namespace Athi.Whippet.Installer.Framework.Terminal
                 }
 
                 return stateResult.Item;
+            }));
+            
+            seeds.Add(3, new PostalCodeServiceManager.PostalCodeSeedServiceManager(new PostalCodeRepository(factory.OpenSession()), () =>
+            {
+                WhippetResultContainer<IEnumerable<ICity>> cityResult = new WhippetResultContainer<IEnumerable<ICity>>(WhippetResult.Success, null);
+                CityServiceManager csm = new CityServiceManager(new CityRepository(factory.OpenSession()));
+
+                try
+                {
+                    cityResult = Task.Run(() => csm.GetCities()).Result;
+                    cityResult.ThrowIfFailed();
+                }
+                finally 
+                {
+                    if (csm != null)
+                    {
+                        csm.Dispose();
+                        csm = null;
+                    }
+                }
+
+                return cityResult.Item;
             }));
             
             return seeds;

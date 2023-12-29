@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.ObjectModel;
 using System.Resources.NetStandard;
 using Newtonsoft.Json;
 using Athi.Whippet.Services;
 using Athi.Whippet.ServiceManagers;
 using Athi.Whippet.Data.CQRS;
-using Athi.Whippet.Extensions.Primitives;
 using Athi.Whippet.Geography;
 using Athi.Whippet.Localization.Addressing.Extensions;
 using Athi.Whippet.Localization.Addressing.Repositories;
@@ -13,7 +13,6 @@ using Athi.Whippet.Localization.Addressing.ServiceManagers.Queries;
 using Athi.Whippet.Localization.Addressing.ServiceManagers.Commands;
 using Athi.Whippet.Localization.Addressing.ServiceManagers.Handlers.Queries;
 using Athi.Whippet.Localization.Addressing.ServiceManagers.Handlers.Commands;
-using FluentNHibernate.Conventions;
 
 namespace Athi.Whippet.Localization.Addressing.ServiceManagers
 {
@@ -65,6 +64,17 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
             }
         }
 
+        /// <summary>
+        /// Retrieves all <see cref="ICity"/> objects in the system.
+        /// </summary>
+        /// <returns><see cref="WhippetResultContainer{T}"/> containing the return value of the query, if any.</returns>
+        public virtual async Task<WhippetResultContainer<IEnumerable<ICity>>> GetCities()
+        {
+            ICityQueryHandler<GetAllCitiesQuery> handler = new GetAllCitiesQueryHandler(CityRepository);
+            WhippetResultContainer<IEnumerable<City>> result = await handler.HandleAsync(new GetAllCitiesQuery());
+            return new WhippetResultContainer<IEnumerable<ICity>>(result.Result, result.Item);
+        }
+        
         /// <summary>
         /// Retrieves the <see cref="ICity"/> object with the specified ID.
         /// </summary>
@@ -266,18 +276,34 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
         }
         
         /// <summary>
-        /// Service manager that seeds <see cref="StateProvince"/> objects. This class cannot be inherited.
+        /// Service manager that seeds <see cref="City"/> objects. This class cannot be inherited.
         /// </summary>
         public sealed class CitySeedServiceManager : CityServiceManager, IServiceManager, ISeedServiceManager, IDisposable
         {
             private const string RESOURCE_CITY = "_Cities_PostalCodes";
+
+            private const byte INDEX_ABBR = 0;
+            
+            private IReadOnlyList<IStateProvince> _states;
+            
+            private readonly Func<IEnumerable<IStateProvince>> _LoadStates;
             
             /// <summary>
-            /// Gets or sets all <see cref="IStateProvince"/> objects in the system.
+            /// Represents all <see cref="IStateProvince"/> objects in the system. This property is read-only.
             /// </summary>
             private IEnumerable<IStateProvince> States
-            { get; set; }
+            {
+                get
+                {
+                    if (_states == null || ((_states != null) && (_states.Count == 0)))
+                    {
+                        _states = new ReadOnlyCollection<IStateProvince>(_LoadStates().ToList());
+                    }
 
+                    return _states;
+                }
+            }
+            
             /// <summary>
             /// Initializes a new instance of the <see cref="CityServiceManager.CitySeedServiceManager"/> class with the specified <see cref="ICityRepository"/> object.
             /// </summary>
@@ -288,7 +314,7 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
                 : base(cityRepository)
             {
                 ArgumentNullException.ThrowIfNull(states);
-                States = states();
+                _LoadStates = states;
             }
 
             /// <summary>
@@ -302,7 +328,7 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
                 : base(serviceLocator, cityRepository)
             {
                 ArgumentNullException.ThrowIfNull(states);
-                States = states();
+                _LoadStates = states;
             }
 
             /// <summary>
@@ -318,13 +344,14 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
 
                 List<KeyValuePair<ICountry, _AddressingJsonModel>> countryCityJson = null;
                 List<KeyValuePair<IStateProvince, ICity>> citiesToCreate = null;
+                List<ICity> compareCities = null;
                 
                 IEnumerable<ICountry> countries = null;
 
                 IStateProvince currentState = null;
                 ICountry currentCountry = null;
                 ICity city = null;
-
+                
                 WhippetResultContainer<ICity> newCity = null;
                 WhippetResultContainer<IEnumerable<ICity>> existingCities = null;
 
@@ -332,6 +359,12 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
 
                 _AddressingJsonModel[] models = null;
 
+                LatitudeLongitudeCoordinate coordinates = default;
+                
+                string[] keyPieces = null;
+
+                bool found = false;
+                
                 Func<IStateProvince, _AddressingJsonModel, ICity> _ConstructCity = (state, model) =>
                 {
                     if (model == null)
@@ -340,7 +373,35 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
                     }
                     else
                     {
-                        return new City(null, model.city?.Trim(), state.ToStateProvince(), new LatitudeLongitudeCoordinate(Convert.ToDecimal(model.latitude.GetValueOrDefault()), Convert.ToDecimal(model.longitude.GetValueOrDefault())));
+                        return new City(null, model.city?.Trim(), state.ToStateProvince(), new LatitudeLongitudeCoordinate(Convert.ToDouble(model.latitude.GetValueOrDefault()), Convert.ToDouble(model.longitude.GetValueOrDefault())));
+                    }
+                };
+
+                Func<_AddressingJsonModel, IStateProvince, bool> _StateProvinceEquals = (model, state) =>
+                {
+                    if (model == null)
+                    {
+                        throw new ArgumentNullException(nameof(model));
+                    }
+                    else if (state == null)
+                    {
+                        throw new ArgumentNullException(nameof(state));
+                    }
+                    else
+                    {
+                        bool equals = false;
+
+                        if (String.IsNullOrWhiteSpace(model.state_code))
+                        {
+                            equals = String.Equals(model.state?.Trim(), state.Abbreviation, StringComparison.InvariantCultureIgnoreCase) || String.Equals(model.state?.Trim(), state.Name, StringComparison.InvariantCultureIgnoreCase);
+                        }
+                        else
+                        {
+                            equals = (String.Equals(model.state?.Trim(), state.Abbreviation, StringComparison.InvariantCultureIgnoreCase) || String.Equals(model.state?.Trim(), state.Name, StringComparison.InvariantCultureIgnoreCase))
+                                     || (String.Equals(model.state_code?.Trim(), state.Abbreviation, StringComparison.InvariantCultureIgnoreCase) || String.Equals(model.state_code?.Trim(), state.Name, StringComparison.InvariantCultureIgnoreCase));
+                        }
+
+                        return equals;
                     }
                 };
                 
@@ -360,54 +421,95 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
                         existingCities = null;
                         currentCountry = null;
                         currentState = null;
-                        
+
                         if (d.Key.ToString().EndsWith(RESOURCE_CITY, StringComparison.InvariantCultureIgnoreCase))
                         {
-                            models = JsonConvert.DeserializeObject<_AddressingJsonModel[]>(d.Value.ToString());
+                            keyPieces = d.Key.ToString().Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
-                            if (models != null && models.Length > 0)
+                            if (keyPieces != null && keyPieces.Length > 1) // should have at least two
                             {
-                                foreach (_AddressingJsonModel model in models)
+                                if (!String.IsNullOrWhiteSpace(keyPieces[INDEX_ABBR]) && keyPieces[INDEX_ABBR].Length == 2) // abbreviation is two digits long
                                 {
-                                    if (currentCountry == null || !String.Equals(model.country_code, currentCountry.Abbreviation, StringComparison.InvariantCultureIgnoreCase))
-                                    {
-                                        currentCountry = (from c in countries where String.Equals(c.Abbreviation, model.country_code, StringComparison.InvariantCultureIgnoreCase) select c).FirstOrDefault();
-                                    }
-
-                                    if (currentCountry != null)
-                                    {
-                                        countryCityJson.Add(new KeyValuePair<ICountry, _AddressingJsonModel>(currentCountry, model));
-                                    }
+                                    currentCountry = (from c in countries where String.Equals(c.Abbreviation, keyPieces[INDEX_ABBR], StringComparison.InvariantCultureIgnoreCase) select c).FirstOrDefault();
                                 }
                             }
 
-                            if (countryCityJson != null && countryCityJson.Count > 0)
+                            if (currentCountry != null)
                             {
-                                foreach (_AddressingJsonModel model in countryCityJson.Select(ccj => ccj.Value))
+                                models = JsonConvert.DeserializeObject<_AddressingJsonModel[]>(d.Value.ToString());
+
+                                if (models != null && models.Length > 0)
                                 {
-                                    if (currentState == null || !String.Equals(model.state_code?.Trim(), currentState.Abbreviation, StringComparison.InvariantCultureIgnoreCase))
+                                    countryCityJson.AddRange(models.Select(m => new KeyValuePair<ICountry, _AddressingJsonModel>(currentCountry, m)));
+                                }
+
+                                if (countryCityJson != null && countryCityJson.Count > 0)
+                                {
+                                    foreach (_AddressingJsonModel model in countryCityJson.Where(ccj => ccj.Key.Equals(currentCountry)).Select(ccj => ccj.Value))
                                     {
-                                        currentState = (from s in States where String.Equals(model.state_code?.Trim(), s.Abbreviation, StringComparison.InvariantCultureIgnoreCase) && String.Equals(s.Country.Abbreviation, model.country_code?.Trim(), StringComparison.InvariantCultureIgnoreCase) select s).FirstOrDefault();
+                                        if (currentState == null || ((currentState != null) && !_StateProvinceEquals(model, currentState)))
+                                        {
+                                            currentState = (
+                                                from s in States 
+                                                where _StateProvinceEquals(model, s) && s.Country.Equals(currentCountry)
+                                                select s).FirstOrDefault();
+
+                                            if (currentState != null)
+                                            {
+                                                existingCities = Task.Run(() => GetCitiesForStateProvince(currentState)).Result;
+                                                existingCities.ThrowIfFailed();
+                                            }
+                                        }
 
                                         if (currentState != null)
                                         {
-                                            existingCities = Task.Run(() => GetCitiesForStateProvince(currentState)).Result;
-                                            existingCities.ThrowIfFailed();
-                                        }
-                                    }
+                                            found = false;
+                                            
+                                            if ((existingCities != null) && (existingCities.HasItem && existingCities.Item.Any()))
+                                            {
+                                                compareCities = (from ec in existingCities.Item
+                                                    where String.Equals(ec.Name, model.city?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                                                          //&& ec.Coordinates.Equals(new LatitudeLongitudeCoordinate(Convert.ToDouble(model.latitude.GetValueOrDefault()), Convert.ToDouble(model.longitude.GetValueOrDefault())))
+                                                          && _StateProvinceEquals(model, currentState)
+                                                    select ec).ToList();
 
-                                    if (currentState != null)
-                                    {
-                                        if ((existingCities != null) && (existingCities.HasItem && existingCities.Item.Any()))
-                                        {
-                                            if (!existingCities.Item.Where(city => String.Equals(model.city?.Trim(), city.Name, StringComparison.InvariantCultureIgnoreCase) && String.Equals(model.state_code?.Trim(), city.StateProvince.Abbreviation, StringComparison.InvariantCultureIgnoreCase)).Any())
+                                                if ((compareCities != null) && (compareCities.Count > 0))
+                                                {
+                                                    coordinates = new LatitudeLongitudeCoordinate(model.latitude.GetValueOrDefault(), model.longitude.GetValueOrDefault());
+                                                    
+                                                    foreach (ICity compCity in compareCities)
+                                                    {
+                                                        if (!compCity.Coordinates.Equals(coordinates))
+                                                        {
+                                                            continue;
+                                                        }
+                                                        else
+                                                        {
+                                                            found = true;
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+
+                                                if (!found)
+                                                {
+                                                    citiesToCreate.Add(new KeyValuePair<IStateProvince, ICity>(currentState, _ConstructCity(currentState, model)));
+                                                }
+                                                
+                                                // if (!(from ec in existingCities.Item
+                                                //         where String.Equals(ec.Name, model.city?.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                                                //               && ec.Coordinates.Equals(new LatitudeLongitudeCoordinate(Convert.ToDouble(model.latitude.GetValueOrDefault()), Convert.ToDouble(model.longitude.GetValueOrDefault())))
+                                                //               && _StateProvinceEquals(model, currentState)
+                                                //         select ec).Any()
+                                                //    )
+                                                // {
+                                                //     citiesToCreate.Add(new KeyValuePair<IStateProvince, ICity>(currentState, _ConstructCity(currentState, model)));
+                                                // }
+                                            }
+                                            else
                                             {
                                                 citiesToCreate.Add(new KeyValuePair<IStateProvince, ICity>(currentState, _ConstructCity(currentState, model)));
                                             }
-                                        }
-                                        else
-                                        {
-                                            citiesToCreate.Add(new KeyValuePair<IStateProvince, ICity>(currentState, _ConstructCity(currentState, model)));
                                         }
                                     }
                                 }
@@ -432,6 +534,5 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
                 return result;
             }
         }
-        
     }
 }
