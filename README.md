@@ -1,31 +1,10 @@
-# main/Whippet
+# Whippet
+## _Copyright &copy; 2024 Athi, LLC_
 
+## What is Whippet?
 
-
-## Getting Started
-
-Download links:
-
-SSH clone URL: ssh://git@git.jetbrains.space/athillc/main/Whippet.git
-
-HTTPS clone URL: https://git.jetbrains.space/athillc/main/Whippet.git
-
-
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
-## Prerequisites
-
-What things you need to install the software and how to install them.
-
-```
-Examples
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a production system.
-
-## Resources
-
-Add links to external resources for this project, such as CI server, bug tracker, etc.
+- Provides a boilerplate framework that allows developers to get started faster.
+- ORM Support with NHibernate (default).
+- Integration with 3rd-party applications, such as Magento.
+- Open source under the MIT License.
+- All written in C#!
