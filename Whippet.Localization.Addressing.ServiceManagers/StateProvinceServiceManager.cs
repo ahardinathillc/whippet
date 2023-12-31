@@ -374,9 +374,9 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
             /// <summary>
             /// Seeds the backing data store for one or more entities.
             /// </summary>
-            /// <param name="reportProgress"><see cref="ProgressDelegate"/> that reports the current status to an external caller.</param>
+            /// <param name="progressReporter"><see cref="Action{T1, T2}"/> that reports the current status to an external caller.</param>
             /// <returns><see cref="WhippetResult"/> containing the result of the operation.</returns>
-            public WhippetResult Seed(ProgressDelegate reportProgress = null)
+            public WhippetResult Seed(Action<double, string> progressReporter = null)
             {
                 const byte INDEX_ABBR = 0;
                 const byte INDEX_NAME = 1;
@@ -429,11 +429,6 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
                                 {
                                     for (int i = 0; i < lines.Length; i++)
                                     {
-                                        if (reportProgress != null)
-                                        {
-                                            reportProgress(Convert.ToInt32(Convert.ToDouble(i) / Convert.ToDouble(lines.Length)), "Creating states", WhippetResultSeverity.Info);
-                                        }
-                                        
                                         lines[i] = lines[i].Replace('"', ' ');
                                         lines[i] = lines[i].Trim();
 
@@ -441,6 +436,11 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
 
                                         stateProvince = new StateProvince(null, pieces[INDEX_NAME], pieces[INDEX_ABBR], currentCountry.ToCountry());
 
+                                        if (progressReporter != null)
+                                        {
+                                            progressReporter(Convert.ToDouble(i) / Convert.ToDouble(lines.Length), "Creating State/Provinces");
+                                        }
+                                        
                                         if (!existingStates.HasItem || (existingStates.HasItem && !existingStates.Item.Where(s => String.Equals(s.Name, stateProvince.Name, StringComparison.InvariantCultureIgnoreCase)).Any()))
                                         {
                                             newState = CreateStateProvince(stateProvince);

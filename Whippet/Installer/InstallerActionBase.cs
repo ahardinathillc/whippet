@@ -24,6 +24,18 @@ namespace Athi.Whippet.Installer
         { get; private set; }
         
         /// <summary>
+        /// Gets or sets an <see cref="Action{T1, T2}"/> that updates the current progress percentage of the task execution. 
+        /// </summary>
+        private Action<string, double> UpdateStatusAndProgressPercentage
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets an <see cref="Action{T}"/> that updates the current progress percentage of the task execution. 
+        /// </summary>
+        private Action<double> UpdateProgressPercentage
+        { get; set; }
+        
+        /// <summary>
         /// Initializes a new instance of the <see cref="InstallerActionBase"/> class with no arguments.
         /// </summary>
         private InstallerActionBase()
@@ -33,12 +45,16 @@ namespace Athi.Whippet.Installer
         /// Initializes a new instance of the <see cref="InstallerActionBase"/> class with a description of the current action that is to be performed.
         /// </summary>
         /// <param name="action">Description of the current action that is to be performed.</param>
+        /// <param name="updateProgressPercentage"><see cref="Action{T}"/> that updates the progress percentage of the installer.</param>
+        /// <param name="updateStatusAndProgressPercentage"><see cref="Action{T1, T2}"/> that updates the current progress percentage of the task execution.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected InstallerActionBase(string action)
+        protected InstallerActionBase(string action, Action<double> updateProgressPercentage = null, Action<string, double> updateStatusAndProgressPercentage = null)
             : this()
         {
             ArgumentNullException.ThrowIfNullOrWhiteSpace(action);
             Action = action;
+            UpdateProgressPercentage = updateProgressPercentage;
+            UpdateStatusAndProgressPercentage = updateStatusAndProgressPercentage;
         }
 
         /// <summary>
@@ -88,6 +104,23 @@ namespace Athi.Whippet.Installer
             if (parameterCount < count)
             {
                 throw new Exception("One or more arguments of type " + parameterType.FullName + " is missing.");
+            }
+        }
+        
+        /// <summary>
+        /// Updates the progress percentage reporter.
+        /// </summary>
+        /// <param name="percentComplete">Percentage completed so far.</param>
+        /// <param name="status">Optional status message to display.</param>
+        protected virtual void UpdateProgress(double percentComplete, string status = null)
+        {
+            if (!String.IsNullOrWhiteSpace(status) && (UpdateStatusAndProgressPercentage != null))
+            {
+                UpdateStatusAndProgressPercentage(status, percentComplete);
+            }
+            else if (UpdateProgressPercentage != null)
+            {
+                UpdateProgressPercentage(percentComplete);
             }
         }
     }

@@ -12,5 +12,6 @@ namespace Athi.Whippet
     /// <param name="percentComplete">Percentage complete after each task invocation inside the delegate.</param>
     /// <param name="statusMessage">Status message to display (if any).</param>
     /// <param name="severity"><see cref="WhippetResultSeverity"/> of the operation.</param>
+    [Obsolete("This delegate is obsolete and will be removed in a future version.", false)]
     public delegate void ProgressDelegate(int percentComplete, string statusMessage, WhippetResultSeverity? severity = null);
 }

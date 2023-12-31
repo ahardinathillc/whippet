@@ -26,7 +26,16 @@ namespace Athi.Whippet.Installer.Framework.Database.Entities
         /// Initializes a new instance of the <see cref="SeedAction"/> class with no arguments.
         /// </summary>
         public SeedAction()
-            : base("Creating Seed Data")
+            : this(null, null)
+        { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SeedAction"/> class with the specified arguments.
+        /// </summary>
+        /// <param name="updateProgressPercentage"><see cref="Action{T}"/> that updates the progress percentage of the installer.</param>
+        /// <param name="updateStatusAndProgressPercentage"><see cref="Action{T1, T2}"/> that updates the current progress percentage of the task execution.</param>
+        public SeedAction(Action<double> updateProgressPercentage, Action<string, double> updateStatusAndProgressPercentage)
+            : base("Creating Seed Data", updateProgressPercentage, updateStatusAndProgressPercentage)
         { }
 
         /// <summary>
@@ -55,12 +64,12 @@ namespace Athi.Whippet.Installer.Framework.Database.Entities
             seeds = (SortedList<int, ISeedServiceManager>)(args.First(a => a is SortedList<int, ISeedServiceManager>));
 
             errors = new List<Exception>();
-            
+
             try
             {
                 foreach (KeyValuePair<int, ISeedServiceManager> seedEntry in seeds)
                 {
-                    result = new WhippetResultContainer<object>(seedEntry.Value.Seed(), seedEntry);
+                    result = new WhippetResultContainer<object>(seedEntry.Value.Seed(UpdateProgress), seedEntry);
                     result.ThrowIfFailed();
                 }
 

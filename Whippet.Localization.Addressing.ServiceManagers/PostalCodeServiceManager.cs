@@ -330,14 +330,15 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
             /// <summary>
             /// Seeds the backing data store for one or more entities.
             /// </summary>
-            /// <param name="reportProgress"><see cref="ProgressDelegate"/> that reports the current status to an external caller.</param>
+            /// <param name="progressReporter"><see cref="Action{T1, T2}"/> that reports the current status to an external caller.</param>
             /// <returns><see cref="WhippetResult"/> containing the result of the operation.</returns>
-            public WhippetResult Seed(ProgressDelegate reportProgress = null)
+            public WhippetResult Seed(Action<double, string> progressReporter = null)
             {
                 WhippetResult result = WhippetResult.Success;
 
                 List<KeyValuePair<ICountry, _AddressingJsonModel>> countryCityJson = null;
                 List<KeyValuePair<ICity, IPostalCode>> postalCodesToCreate = null;
+                List<_AddressingJsonModel> filteredModels = null;
                 
                 IEnumerable<ICountry> countries = null;
                 IEnumerable<IStateProvince> states = null;
@@ -357,7 +358,9 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
                 _AddressingJsonModel[] models = null;
 
                 string[] keyPieces = null;
-                
+
+                int counter = 0;
+
                 Func<ICity, _AddressingJsonModel, IPostalCode> _ConstructPostalCode = (city, model) =>
                 {
                     if (model == null)
@@ -369,7 +372,7 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
                         return new PostalCode(null, model.postal_code, city.ToCity(), new LatitudeLongitudeCoordinate(Convert.ToDouble(model.latitude.GetValueOrDefault()), Convert.ToDouble(model.longitude.GetValueOrDefault())));
                     }
                 };
-
+                
                 Func<_AddressingJsonModel, IStateProvince, bool> _StateProvinceEquals = (model, state) =>
                 {
                     if (model == null)
@@ -410,13 +413,27 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
                     }
                     else
                     {
+                        double lon = default;
+                        double lat = default;
+
+                        LatitudeLongitudeCoordinate coord = default;
+                        
                         bool equals = _StateProvinceEquals(model, city.StateProvince);
 
                         if (equals)
                         {
-                            equals = String.Equals(model.city?.Trim(), city.Name, StringComparison.InvariantCultureIgnoreCase)
-                                     && LatitudeLongitudeCoordinate.Null.Equals(city.Coordinates, new LatitudeLongitudeCoordinate(Convert.ToDouble(model.latitude.GetValueOrDefault()), Convert.ToDouble(model.longitude.GetValueOrDefault())))
-                                     && String.Equals(city.StateProvince.Country.Abbreviation, model.country_code?.Trim(), StringComparison.InvariantCultureIgnoreCase);
+                            equals = String.Equals(model.city?.Trim(), city.Name, StringComparison.InvariantCultureIgnoreCase);
+
+                            if (equals)
+                            {
+                                equals = String.Equals(city.StateProvince.Country.Abbreviation, model.country_code?.Trim(), StringComparison.InvariantCultureIgnoreCase);
+
+                                if (equals)
+                                {
+                                    coord = new LatitudeLongitudeCoordinate(model.latitude.GetValueOrDefault(), model.longitude.GetValueOrDefault());
+                                    equals = coord.Equals(city.Coordinates);
+                                }
+                            }
                         }
 
                         return equals;
@@ -428,6 +445,7 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
                     resxReader = new ResXResourceReader(ResourceFileIndex.Addressing_Cities_PostalCodes);
                     countries = Cities.Select(c => c.StateProvince.Country).DistinctBy(c => c.Abbreviation).Where(c => !String.IsNullOrWhiteSpace(c.Abbreviation) && !String.IsNullOrWhiteSpace(c.Name));
                     countryCityJson = new List<KeyValuePair<ICountry, _AddressingJsonModel>>();
+                    postalCodesToCreate = new List<KeyValuePair<ICity, IPostalCode>>();
                     
                     foreach (DictionaryEntry d in resxReader)
                     {
@@ -457,7 +475,10 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
 
                                 if (countryCityJson != null && countryCityJson.Count > 0)
                                 {
-                                    foreach (_AddressingJsonModel model in countryCityJson.Where(ccj => ccj.Key.Equals(currentCountry)).Select(ccj => ccj.Value))
+                                    counter = 0;
+                                    filteredModels = countryCityJson.Where(ccj => ccj.Key.Equals(currentCountry)).Select(ccj => ccj.Value).ToList();
+                                    
+                                    foreach (_AddressingJsonModel model in filteredModels)
                                     {
                                         if (currentCity == null || ((currentCity != null) && !_CityEquals(model, currentCity)))
                                         {
@@ -471,10 +492,19 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
                                                 existingPostalCodes = Task.Run(() => GetPostalCodes(currentCity)).Result;
                                                 existingPostalCodes.ThrowIfFailed();
                                             }
+                                            else
+                                            {
+                                                System.Diagnostics.Debug.WriteLine("Huh...");
+                                            }
                                         }
-                                        
+
                                         if (currentCity != null)
                                         {
+                                            if (progressReporter != null)
+                                            {
+                                                progressReporter(Convert.ToDouble(counter) / Convert.ToDouble(filteredModels.Count), "Loading Postal Codes");
+                                            }
+                                            
                                             if ((existingPostalCodes != null) && (existingPostalCodes.HasItem && existingPostalCodes.Item.Any()))
                                             {
                                                 if (!(from epc in existingPostalCodes.Item
@@ -490,19 +520,30 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
                                             {
                                                 postalCodesToCreate.Add(new KeyValuePair<ICity, IPostalCode>(currentCity, _ConstructPostalCode(currentCity, model)));
                                             }
+
+                                            counter++;
                                         }
                                     }
                                 }
                             }
                         }
                     }
+
+                    counter = 0;
                     
                     if (postalCodesToCreate != null && postalCodesToCreate.Count > 0)
                     {
                         foreach (KeyValuePair<ICity, IPostalCode> entry in postalCodesToCreate)
                         {
+                            if (progressReporter != null)
+                            {
+                                progressReporter(Convert.ToDouble(counter) / Convert.ToDouble(postalCodesToCreate.Count), "Creating Postal Codes");
+                            }
+                            
                             newPostalCode = CreatePostalCode(entry.Value);
                             newPostalCode.ThrowIfFailed();
+
+                            counter++;
                         }
                     }                            
                 }

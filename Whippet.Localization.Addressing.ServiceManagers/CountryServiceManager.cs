@@ -374,9 +374,9 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
             /// <summary>
             /// Seeds the backing data store for one or more entities.
             /// </summary>
-            /// <param name="reportProgress"><see cref="ProgressDelegate"/> that reports the current status to an external caller.</param>
+            /// <param name="progressReporter"><see cref="Action{T1, T2}"/> that reports the current status to an external caller.</param>
             /// <returns><see cref="WhippetResult"/> containing the result of the operation.</returns>
-            public WhippetResult Seed(ProgressDelegate reportProgress = null)
+            public WhippetResult Seed(Action<double, string> progressReporter = null)
             {
                 const string MSG_READING_COUNTRY = "Reading country {0}";
                 const string MSG_CREATING_COUNTRY = "Creating country {0}";
@@ -395,9 +395,6 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
 
                 string rawResource = null;
                 
-                ProgressDelegateManager rawCountryStatusManager = null;
-                ProgressDelegateManager existingCountryStatusManager = null;
-
                 List<Country> countries = null;
                 
                 IEnumerable<ICountry> missingCountries = null;
@@ -436,7 +433,6 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
                         if (countryEntries != null && countryEntries.Length > 0)
                         {
                             countries = new List<Country>(countryEntries.Length);
-                            rawCountryStatusManager = new ProgressDelegateManager(0, countryEntries.Length, reportProgress);
 
                             foreach (string entry in countryEntries)
                             {
@@ -445,18 +441,19 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
                                 country = new Country(new Guid(countryPieces[index_guid]), countryPieces[index_name], countryPieces[index_twoLetterISOAbbreviation]);
 
                                 countries.Add(country);
-
-                                rawCountryStatusManager.Advance(String.Format(MSG_READING_COUNTRY, country.Name), WhippetResultSeverity.Info);
                             }
                         }
 
                         existingCountries = Task.Run(() => GetCountries()).Result;
                         existingCountries.ThrowIfFailed();
 
+                        if (progressReporter != null)
+                        {
+                            progressReporter(Convert.ToDouble(counter) / Convert.ToDouble(countries.Count), "Creating Countries");
+                        }
+                                
                         if (existingCountries.HasItem && existingCountries.Item.Any())
                         {
-                            existingCountryStatusManager = new ProgressDelegateManager(0, existingCountries.Item.Count(), reportProgress);
-
                             if (countries != null)
                             {
                                 missingCountries = countries.Where(c => !existingCountries.Item.Contains(c));
@@ -479,13 +476,6 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
                             {
                                 newCountry = CreateCountry(c);
                                 newCountry.ThrowIfFailed();
-
-                                counter++;
-
-                                if (reportProgress != null)
-                                {
-                                    reportProgress(Convert.ToInt32(Convert.ToDouble(counter) / Convert.ToDouble(countries.Count)), String.Format(MSG_CREATING_COUNTRY, c.Name), result.Severity);
-                                }
                             }
                         }
 
@@ -508,6 +498,8 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
                                 }
                             }
                         }
+                        
+                        counter++;
                     }
                 }
                 catch (Exception e)

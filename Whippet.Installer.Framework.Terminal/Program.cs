@@ -192,18 +192,51 @@ namespace Athi.Whippet.Installer.Framework.Terminal
                             }
                         });
 
-                        AnsiConsole.Status().Start("Seeding Tables", ctx =>
-                        {
-                            entityInstaller = EntityInstaller.CreateInstaller(
-                                configOptions, 
-                                GetSeeds(configOptions),
-                                updateStatusAndProgressPercentage: (action, percentage) =>
+                        AnsiConsole.Progress()
+                            .Start(ctx =>
+                            {
+                                ProgressTask actionTask = null;
+
+                                try
                                 {
-                                    ctx.Status(String.Format(STATUS_MESSAGE, action, Convert.ToInt32(percentage * Convert.ToDouble(100.0))));
-                                },
-                                errorHandler: DisplayException);
-                            installResult = entityInstaller.Install();
-                        });
+                                    entityInstaller = EntityInstaller.CreateInstaller(
+                                        configOptions,
+                                        GetSeeds(configOptions),
+                                        updateStatusAndProgressPercentage: (action, percentage) =>
+                                        {
+                                            if (actionTask == null)
+                                            {
+                                                actionTask = ctx.AddTask(action);
+                                                actionTask.StartTask();
+                                            }
+                                            else
+                                            {
+                                                actionTask.Description = action;
+                                            }
+
+                                            actionTask.Value(Convert.ToInt32(percentage * Convert.ToDouble(100.0)));
+                                        },
+                                        errorHandler: DisplayException);
+
+                                    installResult = entityInstaller.Install();
+                                }
+                                catch (Exception e)
+                                {
+                                    if (actionTask != null)
+                                    {
+                                        if (actionTask.IsStarted)
+                                        {
+                                            actionTask.StopTask();
+                                        }
+                                    }
+
+                                    installResult = new WhippetResultContainer<object>(e);
+                                }
+                            });
+                        
+                        // AnsiConsole.Status().Start("Seeding Tables", ctx =>
+                        // {
+                        // });
                     }
                     catch (Exception e)
                     {

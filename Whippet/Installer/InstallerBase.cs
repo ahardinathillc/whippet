@@ -36,16 +36,16 @@ namespace Athi.Whippet.Installer
         { get; }
         
         /// <summary>
-        /// Gets an <see cref="Action{T1, T2}"/> that updates the current progress percentage of the task execution. 
+        /// Gets or sets an <see cref="Action{T1, T2}"/> that updates the current progress percentage of the task execution. 
         /// </summary>
-        protected virtual Action<string, double> UpdateStatusAndProgressPercentage
-        { get; private set; }
+        private Action<string, double> UpdateStatusAndProgressPercentage
+        { get; set; }
 
         /// <summary>
-        /// Gets an <see cref="Action{T}"/> that updates the current progress percentage of the task execution. 
+        /// Gets or sets an <see cref="Action{T}"/> that updates the current progress percentage of the task execution. 
         /// </summary>
-        protected virtual Action<double> UpdateProgressPercentage
-        { get; private set; }
+        private Action<double> UpdateProgressPercentage
+        { get; set; }
         
         /// <summary>
         /// Gets an <see cref="Action{T}"/> that handles caught exceptions and processes them, such as logging. 

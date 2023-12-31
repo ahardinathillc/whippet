@@ -334,9 +334,9 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
             /// <summary>
             /// Seeds the backing data store for one or more entities.
             /// </summary>
-            /// <param name="reportProgress"><see cref="ProgressDelegate"/> that reports the current status to an external caller.</param>
+            /// <param name="progressReporter"><see cref="Action{T1, T2}"/> that reports the current status to an external caller.</param>
             /// <returns><see cref="WhippetResult"/> containing the result of the operation.</returns>
-            public WhippetResult Seed(ProgressDelegate reportProgress = null)
+            public WhippetResult Seed(Action<double, string> progressReporter = null)
             {
                 WhippetResult result = WhippetResult.Success;
 
@@ -345,7 +345,8 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
                 List<KeyValuePair<ICountry, _AddressingJsonModel>> countryCityJson = null;
                 List<KeyValuePair<IStateProvince, ICity>> citiesToCreate = null;
                 List<ICity> compareCities = null;
-                
+                List<_AddressingJsonModel> filteredModels = null;
+
                 IEnumerable<ICountry> countries = null;
 
                 IStateProvince currentState = null;
@@ -364,6 +365,8 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
                 string[] keyPieces = null;
 
                 bool found = false;
+
+                int counter = 0;
                 
                 Func<IStateProvince, _AddressingJsonModel, ICity> _ConstructCity = (state, model) =>
                 {
@@ -445,7 +448,10 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
 
                                 if (countryCityJson != null && countryCityJson.Count > 0)
                                 {
-                                    foreach (_AddressingJsonModel model in countryCityJson.Where(ccj => ccj.Key.Equals(currentCountry)).Select(ccj => ccj.Value))
+                                    counter = 0;
+                                    filteredModels = countryCityJson.Where(ccj => ccj.Key.Equals(currentCountry)).Select(ccj => ccj.Value).ToList();
+                                    
+                                    foreach (_AddressingJsonModel model in filteredModels)
                                     {
                                         if (currentState == null || ((currentState != null) && !_StateProvinceEquals(model, currentState)))
                                         {
@@ -465,11 +471,15 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
                                         {
                                             found = false;
                                             
+                                            if (progressReporter != null)
+                                            {
+                                                progressReporter(Convert.ToDouble(counter) / Convert.ToDouble(filteredModels.Count), "Loading Cities");
+                                            }
+                                            
                                             if ((existingCities != null) && (existingCities.HasItem && existingCities.Item.Any()))
                                             {
                                                 compareCities = (from ec in existingCities.Item
                                                     where String.Equals(ec.Name, model.city?.Trim(), StringComparison.InvariantCultureIgnoreCase)
-                                                          //&& ec.Coordinates.Equals(new LatitudeLongitudeCoordinate(Convert.ToDouble(model.latitude.GetValueOrDefault()), Convert.ToDouble(model.longitude.GetValueOrDefault())))
                                                           && _StateProvinceEquals(model, currentState)
                                                     select ec).ToList();
 
@@ -495,21 +505,13 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
                                                 {
                                                     citiesToCreate.Add(new KeyValuePair<IStateProvince, ICity>(currentState, _ConstructCity(currentState, model)));
                                                 }
-                                                
-                                                // if (!(from ec in existingCities.Item
-                                                //         where String.Equals(ec.Name, model.city?.Trim(), StringComparison.InvariantCultureIgnoreCase)
-                                                //               && ec.Coordinates.Equals(new LatitudeLongitudeCoordinate(Convert.ToDouble(model.latitude.GetValueOrDefault()), Convert.ToDouble(model.longitude.GetValueOrDefault())))
-                                                //               && _StateProvinceEquals(model, currentState)
-                                                //         select ec).Any()
-                                                //    )
-                                                // {
-                                                //     citiesToCreate.Add(new KeyValuePair<IStateProvince, ICity>(currentState, _ConstructCity(currentState, model)));
-                                                // }
                                             }
                                             else
                                             {
                                                 citiesToCreate.Add(new KeyValuePair<IStateProvince, ICity>(currentState, _ConstructCity(currentState, model)));
                                             }
+
+                                            counter++;
                                         }
                                     }
                                 }
@@ -519,10 +521,19 @@ namespace Athi.Whippet.Localization.Addressing.ServiceManagers
                     
                     if (citiesToCreate != null && citiesToCreate.Count > 0)
                     {
+                        counter = 0;
+                        
                         foreach (KeyValuePair<IStateProvince, ICity> entry in citiesToCreate)
                         {
+                            if (progressReporter != null)
+                            {
+                                progressReporter(Convert.ToDouble(counter) / Convert.ToDouble(citiesToCreate.Count), "Creating Cities");
+                            }
+
                             newCity = CreateCity(entry.Value);
                             newCity.ThrowIfFailed();
+
+                            counter++;
                         }
                     }                            
                 }

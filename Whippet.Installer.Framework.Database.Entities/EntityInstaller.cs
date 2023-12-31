@@ -52,7 +52,6 @@ namespace Athi.Whippet.Installer.Framework.Database.Entities
         public override WhippetResultContainer<object> Install(params object[] args)
         {
             WhippetResultContainer<object> result = null;
-            int complete = 0;
             
             try
             {
@@ -60,9 +59,7 @@ namespace Athi.Whippet.Installer.Framework.Database.Entities
                 {
                     if (action.Value != null)
                     {
-                        UpdateProgress(complete, action.Value.Action);
                         result = action.Value.Execute(NHibernateOptions, Seeds);
-                        complete++;
                     }
 
                     if (!result.IsSuccess)
@@ -117,7 +114,7 @@ namespace Athi.Whippet.Installer.Framework.Database.Entities
                 seeds = new SortedList<int, ISeedServiceManager>();
             }
 
-            seedAction = new SeedAction();
+            seedAction = new SeedAction(updateProgressPercentage, updateStatusAndProgressPercentage);
 
             actions.Add(0, seedAction);
             
