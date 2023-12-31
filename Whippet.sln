@@ -104,8 +104,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Localization", "Whi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Localization.Addressing", "Whippet.Localization.Addressing\Whippet.Localization.Addressing.csproj", "{420684BC-E49A-4ABF-9E2E-6676809441F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Localization.Addressing.Installer", "Whippet.Localization.Addressing.Installer\Whippet.Localization.Addressing.Installer.csproj", "{D1040413-F506-4ABF-9271-02499E57E4F4}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Localization.Addressing.Repositories", "Whippet.Localization.Addressing.Repositories\Whippet.Localization.Addressing.Repositories.csproj", "{23691578-4ACF-4FF6-B090-C4E1F8363C51}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Localization.Addressing.ServiceManagers", "Whippet.Localization.Addressing.ServiceManagers\Whippet.Localization.Addressing.ServiceManagers.csproj", "{226D7DA0-F589-4869-ACAA-62B1ABC8F597}"
@@ -201,10 +199,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.ServiceManagers", "Whippet.ServiceManagers\Whippet.ServiceManagers.csproj", "{EE901C25-DAAA-4C9B-8595-99D4977E18D3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Tools", "Whippet.Tools\Whippet.Tools.csproj", "{43829103-53FD-4C7B-9C1C-445270A63AE5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Tools.Installer", "Whippet.Tools.Installer\Whippet.Tools.Installer.csproj", "{E2F4DEF1-66DC-496D-9EBF-0BA4205D7A1D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Tools.WhippetManager.Unix", "Whippet.Tools.WhippetManager.Unix\Whippet.Tools.WhippetManager.Unix.csproj", "{B24AFAD9-4672-49B6-B9B5-2E6FEF9868D5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Web", "Whippet.Web\Whippet.Web.csproj", "{C7CB69D1-2D68-4891-BC43-8E6CF4B1E5EF}"
 EndProject
@@ -342,6 +336,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Installer.Framework.Database", "Whippet.Installer.Framework.Database\Whippet.Installer.Framework.Database.csproj", "{D3AA8ECD-62FF-444C-AE1C-F701ACFB23C8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Installer.Framework.Database.Entities", "Whippet.Installer.Framework.Database.Entities\Whippet.Installer.Framework.Database.Entities.csproj", "{A17A5E3B-BFE3-4D40-85DE-B24A98CD4F1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Installer.Framework.Core", "Whippet.Installer.Framework.Core\Whippet.Installer.Framework.Core.csproj", "{DEBAFBFD-584A-4471-91C5-F7082FD4CC19}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -557,10 +553,6 @@ Global
 		{420684BC-E49A-4ABF-9E2E-6676809441F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{420684BC-E49A-4ABF-9E2E-6676809441F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{420684BC-E49A-4ABF-9E2E-6676809441F6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D1040413-F506-4ABF-9271-02499E57E4F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D1040413-F506-4ABF-9271-02499E57E4F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D1040413-F506-4ABF-9271-02499E57E4F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D1040413-F506-4ABF-9271-02499E57E4F4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{23691578-4ACF-4FF6-B090-C4E1F8363C51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{23691578-4ACF-4FF6-B090-C4E1F8363C51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23691578-4ACF-4FF6-B090-C4E1F8363C51}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -753,14 +745,6 @@ Global
 		{43829103-53FD-4C7B-9C1C-445270A63AE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43829103-53FD-4C7B-9C1C-445270A63AE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43829103-53FD-4C7B-9C1C-445270A63AE5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E2F4DEF1-66DC-496D-9EBF-0BA4205D7A1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E2F4DEF1-66DC-496D-9EBF-0BA4205D7A1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E2F4DEF1-66DC-496D-9EBF-0BA4205D7A1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E2F4DEF1-66DC-496D-9EBF-0BA4205D7A1D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B24AFAD9-4672-49B6-B9B5-2E6FEF9868D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B24AFAD9-4672-49B6-B9B5-2E6FEF9868D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B24AFAD9-4672-49B6-B9B5-2E6FEF9868D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B24AFAD9-4672-49B6-B9B5-2E6FEF9868D5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C7CB69D1-2D68-4891-BC43-8E6CF4B1E5EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C7CB69D1-2D68-4891-BC43-8E6CF4B1E5EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7CB69D1-2D68-4891-BC43-8E6CF4B1E5EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -1013,5 +997,9 @@ Global
 		{A17A5E3B-BFE3-4D40-85DE-B24A98CD4F1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A17A5E3B-BFE3-4D40-85DE-B24A98CD4F1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A17A5E3B-BFE3-4D40-85DE-B24A98CD4F1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEBAFBFD-584A-4471-91C5-F7082FD4CC19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEBAFBFD-584A-4471-91C5-F7082FD4CC19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEBAFBFD-584A-4471-91C5-F7082FD4CC19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEBAFBFD-584A-4471-91C5-F7082FD4CC19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

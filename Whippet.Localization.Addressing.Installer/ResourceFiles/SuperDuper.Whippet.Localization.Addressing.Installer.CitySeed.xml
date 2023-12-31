@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<localizedStrings>
-	<string name="ReadCitiesForStateProvince" value="Reading cities for {0}..." culture="en" />
-	<string name="CityExists" value="City {0} already exists. Skipping..." culture="en" />
-	<string name="ReadCity" value="Reading {0}..." culture="en" />
-</localizedStrings>

@@ -1,21 +1,15 @@
 ﻿using System;
 using System.Reflection;
 using Spectre.Console;
-using NHibernate;
+using CommandLine;
 using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
 using Athi.Whippet.Data.Database;
-using Athi.Whippet.Data.Database.Microsoft;
-using Athi.Whippet.Data.Database.Oracle.MySQL;
 using Athi.Whippet.Data.NHibernate;
 using Athi.Whippet.Data.NHibernate.MappingIndex;
 using Athi.Whippet.Installer.Framework.Database;
 using Athi.Whippet.Installer.Framework.Database.Entities;
-using Athi.Whippet.Localization.Addressing;
-using Athi.Whippet.Localization.Addressing.Repositories;
-using Athi.Whippet.Localization.Addressing.ServiceManagers;
-using Athi.Whippet.ServiceManagers;
-using SecurityDriven.Inferno.Cipher;
+using Athi.Whippet.Installer.Framework.Core;
 
 namespace Athi.Whippet.Installer.Framework.Terminal
 {
@@ -25,6 +19,8 @@ namespace Athi.Whippet.Installer.Framework.Terminal
     /// <remarks>https://spectreconsole.net/markup</remarks>
     public static class Program
     {
+        private const string _TEST_DB = "Server=localhost;TrustServerCertificate=true;MultipleActiveResultSets=True;Integrated Security=False;User Id=sa;Password=<YourStrong@Passw0rd>;docker_container=true";
+        
         private const string STATUS_MESSAGE = "{0} ({1}%)";
         
         private const string LAYOUT_ROOT = "Root";
@@ -40,8 +36,17 @@ namespace Athi.Whippet.Installer.Framework.Terminal
         /// Main entry point of the application.
         /// </summary>
         /// <param name="args">Command-line arguments passed to the application.</param>
-        /// <returns>Exit code.</returns>
         public static void Main(params string[] args)
+        {
+            Parser.Default.ParseArguments<InstallerTerminalOptions>(args)
+                .WithParsed(o => InitScreen(o));
+        }
+
+        /// <summary>
+        /// Renders the screen with the optional command-line arguments supplied by an <see cref="InstallerTerminalOptions"/> object.
+        /// </summary>
+        /// <param name="options"><see cref="InstallerTerminalOptions"/> object that contains the parsed command-line arguments.</param>
+        private static void InitScreen(InstallerTerminalOptions options = null)
         {
             Layout layout = null;
             
@@ -105,8 +110,12 @@ namespace Athi.Whippet.Installer.Framework.Terminal
                 if (String.Equals(ACTION_INSTALL_DATABASE, selectedOption, StringComparison.InvariantCultureIgnoreCase))
                 {
                     connectionResult = GetDatabaseConnection(out databaseName);
-                    
-                    if (!connectionResult.IsSuccess)
+
+                    if (connectionResult.Severity == WhippetResultSeverity.Info)    // reserved for aborting the screen
+                    {
+                        AnsiConsole.Clear();
+                    }
+                    else if (!connectionResult.IsSuccess)
                     {
                         AnsiConsole.WriteException(connectionResult.Exception);
                         AnsiConsole.Console.Input.ReadKey(true);
@@ -167,8 +176,8 @@ namespace Athi.Whippet.Installer.Framework.Terminal
                     try
                     {
                         connection.ChangeDatabase(databaseName, true);
-                        
-                        configOptions = CreateNHibernateConfiguration(connection.DockerConnectionString, connection.GetType());
+
+                        configOptions = NHibernateConfigurationOptionsFactory.CreateNHibernateConfiguration(connection.DockerConnectionString, connection.GetType());
                         WhippetNHibernateMappingIndex.ConfigureMappings(configOptions);
 
                         configOptions.NHibernateConfiguration = new Action<Configuration>(config =>
@@ -201,7 +210,7 @@ namespace Athi.Whippet.Installer.Framework.Terminal
                                 {
                                     entityInstaller = EntityInstaller.CreateInstaller(
                                         configOptions,
-                                        GetSeeds(configOptions),
+                                        EntitySeedIndex.GetSeeds(configOptions),
                                         updateStatusAndProgressPercentage: (action, percentage) =>
                                         {
                                             if (actionTask == null)
@@ -233,10 +242,6 @@ namespace Athi.Whippet.Installer.Framework.Terminal
                                     installResult = new WhippetResultContainer<object>(e);
                                 }
                             });
-                        
-                        // AnsiConsole.Status().Start("Seeding Tables", ctx =>
-                        // {
-                        // });
                     }
                     catch (Exception e)
                     {
@@ -259,90 +264,6 @@ namespace Athi.Whippet.Installer.Framework.Terminal
                 AnsiConsole.WriteException(e);
                 AnsiConsole.Console.Input.ReadKey(true);
             }
-        }
-        
-        /// <summary>
-        /// Gets all entities that are to be seeded in the data store.
-        /// </summary>
-        /// <param name="options"><see cref="NHibernateConfigurationOptions"/> options.</param>
-        /// <returns><see cref="SortedList{TKey,TValue}"/> of all entities to be seeded in the order to be executed.</returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        private static SortedList<int, ISeedServiceManager> GetSeeds(NHibernateConfigurationOptions options)
-        {
-            ArgumentNullException.ThrowIfNull(options);
-            
-            SortedList<int, ISeedServiceManager> seeds = new SortedList<int, ISeedServiceManager>();
-            ISessionFactory factory = DefaultNHibernateSessionFactory.Create(options);
-
-            seeds.Add(0, new CountryServiceManager.CountrySeedServiceManager(new CountryRepository(factory.OpenSession())));
-            
-            seeds.Add(1, new StateProvinceServiceManager.StateProvinceSeedServiceManager(new StateProvinceRepository(factory.OpenSession()), () =>
-            {
-                WhippetResultContainer<IEnumerable<ICountry>> countryResult = new WhippetResultContainer<IEnumerable<ICountry>>(WhippetResult.Success, null);
-                CountryServiceManager csm = new CountryServiceManager(new CountryRepository(factory.OpenSession()));
-
-                try
-                {
-                    countryResult = Task.Run(() => csm.GetCountries()).Result;
-                    countryResult.ThrowIfFailed();
-                }
-                finally 
-                {
-                    if (csm != null)
-                    {
-                        csm.Dispose();
-                        csm = null;
-                    }
-                }
-
-                return countryResult.Item;
-            }));
-            
-            seeds.Add(2, new CityServiceManager.CitySeedServiceManager(new CityRepository(factory.OpenSession()), () =>
-            {
-                WhippetResultContainer<IEnumerable<IStateProvince>> stateResult = new WhippetResultContainer<IEnumerable<IStateProvince>>(WhippetResult.Success, null);
-                StateProvinceServiceManager spm = new StateProvinceServiceManager(new StateProvinceRepository(factory.OpenSession()));
-
-                try
-                {
-                    stateResult = Task.Run(() => spm.GetAllStateProvinces()).Result;
-                    stateResult.ThrowIfFailed();
-                }
-                finally 
-                {
-                    if (spm != null)
-                    {
-                        spm.Dispose();
-                        spm = null;
-                    }
-                }
-
-                return stateResult.Item;
-            }));
-            
-            seeds.Add(3, new PostalCodeServiceManager.PostalCodeSeedServiceManager(new PostalCodeRepository(factory.OpenSession()), () =>
-            {
-                WhippetResultContainer<IEnumerable<ICity>> cityResult = new WhippetResultContainer<IEnumerable<ICity>>(WhippetResult.Success, null);
-                CityServiceManager csm = new CityServiceManager(new CityRepository(factory.OpenSession()));
-
-                try
-                {
-                    cityResult = Task.Run(() => csm.GetCities()).Result;
-                    cityResult.ThrowIfFailed();
-                }
-                finally 
-                {
-                    if (csm != null)
-                    {
-                        csm.Dispose();
-                        csm = null;
-                    }
-                }
-
-                return cityResult.Item;
-            }));
-            
-            return seeds;
         }
         
         /// <summary>
@@ -377,85 +298,57 @@ namespace Athi.Whippet.Installer.Framework.Terminal
                 .HighlightStyle(new Style(Color.Red, null, Decoration.Bold))
                 .AddChoices(DatabaseConnectionFactory.AvailableConnectionTypes.Select(db => db.Value));
 
+            prompt = new TextPrompt<string>("Enter database connection string (or press [Enter] to cancel):")
+                .AllowEmpty();
+            
             selectedOption = AnsiConsole.Prompt(menu);
 
             connectionType = DatabaseConnectionFactory.AvailableConnectionTypes.Where(db => String.Equals(db.Value, selectedOption, StringComparison.InvariantCultureIgnoreCase)).First().Key;
-            connectionString = AnsiConsole.Prompt((new TextPrompt<string>("Enter database connection string:")));
-            
+            connectionString = AnsiConsole.Prompt(prompt);
+
             // now create the connection
 
-            try
+            if (!String.IsNullOrWhiteSpace(connectionString))
             {
-                factoryMethod = typeof(DatabaseConnectionFactory).GetMethod(nameof(DatabaseConnectionFactory.CreateConnection));
-                factoryMethod = factoryMethod.MakeGenericMethod(connectionType);
-
-                connectionInstance = (WhippetDatabaseConnection)(factoryMethod.Invoke(null, new object[] { connectionString }));
-
-                if (connectionInstance == null)
+                try
                 {
-                    throw new Exception("Failed to create database instance for type " + connectionType.FullName);
+                    factoryMethod = typeof(DatabaseConnectionFactory).GetMethod(nameof(DatabaseConnectionFactory.CreateConnection));
+                    factoryMethod = factoryMethod.MakeGenericMethod(connectionType);
+
+                    connectionInstance = (WhippetDatabaseConnection)(factoryMethod.Invoke(null, new object[] { connectionString }));
+
+                    if (connectionInstance == null)
+                    {
+                        throw new Exception("Failed to create database instance for type " + connectionType.FullName);
+                    }
+                    else
+                    {
+                        connectionResult = new WhippetResultContainer<WhippetDatabaseConnection>(WhippetResult.Success, connectionInstance);
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    connectionResult = new WhippetResultContainer<WhippetDatabaseConnection>(WhippetResult.Success, connectionInstance);
+                    connectionResult = new WhippetResultContainer<WhippetDatabaseConnection>(e);
+
+                    AnsiConsole.WriteException(e, ExceptionFormats.ShortenEverything);
+                    AnsiConsole.Console.Input.ReadKey(true);
                 }
-            }
-            catch (Exception e)
-            {
-                connectionResult = new WhippetResultContainer<WhippetDatabaseConnection>(e);
-                
-                AnsiConsole.WriteException(e, ExceptionFormats.ShortenEverything);
-                AnsiConsole.Console.Input.ReadKey(true);
-            }
 
-            if (connectionResult.IsSuccess)
-            {
-                dbNamePrompt = new TextPrompt<string>("Enter database name:");
-                dbNamePrompt.DefaultValue(DEFAULT_DB_NAME);
-                dbNamePrompt.ShowDefaultValue = true;
+                if (connectionResult.IsSuccess)
+                {
+                    dbNamePrompt = new TextPrompt<string>("Enter database name:");
+                    dbNamePrompt.DefaultValue(DEFAULT_DB_NAME);
+                    dbNamePrompt.ShowDefaultValue = true;
 
-                databaseName = AnsiConsole.Prompt(dbNamePrompt);
-            }
-            
-            return connectionResult;
-        }
-        
-        /// <summary>
-        /// Creates a new <see cref="NHibernateConfigurationOptions"/> instance based on the specified connection string.
-        /// </summary>
-        /// <param name="connectionString">Connection string used to connect to the data store.</param>
-        /// <param name="dbType"><see cref="Type"/> that describes which vendor to use.</param>
-        /// <returns><see cref="NHibernateConfigurationOptions"/> object that was created.</returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        public static NHibernateConfigurationOptions CreateNHibernateConfiguration(string connectionString, Type dbType)
-        {
-            if (connectionString == null)
-            {
-                throw new ArgumentNullException(nameof(connectionString));
-            }
-            else if (dbType == null)
-            {
-                throw new ArgumentNullException(nameof(dbType));
+                    databaseName = AnsiConsole.Prompt(dbNamePrompt);
+                }
             }
             else
             {
-                NHibernateConfigurationOptions options = new NHibernateConfigurationOptions();
-                
-                if (dbType.Equals(typeof(WhippetSqlServerConnection)))
-                {
-                    NHibernateConfigurationHelper.ConfigureForSqlServerWithConnectionString(options, WhippetSqlServerConnectionStringBuilder.EnsureDockerCompatibility(connectionString));
-                }
-                else if (dbType.Equals(typeof(WhippetMySqlConnection)))
-                {
-                    NHibernateConfigurationHelper.ConfigureForMySqlWithConnectionString(options, connectionString);
-                }
-                else
-                {
-                    throw new ArgumentException("Database connection of type " + dbType.FullName + " is not supported.");
-                }
-                
-                return options;
+                connectionResult = new WhippetResultContainer<WhippetDatabaseConnection>(new WhippetResult(WhippetResultSeverity.Info), null);
             }
+
+            return connectionResult;
         }
     }
 }

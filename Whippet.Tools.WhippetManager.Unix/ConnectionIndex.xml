@@ -1,4 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<sqlServer>
-    <server name="localhost" connectionString="Server=localhost;TrustServerCertificate=true;MultipleActiveResultSets=True;Integrated Security=False;User Id=sa;Password=<YourStrong@Passw0rd>;docker_container=true" linuxContainer="true" />
-</sqlServer>

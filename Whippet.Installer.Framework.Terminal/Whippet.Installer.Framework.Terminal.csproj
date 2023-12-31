@@ -10,6 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="CommandLineParser" Version="2.9.1" />
       <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.2" />
       <PackageReference Include="NHibernate.Driver.MySqlConnector" Version="2.0.4" />
       <PackageReference Include="Spectre.Console" Version="0.48.0" />
@@ -19,10 +20,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
-      <ProjectReference Include="..\Whippet.Installer.Framework.Database.Entities\Whippet.Installer.Framework.Database.Entities.csproj" />
+      <ProjectReference Include="..\Whippet.Installer.Framework.Core\Whippet.Installer.Framework.Core.csproj" />
       <ProjectReference Include="..\Whippet.Installer.Framework.Database\Whippet.Installer.Framework.Database.csproj" />
-      <ProjectReference Include="..\Whippet.Localization.Addressing.Installer\Whippet.Localization.Addressing.Installer.csproj" />
-      <ProjectReference Include="..\Whippet.Localization.Addressing.ServiceManagers\Whippet.Localization.Addressing.ServiceManagers.csproj" />
       <ProjectReference Include="..\Whippet\Whippet.csproj" />
     </ItemGroup>
 
