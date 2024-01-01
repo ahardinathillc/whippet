@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyName>Athi.Whippet.Docker</AssemblyName>
+        <RootNamespace>Athi.Whippet.Docker</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Docker.DotNet" Version="3.125.15" />
+      <PackageReference Include="Docker.DotNet.BasicAuth" Version="3.125.15" />
+      <PackageReference Include="Docker.DotNet.X509" Version="3.125.15" />
+    </ItemGroup>
+
+</Project>
