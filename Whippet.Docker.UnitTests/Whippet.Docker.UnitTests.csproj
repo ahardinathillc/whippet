@@ -10,6 +10,7 @@
         <AssemblyName>Athi.Whippet.Docker.UnitTests</AssemblyName>
         <RootNamespace>Athi.Whippet.Docker.UnitTests</RootNamespace>
       <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+      <GenerateDocumentationFile>true</GenerateDocumentationFile>      
       <Authors>Athi, LLC</Authors>
       <RepositoryUrl>https://github.com/ahardinathillc/whippet</RepositoryUrl>
       <PackageLicenseExpression>MIT</PackageLicenseExpression>
