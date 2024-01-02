@@ -12,6 +12,7 @@
     <Nullable>enable</Nullable>
 <GeneratePackageOnBuild>true</GeneratePackageOnBuild> <Authors>Athi, LLC</Authors> <RepositoryUrl>https://github.com/ahardinathillc/whippet</RepositoryUrl> <PackageLicenseExpression>MIT</PackageLicenseExpression>    <RootNamespace>Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.Repositories</RootNamespace>
     <AssemblyName>Athi.Whippet.FreestyleSolutions.MOM.Repositories</AssemblyName>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>

@@ -12,6 +12,7 @@
     <Nullable>enable</Nullable>
 <GeneratePackageOnBuild>true</GeneratePackageOnBuild> <Authors>Athi, LLC</Authors> <RepositoryUrl>https://github.com/ahardinathillc/whippet</RepositoryUrl> <PackageLicenseExpression>MIT</PackageLicenseExpression>    <RootNamespace>Athi.Whippet.FreestyleSolutions.MultichannelOrderManager</RootNamespace>
     <AssemblyName>Athi.Whippet.FreestyleSolutions.MOM</AssemblyName>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
