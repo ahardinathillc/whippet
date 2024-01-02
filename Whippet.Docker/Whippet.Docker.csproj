@@ -12,6 +12,15 @@
       <PackageReference Include="Docker.DotNet" Version="3.125.15" />
       <PackageReference Include="Docker.DotNet.BasicAuth" Version="3.125.15" />
       <PackageReference Include="Docker.DotNet.X509" Version="3.125.15" />
+      <PackageReference Include="NodaTime" Version="3.1.10" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Extensions\" />
     </ItemGroup>
 
 </Project>
