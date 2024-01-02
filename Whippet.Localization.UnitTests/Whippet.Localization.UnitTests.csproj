@@ -14,8 +14,7 @@
     <AssemblyName>Athi.Whippet.Localization.UnitTests</AssemblyName>
 
     <RootNamespace>Athi.Whippet.Localization.UnitTests</RootNamespace>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-  </PropertyGroup>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild> <Authors>Athi, LLC</Authors> <RepositoryUrl>https://github.com/ahardinathillc/whippet</RepositoryUrl> <PackageLicenseExpression>MIT</PackageLicenseExpression>  </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <WarningLevel>4</WarningLevel>

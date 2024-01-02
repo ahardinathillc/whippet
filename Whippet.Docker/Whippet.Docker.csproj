@@ -6,6 +6,9 @@
         <Nullable>enable</Nullable>
         <AssemblyName>Athi.Whippet.Docker</AssemblyName>
         <RootNamespace>Athi.Whippet.Docker</RootNamespace>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Authors>Athi, LLC</Authors>
+        <RepositoryUrl>https://github.com/ahardinathillc/whippet</RepositoryUrl>
     </PropertyGroup>
 
     <ItemGroup>

@@ -6,6 +6,10 @@
         <Nullable>enable</Nullable>
         <AssemblyName>Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.Addressing</AssemblyName>
         <RootNamespace>Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.Addressing</RootNamespace>
+      <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+      <Authors>Athi, LLC</Authors>
+      <RepositoryUrl>https://github.com/ahardinathillc/whippet</RepositoryUrl>
+      <PackageLicenseExpression>MIT</PackageLicenseExpression>
     </PropertyGroup>
 
     <ItemGroup>

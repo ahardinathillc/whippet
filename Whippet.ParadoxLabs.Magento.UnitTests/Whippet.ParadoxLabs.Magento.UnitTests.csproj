@@ -9,6 +9,10 @@
         <IsTestProject>true</IsTestProject>
         <AssemblyName>Athi.Whippet.ParadoxLabs.Magento.UnitTests</AssemblyName>
         <RootNamespace>Athi.Whippet.ParadoxLabs.Magento.UnitTests</RootNamespace>
+      <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+      <Authors>Athi, LLC</Authors>
+      <RepositoryUrl>https://github.com/ahardinathillc/whippet</RepositoryUrl>
+      <PackageLicenseExpression>MIT</PackageLicenseExpression>
     </PropertyGroup>
 
     <ItemGroup>

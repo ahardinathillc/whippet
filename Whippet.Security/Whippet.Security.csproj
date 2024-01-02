@@ -10,8 +10,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <AssemblyName>Athi.Whippet.Security</AssemblyName>
     <RootNamespace>Athi.Whippet.Security</RootNamespace>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <UserSecretsId>dc5b65fb-2416-4362-802d-5efab6bb0338</UserSecretsId>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild> <Authors>Athi, LLC</Authors> <RepositoryUrl>https://github.com/ahardinathillc/whippet</RepositoryUrl> <PackageLicenseExpression>MIT</PackageLicenseExpression>    <UserSecretsId>dc5b65fb-2416-4362-802d-5efab6bb0338</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
