@@ -9,7 +9,7 @@ using Athi.Whippet.Extensions;
 namespace Athi.Whippet
 {
     /// <summary>
-    /// Similiar to a <see cref="Tuple{T1, T2}"/>, this class provides a pairing of a <see cref="WhippetResult"/> and an accompanying object that triggered the result. This class cannot be inherited.
+    /// Similar to a <see cref="Tuple{T1, T2}"/>, this class provides a pairing of a <see cref="WhippetResult"/> and an accompanying object that triggered the result. This class cannot be inherited.
     /// </summary>
     /// <typeparam name="T">Type of object stored in the container.</typeparam>
     public sealed class WhippetResultContainer<T>

@@ -339,6 +339,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Installer.Framework
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Installer.Framework.Core", "Whippet.Installer.Framework.Core\Whippet.Installer.Framework.Core.csproj", "{DEBAFBFD-584A-4471-91C5-F7082FD4CC19}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Docker", "Whippet.Docker\Whippet.Docker.csproj", "{2FCD0C09-472F-4B05-9C23-D045BB9445D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whippet.Docker.UnitTests", "Whippet.Docker.UnitTests\Whippet.Docker.UnitTests.csproj", "{FECBAC48-FC46-4A33-8D1F-97C6C6B3AD46}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1001,5 +1005,13 @@ Global
 		{DEBAFBFD-584A-4471-91C5-F7082FD4CC19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEBAFBFD-584A-4471-91C5-F7082FD4CC19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEBAFBFD-584A-4471-91C5-F7082FD4CC19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FCD0C09-472F-4B05-9C23-D045BB9445D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FCD0C09-472F-4B05-9C23-D045BB9445D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FCD0C09-472F-4B05-9C23-D045BB9445D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FCD0C09-472F-4B05-9C23-D045BB9445D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FECBAC48-FC46-4A33-8D1F-97C6C6B3AD46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FECBAC48-FC46-4A33-8D1F-97C6C6B3AD46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FECBAC48-FC46-4A33-8D1F-97C6C6B3AD46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FECBAC48-FC46-4A33-8D1F-97C6C6B3AD46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
