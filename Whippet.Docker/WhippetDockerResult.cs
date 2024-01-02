@@ -133,6 +133,25 @@ namespace Athi.Whippet.Docker
             Client = client;
         }
 
+        /// <summary>
+        /// Throws the exception that was captured or, if <see cref="Severity"/> is <see cref="WhippetResultSeverity.Failure"/>, throws a generic <see cref="System.Exception"/>.
+        /// </summary>
+        /// <exception cref="Exception"></exception>
+        public void ThrowIfFailed()
+        {
+            if (Severity == WhippetResultSeverity.Failure)
+            {
+                if (Exception != null)
+                {
+                    throw Exception;
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+        }
+        
         public static implicit operator WhippetResultContainer<T>(WhippetDockerResult<T> result)
         {
             return (result == null) ? null : result.InternalResult;

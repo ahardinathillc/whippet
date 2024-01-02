@@ -10,8 +10,13 @@ namespace Athi.Whippet.Docker.Containers.Databases
     /// </summary>
     public class MsSqlServer2022Container : WhippetDockerContainerBase, IDockerContainer
     {
-        private const short DEFAULT_MSSQL_PORT = 1433;
+        private const ushort DEFAULT_MSSQL_PORT = 1433;
 
+        /// <summary>
+        /// Default password that is assigned to the system administrator login if no password is specified in the container startup commands.
+        /// </summary>
+        public const string DefaultPassword = @"<YourStrong@Pass20rd>";
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="MsSqlServer2022Container"/> class with no arguments.
         /// </summary>
@@ -26,7 +31,7 @@ namespace Athi.Whippet.Docker.Containers.Databases
         /// <param name="configuration">Host configuration.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public MsSqlServer2022Container(CreateContainerParameters createParameters, HostConfig configuration = null)
-            : base(createParameters, configuration)
+            : base(createParameters ?? GetDefaultContainerParameters(), configuration)
         { }
         
         /// <summary>
@@ -35,8 +40,10 @@ namespace Athi.Whippet.Docker.Containers.Databases
         /// <param name="client"><see cref="IDockerClient"/> that represents the Docker instance to create the container on.</param>
         /// <param name="parameters"><see cref="CreateContainerParameters"/> object that specifies the options to apply to the container.</param>
         /// <param name="configuration"><see cref="HostConfig"/> object that configures the Docker container environment.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns><see cref="IDockerClient"/> object.</returns>
-        protected override async Task<WhippetDockerResult<CreateContainerResponse>> CreateInternal(IDockerClient client, CreateContainerParameters parameters, HostConfig configuration = null)
+        /// <exception cref="ArgumentNullException"></exception>
+        protected override async Task<WhippetDockerResult<CreateContainerResponse>> CreateInternal(IDockerClient client, CreateContainerParameters parameters, HostConfig configuration = null, CancellationToken cancellationToken = default)
         {
             if (client == null)
             {
@@ -50,57 +57,67 @@ namespace Athi.Whippet.Docker.Containers.Databases
                 
                 HostConfig hostConfig = null;
                 
-                Dictionary<string, IList<PortBinding>> portBindingsIndex = null;
-                
-                List<PortBinding> portBindings = null;
-                
-                PortBinding defaultBinding = null;
-                
                 try
                 {
-                    if (parameters == null)
+                    if (configuration != null)
                     {
-                        parameters = new CreateContainerParameters();
-                        parameters.Image = DockerImageIndex.Databases.Microsoft.MsSql2022;
-
-                        if (configuration != null)
-                        {
-                            parameters.HostConfig = configuration;
-                        }
-                        else
-                        {
-                            hostConfig = new HostConfig();
-                            portBindingsIndex = new Dictionary<string, IList<PortBinding>>();
-                            portBindings = new List<PortBinding>();
-
-                            defaultBinding = new PortBinding();
-                            defaultBinding.HostIP = IPAddress.Loopback.ToString();
-                            defaultBinding.HostPort = DEFAULT_MSSQL_PORT.ToString();
-
-                            portBindings.Add(defaultBinding);
-                            portBindingsIndex.Add(DEFAULT_MSSQL_PORT.ToString(), portBindings);
-
-                            hostConfig.PortBindings = portBindingsIndex;
-                        }
+                        parameters.HostConfig = configuration;
                     }
 
-                    containerResponse = await client.Containers.CreateContainerAsync(parameters);
+                    containerResponse = await client.Containers.CreateContainerAsync(parameters, cancellationToken);
                     result = new WhippetDockerResult<CreateContainerResponse>(containerResponse, client);
                 }
                 catch (Exception e)
                 {
                     result = new WhippetDockerResult<CreateContainerResponse>(new WhippetResultContainer<CreateContainerResponse>(e), client);
                 }
-                finally
-                {
-                    if (!result.IsSuccess)
-                    {
-                        client.Dispose();
-                    }
-                }
 
                 return result;                
             }
+        }
+
+        /// <summary>
+        /// Creates a default set of <see cref="CreateContainerParameters"/> with a default <see cref="HostConfig"/> assigned.
+        /// </summary>
+        /// <returns><see cref="CreateContainerParameters"/> object.</returns>
+        private static CreateContainerParameters GetDefaultContainerParameters()
+        {
+            CreateContainerParameters parameters = null;
+
+            HostConfig hostConfig = null;
+            
+            Dictionary<string, IList<PortBinding>> portBindingsIndex = null;
+            
+            List<PortBinding> portBindings = null;
+            
+            PortBinding defaultBinding = null;
+            
+            string[] environmentSettings = null;
+
+            environmentSettings = new[] { "ACCEPT_EULA=Y", String.Format("MSSQL_SA_PASSWORD={0}", DefaultPassword) };
+
+            parameters = new CreateContainerParameters();
+            parameters.Image = DockerImageIndex.Databases.Microsoft.MsSql2022;
+            parameters.Env = environmentSettings;
+            parameters.ExposedPorts = new Dictionary<string, EmptyStruct>(new[] { CreateExposedPort(DEFAULT_MSSQL_PORT) });
+
+            hostConfig = new HostConfig();
+
+            portBindingsIndex = new Dictionary<string, IList<PortBinding>>();
+            portBindings = new List<PortBinding>();
+
+            defaultBinding = new PortBinding();
+            defaultBinding.HostIP = IPAddress.Any.ToString();
+            defaultBinding.HostPort = DEFAULT_MSSQL_PORT.ToString();
+
+            portBindings.Add(defaultBinding);
+            portBindingsIndex.Add(CreateExposedPort(DEFAULT_MSSQL_PORT).Key, portBindings);
+
+            hostConfig.PortBindings = portBindingsIndex;
+
+            parameters.HostConfig = hostConfig;
+            
+            return parameters;
         }
     }
 }

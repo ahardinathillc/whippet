@@ -57,6 +57,8 @@ namespace Athi.Whippet.Docker.UnitTests
             IDockerImage image = null;
             IDockerContainer container = null;
             
+            ContainerRemoveParameters removeParameters = null;
+            
             WhippetResult result = WhippetResult.Success;            
             
             try
@@ -71,12 +73,77 @@ namespace Athi.Whippet.Docker.UnitTests
                 
                 result = await container.Create(client);
                 result.ThrowIfFailed();
+                
+                Assert.IsTrue(container.Created);
             }
             finally
             {
                 if (client != null && container != null && container.Created)
                 {
+                    removeParameters = new ContainerRemoveParameters();
+                    removeParameters.Force = true;
+                    
                     result = await container.Delete(client);
+
+                    if (!result.IsSuccess)
+                    {
+                        WriteWarning("Container " + container.ID + " was not removed from Docker instance.");
+                    }
+                }
+
+                if (client != null)
+                {
+                    client.Dispose();
+                    client = null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Tests starting a Docker container.
+        /// </summary>
+        [TestMethod]
+        [TestCategory(TEST_CATEGORY)]
+        [Description("Start a Docker container image.")]
+        public virtual async Task Test_3_StartContainerTest()
+        {
+            IDockerClient client = null;
+            IDockerImage image = null;
+            IDockerContainer container = null;
+
+            ContainerRemoveParameters removeParameters = null;
+            
+            WhippetResult result = WhippetResult.Success;
+            WhippetDockerResult<bool> dockerResult = null;
+            
+            try
+            {
+                client = WhippetDockerClient.CreateLocalClient();
+                image = new WhippetDockerImage(DockerImageIndex.Databases.Microsoft.MsSql2022);
+
+                result = await image.Create(client);
+                result.ThrowIfFailed();
+
+                container = new MsSqlServer2022Container();
+                
+                result = await container.Create(client);
+                result.ThrowIfFailed();
+                
+                Assert.IsTrue(container.Created);
+
+                dockerResult = await container.Start(client);
+                dockerResult.ThrowIfFailed();
+
+                Assert.IsTrue(dockerResult.IsSuccess);
+            }
+            finally
+            {
+                if (client != null && container != null && container.Created)
+                {
+                    removeParameters = new ContainerRemoveParameters();
+                    removeParameters.Force = true;
+                    
+                    result = await container.Delete(client, removeParameters);
 
                     if (!result.IsSuccess)
                     {
