@@ -200,9 +200,10 @@ namespace Athi.Whippet.Data.NHibernate.FluentNHibernate
         /// </summary>
         /// <param name="tableName">Name of the table to assign the prefix to.</param>
         /// <param name="prefix">Prefix to assign to the table name.</param>
+        /// <param name="withSquareBrackets">If <see langword="true"/>, will enclose the completed name in square brackets.</param>
         /// <returns>Table name decorated with the specified prefix.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        protected static string PrefixTableName(string prefix, string tableName)
+        protected static string PrefixTableName(string prefix, string tableName, bool withSquareBrackets = true)
         {
             ArgumentNullException.ThrowIfNullOrWhiteSpace(tableName);
             return PrefixTableName(new[] { prefix }, tableName);
@@ -213,9 +214,10 @@ namespace Athi.Whippet.Data.NHibernate.FluentNHibernate
         /// </summary>
         /// <param name="prefixes">Prefixes to assign to the table name.</param>
         /// <param name="tableName">Name of the table to assign the prefixes to.</param>
+        /// <param name="withSquareBrackets">If <see langword="true"/>, will enclose the completed name in square brackets.</param>
         /// <returns>Table name decorated with the specified prefixes.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        protected static string PrefixTableName(IEnumerable<string> prefixes, string tableName)
+        protected static string PrefixTableName(IEnumerable<string> prefixes, string tableName, bool withSquareBrackets = true)
         {
             if (String.IsNullOrWhiteSpace(tableName))
             {
@@ -224,6 +226,11 @@ namespace Athi.Whippet.Data.NHibernate.FluentNHibernate
             else
             {
                 StringBuilder builder = new StringBuilder();
+
+                if (withSquareBrackets)
+                {
+                    builder.Append('[');
+                }
                 
                 if (prefixes != null)
                 {
@@ -233,23 +240,23 @@ namespace Athi.Whippet.Data.NHibernate.FluentNHibernate
                         {
                             builder.Append(prefix);
 
-                            if (!prefix.EndsWith('.') || !prefix.EndsWith(".."))
+                            if (!prefix.EndsWith('.'))
                             {
-                                if (prefix.EndsWith('.'))
-                                {
-                                    builder.Append('.');
-                                }
-                                else
-                                {
-                                    builder.Append("..");
-                                }
+                                builder.Append('.');
                             }
+
+                            builder.Replace("..", ".");     // retro-fix for instances where two periods are present
                         }
                     }
                 }
 
                 builder.Append(tableName);
 
+                if (withSquareBrackets)
+                {
+                    builder.Append(']');
+                }
+                
                 return builder.ToString();
             }
         }
