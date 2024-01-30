@@ -6,6 +6,10 @@
         <Nullable>enable</Nullable>
         <AssemblyName>Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.CRM</AssemblyName>
         <RootNamespace>Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.CRM</RootNamespace>
+      <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+      <Authors>Athi, LLC</Authors>
+      <RepositoryUrl>https://github.com/ahardinathillc/whippet</RepositoryUrl>
+      <PackageLicenseExpression>MIT</PackageLicenseExpression>
     </PropertyGroup>
 
     <ItemGroup>

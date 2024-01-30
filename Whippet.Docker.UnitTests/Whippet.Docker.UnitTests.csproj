@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+
+        <IsPackable>false</IsPackable>
+        <IsTestProject>true</IsTestProject>
+        <AssemblyName>Athi.Whippet.Docker.UnitTests</AssemblyName>
+        <RootNamespace>Athi.Whippet.Docker.UnitTests</RootNamespace>
+      <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+      <GenerateDocumentationFile>true</GenerateDocumentationFile>      
+      <Authors>Athi, LLC</Authors>
+      <RepositoryUrl>https://github.com/ahardinathillc/whippet</RepositoryUrl>
+      <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0"/>
+        <PackageReference Include="MSTest.TestAdapter" Version="3.0.4"/>
+        <PackageReference Include="MSTest.TestFramework" Version="3.0.4"/>
+        <PackageReference Include="coverlet.collector" Version="6.0.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Whippet.Docker\Whippet.Docker.csproj" />
+      <ProjectReference Include="..\Whippet.Testing.Infrastructure\Whippet.Testing.Infrastructure.csproj" />
+      <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    </ItemGroup>
+
+</Project>

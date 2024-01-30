@@ -6,6 +6,11 @@
         <Nullable>enable</Nullable>
         <AssemblyName>Athi.Whippet.Installer.Framework.Core</AssemblyName>
         <RootNamespace>Athi.Whippet.Installer.Framework.Core</RootNamespace>
+      <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+      <Authors>Athi, LLC</Authors>
+      <RepositoryUrl>https://github.com/ahardinathillc/whippet</RepositoryUrl>
+      <PackageLicenseExpression>MIT</PackageLicenseExpression>
+      <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>

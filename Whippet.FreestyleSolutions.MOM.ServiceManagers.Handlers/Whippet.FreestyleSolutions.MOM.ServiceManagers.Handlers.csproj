@@ -10,11 +10,9 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <RootNamespace>Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.ServiceManagers.Handlers</RootNamespace>
+<GeneratePackageOnBuild>true</GeneratePackageOnBuild> <Authors>Athi, LLC</Authors> <RepositoryUrl>https://github.com/ahardinathillc/whippet</RepositoryUrl> <PackageLicenseExpression>MIT</PackageLicenseExpression>    <RootNamespace>Athi.Whippet.FreestyleSolutions.MultichannelOrderManager.ServiceManagers.Handlers</RootNamespace>
     <AssemblyName>Athi.Whippet.FreestyleSolutions.MOM.ServiceManagers.Handlers</AssemblyName>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>

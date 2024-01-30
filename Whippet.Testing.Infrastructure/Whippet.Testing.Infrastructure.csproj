@@ -6,13 +6,25 @@
         <Nullable>enable</Nullable>
         <AssemblyName>Athi.Whippet.Testing.Infrastructure</AssemblyName>
         <RootNamespace>Athi.Whippet.Testing.Infrastructure</RootNamespace>
+      <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+      <Authors>Athi, LLC</Authors>
+      <RepositoryUrl>https://github.com/ahardinathillc/whippet</RepositoryUrl>
+      <PackageLicenseExpression>MIT</PackageLicenseExpression>
     </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Whippet.Data.CQRS\Whippet.Data.CQRS.csproj" />
       <ProjectReference Include="..\Whippet.Data.NHibernate\Whippet.Data.NHibernate.csproj" />
       <ProjectReference Include="..\Whippet.Data\Whippet.Data.csproj" />
+      <ProjectReference Include="..\Whippet.Docker\Whippet.Docker.csproj" />
       <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Docker.DotNet" Version="3.125.15" />
+      <PackageReference Include="FluentNHibernate" Version="3.3.0" />
+      <PackageReference Include="NHibernate" Version="5.5.0" />
+      <PackageReference Include="Spectre.Console" Version="0.48.0" />
     </ItemGroup>
 
 </Project>

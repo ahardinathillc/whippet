@@ -6,6 +6,10 @@
         <Nullable>enable</Nullable>
         <AssemblyName>Athi.Whippet.Adobe.Magento.UnitTests.Mocks</AssemblyName>
         <RootNamespace>Athi.Whippet.Adobe.Magento.UnitTests.Mocks</RootNamespace>
+      <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+      <Authors>Athi, LLC</Authors>
+      <RepositoryUrl>https://github.com/ahardinathillc/whippet</RepositoryUrl>
+      <PackageLicenseExpression>MIT</PackageLicenseExpression>
     </PropertyGroup>
 
     <ItemGroup>

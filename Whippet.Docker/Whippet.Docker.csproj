@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyName>Athi.Whippet.Docker</AssemblyName>
+        <RootNamespace>Athi.Whippet.Docker</RootNamespace>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <Authors>Athi, LLC</Authors>
+        <RepositoryUrl>https://github.com/ahardinathillc/whippet</RepositoryUrl>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Docker.DotNet" Version="3.125.15" />
+      <PackageReference Include="Docker.DotNet.BasicAuth" Version="3.125.15" />
+      <PackageReference Include="Docker.DotNet.X509" Version="3.125.15" />
+      <PackageReference Include="NodaTime" Version="3.1.10" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Whippet\Whippet.csproj" />
+    </ItemGroup>
+
+</Project>

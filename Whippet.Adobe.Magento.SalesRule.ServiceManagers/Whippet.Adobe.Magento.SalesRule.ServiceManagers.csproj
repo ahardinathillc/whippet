@@ -10,10 +10,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <RootNamespace>Athi.Whippet.Adobe.Magento.SalesRule.ServiceManagers</RootNamespace>
+<GeneratePackageOnBuild>true</GeneratePackageOnBuild> <Authors>Athi, LLC</Authors> <RepositoryUrl>https://github.com/ahardinathillc/whippet</RepositoryUrl> <PackageLicenseExpression>MIT</PackageLicenseExpression>    <RootNamespace>Athi.Whippet.Adobe.Magento.SalesRule.ServiceManagers</RootNamespace>
     <AssemblyName>Athi.Whippet.Adobe.Magento.SalesRule.ServiceManagers</AssemblyName>
   </PropertyGroup>
 
