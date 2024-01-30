@@ -298,7 +298,7 @@ namespace Athi.Whippet.Installer.Framework.Terminal
                 .HighlightStyle(new Style(Color.Red, null, Decoration.Bold))
                 .AddChoices(DatabaseConnectionFactory.AvailableConnectionTypes.Select(db => db.Value));
 
-            prompt = new TextPrompt<string>("Enter database connection string (or press [Enter] to cancel):")
+            prompt = new TextPrompt<string>("Enter database connection string (or press [[Enter]] to cancel):")
                 .AllowEmpty();
             
             selectedOption = AnsiConsole.Prompt(menu);
