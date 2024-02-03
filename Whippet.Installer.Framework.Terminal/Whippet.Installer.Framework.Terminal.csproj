@@ -16,11 +16,11 @@
 
     <ItemGroup>
       <PackageReference Include="CommandLineParser" Version="2.9.1" />
-      <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.2" />
+      <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.5" />
       <PackageReference Include="NHibernate.Driver.MySqlConnector" Version="2.0.4" />
       <PackageReference Include="Spectre.Console" Version="0.48.0" />
       <PackageReference Include="Spectre.Console.Extensions.Progress" Version="1.0.0" />
-      <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+      <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
     </ItemGroup>
 
     <ItemGroup>

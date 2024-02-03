@@ -37,16 +37,16 @@
   <ItemGroup>
     <PackageReference Include="FluentNHibernate" Version="3.3.0" />
     <PackageReference Include="LiteDB" Version="5.0.17" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.2" />
-    <PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" Version="170.21.0" />
-    <PackageReference Include="NHibernate.Extensions.Sqlite" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.5" />
+    <PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" Version="170.23.0" />
+    <PackageReference Include="NHibernate.Extensions.Sqlite" Version="8.0.2" />
     <PackageReference Include="NodaTime" Version="3.1.10" />
     <PackageReference Include="SqlKata" Version="2.4.0" />
     <PackageReference Include="SqlKata.Execution" Version="2.4.0" />
-    <PackageReference Include="MySql.Data" Version="8.2.0" />
+    <PackageReference Include="MySql.Data" Version="8.3.0" />
     <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
     <PackageReference Include="sqlite-net-sqlcipher" Version="1.8.116" />
-    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.1" />
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.7" />
     <PackageReference Include="CouchDB.Client" Version="1.0.13" />
     <PackageReference Include="CouchDB.NET" Version="3.4.0" />

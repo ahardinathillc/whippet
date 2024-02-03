@@ -44,7 +44,7 @@
 
     <ItemGroup>
       <PackageReference Include="FluentNHibernate" Version="3.3.0" />
-      <PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" Version="170.21.0" />
+      <PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" Version="170.23.0" />
       <PackageReference Include="NHibernate" Version="5.5.0" />
       <PackageReference Include="PasswordGenerator" Version="2.1.0" />
       <PackageReference Include="System.Resources.Extensions" Version="8.0.0" />

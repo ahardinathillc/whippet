@@ -24,7 +24,7 @@
   <ItemGroup>
     <PackageReference Include="NHibernate" Version="5.5.0" />
     <PackageReference Include="FluentNHibernate" Version="3.3.0" />
-    <PackageReference Include="VisualOn.NCrontab.Advanced" Version="6.0.1" />
+    <PackageReference Include="VisualOn.NCrontab.Advanced" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
