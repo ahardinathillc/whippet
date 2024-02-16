@@ -19,6 +19,7 @@
       <PackageReference Include="NHibernate" Version="5.5.0" />
       <PackageReference Include="NHibernate.Driver.MySqlConnector" Version="2.0.4" />
       <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+      <PackageReference Include="System.Drawing.Common" Version="8.0.2" />
     </ItemGroup>
 
     <ItemGroup>

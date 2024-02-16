@@ -20,6 +20,7 @@
     <PackageReference Include="CouchDB.NET" Version="3.4.0" />
     <PackageReference Include="CouchDB.Client" Version="1.0.13" />
     <PackageReference Include="Nito.AsyncEx" Version="5.1.2" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Whippet\Whippet.csproj" />

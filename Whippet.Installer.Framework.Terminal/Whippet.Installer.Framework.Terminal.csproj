@@ -21,6 +21,7 @@
       <PackageReference Include="Spectre.Console" Version="0.48.0" />
       <PackageReference Include="Spectre.Console.Extensions.Progress" Version="1.0.0" />
       <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+      <PackageReference Include="System.Drawing.Common" Version="8.0.2" />
     </ItemGroup>
 
     <ItemGroup>

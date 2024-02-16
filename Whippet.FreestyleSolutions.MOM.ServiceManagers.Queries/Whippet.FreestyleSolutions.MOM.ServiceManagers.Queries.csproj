@@ -26,7 +26,7 @@
     <None Remove="Exports\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NodaTime" Version="3.1.10" />
+    <PackageReference Include="NodaTime" Version="3.1.11" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Exports\" />

@@ -16,7 +16,7 @@
       <PackageReference Include="Docker.DotNet" Version="3.125.15" />
       <PackageReference Include="Docker.DotNet.BasicAuth" Version="3.125.15" />
       <PackageReference Include="Docker.DotNet.X509" Version="3.125.15" />
-      <PackageReference Include="NodaTime" Version="3.1.10" />
+      <PackageReference Include="NodaTime" Version="3.1.11" />
     </ItemGroup>
 
     <ItemGroup>
