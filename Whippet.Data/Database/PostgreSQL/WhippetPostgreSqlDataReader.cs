@@ -1,56 +1,48 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data;
-using System.Reflection;
-using System.Data.Common;
-using System.Collections.ObjectModel;
-using System.Threading;
 using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
-using System.Data.SqlTypes;
-using Microsoft.Data.SqlClient;
+using System.Data;
+using System.Data.Common;
+using System.Threading;
+using System.Threading.Tasks;
 using NodaTime;
-using MySql.Data.MySqlClient;
-using MySql.Data.Types;
-using Athi.Whippet.Extensions;
+using Npgsql;
+using Npgsql.Schema;
 
-namespace Athi.Whippet.Data.Database.Oracle.MySQL
+namespace Athi.Whippet.Data.Database.PostgreSQL
 {
     /// <summary>
-    /// Provides a means of reading a forward-only stream of rows from a MySQL database. This class cannot be inherited.
+    /// Reads a forward-only stream of rows from a data source. This class cannot be inherited.
     /// </summary>
-    public sealed class WhippetMySqlDataReader : DbDataReader, IDataReader, IDataRecord, IDisposable
+    public sealed class WhippetPostgreSqlDataReader : DbDataReader, IDbColumnSchemaGenerator, IDataRecord, IEnumerable
     {
         /// <summary>
-        /// Gets or sets the internal <see cref="MySqlDataReader"/> object.
+        /// Gets or sets the internal <see cref="NpgsqlDataReader"/> object.
         /// </summary>
-        private MySqlDataReader InternalReader
+        private NpgsqlDataReader InternalReader
         { get; set; }
 
         /// <summary>
-        /// Gets the value of the specified column in its native format given the column ordinal.
+        /// Gets the value of the specified column as an instance of <see cref="Object"/>. This property is read-only.
         /// </summary>
-        /// <param name="i">The zero-based column ordinal.</param>
-        /// <returns>The value of the specified column in its native format.</returns>
-        /// <exception cref="IndexOutOfRangeException" />
-        public override object this[int i]
+        /// <param name="ordinal">The zero-based column ordinal.</param>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        public override object this[int ordinal]
         {
             get
             {
-                return InternalReader[i];
+                return InternalReader[ordinal];
             }
         }
 
         /// <summary>
-        /// Gets the value of the specified column in its native format given the column name.
+        /// Gets the value of the specified column as an instance of <see cref="Object"/>. This property is read-only.
         /// </summary>
-        /// <param name="name">The column name.</param>
-        /// <returns>The value of the specified column in its native format.</returns>
-        /// <exception cref="IndexOutOfRangeException" />
+        /// <param name="name">The name of the column.</param>
+        /// <exception cref="IndexOutOfRangeException"></exception>
         public override object this[string name]
         {
             get
@@ -60,23 +52,13 @@ namespace Athi.Whippet.Data.Database.Oracle.MySQL
         }
 
         /// <summary>
-        /// Gets the <see cref="WhippetMySqlConnection"/> associated with the <see cref="WhippetMySqlDataReader"/>. This property is read-only.
+        /// Gets the number of fields in the <see cref="WhippetPostgreSqlDataReader"/> that are not hidden. This property is read-only.
         /// </summary>
-        private WhippetMySqlConnection Connection
+        public override int VisibleFieldCount
         {
             get
             {
-                WhippetMySqlConnection connection = null;
-
-                IEnumerable<PropertyInfo> props = InternalReader.GetType().GetNonPublicProperties();
-                PropertyInfo pInfo = props.Where(p => String.Equals(p.Name, nameof(Connection), StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
-
-                if (pInfo != null)
-                {
-                    connection = pInfo.GetValue(InternalReader) as WhippetMySqlConnection;
-                }
-
-                return connection;
+                return InternalReader.VisibleFieldCount;
             }
         }
 
@@ -92,30 +74,7 @@ namespace Athi.Whippet.Data.Database.Oracle.MySQL
         }
 
         /// <summary>
-        /// Gets the number of columns in the current row. This property is read-only.
-        /// </summary>
-        /// <exception cref="NotSupportedException" />
-        public override int FieldCount
-        {
-            get
-            {
-                return InternalReader.FieldCount;
-            }
-        }
-
-        /// <summary>
-        /// Indicates whether the <see cref="WhippetMySqlDataReader"/> contains one or more rows. This property is read-only.
-        /// </summary>
-        public override bool HasRows
-        {
-            get
-            {
-                return InternalReader.HasRows;
-            }
-        }
-
-        /// <summary>
-        /// Indicates whether the <see cref="WhippetMySqlDataReader"/> instance has been closed. This property is read-only.
+        /// Indicates whether the data reader is closed. This property is read-only.
         /// </summary>
         public override bool IsClosed
         {
@@ -126,8 +85,9 @@ namespace Athi.Whippet.Data.Database.Oracle.MySQL
         }
 
         /// <summary>
-        /// Gets the number of rows changed, inserted, or deleted by execution of the Transact-SQL statement. This property is read-only.
+        /// Indicates the number of rows changed, inserted, or deleted by execution of the SQL statement. This property is read-only.
         /// </summary>
+        /// <exception cref="OverflowException"></exception>
         public override int RecordsAffected
         {
             get
@@ -137,30 +97,153 @@ namespace Athi.Whippet.Data.Database.Oracle.MySQL
         }
 
         /// <summary>
-        /// Gets the number of fields in the <see cref="WhippetMySqlDataReader"/> that are not hidden. This property is read-only.
+        /// Indicates the number of rows changed, inserted, or deleted by execution of the SQL statement. This property is read-only.
         /// </summary>
-        public override int VisibleFieldCount
+        public ulong Rows
         {
             get
             {
-                return InternalReader.VisibleFieldCount;
+                return InternalReader.Rows;
             }
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WhippetMySqlDataReader"/> class with the specified <see cref="MySqlDataReader"/> object.
+        /// Indicates whether the <see cref="WhippetPostgreSqlDataReader"/> contains one or more rows. This property is read-only.
         /// </summary>
-        /// <param name="reader"><see cref="MySqlDataReader"/> object to initialize with.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        public WhippetMySqlDataReader(MySqlDataReader reader)
-            : base()
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="ObjectDisposedException"></exception>
+        public override bool HasRows
         {
-            if (reader == null)
+            get
             {
-                throw new ArgumentNullException(nameof(reader));
+                return InternalReader.HasRows;
             }
         }
 
+        /// <summary>
+        /// Indicates whether the reader is currently positioned on a row (i.e., reading a column is possible). This property is read-only.
+        /// </summary>
+        /// <remarks>This property is different from <see cref="HasRows"/> in that <see cref="HasRows"/> will return <see langword="true"/> even if attempting to read a column will fail.</remarks>
+        public bool IsOnRow
+        {
+            get
+            {
+                return InternalReader.IsOnRow;
+            }
+        }
+
+        /// <summary>
+        /// Gets the number of columns in the current row. This property is read-only.
+        /// </summary>
+        public override int FieldCount
+        {
+            get
+            {
+                return InternalReader.FieldCount;
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WhippetPostgreSqlDataReader"/> class with no arguments.
+        /// </summary>
+        private WhippetPostgreSqlDataReader()
+            : base()
+        { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WhippetPostgreSqlDataReader"/> class with the specified <see cref="NpgsqlDataReader"/> object.
+        /// </summary>
+        /// <param name="reader"><see cref="NpgsqlDataReader"/> object to initialize with.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public WhippetPostgreSqlDataReader(NpgsqlDataReader reader)
+            : this()
+        {
+            ArgumentNullException.ThrowIfNull(reader);
+            InternalReader = reader;
+        }
+
+        /// <summary>
+        /// Advances the reader to the next record in a result set.
+        /// </summary>
+        /// <returns><see langword="true"/> if there are more rows; otherwise, <see langword="false"/>.</returns>
+        public override bool Read()
+        {
+            return InternalReader.Read();
+        }
+
+        /// <summary>
+        /// Asynchronously advances the reader to the next record in a result set.
+        /// </summary>
+        /// <param name="cancellationToken">An optional token to cancel the asynchronous operation.</param>
+        /// <returns><see cref="Task{TResult}"/> object.</returns>
+        public override Task<bool> ReadAsync(CancellationToken cancellationToken)
+        {
+            return InternalReader.ReadAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// Advances the reader to the next result when reading the results of a batch of statements.
+        /// </summary>
+        /// <returns><see langword="true"/> if there are more results; otherwise, <see langword="false"/>.</returns>
+        public override bool NextResult()
+        {
+            return InternalReader.NextResult();
+        }
+
+        /// <summary>
+        /// Asynchronously advances the reader to the next result when reading the results of a batch of statements.
+        /// </summary>
+        /// <param name="cancellationToken">An optional token to cancel the asynchronous operation.</param>
+        /// <returns><see cref="Task{TResult}"/> object.</returns>
+        public override Task<bool> NextResultAsync(CancellationToken cancellationToken)
+        {
+            return InternalReader.NextResultAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// Gets the name of the column given the zero-based column ordinal.
+        /// </summary>
+        /// <param name="ordinal">The zero-based column ordinal.</param>
+        /// <returns>The name of the specified column.</returns>
+        public override string GetName(int ordinal)
+        {
+            return InternalReader.GetName(ordinal);
+        }
+
+        /// <summary>
+        /// Disposes of the current object and releases its resources from memory.
+        /// </summary>
+        public new void Dispose()
+        {
+            InternalReader.Dispose();
+        }
+        
+        /// <summary>
+        /// Disposes of the current object and releases its resources from memory.
+        /// </summary>
+        /// <returns><see cref="ValueTask"/> struct.</returns>
+        public override ValueTask DisposeAsync()
+        {
+            return InternalReader.DisposeAsync();
+        }
+
+        /// <summary>
+        /// Closes the <see cref="WhippetPostgreSqlDataReader"/>.
+        /// </summary>
+        public override void Close()
+        {
+            InternalReader.Close();
+        }
+
+        /// <summary>
+        /// Asynchronously closes the <see cref="WhippetPostgreSqlDataReader"/>.
+        /// </summary>
+        /// <returns><see cref="Task"/> object.</returns>
+        public override Task CloseAsync()
+        {
+            return InternalReader.CloseAsync();
+        }
+        
         /// <summary>
         /// Gets the value of the specified column as a <see cref="Boolean"/>.
         /// </summary>
@@ -287,19 +370,40 @@ namespace Athi.Whippet.Data.Database.Oracle.MySQL
         /// Gets the read-only column schema collection.
         /// </summary>
         /// <returns>The read-only column schema collection.</returns>
-        public ReadOnlyCollection<DbColumn> GetColumnSchema()
+        public ReadOnlyCollection<WhippetPostgreSqlColumn> GetColumnSchema()
         {
-            return InternalReader.GetColumnSchema();
+            return Task.Run(() => GetColumnSchemaAsync()).Result;
         }
 
         /// <summary>
         /// Gets the read-only column schema collection.
         /// </summary>
-        /// <param name="cancellationToken">Cancellation token used to stop the operation.</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public override Task<ReadOnlyCollection<DbColumn>> GetColumnSchemaAsync(CancellationToken cancellationToken = default)
+        /// <returns>The read-only column schema collection.</returns>
+        public async Task<ReadOnlyCollection<WhippetPostgreSqlColumn>> GetColumnSchemaAsync(CancellationToken cancellationToken = default)
         {
-            return InternalReader.GetColumnSchemaAsync(cancellationToken);
+            List<WhippetPostgreSqlColumn> wColumns = null;
+            ReadOnlyCollection<NpgsqlDbColumn> columns = await InternalReader.GetColumnSchemaAsync(cancellationToken);
+
+            if (columns != null)
+            {
+                wColumns = (columns.Count > 0) ? new List<WhippetPostgreSqlColumn>(columns.Count) : new List<WhippetPostgreSqlColumn>();
+
+                foreach (NpgsqlDbColumn column in columns)
+                {
+                    wColumns.Add(new WhippetPostgreSqlColumn(column));
+                }
+            }
+
+            return (wColumns == null) ? null : wColumns.AsReadOnly();
+        }
+        
+        /// <summary>
+        /// Gets the read-only column schema collection.
+        /// </summary>
+        /// <returns>The read-only column schema collection.</returns>
+        ReadOnlyCollection<DbColumn> IDbColumnSchemaGenerator.GetColumnSchema()
+        {
+            return ((IDbColumnSchemaGenerator)(InternalReader)).GetColumnSchema();
         }
 
         /// <summary>
@@ -409,51 +513,7 @@ namespace Athi.Whippet.Data.Database.Oracle.MySQL
         {
             return InternalReader.GetDouble(column);
         }
-
-        /// <summary>
-        /// Gets the value of the specified column as a <see cref="MySqlDateTime"/>.
-        /// </summary>
-        /// <param name="column">Name of the column.</param>
-        /// <returns>The value of the column.</returns>
-        /// <exception cref="InvalidCastException" />
-        public MySqlDateTime GetMySqlDateTime(string column)
-        {
-            return InternalReader.GetMySqlDateTime(column);
-        }
-
-        /// <summary>
-        /// Gets the value of the specified column as a <see cref="MySqlDateTime"/>.
-        /// </summary>
-        /// <param name="ordinal">The zero-based column ordinal.</param>
-        /// <returns>The value of the column.</returns>
-        /// <exception cref="InvalidCastException" />
-        public MySqlDateTime GetMySqlDateTime(int ordinal)
-        {
-            return InternalReader.GetMySqlDateTime(ordinal);
-        }
-
-        /// <summary>
-        /// Gets the value of the specified column as a <see cref="MySqlDecimal"/>.
-        /// </summary>
-        /// <param name="column">Name of the column.</param>
-        /// <returns>The value of the column.</returns>
-        /// <exception cref="InvalidCastException" />
-        public MySqlDecimal GetMySqlDecimal(string column)
-        {
-            return InternalReader.GetMySqlDecimal(column);
-        }
-
-        /// <summary>
-        /// Gets the value of the specified column as a <see cref="MySqlDecimal"/>.
-        /// </summary>
-        /// <param name="ordinal">The zero-based column ordinal.</param>
-        /// <returns>The value of the column.</returns>
-        /// <exception cref="InvalidCastException" />
-        public MySqlDecimal GetMySqlDecimal(int ordinal)
-        {
-            return InternalReader.GetMySqlDecimal(ordinal);
-        }
-
+        
         /// <summary>
         /// Returns an <see cref="IEnumerator"/> that iterates through the <see cref="WhippetMySqlDataReader"/>.
         /// </summary>
@@ -665,39 +725,6 @@ namespace Athi.Whippet.Data.Database.Oracle.MySQL
         }
 
         /// <summary>
-        /// Gets the value of the specified column as an <see cref="SByte"/>.
-        /// </summary>
-        /// <param name="column">Name of the column.</param>
-        /// <returns>The value of the column.</returns>
-        /// <exception cref="InvalidCastException" />
-        public sbyte GetSByte(string column)
-        {
-            return InternalReader.GetSByte(column);
-        }
-
-        /// <summary>
-        /// Gets the value of the specified column as an <see cref="SByte"/>.
-        /// </summary>
-        /// <param name="ordinal">The zero-based column ordinal.</param>
-        /// <returns>The value of the column.</returns>
-        /// <exception cref="InvalidCastException" />
-        public sbyte GetSByte(int ordinal)
-        {
-            return InternalReader.GetSByte(ordinal);
-        }
-
-        /// <summary>
-        /// Gets the value of the specified column as a <see cref="TimeSpan"/>.
-        /// </summary>
-        /// <param name="column">Name of the column.</param>
-        /// <returns>The value of the column.</returns>
-        /// <exception cref="InvalidCastException" />
-        public TimeSpan GetTimeSpan(string column)
-        {
-            return InternalReader.GetTimeSpan(column);
-        }
-
-        /// <summary>
         /// Gets the value of the specified column as a <see cref="TimeSpan"/>.
         /// </summary>
         /// <param name="ordinal">The zero-based column ordinal.</param>
@@ -707,39 +734,7 @@ namespace Athi.Whippet.Data.Database.Oracle.MySQL
         {
             return InternalReader.GetTimeSpan(ordinal);
         }
-
-        /// <summary>
-        /// Gets the value of the specified column as a <see cref="MySqlGeometry"/>.
-        /// </summary>
-        /// <param name="column">Name of the column.</param>
-        /// <returns>The value of the column.</returns>
-        /// <exception cref="InvalidCastException" />
-        public MySqlGeometry GetMySqlGeometry(string column)
-        {
-            return InternalReader.GetMySqlGeometry(column);
-        }
-
-        /// <summary>
-        /// Gets the value of the specified column as a <see cref="MySqlGeometry"/>.
-        /// </summary>
-        /// <param name="ordinal">The zero-based column ordinal.</param>
-        /// <returns>The value of the column.</returns>
-        /// <exception cref="InvalidCastException" />
-        public MySqlGeometry GetMySqlGeometry(int ordinal)
-        {
-            return InternalReader.GetMySqlGeometry(ordinal);
-        }
-
-        /// <summary>
-        /// Gets the name of the specified column.
-        /// </summary>
-        /// <param name="ordinal">The zero-based column ordinal.</param>
-        /// <returns>The name of the specified column.</returns>
-        public override string GetName(int ordinal)
-        {
-            return InternalReader.GetName(ordinal);
-        }
-
+        
         /// <summary>
         /// Gets the column ordinal for the specified column name.
         /// </summary>
@@ -749,16 +744,6 @@ namespace Athi.Whippet.Data.Database.Oracle.MySQL
         public override int GetOrdinal(string name)
         {
             return InternalReader.GetOrdinal(name);
-        }
-
-        /// <summary>
-        /// Gets the body definition of a routine.
-        /// </summary>
-        /// <param name="column">The column name.</param>
-        /// <returns>The definition of the routine.</returns>
-        public string GetBodyDefinition(string column)
-        {
-            return InternalReader.GetBodyDefinition(column);
         }
 
         /// <summary>
@@ -885,59 +870,7 @@ namespace Athi.Whippet.Data.Database.Oracle.MySQL
         {
             return InternalReader.IsDBNullAsync(ordinal, cancellationToken);
         }
-
-        /// <summary>
-        /// Advances the data reader to the next result when reading the results of batch Transact-SQL statements.
-        /// </summary>
-        /// <returns><see langword="true"/> if there are more result sets; otherwise, <see langword="false"/>.</returns>
-        public override bool NextResult()
-        {
-            return InternalReader.NextResult();
-        }
-
-        /// <summary>
-        /// Advances the data reader to the next result when reading the results of batch Transact-SQL statements.
-        /// </summary>
-        /// <param name="cancellationToken">The cancellation instruction which propagates a notification that operations should be canceled.</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        /// <exception cref="InvalidOperationException" />
-        /// <exception cref="SqlException" />
-        public override Task<bool> NextResultAsync(CancellationToken cancellationToken)
-        {
-            return InternalReader.NextResultAsync(cancellationToken);
-        }
-
-        /// <summary>
-        /// Advances the <see cref="WhippetMySqlDataReader"/> to the next record.
-        /// </summary>
-        /// <returns><see langword="true"/> if there are more rows; otherwise, <see langword="false"/>.</returns>
-        public override bool Read()
-        {
-            return InternalReader.Read();
-        }
-
-        /// <summary>
-        /// Asynchronously advances the <see cref="WhippetMySqlDataReader"/> to the next record.
-        /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        /// <exception cref="DbException" />
-        public new Task<bool> ReadAsync()
-        {
-            return InternalReader.ReadAsync();
-        }
-
-        /// <summary>
-        /// Asynchronously advances the <see cref="WhippetMySqlDataReader"/> to the next record.
-        /// </summary>
-        /// <param name="cancellationToken">The cancellation instruction which propagates a notification that operations should be canceled.</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        /// <exception cref="InvalidOperationException" />
-        /// <exception cref="SqlException" />
-        public override Task<bool> ReadAsync(CancellationToken cancellationToken)
-        {
-            return InternalReader.ReadAsync(cancellationToken);
-        }
-
+        
         /// <summary>
         /// Returns an <see cref="IDataReader"/> for the specified column ordinal.
         /// </summary>
@@ -948,62 +881,16 @@ namespace Athi.Whippet.Data.Database.Oracle.MySQL
         {
             return ((IDataRecord)(InternalReader)).GetData(i);
         }
-
-        /// <summary>
-        /// Closes the <see cref="WhippetMySqlDataReader"/> object.
-        /// </summary>
-        public override void Close()
+        
+        public static implicit operator WhippetPostgreSqlDataReader(NpgsqlDataReader reader)
         {
-            InternalReader.Close();
+            return (reader == null) ? null : new WhippetPostgreSqlDataReader(reader);
         }
 
-        /// <summary>
-        /// Closes the <see cref="WhippetMySqlDataReader"/> object.
-        /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public override Task CloseAsync()
-        {
-            return InternalReader.CloseAsync();
-        }
-
-        /// <summary>
-        /// Disposes of the object and releases all resources used by the current instance.
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new void Dispose()
-        {
-            InternalReader.Dispose();
-        }
-
-        /// <summary>
-        /// Asynchronously disposes of the object and releases all resources used by the current instance.
-        /// </summary>
-        /// <returns>A <see cref="ValueTask"/> representing the asynchronous operation.</returns>
-        public override ValueTask DisposeAsync()
-        {
-            return InternalReader.DisposeAsync();
-        }
-
-        /// <summary>
-        /// Returns a nested data reader for the requested column.
-        /// </summary>
-        /// <param name="ordinal">The zero-based column ordinal.</param>
-        /// <returns>A data reader.</returns>
-        /// <exception cref="IndexOutOfRangeException" />
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new DbDataReader GetData(int ordinal)
-        {
-            return InternalReader.GetData(ordinal);
-        }
-
-        public static implicit operator WhippetMySqlDataReader(MySqlDataReader reader)
-        {
-            return (reader == null) ? null : new WhippetMySqlDataReader(reader);
-        }
-
-        public static implicit operator MySqlDataReader(WhippetMySqlDataReader reader)
+        public static implicit operator NpgsqlDataReader(WhippetPostgreSqlDataReader reader)
         {
             return (reader == null) ? null : reader.InternalReader;
         }
+
     }
 }

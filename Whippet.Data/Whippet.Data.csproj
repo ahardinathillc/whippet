@@ -41,6 +41,7 @@
     <PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" Version="170.23.0" />
     <PackageReference Include="NHibernate.Extensions.Sqlite" Version="8.0.3" />
     <PackageReference Include="NodaTime" Version="3.1.11" />
+    <PackageReference Include="Npgsql" Version="8.0.2" />
     <PackageReference Include="SQLitePCLRaw.core" Version="2.1.8" />
     <PackageReference Include="SqlKata" Version="2.4.0" />
     <PackageReference Include="SqlKata.Execution" Version="2.4.0" />
@@ -61,7 +62,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Database\Extensions\" />
     <Folder Include="NHibernate\Extensions\" />
     <Folder Include="ResourceFiles\" />
     <Folder Include="Database\Oracle\" />
